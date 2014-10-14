@@ -53,7 +53,7 @@ public class EdmSymbolFigure extends Figure {
 				public void runWithInputStream(InputStream stream) {
 					synchronized (EdmSymbolFigure.this) {
 						image = new Image(null, stream);
-						imageCache.put(path.toString(), image);
+						imageCache.put(path.makeAbsolute().toString(), image);
 					}
 				}
 			};
