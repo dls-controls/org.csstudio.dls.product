@@ -4,15 +4,17 @@ Bundle-Name: Fastarchiver
 Bundle-SymbolicName: org.csstudio.archive.reader.fastarchiver;singleton:=true
 Bundle-Version: 0.0.1.qualifier
 Bundle-Activator: org.csstudio.archive.reader.fastarchiver.Activator
-Require-Bundle: org.eclipse.core.runtime,
- org.csstudio.archive.reader,
- org.csstudio.apputil
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.5.0",
+ org.csstudio.archive.reader;bundle-version="3.2.11",
+ org.csstudio.apputil;bundle-version="3.0.2",
+ org.csstudio.archive.vtype;bundle-version="1.0.0",
+ org.epics.util;bundle-version="0.3.2",
+ org.epics.vtype;bundle-version="2.8.0",
+ org.junit;bundle-version="4.11.0",
+ org.csstudio.utility.pvmanager;bundle-version="4.0.0",
+ org.csstudio.trends.databrowser2;bundle-version="4.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
-Import-Package: org.csstudio.archive.reader,
- org.csstudio.trends.databrowser2.preferences,
- org.epics.pvmanager,
- org.junit
 Export-Package: org.csstudio.archive.reader.fastarchiver,
  org.csstudio.archive.reader.fastarchiver.archive_requests,
  org.csstudio.archive.reader.fastarchiver.exceptions
