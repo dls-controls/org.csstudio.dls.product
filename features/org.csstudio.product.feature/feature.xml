@@ -104,6 +104,7 @@
       <import plugin="org.csstudio.opibuilder.widgets.edm" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.csstudio.archive.reader.fastarchiver" version="0.0.1" match="greaterOrEqual"/>
       <import plugin="org.csstudio.utility.pvmanager.pva" version="3.2.1" match="greaterOrEqual"/>
+      <import plugin="org.csstudio.dls.detailpanel" version="0.0.1" match="greaterOrEqual"/>
    </requires>
 
    <plugin
