@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.csstudio.opibuilder.widget">
+      <widget
+            category="Others"
+            description="DLS detailed information panel"
+            editpart_class="org.csstudio.opibuilder.detailpanel.DetailPanelEditpart"
+            icon="icons/DetailPanel.png"
+            model_class="org.csstudio.opibuilder.detailpanel.DetailPanelModel"
+            name="DLS Detail Panel"
+            typeId="org.csstudio.dls.detailpanel">
+      </widget>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.csstudio.dls.detailpanel"
+            objectClass="org.csstudio.opibuilder.detailpanel.DetailPanelEditpart">
+         <action
+               class="org.csstudio.opibuilder.detailpanel.DetailPanelDisplayLevelLowAction"
+               enablesFor="1"
+               id="org.csstudio.dls.detailpanel.displayLevelLow"
+               label="Low Display Level"
+               menubarPath="detailpanel"
+               tooltip="Set the display level to low">
+         </action>
+         <action
+               class="org.csstudio.opibuilder.detailpanel.DetailPanelDisplayLevelMediumAction"
+               enablesFor="1"
+               id="org.csstudio.dls.detailpanel.displayLevelMedium"
+               label="Medium Display Level"
+               menubarPath="detailpanel"
+               tooltip="Set the display level to medium">
+         </action>
+         <action
+               class="org.csstudio.opibuilder.detailpanel.DetailPanelDisplayLevelHighAction"
+               enablesFor="1"
+               id="org.csstudio.dls.detailpanel.displayLevelHigh"
+               label="High Display Level"
+               menubarPath="detailpanel"
+               tooltip="Set the display level to high">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>
