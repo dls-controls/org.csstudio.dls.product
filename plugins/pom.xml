@@ -16,6 +16,6 @@
     <module>org.csstudio.startup.intro</module>
     <module>org.csstudio.archive.reader.fastarchiver</module>
     <module>org.csstudio.opibuilder.widgets.edm</module>
-    <module>org.csstudio.dls.detailpanel</module>
+    <module>org.csstudio.opibuilder.widgets.detailpanel</module>
   </modules>
 </project>

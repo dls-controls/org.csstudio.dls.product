@@ -1,4 +1,4 @@
-package org.csstudio.opibuilder.detailpanel;
+package org.csstudio.opibuilder.widgets.detailpanel;
 
 import org.csstudio.ui.util.CustomMediaFactory;
 import org.eclipse.draw2d.Cursors;

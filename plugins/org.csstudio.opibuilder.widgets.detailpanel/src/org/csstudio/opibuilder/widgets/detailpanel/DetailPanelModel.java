@@ -1,4 +1,4 @@
-package org.csstudio.opibuilder.detailpanel;
+package org.csstudio.opibuilder.widgets.detailpanel;
 
 import java.util.LinkedList;
 
@@ -50,7 +50,7 @@ public class DetailPanelModel extends AbstractContainerModel {
 	private LinkedList<DetailPanelModelRow> rows;
 	
 	/* Id of this widget model */
-	public static final String ID = "org.csstudio.dls.detailpanel";
+	public static final String ID = "org.csstudio.opibuilder.widgets.detailpanel";
 	
 	/* Constructor */
 	public DetailPanelModel() {

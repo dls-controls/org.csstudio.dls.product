@@ -1,4 +1,4 @@
-package org.csstudio.opibuilder.detailpanel;
+package org.csstudio.opibuilder.widgets.detailpanel;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.csstudio.dls.detailpanel"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.csstudio.opibuilder.widgets.detailpanel"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

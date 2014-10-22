@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>org.csstudio</groupId>
-  <artifactId>org.csstudio.opibuilder.detailpanel</artifactId>
+  <artifactId>org.csstudio.opibuilder.widgets.detailpanel</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>
