@@ -6,10 +6,8 @@ import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
 import org.csstudio.opibuilder.editparts.ExecutionMode;
 import org.csstudio.opibuilder.model.AbstractWidgetModel;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
-import org.csstudio.opibuilder.util.BOYPVFactory;
 import org.csstudio.opibuilder.widgets.edm.figures.MuxMenuFigure;
 import org.csstudio.opibuilder.widgets.edm.model.MuxMenuModel;
-import org.csstudio.simplepv.IPV;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -25,17 +23,15 @@ import org.eclipse.swt.widgets.Combo;
  */
 public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 
-	private IPV monitoredPV;
 	private Combo combo;
 	private SelectionListener comboSelectionListener;
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected IFigure doCreateFigure() {
 		final MuxMenuModel model = getWidgetModel();
-
 		if (model == null) {
 			System.err.println("NULL model");
 		}
@@ -47,23 +43,30 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 			System.err.println("NULL COMBO");
 		}
 
-		List<String> items = model.getItems();
-		if (items == null) {
-			System.err.println("NULL ITEMS");
-			
-		} else {
-			System.err.println("Got items");
-		}
-		
 		if(comboSelectionListener !=null)
 			combo.removeSelectionListener(comboSelectionListener);
 		
 		comboSelectionListener = new MuxMenuSelectionListener();
 		combo.addSelectionListener(comboSelectionListener);
 
-		updateCombo(items);
+		updateCombo(model.getItems());
 
 		return comboFigure;
+	}
+	
+	@Override
+	protected void doActivate() {
+		super.doActivate();
+		
+		setInitialSelection();
+	};
+	
+	@Override
+	protected void doDeActivate() {
+		super.doDeActivate();
+
+		if(comboSelectionListener !=null)
+			combo.removeSelectionListener(comboSelectionListener);
 	}
 
 	private void setInitialSelection() {
@@ -91,7 +94,6 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 
 	private class MuxMenuSelectionListener extends SelectionAdapter {
 		/// Selection change handler for the MenuMux Combobox
-		private static final int TIMEOUT_MS = 10000;  // put timeout (ms)
 
 		@Override
 		public void widgetSelected(SelectionEvent e) {
@@ -99,22 +101,13 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 			MuxMenuModel model = getWidgetModel();
 
 			int selectedIdx = combo.getSelectionIndex();
-			System.out.println("Change listener on " + selectedIdx);
-			List<String> targets = model.getTargets();
-			List<String> values = model.getValues();
+			
+			for (int set_index = 0; set_index < model.getNumSets(); set_index++) {
+				List<String> values = model.getValues(set_index);
 
-			if (selectedIdx < targets.size() && selectedIdx < values.size()) {
-				String macro_pv = "loc://" + targets.get(selectedIdx);
-				String target = values.get(selectedIdx);
-
-				try {
-					IPV pv = BOYPVFactory.createPV(macro_pv);
-					if (!pv.setValue(target, TIMEOUT_MS)) {
-						throw new Exception("Write Failed!");
-					}
-				} catch (Exception ex) {
-					System.err.println("Error putting MuxMenu PV name" + ex.getMessage());
-					ex.printStackTrace();
+				if (selectedIdx < values.size()) {
+					String value = values.get(selectedIdx);
+					setPVValue(MuxMenuModel.makePropId(MuxProperty.TARGET.propIDPre, set_index), value);
 				}
 			}
 		}
@@ -124,7 +117,11 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 	 * @param items
 	 */
 	private void updateCombo(List<String> items) {
-		if(items !=null && getExecutionMode() == ExecutionMode.RUN_MODE){
+
+		if (items == null) {
+			System.err.println("NULL ITEMS");			
+		}
+		else if(getExecutionMode() == ExecutionMode.RUN_MODE) {
 			combo.removeAll();
 
 			for(String item : items){
@@ -139,29 +136,6 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 	@Override
 	public MuxMenuModel getWidgetModel() {
 		return (MuxMenuModel)getModel();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void activate() {
-		super.activate();
-		// Set the initial selection at the last moment to ensure all 
-		// required loc:// PVs have started
-		setInitialSelection();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doDeActivate() {
-		super.doDeActivate();
-
-		if (monitoredPV != null) {
-			monitoredPV.stop();
-		}
 	}
 
 	/**
@@ -184,7 +158,6 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 			}
 		};
 		setPropertyChangeHandler(MuxMenuModel.PROP_ITEMS, itemsHandler);
-
 
 		//size change handlers--always apply the default height
 		IWidgetPropertyChangeHandler handle = new IWidgetPropertyChangeHandler() {
