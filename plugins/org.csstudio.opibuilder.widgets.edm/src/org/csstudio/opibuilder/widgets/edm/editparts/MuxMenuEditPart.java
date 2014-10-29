@@ -8,6 +8,7 @@ import org.csstudio.opibuilder.model.AbstractWidgetModel;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.widgets.edm.figures.MuxMenuFigure;
 import org.csstudio.opibuilder.widgets.edm.model.MuxMenuModel;
+import org.csstudio.opibuilder.widgets.edm.model.MuxMenuModel.MuxProperty;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.events.SelectionAdapter;
