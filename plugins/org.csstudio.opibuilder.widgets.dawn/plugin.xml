@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.csstudio.opibuilder.widget">
+      <widget
+            category="Monitors"
+            editpart_class="org.csstudio.opibuilder.widgets.dawn.xygraph.DawnXYGraphEditPart"
+            icon="icons/xy_graph_16.png"
+            model_class="org.csstudio.opibuilder.widgets.dawn.xygraph.DawnXYGraphModel"
+            name="Dawn XY Graph"
+            typeId="org.csstudio.opibuilder.widgets.dawn.xygraph">
+      </widget>
+   </extension>
+
+</plugin>
