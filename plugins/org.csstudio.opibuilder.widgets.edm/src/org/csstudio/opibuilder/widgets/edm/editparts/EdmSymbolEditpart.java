@@ -28,9 +28,11 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
 		IWidgetPropertyChangeHandler handler = new IWidgetPropertyChangeHandler() {
 			public boolean handleChange(final Object oldValue, final Object newValue, final IFigure figure) {				
 				EdmSymbolFigure imageFigure = (EdmSymbolFigure) figure;
-				IPath newPath = (IPath)newValue;
-				newPath = ResourceUtil.normalisePath(getWidgetModel(), newPath, ((EdmSymbolModel)getModel()).getParent().getMacrosInput());
-				imageFigure.setImage(newPath);
+				IPath absolutePath = (IPath)newValue;
+				if(!absolutePath.isAbsolute()) {
+					absolutePath = ResourceUtil.buildAbsolutePath(getWidgetModel(), absolutePath);
+				}
+				imageFigure.setImage(absolutePath);
 				return false;
 			}
 		};
