@@ -34,9 +34,11 @@ public class EdmSymbolModel extends AbstractPVWidgetModel {
 	}
 
 	public IPath getFilename() {
-		IPath path = (IPath) getProperty(PROP_EDM_IMAGE_FILE).getPropertyValue();
-		path = ResourceUtil.normalisePath(this, path, getParent().getMacrosInput());
-		return path;
+		IPath absolutePath = (IPath) getProperty(PROP_EDM_IMAGE_FILE).getPropertyValue();
+		if(!absolutePath.isAbsolute()) {
+			absolutePath = ResourceUtil.buildAbsolutePath(this, absolutePath);
+		}
+		return absolutePath;
 	}
 	
 	public int getSubImageWidth() {
