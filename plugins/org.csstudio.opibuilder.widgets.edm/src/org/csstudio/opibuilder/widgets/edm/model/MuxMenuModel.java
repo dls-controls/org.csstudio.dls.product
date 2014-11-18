@@ -56,7 +56,6 @@ public class MuxMenuModel extends ComboModel {
 
 	@Override
 	protected void configureProperties() {
-		System.out.println("MenuMux Model ConfigureProperty");
 		addProperty(new StringListProperty(
 				PROP_ITEMS, "Items", WidgetPropertyCategory.Misc, new ArrayList<String>()));
 
@@ -81,7 +80,6 @@ public class MuxMenuModel extends ComboModel {
 
 	protected void addMuxProperty(MuxProperty property, int set_index, WidgetPropertyCategory category) {
 		String propId = makePropId(property.propIDPre, set_index);
-		System.out.println("Creating mux property " + property + " " + propId);
 		switch (property) {
 		case TARGET:
 			addPVProperty(new PVNameProperty(propId, property.description, category, ""),
