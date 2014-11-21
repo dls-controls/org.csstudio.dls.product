@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author Nick Battam
  *
  */
-public class MuxMenuFigure extends AbstractSWTWidgetFigure<Combo> {
+public class MenuMuxFigure extends AbstractSWTWidgetFigure<Combo> {
 
 	
 	Triangle selector;
@@ -38,7 +38,7 @@ public class MuxMenuFigure extends AbstractSWTWidgetFigure<Combo> {
 
 	private Combo combo;
 	
-	public MuxMenuFigure(AbstractBaseEditPart editPart) {
+	public MenuMuxFigure(AbstractBaseEditPart editPart) {
 		super(editPart);
 		if(!runmode){
 			selector = new Triangle();	

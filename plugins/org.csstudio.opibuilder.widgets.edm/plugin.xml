@@ -5,12 +5,12 @@
          point="org.csstudio.opibuilder.widget">
       <widget
             category="Monitors"
-            description="Edm style muxMenu widget"
-            editpart_class="org.csstudio.opibuilder.widgets.edm.editparts.MuxMenuEditPart"
+            description="Edm style MenuMux widget"
+            editpart_class="org.csstudio.opibuilder.widgets.edm.editparts.MenuMuxEditPart"
             icon="icon/symbol.png"
-            model_class="org.csstudio.opibuilder.widgets.edm.model.MuxMenuModel"
-            name="MuxMenu Widget"
-            typeId="org.csstudio.opibuilder.widgets.edm.muxmenu">
+            model_class="org.csstudio.opibuilder.widgets.edm.model.MenuMuxModel"
+            name="MenuMux Widget"
+            typeId="org.csstudio.opibuilder.widgets.edm.menumux">
       </widget>
       <widget
             category="Monitors"

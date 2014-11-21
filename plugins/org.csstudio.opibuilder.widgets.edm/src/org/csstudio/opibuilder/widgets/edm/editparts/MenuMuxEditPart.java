@@ -6,9 +6,9 @@ import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
 import org.csstudio.opibuilder.editparts.ExecutionMode;
 import org.csstudio.opibuilder.model.AbstractWidgetModel;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
-import org.csstudio.opibuilder.widgets.edm.figures.MuxMenuFigure;
-import org.csstudio.opibuilder.widgets.edm.model.MuxMenuModel;
-import org.csstudio.opibuilder.widgets.edm.model.MuxMenuModel.MuxProperty;
+import org.csstudio.opibuilder.widgets.edm.figures.MenuMuxFigure;
+import org.csstudio.opibuilder.widgets.edm.model.MenuMuxModel;
+import org.csstudio.opibuilder.widgets.edm.model.MenuMuxModel.MuxProperty;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Combo;
  * @author Nick Battam
  *
  */
-public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
+public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
 
 	private Combo combo;
 	private SelectionListener comboSelectionListener;
@@ -32,12 +32,12 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 	 */
 	@Override
 	protected IFigure doCreateFigure() {
-		final MuxMenuModel model = getWidgetModel();
+		final MenuMuxModel model = getWidgetModel();
 		if (model == null) {
 			System.err.println("NULL model");
 		}
 
-		MuxMenuFigure comboFigure = new MuxMenuFigure(this);
+		MenuMuxFigure comboFigure = new MenuMuxFigure(this);
 
 		combo = comboFigure.getSWTWidget();
 		if (combo == null) {
@@ -99,7 +99,7 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 		@Override
 		public void widgetSelected(SelectionEvent e) {
 			/// On selected change put the selected PV name to the associated local pv (e.g. $d)
-			MuxMenuModel model = getWidgetModel();
+			MenuMuxModel model = getWidgetModel();
 
 			int selectedIdx = combo.getSelectionIndex();
 			
@@ -108,7 +108,7 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 
 				if (selectedIdx < values.size()) {
 					String value = values.get(selectedIdx);
-					setPVValue(MuxMenuModel.makePropId(MuxProperty.TARGET.propIDPre, set_index), value);
+					setPVValue(MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, set_index), value);
 				}
 			}
 		}
@@ -135,8 +135,8 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public MuxMenuModel getWidgetModel() {
-		return (MuxMenuModel)getModel();
+	public MenuMuxModel getWidgetModel() {
+		return (MenuMuxModel)getModel();
 	}
 
 	/**
@@ -144,7 +144,7 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 	 */
 	@Override
 	protected void registerPropertyChangeHandlers() {
-		autoSizeWidget((MuxMenuFigure) getFigure());
+		autoSizeWidget((MenuMuxFigure) getFigure());
 
 		// Items
 		IWidgetPropertyChangeHandler itemsHandler = new IWidgetPropertyChangeHandler() {
@@ -158,14 +158,14 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 				return true;
 			}
 		};
-		setPropertyChangeHandler(MuxMenuModel.PROP_ITEMS, itemsHandler);
+		setPropertyChangeHandler(MenuMuxModel.PROP_ITEMS, itemsHandler);
 
 		//size change handlers--always apply the default height
 		IWidgetPropertyChangeHandler handle = new IWidgetPropertyChangeHandler() {
 			@Override
 			public boolean handleChange(final Object oldValue, final Object newValue,
 					final IFigure figure) {
-				autoSizeWidget((MuxMenuFigure)figure);
+				autoSizeWidget((MenuMuxFigure)figure);
 				return true;
 			}
 		};
@@ -173,10 +173,10 @@ public final class MuxMenuEditPart extends AbstractPVWidgetEditPart {
 		setPropertyChangeHandler(AbstractWidgetModel.PROP_HEIGHT, handle);
 		setPropertyChangeHandler(AbstractWidgetModel.PROP_BORDER_STYLE, handle);
 		setPropertyChangeHandler(AbstractWidgetModel.PROP_BORDER_WIDTH, handle);
-		setPropertyChangeHandler(MuxMenuModel.PROP_FONT, handle);
+		setPropertyChangeHandler(MenuMuxModel.PROP_FONT, handle);
 	}
 
-	private void autoSizeWidget(MuxMenuFigure comboFigure) {
+	private void autoSizeWidget(MenuMuxFigure comboFigure) {
 		Dimension d = comboFigure.getAutoSizeDimension();
 		getWidgetModel().setSize(getWidgetModel().getWidth(), d.height);
 	}
