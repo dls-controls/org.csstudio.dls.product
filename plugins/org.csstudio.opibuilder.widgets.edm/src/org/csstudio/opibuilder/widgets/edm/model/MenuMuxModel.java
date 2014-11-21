@@ -13,7 +13,7 @@ import org.csstudio.opibuilder.properties.WidgetPropertyCategory;
 import org.csstudio.opibuilder.widgets.model.ComboModel;
 import org.eclipse.swt.graphics.RGB;
 
-public class MuxMenuModel extends ComboModel {
+public class MenuMuxModel extends ComboModel {
 
 	public static final int MAX_SETS = 8;
 
@@ -36,7 +36,7 @@ public class MuxMenuModel extends ComboModel {
 		}
 	}
 
-	public final String ID = "org.csstudio.opibuilder.widgets.edm.muxmenu";//$NON-NLS-1$
+	public final String ID = "org.csstudio.opibuilder.widgets.edm.menumux";//$NON-NLS-1$
 	/**
 	 * Items of the combo.
 	 * 	items: the displayed text
@@ -48,7 +48,7 @@ public class MuxMenuModel extends ComboModel {
 	
 	public static final String PROP_NUM_SETS = "num_sets";//$NON-NLS-1$
 	
-	public MuxMenuModel() {
+	public MenuMuxModel() {
 		setBackgroundColor(new RGB(255,255,255));
 		setForegroundColor(new RGB(0,0,0));
 		setScaleOptions(true, false, false);
@@ -83,7 +83,7 @@ public class MuxMenuModel extends ComboModel {
 		switch (property) {
 		case TARGET:
 			addPVProperty(new PVNameProperty(propId, property.description, category, ""),
-						  new PVValueProperty(MuxMenuModel.makePvPropId(property.propIDPre, set_index), null));
+						  new PVValueProperty(MenuMuxModel.makePvPropId(property.propIDPre, set_index), null));
 			break;
 		case VALUES:
 			addProperty(new StringListProperty(propId, property.description, category, new ArrayList<String>()));
@@ -100,7 +100,7 @@ public class MuxMenuModel extends ComboModel {
 
 	@SuppressWarnings("unchecked")
 	public List<String> getValues(int index){
-		return (List<String>)getPropertyValue(MuxMenuModel.makePropId(MuxProperty.VALUES.propIDPre, index));
+		return (List<String>)getPropertyValue(MenuMuxModel.makePropId(MuxProperty.VALUES.propIDPre, index));
 	}
 		
 	@Override
