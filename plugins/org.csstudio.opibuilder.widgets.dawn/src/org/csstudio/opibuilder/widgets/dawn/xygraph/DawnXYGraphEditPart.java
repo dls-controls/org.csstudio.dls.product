@@ -96,7 +96,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
 				}
 				String propID = DawnXYGraphModel.makeAxisPropID(
 					axisProperty.propIDPre, i);
-				System.out.println("setAxisProperty: " + axisList.get(i) + ", " + axisProperty + ", " + model.getProperty(propID).getPropertyValue());
 				setAxisProperty(axisList.get(i), axisProperty,
 						model.getProperty(propID).getPropertyValue());
 			}
@@ -307,7 +306,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
 	}
 
 	private void setAxisProperty(Axis axis, AxisProperty axisProperty, Object newValue){
-		System.out.println("    setAxisProperty(" + axis + ", " + axisProperty + ", " + newValue + ")");
 			switch (axisProperty) {
 			case AUTO_SCALE:
 				axis.setAutoScale((Boolean)newValue);
