@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Diamond ELog
+Bundle-SymbolicName: org.csstudio.logbook.dls;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Activator: org.csstudio.logbook.dls.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.csstudio.platform.utility.rdb
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: org.csstudio.logbook.dls,
+ org.csstudio.logbook.dls.views

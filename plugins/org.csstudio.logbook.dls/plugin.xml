@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+      <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.csstudio"
+            name="CSS">
+      </category>
+      <view
+            category="org.csstudio"
+            class="org.csstudio.logbook.dls.views.LogbookView"
+            id="org.csstudio.logbook.dls.views"
+            name="Create DLS ELog Entry"
+            restorable="true">
+      </view>
+   </extension>   
+</plugin>
