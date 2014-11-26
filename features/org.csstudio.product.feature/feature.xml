@@ -107,6 +107,7 @@
       <import plugin="org.csstudio.opibuilder.widgets.detailpanel" version="0.0.1" match="greaterOrEqual"/>
       <import plugin="org.csstudio.opibuilder" version="4.0.102" match="greaterOrEqual"/>
       <import plugin="org.csstudio.opibuilder.widgets.dawn" version="0.0.1" match="greaterOrEqual"/>
+      <import plugin="org.csstudio.logbook.dls" version="0.0.1" match="greaterOrEqual"/>
    </requires>
 
    <plugin
