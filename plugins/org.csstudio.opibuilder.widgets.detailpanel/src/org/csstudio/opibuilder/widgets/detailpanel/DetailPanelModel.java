@@ -221,5 +221,13 @@ public class DetailPanelModel extends AbstractContainerModel {
 	public DisplayLevel getDisplayLevel() {
 		return DetailPanelModel.DisplayLevel.values()[(int)getPropertyValue(PROP_DISPLAY_LEVEL)];
 	}
+
+	/* Returning false for this prevents arbitrary children
+	 * being placed under the detail panel model object.  It probably
+	 * does other things too.*/
+	@Override
+	public boolean isChildrenOperationAllowable() {
+		return false;
+	}
 }
 
