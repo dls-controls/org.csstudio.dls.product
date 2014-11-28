@@ -27,7 +27,7 @@ import org.eclipse.ui.part.ViewPart;
 public class LogbookView extends ViewPart {
 
 	public static final String ID = "com.diamond.logbook.views.LogBookView";
-	private final ELog elog;
+	private ELog elog;
 	private AttachmentManager attachmentManager;
 
 	public class AttachmentManager {
@@ -113,11 +113,21 @@ public class LogbookView extends ViewPart {
 		}
 	}
 
-	public LogbookView() throws Exception {
-		elog = new ELog();
+	public LogbookView() {
+		try {
+			elog = new ELog();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void createPartControl(final Composite parent) {
+		if(elog == null) {
+			parent.setLayout(new GridLayout(1, false));
+			final Label errorLabel = new Label(parent, SWT.FILL | SWT.CENTER);
+			errorLabel.setText("Error: Could not connect to logbook.");
+			return;
+		}
 		parent.setLayout(new GridLayout(2,  false));
 
 		/* USERNAME */
