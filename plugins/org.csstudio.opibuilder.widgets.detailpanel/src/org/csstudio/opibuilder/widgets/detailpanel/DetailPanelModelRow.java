@@ -93,7 +93,7 @@ public class DetailPanelModelRow {
 		model.addProperty(new StringProperty(propName,	"Tooltip", category, "", /*multiline=*/true));
 		model.setPropertyVisible(propName, false);
 		propName = makePropertyName(PROP_ROW_LEVEL, rowNumber);
-		model.addProperty(new ComboProperty(propName,	"Display Level", category, 
+		model.addProperty(new ComboProperty(propName,	"Min Display Level", category, 
 				DetailPanelModel.DisplayLevel.stringValues(), 0));
 		model.setPropertyVisible(propName, false);
 	}
