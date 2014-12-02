@@ -134,6 +134,8 @@ public class DetailPanelModelRow {
 		this.children.setBorderStyle(BorderStyle.NONE);
 		this.children.setPropertyValue(GroupingContainerModel.PROP_TRANSPARENT, false);
 		this.children.setPropertyValue(AbstractWidgetModel.PROP_VISIBLE, true);
+		this.children.setScaleOptions(false, false, true);
+		this.children.setPropertyValue(GroupingContainerModel.PROP_SHOW_SCROLLBAR, false);
 	}
 	
 	/* Return the row number */
@@ -320,25 +322,32 @@ public class DetailPanelModelRow {
 	}
 
 	/* Control the visibility of the child container. */
+	/* JAT: I don't know what I was thinking here.  The children object
+	 * cannot be removed from the model as this causes problems when
+	 * writing out to the file while a group is collapsed.  The reason
+	 * for removing the children from the model eludes me at the moment
+	 * although the drag and drop across a group boundary does not appear
+	 * to work properly now.
+	 */
 	public void controlVisibility() {
 		boolean newVisible = !collapsed && shown;
 		if(newVisible && !childrenVisible) {
 			// Put the container back in the tree
-			UIBundlingThread.getInstance().addRunnable(new Runnable() {
-				@Override
-				public void run() {
-					model.addChild(children);
-				}
-			});
+			//UIBundlingThread.getInstance().addRunnable(new Runnable() {
+			//	@Override
+			//	public void run() {
+			//		model.addChild(children);
+			//	}
+			//});
 			childrenVisible = true;
 		} else if(!newVisible && childrenVisible) {
 			// Remove the container from the tree
-			UIBundlingThread.getInstance().addRunnable(new Runnable() {
-				@Override
-				public void run() {
-					model.removeChild(children);
-				}
-			});
+			//UIBundlingThread.getInstance().addRunnable(new Runnable() {
+			//	@Override
+			//	public void run() {
+			//		model.removeChild(children);
+			//	}
+			//});
 			childrenVisible = false;
 		}
 	}

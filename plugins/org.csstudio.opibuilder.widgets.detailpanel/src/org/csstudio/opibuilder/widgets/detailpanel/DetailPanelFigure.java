@@ -240,6 +240,14 @@ public class DetailPanelFigure extends Figure {
 		}
 	}
 	
+	/* Update the visibility of all rows */
+	public void setAllRowsVisibility() {
+		for(DetailPanelFigureRow row: rows) {
+			row.setVisibility();
+		}
+	}
+	
+	
 	/* A row has name flag has changed */
 	public void setRowMode(int rowNumber, DetailPanelModelRow.Mode mode) {
 		rows.get(rowNumber).setMode(mode);
@@ -342,6 +350,15 @@ public class DetailPanelFigure extends Figure {
 		if(result == visibleRows) {
 			// Yes, so we should return after the last row.
 			result = rows.size();
+		}
+		return result;
+	}
+	
+	/* Return true if the next row is a group member. */
+	public boolean isNextRowGroupMember(int rowNumber) {
+		boolean result = false;
+		if((rowNumber + 1) < rows.size()) {
+			result = !rows.get(rowNumber+1).isGroup();
 		}
 		return result;
 	}

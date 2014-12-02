@@ -96,7 +96,7 @@ public class DetailPanelFigureRow {
 	/* Set edit mode */
 	public void setEditMode(boolean m) {
 		editMode = m;
-		setVisibility();
+		figure.setAllRowsVisibility();
 	}
 	
 	/* Return the row number */
@@ -112,7 +112,7 @@ public class DetailPanelFigureRow {
 	/* Set the collapse state of this row */
 	public void setCollapse(boolean c) {
 		collapsed = c;
-		setVisibility();
+		figure.setAllRowsVisibility();
 	}
 	
 	/* Return true if this row is a group header. */
@@ -171,13 +171,13 @@ public class DetailPanelFigureRow {
 		}
 		waitingForInitialMode = false;
 		mode = m;
-		setVisibility();
+		figure.setAllRowsVisibility();
 	}
 	
 	/* Set level */
 	public void setLevel(DetailPanelModel.DisplayLevel l) {
 		level = l;
-		setVisibility();
+		figure.setAllRowsVisibility();
 	}
 	
 	/* Set the visibility of the components of the row. */
@@ -187,7 +187,7 @@ public class DetailPanelFigureRow {
 	public void setVisibility() {
 		name.setVisible(mode != DetailPanelModelRow.Mode.FULLWIDTH && isVisible());
 		nameArea.setVisible(mode != DetailPanelModelRow.Mode.FULLWIDTH && isVisible());
-		groupTriangle.setVisible(isGroup() && isVisible());
+		groupTriangle.setVisible(isGroup() && isVisible() && figure.isNextRowGroupMember(rowNumber));
 		divider.setVisible(isVisible());
 		dragger.setVisible(isVisible() && editMode);
 	}
@@ -278,7 +278,7 @@ public class DetailPanelFigureRow {
 	/* Set the shown state of this row */
 	public void setShown(boolean s) {
 		shown = s;
-		setVisibility();
+		figure.setAllRowsVisibility();
 	}
 	
 	/* Return the distance from the given y coordinate to the top of this row */
