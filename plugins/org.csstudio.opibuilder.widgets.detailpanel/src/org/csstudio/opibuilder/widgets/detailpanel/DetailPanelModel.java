@@ -140,7 +140,11 @@ public class DetailPanelModel extends AbstractContainerModel {
 	
 	/* Get a specific row */
 	public DetailPanelModelRow getRow(int rowNumber) {
-		return rows.get(rowNumber);
+		DetailPanelModelRow result = null;
+		if(rowNumber >= 0 && rowNumber < rows.size()) {
+			result = rows.get(rowNumber);
+		}
+		return result;
 	}
 	
 	/* Determine the layout of the rows within the given rectangle.*/

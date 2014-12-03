@@ -17,10 +17,10 @@ public class DetailPanelModelRow {
 
 	// The row mode enumeration
 	public enum Mode {
-		NORMAL("Normal"),
+		INDENTED("Indented"),
 		FULLWIDTH("Full Width"),
-		GROUP("Group"),
-		COLLAPSEDGROUP("Collapsed Group");
+		STARTEXPANDED("Start Expanded"),
+		STARTCOLLAPSED("Start Collapsed");
 		private String description;
 		private Mode(String description) {
 			this.description = description;
@@ -80,7 +80,7 @@ public class DetailPanelModelRow {
 		WidgetPropertyCategory category = makePropertyCategory(rowNumber);
 		String propName;
 		propName = makePropertyName(PROP_ROW_MODE, rowNumber);
-		model.addProperty(new ComboProperty(propName,	"Mode", category, Mode.stringValues(), 0));
+		model.addProperty(new ComboProperty(propName,	"Mode", category, Mode.stringValues(), Mode.STARTEXPANDED.ordinal()));
 		model.setPropertyVisible(propName, false);
 		propName = makePropertyName(PROP_ROW_NAME, rowNumber);
 		model.addProperty(new StringProperty(propName,	"Name", category, "", /*multiline=*/false));
@@ -182,21 +182,35 @@ public class DetailPanelModelRow {
 				other.model.getPropertyValue(makePropertyName(PROP_ROW_LEVEL, other.rowNumber)));
 	}
 	
-	protected void swapProperty(DetailPanelModelRow other, String property) {
+	protected void swapProperty(DetailPanelModelRow other, String property, boolean fire) {
 		Object a, b;
 		a = other.model.getPropertyValue(makePropertyName(property, other.rowNumber));
 		b = model.getPropertyValue(makePropertyName(property, rowNumber));
-		model.setPropertyValue(makePropertyName(property, rowNumber), a);
-		other.model.setPropertyValue(makePropertyName(property, other.rowNumber), b);
+		model.setPropertyValue(makePropertyName(property, rowNumber), a, fire);
+		other.model.setPropertyValue(makePropertyName(property, other.rowNumber), b, fire);
 	}
 	
 	/* Swap the properties between the other row and this one */
 	public void swapProperties(final DetailPanelModelRow other) {
-		swapProperty(other, PROP_ROW_MODE);
-		swapProperty(other, PROP_ROW_NAME);
-		swapProperty(other, PROP_ROW_HEIGHT);
-		swapProperty(other, PROP_ROW_TOOLTIP);
-		swapProperty(other, PROP_ROW_LEVEL);
+		swapProperty(other, PROP_ROW_MODE, false);
+		swapProperty(other, PROP_ROW_NAME, true);
+		swapProperty(other, PROP_ROW_HEIGHT, true);
+		swapProperty(other, PROP_ROW_TOOLTIP, true);
+		swapProperty(other, PROP_ROW_LEVEL, true);
+		
+		boolean t;
+		t = other.collapsed;
+		other.collapsed = collapsed;
+		collapsed = t;
+		t = other.shown;
+		other.shown = shown;
+		shown = t;
+		t = other.childrenVisible;
+		other.childrenVisible = childrenVisible;
+		childrenVisible = t;
+		Rectangle tr = other.nameArea;
+		other.nameArea = nameArea;
+		nameArea = tr;
 		
 		List<AbstractWidgetModel> otherChildren = new LinkedList<AbstractWidgetModel>(other.children.getChildren());
 		List<AbstractWidgetModel> myChildren = new LinkedList<AbstractWidgetModel>(children.getChildren());
@@ -237,6 +251,11 @@ public class DetailPanelModelRow {
 	/* Return the row mode. */
 	public Mode getMode() {
 		return Mode.values()[(int)model.getPropertyValue(makePropertyName(PROP_ROW_MODE, rowNumber))];
+	}
+	
+	/* Set the row mode. */
+	public void setMode(DetailPanelModelRow.Mode mode, boolean fire) {
+		model.setPropertyValue(makePropertyName(PROP_ROW_MODE, rowNumber), mode.ordinal(), fire);
 	}
 	
 	/* Return the row level. */

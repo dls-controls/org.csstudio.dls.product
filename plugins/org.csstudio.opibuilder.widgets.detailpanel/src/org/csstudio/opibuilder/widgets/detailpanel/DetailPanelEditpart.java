@@ -178,22 +178,7 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
 		// Base class
 		super.activate();
 		// Initialise the figure from the model
-		setRows(getWidgetModel().getRowCount());
-		getFigure().setOddRowBackgroundColor(getWidgetModel().getOddRowBackgroundColor());
-		getFigure().setEvenRowBackgroundColor(getWidgetModel().getEvenRowBackgroundColor());
-		getFigure().setOddRowForegroundColor(getWidgetModel().getOddRowForegroundColor());
-		getFigure().setEvenRowForegroundColor(getWidgetModel().getEvenRowForegroundColor());
-		getFigure().setVerticalDividerPos(getWidgetModel().getVerticalDividerPos());
-		for(DetailPanelModelRow row: getWidgetModel().getRows()) {
-			getFigure().setRowMode(row.getRowNumber(), row.getMode());
-			getFigure().setRowName(row.getRowNumber(), row.getName());
-			getFigure().setRowDividerPos(row.getRowNumber(), row.getHeight());
-			getFigure().setRowLevel(row.getRowNumber(), row.getLevel());
-		}
-		// Set initial visibility
-		getFigure().setEditMode(getExecutionMode() == ExecutionMode.EDIT_MODE);
-		setAllGroupCollapse(true);
-		setShown(getWidgetModel().getDisplayLevel());
+		updateFigures(true);
 		// Register a layout listener
 		getFigure().addLayoutListener(new LayoutListener.Stub() {
 			@Override
@@ -212,6 +197,27 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
 				}
 			}
 		});
+	}
+	
+	/* Update the figure from the model */
+	public void updateFigures(boolean initialState) {
+		// Update the figure from the model
+		setRows(getWidgetModel().getRowCount());
+		getFigure().setOddRowBackgroundColor(getWidgetModel().getOddRowBackgroundColor());
+		getFigure().setEvenRowBackgroundColor(getWidgetModel().getEvenRowBackgroundColor());
+		getFigure().setOddRowForegroundColor(getWidgetModel().getOddRowForegroundColor());
+		getFigure().setEvenRowForegroundColor(getWidgetModel().getEvenRowForegroundColor());
+		getFigure().setVerticalDividerPos(getWidgetModel().getVerticalDividerPos());
+		for(DetailPanelModelRow row: getWidgetModel().getRows()) {
+			getFigure().setRowMode(row.getRowNumber(), row.getMode());
+			getFigure().setRowName(row.getRowNumber(), row.getName());
+			getFigure().setRowDividerPos(row.getRowNumber(), row.getHeight());
+			getFigure().setRowLevel(row.getRowNumber(), row.getLevel());
+		}
+		// Set visibility
+		getFigure().setEditMode(getExecutionMode() == ExecutionMode.EDIT_MODE);
+		setAllGroupCollapse(initialState);
+		setShown(getWidgetModel().getDisplayLevel());
 	}
 	
 	/* A row mode property has been changed */
@@ -388,14 +394,95 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
 	}
 	
 	/* Move a row.*/
-	public void moveRow(int oldIndex, int newIndex) {
+	public void moveRow(int oldIndex, int newIndex, DetailPanelModelRow.Mode mode) {
+		// Set the new mode
+		getWidgetModel().getRow(oldIndex).setMode(mode, false);
+		getFigure().getRow(oldIndex).setMode(mode);
+		// Swap the two rows
+		if(oldIndex == newIndex) {
+			// Row not moving
+		}
 		if(oldIndex > newIndex) {
 			for(int i=newIndex; i<oldIndex; i++) {
 				getWidgetModel().swapRowProperties(oldIndex,  i);
+				getFigure().swapRowProperties(oldIndex, i);
 			}
 		} else if(oldIndex < newIndex) {
 			for(int i=newIndex-1; i>oldIndex; i--) {
 				getWidgetModel().swapRowProperties(oldIndex,  i);
+				getFigure().swapRowProperties(oldIndex, i);
+			}
+		}
+	}
+	
+	/* Work out the set of changes needed to move a row from one location to another.
+	 * The changes are added to the command object as items that are implemented sequentially.
+	 */
+	public void determineRowMove(int oldIndex, int newIndex, DetailPanelChangeRowIndexCommand cmd) {
+		// Get some rows
+		DetailPanelModelRow sourceRow = getWidgetModel().getRow(oldIndex);
+		DetailPanelModelRow rowAfter = getWidgetModel().getRow(newIndex);
+		DetailPanelModelRow rowBefore = getWidgetModel().getRow(newIndex-1);
+		// What we do depends on the row mode
+		if(sourceRow.getMode() == DetailPanelModelRow.Mode.FULLWIDTH) {
+			// If the row is full width, the row after the new position cannot be indented
+			if(rowAfter != null && rowAfter.getMode() == DetailPanelModelRow.Mode.INDENTED) {
+				cmd.addItem(newIndex, newIndex, DetailPanelModelRow.Mode.INDENTED, DetailPanelModelRow.Mode.STARTEXPANDED);
+			}
+			// But the row itself moves unchanged
+			cmd.addItem(oldIndex, newIndex, DetailPanelModelRow.Mode.FULLWIDTH, DetailPanelModelRow.Mode.FULLWIDTH);
+		} else if(sourceRow.getMode() == DetailPanelModelRow.Mode.INDENTED) {
+			// If the row is indented, it changes to start expanded if the row above it is absent or full width
+			DetailPanelModelRow.Mode newMode = DetailPanelModelRow.Mode.INDENTED;
+			if(rowBefore == null || rowBefore.getMode() == DetailPanelModelRow.Mode.FULLWIDTH) {
+				newMode = DetailPanelModelRow.Mode.STARTEXPANDED;
+			}
+			cmd.addItem(oldIndex, newIndex, DetailPanelModelRow.Mode.INDENTED, newMode);
+		} else {
+			if(newIndex < oldIndex) {
+				// The group is moving up
+				DetailPanelModelRow.Mode newMode = sourceRow.getMode();
+				if(rowAfter != null && rowAfter.getMode() == DetailPanelModelRow.Mode.INDENTED) {
+					newMode = DetailPanelModelRow.Mode.INDENTED;
+				}
+				cmd.addItem(oldIndex, newIndex, sourceRow.getMode(), newMode);
+				// Move all the following indented rows up too
+				int childOffset = 1;
+				DetailPanelModelRow childRow = getWidgetModel().getRow(oldIndex+childOffset);
+				while(childRow != null && childRow.getMode() == DetailPanelModelRow.Mode.INDENTED) {
+					cmd.addItem(oldIndex+childOffset, newIndex+childOffset, DetailPanelModelRow.Mode.INDENTED, DetailPanelModelRow.Mode.INDENTED);
+					childOffset++;
+					childRow = getWidgetModel().getRow(oldIndex+childOffset);
+				}
+			} else {
+				// The group is moving down, find the index of the row after the end of the group
+				int indexAfterGroup = oldIndex+1;
+				DetailPanelModelRow rowAfterGroup = getWidgetModel().getRow(indexAfterGroup);
+				while(rowAfterGroup != null && rowAfterGroup.getMode() == DetailPanelModelRow.Mode.INDENTED) {
+					indexAfterGroup++;
+					rowAfterGroup = getWidgetModel().getRow(indexAfterGroup);
+				}
+				if(newIndex > indexAfterGroup) {
+					// The group is being moved somewhere after the end of the group
+					DetailPanelModelRow.Mode newMode = sourceRow.getMode();
+					if(rowAfter != null && rowAfter.getMode() == DetailPanelModelRow.Mode.INDENTED) {
+						newMode = DetailPanelModelRow.Mode.INDENTED;
+					}
+					cmd.addItem(oldIndex, newIndex, sourceRow.getMode(), newMode);
+					// Move all the following indented rows down too
+					int childOffset = 1;
+					DetailPanelModelRow childRow = getWidgetModel().getRow(oldIndex+childOffset);
+					while(childRow != null && childRow.getMode() == DetailPanelModelRow.Mode.INDENTED) {
+						cmd.addItem(oldIndex, newIndex, DetailPanelModelRow.Mode.INDENTED, DetailPanelModelRow.Mode.INDENTED);
+						childOffset++;
+						childRow = getWidgetModel().getRow(oldIndex+childOffset);
+					}
+				} else {
+					// The group is being moved to within the group, make the first child the
+					// new group head and the old head just a child
+					cmd.addItem(oldIndex+1, oldIndex+1, DetailPanelModelRow.Mode.INDENTED, DetailPanelModelRow.Mode.STARTEXPANDED);
+					cmd.addItem(oldIndex, newIndex, sourceRow.getMode(), DetailPanelModelRow.Mode.INDENTED);
+				}
 			}
 		}
 	}

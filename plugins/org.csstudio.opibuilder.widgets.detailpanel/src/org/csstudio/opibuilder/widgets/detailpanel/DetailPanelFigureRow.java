@@ -31,6 +31,7 @@ public class DetailPanelFigureRow {
 	private boolean waitingForInitialMode = true;
 	private static final int groupTriangleSize = 12; 
 	private static final int groupTriangleMargin = 2;
+	private static final int indentSize = 10;
 	private int top = 0;
 	private int bottom = 0;
 	
@@ -38,7 +39,7 @@ public class DetailPanelFigureRow {
 	public DetailPanelFigureRow(DetailPanelFigure f, int n) {
 		figure = f;
 		rowNumber = n;
-		mode = DetailPanelModelRow.Mode.NORMAL;
+		mode = DetailPanelModelRow.Mode.STARTEXPANDED;
 		// The group triangle
 		groupTriangle = new Triangle();
 		groupTriangle.setDirection(PositionConstants.SOUTH);
@@ -117,12 +118,17 @@ public class DetailPanelFigureRow {
 	
 	/* Return true if this row is a group header. */
 	public boolean isGroup() {
-		return mode == DetailPanelModelRow.Mode.GROUP || mode == DetailPanelModelRow.Mode.COLLAPSEDGROUP;
+		return mode == DetailPanelModelRow.Mode.STARTEXPANDED || mode == DetailPanelModelRow.Mode.STARTCOLLAPSED;
+	}
+	
+	/* Return true if this row is a group member. */
+	public boolean isGroupMember() {
+		return mode == DetailPanelModelRow.Mode.INDENTED;
 	}
 	
 	/* Return true if this row is a collapsed group header. */
 	public boolean isCollapsedGroup() {
-		return mode == DetailPanelModelRow.Mode.COLLAPSEDGROUP;
+		return mode == DetailPanelModelRow.Mode.STARTCOLLAPSED;
 	}
 	
 	/* Return the group triangle object */
@@ -162,10 +168,10 @@ public class DetailPanelFigureRow {
 	
 	/* Set mode */
 	public void setMode(DetailPanelModelRow.Mode m) {
-		if(!isGroup() && (m == DetailPanelModelRow.Mode.GROUP || m == DetailPanelModelRow.Mode.COLLAPSEDGROUP)) {
+		if(!isGroup() && (m == DetailPanelModelRow.Mode.STARTEXPANDED || m == DetailPanelModelRow.Mode.STARTCOLLAPSED)) {
 			setGroupCollapse(false);
 		}
-		if(waitingForInitialMode && m == DetailPanelModelRow.Mode.COLLAPSEDGROUP) {
+		if(waitingForInitialMode && m == DetailPanelModelRow.Mode.STARTCOLLAPSED) {
 			// Initial state of group collapse
 			setGroupCollapse(true);
 		}
@@ -254,8 +260,14 @@ public class DetailPanelFigureRow {
 		}
 		dragger.setBounds(moveRect);
 		// Where the label should be drawn
-		rect.setWidth(rect.width - 1 - groupTriangleSize - groupTriangleMargin);
-		rect.setX(rect.x + groupTriangleSize + groupTriangleMargin);
+		int width = rect.width - 1 - groupTriangleSize - groupTriangleMargin;
+		int x = rect.x + groupTriangleSize + groupTriangleMargin;
+		if(mode == DetailPanelModelRow.Mode.INDENTED) {
+			width -= indentSize;
+			x += indentSize;
+		}
+		rect.setWidth(width);
+		rect.setX(x);
 		name.setBounds(rect.getShrinked(2, 0));
 	}
 	
@@ -290,4 +302,23 @@ public class DetailPanelFigureRow {
 	public int distanceToBottom(int y) {
 		return Math.abs(bottom - y);
 	}
+
+	/* Swap the properties between the other row and this one */
+	public void swapProperties(final DetailPanelFigureRow other) {
+		DetailPanelModelRow.Mode tm;
+		tm = other.mode;
+		other.mode = mode;
+		mode = tm;
+		boolean t;
+		t = other.groupCollapse;
+		other.setGroupCollapse(groupCollapse);
+		setGroupCollapse(t);
+		t = other.collapsed;
+		other.collapsed = collapsed;
+		collapsed = t;
+		t = other.shown;
+		other.shown = shown;
+		shown = t;
+	}
+	
 }

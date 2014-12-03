@@ -91,6 +91,11 @@ public class DetailPanelFigure extends Figure {
 		}
 	}
 	
+	/* Swap properties between two rows */
+	public void swapRowProperties(int rowA, int rowB) {
+		rows.get(rowA).swapProperties(rows.get(rowB));
+	}
+	
 	/* Remove a widget created by a row. */
 	void removeRowWidget(Figure child) {
 		pane.remove(child);
@@ -358,7 +363,7 @@ public class DetailPanelFigure extends Figure {
 	public boolean isNextRowGroupMember(int rowNumber) {
 		boolean result = false;
 		if((rowNumber + 1) < rows.size()) {
-			result = !rows.get(rowNumber+1).isGroup();
+			result = rows.get(rowNumber+1).isGroupMember();
 		}
 		return result;
 	}
