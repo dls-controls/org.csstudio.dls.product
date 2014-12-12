@@ -280,6 +280,21 @@ public class Axis extends LinearScale{
         return new Range(low, high);
     }
 
+    /**
+     * Values and class to be use in alternate autoscale algorithm
+     */
+
+	private class RangeLimits {
+		public double min;
+		public double max;
+		public RangeLimits(double min, double max) {
+			this.min = min;
+			this.max = max;
+		}
+	}
+	private ArrayList<RangeLimits> rangeValues = new ArrayList<RangeLimits>();
+	private int RANGE_LIST_LENGTH = 1000;
+
 	/** Perform an auto-scale:
 	 *  Axis limits are set to the value range of the traces on this axis.
 	 *  Includes some optimization:
@@ -294,55 +309,39 @@ public class Axis extends LinearScale{
 	 *  @see #autoScaleThreshold
 	 */
 	public boolean performAutoScale(final boolean force) {
-	    // Anything to do? Autoscale not enabled nor forced?
-		if (traceList.size() <= 0  ||  !(force || autoScale))
-		    return false;
-
-	    // Get range of data in all traces
-        final Range range = getTraceDataRange();
-        if (range == null) return false;
-		double tempMin = range.getLower();
-		double tempMax = range.getUpper();
-
-		// Get current axis range, determine how 'different' they are
-		double max = getRange().getUpper();
-		double min = getRange().getLower();
-
-		if (isLogScaleEnabled())
-		{	// Transition into log space
-			tempMin = Log10.log10(tempMin);
-			tempMax = Log10.log10(tempMax);
-			max = Log10.log10(max);
-			min = Log10.log10(min);
-		}
-
-		final double thr = (max - min)*autoScaleThreshold;
-
-		//if both the changes are lower than threshold, return
-		if(((tempMin - min)>=0 && (tempMin - min)<thr)
-				&& ((max - tempMax)>=0 && (max - tempMax)<thr)){
+		// Anything to do? Autoscale not enabled nor forced?
+		if(traceList.size() <= 0  ||  !(force || autoScale)) {
 			return false;
 		}
 
-		if((Double.doubleToLongBits(tempMin) == Double.doubleToLongBits(min)
-				&& Double.doubleToLongBits(tempMax) == Double.doubleToLongBits(max)) ||
-				Double.isInfinite(tempMin) || Double.isInfinite(tempMax) ||
-				Double.isNaN(tempMin) || Double.isNaN(tempMax))
+		if(getTraceDataRange() == null) {
 			return false;
+		}
 
-        if (isLogScaleEnabled())
-        {   // Revert from log space
-            tempMin = Log10.pow10(tempMin);
-            tempMax = Log10.pow10(tempMax);
-        }
+		// Record the new data, remove the oldest value
+		rangeValues.add(new RangeLimits(getTraceDataRange().getLower(), getTraceDataRange().getUpper()));
+		if(rangeValues.size() > RANGE_LIST_LENGTH) {
+			rangeValues.remove(0);
+		}
 
-        // by-pass overridden method as it sets ticks to false
-        super.setRange(range.getLower(), range.getUpper());
+		// Get largest range values from N historical samples
+		double historicalMax = Double.MIN_VALUE;
+		double historicalMin = Double.MAX_VALUE;
+		for(RangeLimits r : rangeValues) {
+			historicalMax = Math.max(historicalMax, r.max);
+			historicalMin = Math.min(historicalMin, r.min);
+		}
+
+		setRange(new Range(historicalMin, historicalMax));
+
+		// by-pass overridden method as it sets ticks to false
+		super.setRange(range.getLower(), range.getUpper());
 		fireAxisRangeChanged(getRange(), range);
 		setTicksAtEnds(!axisAutoscaleTight);
 		repaint();
 		return true;
 	}
+
 	/**Add a trace to the axis.
 	 * @param trace the trace to be added.
 	 */
