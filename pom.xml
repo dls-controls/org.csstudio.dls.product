@@ -37,42 +37,38 @@
   <!--
     PLUGIN REPOSITORIES
   -->
-  <pluginRepositories>
-    <pluginRepository>
-      <id>tycho</id>
-      <url>https://oss.sonatype.org/content/groups/public</url>
-      <releases><enabled>false</enabled></releases>
-      <snapshots><enabled>true</enabled></snapshots>
-    </pluginRepository>
-  </pluginRepositories>
-
   <!--
     P2 REPOSITORIES
   -->
   <repositories>
     <repository>
       <id>csstudio-maven-osgi-bundles</id>
-      <url>http://download.controlsystemstudio.org/maven-osgi-bundles/4.0</url>
+      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-maven-osgi-bundles</url>
       <layout>p2</layout>
     </repository>
     <repository>
       <id>csstudio-thirdparty</id>
-      <url>http://download.controlsystemstudio.org/thirdparty/4.0</url>
+      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-thirdparty</url>
       <layout>p2</layout>
     </repository>
     <repository>
       <id>csstudio-core</id>
-      <url>http://download.controlsystemstudio.org/core/4.0</url>
+      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-core</url>
       <layout>p2</layout>
     </repository>
     <repository>
       <id>csstudio-applications</id>
-      <url>http://download.controlsystemstudio.org/applications/4.0</url>
+      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-applications</url>
       <layout>p2</layout>
     </repository>
     <repository>
       <id>luna</id>
-      <url>http://download.eclipse.org/releases/luna</url>
+      <url>file:/dls_sw/work/common/CSS/mirrors/eclipse-luna</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>orbit</id>
+      <url>file:/dls_sw/work/common/CSS/mirrors/eclipse-orbit-luna</url>
       <layout>p2</layout>
     </repository>
   </repositories>
