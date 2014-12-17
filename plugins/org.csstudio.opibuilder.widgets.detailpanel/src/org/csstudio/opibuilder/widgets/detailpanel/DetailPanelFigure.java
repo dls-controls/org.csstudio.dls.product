@@ -9,6 +9,7 @@ import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.FreeformViewport;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.ScrollPane;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
@@ -24,6 +25,8 @@ public class DetailPanelFigure extends Figure {
 	private Color evenRowForegroundColor;
 	private Color oddRowBackgroundColor;
 	private Color evenRowBackgroundColor;
+	private Color selectedBackgroundColor;
+	private Color selectedForegroundColor;
 	private Color borderColor;
 	
 	/* Layout information */
@@ -39,6 +42,8 @@ public class DetailPanelFigure extends Figure {
 		oddRowBackgroundColor = CustomMediaFactory.getInstance().getColor(new RGB(192,192,192));
 		evenRowForegroundColor = CustomMediaFactory.getInstance().getColor(new RGB(0,0,0));
 		oddRowForegroundColor = CustomMediaFactory.getInstance().getColor(new RGB(0,0,0));
+		selectedForegroundColor = CustomMediaFactory.getInstance().getColor(new RGB(0,0,0));
+		selectedBackgroundColor = CustomMediaFactory.getInstance().getColor(new RGB(217, 217, 255));
 		borderColor = CustomMediaFactory.getInstance().getColor(new RGB(0,128,255));
 		rows = new LinkedList<DetailPanelFigureRow>();
 		scrollPane = new ScrollPane() {
@@ -61,6 +66,15 @@ public class DetailPanelFigure extends Figure {
 		draggerDivider = new DetailPanelDividerFigure(pane, /*horizontal=*/false);
 		pane.add(draggerDivider);
 		draggerDivider.setVisible(false);
+	}
+	
+	// Return the widget for a row name.
+	public Label getRowNameLabel(int rowNumber) {
+		Label result = null;
+		if(rowNumber >= 0 && rowNumber < rows.size()) {
+			result = rows.get(rowNumber).getNameLabel();
+		}
+		return result;
 	}
 	
 	/* Return the drawing area rectangle taking account of the scroll bar. */
@@ -203,6 +217,22 @@ public class DetailPanelFigure extends Figure {
 		repaint();
 	}
 	
+	/* Selected foreground colour has changed */
+	public void setSelectedForegroundColor(RGB color) {
+		selectedForegroundColor = CustomMediaFactory.getInstance().getColor(color);
+		updateRowColors();
+		invalidate();
+		repaint();
+	}
+	
+	/* Selected background colour has changed */
+	public void setSelectedBackgroundColor(RGB color) {
+		selectedBackgroundColor = CustomMediaFactory.getInstance().getColor(color);
+		updateRowColors();
+		invalidate();
+		repaint();
+	}
+	
 	/* Border colour has changed */
 	public void setBorderColor(RGB color) {
 		borderColor = CustomMediaFactory.getInstance().getColor(color);
@@ -212,9 +242,12 @@ public class DetailPanelFigure extends Figure {
 	}
 	
 	/* Return the colour appropriate for the row.*/
-	public Color getRowBackgroundColor(int rowNumber) {
+	public Color getRowBackgroundColor(int rowNumber, boolean selected) {
 		Color result;
-		if((rowNumber & 1) != 0) {
+		if(selected && editMode) {
+			result = selectedBackgroundColor;
+		}
+		else if((rowNumber & 1) != 0) {
 			result = oddRowBackgroundColor;
 		} else {
 			result = evenRowBackgroundColor;
@@ -223,9 +256,12 @@ public class DetailPanelFigure extends Figure {
 	}
 	
 	/* Return the colour appropriate for the row.*/
-	public Color getRowForegroundColor(int rowNumber) {
+	public Color getRowForegroundColor(int rowNumber, boolean selected) {
 		Color result;
-		if((rowNumber & 1) != 0) {
+		if(selected && editMode) {
+			result = selectedForegroundColor;
+		}
+		else if((rowNumber & 1) != 0) {
 			result = oddRowForegroundColor;
 		} else {
 			result = evenRowForegroundColor;
@@ -368,4 +404,19 @@ public class DetailPanelFigure extends Figure {
 		return result;
 	}
 
+	/* Deselect all rows */
+	public void deselectAll() {
+		for(DetailPanelFigureRow row: rows) {
+			row.deselect();
+		}
+	}
+
+	/* Is a row selected? */
+	public boolean isRowSelected(int rowNumber) {
+		boolean result = false;
+		if(rowNumber < rows.size()) {
+			result = rows.get(rowNumber).isSelected();
+		}
+		return result;
+	}
 }

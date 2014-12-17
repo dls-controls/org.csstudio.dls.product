@@ -2,6 +2,7 @@ package org.csstudio.opibuilder.widgets.detailpanel;
 
 import java.util.LinkedList;
 
+import org.csstudio.opibuilder.commands.SetWidgetPropertyCommand;
 import org.csstudio.opibuilder.editparts.AbstractBaseEditPart;
 import org.csstudio.opibuilder.editparts.AbstractContainerEditpart;
 import org.csstudio.opibuilder.editparts.ExecutionMode;
@@ -12,6 +13,9 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutListener;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.graphics.RGB;
 
 public class DetailPanelEditpart extends AbstractContainerEditpart {
@@ -104,6 +108,22 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
 			public boolean handleChange(final Object oldValue, final Object newValue, final IFigure figure) {
 				if(newValue != null) {
 					DetailPanelEditpart.this.setOddRowForegroundColor(((OPIColor)newValue).getRGBValue());
+				}
+				return false;
+			}
+		});
+		setPropertyChangeHandler(DetailPanelModel.PROP_COLOR_SELECT_FORE, new IWidgetPropertyChangeHandler() {
+			public boolean handleChange(final Object oldValue, final Object newValue, final IFigure figure) {
+				if(newValue != null) {
+					DetailPanelEditpart.this.setSelectedForegroundColor(((OPIColor)newValue).getRGBValue());
+				}
+				return false;
+			}
+		});
+		setPropertyChangeHandler(DetailPanelModel.PROP_COLOR_SELECT_BACK, new IWidgetPropertyChangeHandler() {
+			public boolean handleChange(final Object oldValue, final Object newValue, final IFigure figure) {
+				if(newValue != null) {
+					DetailPanelEditpart.this.setSelectedBackgroundColor(((OPIColor)newValue).getRGBValue());
 				}
 				return false;
 			}
@@ -292,6 +312,16 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
 		getFigure().setEvenRowForegroundColor(color);
 	}
 
+	/* The selected foreground colour has changed. */
+	public synchronized void setSelectedForegroundColor(RGB color) {
+		getFigure().setSelectedForegroundColor(color);
+	}
+
+	/* The selected background colour has changed. */
+	public synchronized void setSelectedBackgroundColor(RGB color) {
+		getFigure().setSelectedBackgroundColor(color);
+	}
+
 	/* The border colour has changed. */
 	public synchronized void setBorderColor(RGB color) {
 		getFigure().setBorderColor(color);
@@ -307,12 +337,27 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
 		return result;
 	}
 
-	/* Not sure what this does */
+	/* Installs the edit features required by the detail panel */
 	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, null);
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, null);
+		installEditPolicy("DETAILPANEL", new DetailPanelEditPolicy(this));
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new DetailPanelEditPolicyRow());
+	}
+
+	@Override
+	public void performRequest(Request request){
+		int rowNumber = getFirstSelectedRow();
+		if (rowNumber >= 0 && 
+				getWidgetModel().getRow(rowNumber).getMode() != DetailPanelModelRow.Mode.FULLWIDTH &&
+				getExecutionMode() == ExecutionMode.EDIT_MODE && ( 
+				request.getType() == RequestConstants.REQ_DIRECT_EDIT || 
+				request.getType() == RequestConstants.REQ_OPEN)) {
+			new DetailPanelRowEditManager(this, rowNumber, 
+					new DetailPanelRowCellEditorLocator(getFigure().getRowNameLabel(rowNumber))).show();
+		}
 	}
 
 	/* Clean up the figure. */
@@ -485,5 +530,71 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
 				}
 			}
 		}
+	}
+	
+	/* Deselect all rows within the figure */
+	public void deselectAll() {
+		getFigure().deselectAll();
+	}
+	
+	/* Create commands that indent all the selected rows */
+	public CompoundCommand indentSelectedRows() {
+		// Somewhere to accumulate the commands
+		CompoundCommand cmds = new CompoundCommand();
+		// For each row...
+		for(int rowIndex=0; rowIndex<rows.size(); rowIndex++) {
+			// Can the row be indented?
+			if(rowIndex > 0 && getFigure().isRowSelected(rowIndex) && 
+					getWidgetModel().getRow(rowIndex).getMode() != DetailPanelModelRow.Mode.FULLWIDTH &&
+					getWidgetModel().getRow(rowIndex).getMode() != DetailPanelModelRow.Mode.INDENTED) {
+				cmds.add(new SetWidgetPropertyCommand(getWidgetModel(), 
+						DetailPanelModelRow.makePropertyName(DetailPanelModelRow.PROP_ROW_MODE, rowIndex),
+						DetailPanelModelRow.Mode.INDENTED.ordinal()));
+			}
+		}
+		return cmds;
+	}
+
+	/* Create commands that outdent all the selected rows */
+	public CompoundCommand outdentSelectedRows() {
+		// Somewhere to accumulate the commands
+		CompoundCommand cmds = new CompoundCommand();
+		// For each row...
+		for(int rowIndex=0; rowIndex<rows.size(); rowIndex++) {
+			// Can the row be indented?
+			if(getFigure().isRowSelected(rowIndex) && 
+					getWidgetModel().getRow(rowIndex).getMode() == DetailPanelModelRow.Mode.INDENTED) {
+				cmds.add(new SetWidgetPropertyCommand(getWidgetModel(), 
+						DetailPanelModelRow.makePropertyName(DetailPanelModelRow.PROP_ROW_MODE, rowIndex),
+						DetailPanelModelRow.Mode.STARTEXPANDED.ordinal()));
+			}
+		}
+		return cmds;
+	}
+
+	/* Return true if a row selection can be outdented */
+	public boolean canOutdent() {
+		boolean result = true;
+		// For each row...
+		for(int rowIndex=0; rowIndex<rows.size() && !result; rowIndex++) {
+			// Can the row be indented?
+			if(getFigure().isRowSelected(rowIndex) && 
+					getWidgetModel().getRow(rowIndex).getMode() == DetailPanelModelRow.Mode.INDENTED) {
+				result = true;
+			}
+		}
+		return result;
+	}
+	
+	/* Return the index of the first selected row, -1 for none */
+	public int getFirstSelectedRow() {
+		int result = -1;
+		for(int rowIndex=0; rowIndex<rows.size() && result < 0; rowIndex++) {
+			// Is the row selected?
+			if(getFigure().isRowSelected(rowIndex)) {
+				result = rowIndex;
+			}
+		}
+		return result;
 	}
 }

@@ -34,6 +34,7 @@ public class DetailPanelFigureRow {
 	private static final int indentSize = 10;
 	private int top = 0;
 	private int bottom = 0;
+	private boolean selected = false;
 	
 	/* Constructor */
 	public DetailPanelFigureRow(DetailPanelFigure f, int n) {
@@ -136,6 +137,11 @@ public class DetailPanelFigureRow {
 		return groupTriangle;
 	}
 	
+	/* Return the name label object */
+	public Label getNameLabel() {
+		return name;
+	}
+	
 	/* Return the divider object */
 	public DetailPanelDividerFigure getDivider() {
 		return divider;
@@ -207,9 +213,9 @@ public class DetailPanelFigureRow {
 	public void setHighlightGroupTriangle(boolean h) {
 		highlightGroupTriangle = h;
 		if(highlightGroupTriangle) {
-			groupTriangle.setBackgroundColor(figure.getRowForegroundColor(visibleRowNumber));
+			groupTriangle.setBackgroundColor(figure.getRowForegroundColor(visibleRowNumber, selected));
 		} else {
-			groupTriangle.setBackgroundColor(figure.getRowBackgroundColor(visibleRowNumber));
+			groupTriangle.setBackgroundColor(figure.getRowBackgroundColor(visibleRowNumber, selected));
 		}
 		groupTriangle.repaint();
 	}
@@ -231,11 +237,11 @@ public class DetailPanelFigureRow {
 	
 	/* One of the colours has changed */
 	public void setColor() {
-		nameArea.setBackgroundColor(figure.getRowBackgroundColor(visibleRowNumber));
+		nameArea.setBackgroundColor(figure.getRowBackgroundColor(visibleRowNumber, selected));
 		nameArea.setForegroundColor(figure.getBorderColor());
-		name.setForegroundColor(figure.getRowForegroundColor(visibleRowNumber));
-		groupTriangle.setForegroundColor(figure.getRowForegroundColor(visibleRowNumber));
-		dragger.setForegroundColor(figure.getRowForegroundColor(visibleRowNumber));
+		name.setForegroundColor(figure.getRowForegroundColor(visibleRowNumber, selected));
+		groupTriangle.setForegroundColor(figure.getRowForegroundColor(visibleRowNumber, selected));
+		dragger.setForegroundColor(figure.getRowForegroundColor(visibleRowNumber, selected));
 	}
 	
 	/* Set the name drawing area */
@@ -319,6 +325,26 @@ public class DetailPanelFigureRow {
 		t = other.shown;
 		other.shown = shown;
 		shown = t;
+	}
+	
+	/* This row is to be selected. */
+	public void select(boolean extend, boolean rightButton) {
+		if(!extend && !(rightButton && selected)) {
+			figure.deselectAll();
+		}
+		selected = true;
+		setColor();
+	}
+	
+	/* The row is to be deselected. */
+	public void deselect() {
+		selected = false;
+		setColor();
+	}
+	
+	/* Is the row selected? */
+	public boolean isSelected() {
+		return selected;
 	}
 	
 }

@@ -44,6 +44,8 @@ public class DetailPanelModel extends AbstractContainerModel {
 	public static final String PROP_COLOR_EVEN_ROW_BACK = "color_even_row_back";
 	public static final String PROP_COLOR_ODD_ROW_FORE = "color_odd_row_fore";
 	public static final String PROP_COLOR_EVEN_ROW_FORE = "color_even_row_fore";
+	public static final String PROP_COLOR_SELECT_FORE = "color_select_fore";
+	public static final String PROP_COLOR_SELECT_BACK = "color_select_back";
 	public static final String PROP_DISPLAY_LEVEL = "display_level";
 	
 	/* The rows */
@@ -75,7 +77,11 @@ public class DetailPanelModel extends AbstractContainerModel {
 		addProperty(new ColorProperty(PROP_COLOR_ODD_ROW_FORE, "Odd Row Foreground Color",
 				WidgetPropertyCategory.Display, new RGB(0, 0, 0)));
 		addProperty(new ColorProperty(PROP_COLOR_EVEN_ROW_FORE, "Even Row Foreground Color",
-				WidgetPropertyCategory.Display, new RGB(0, 0,0)));
+				WidgetPropertyCategory.Display, new RGB(0, 0, 0)));
+		addProperty(new ColorProperty(PROP_COLOR_SELECT_FORE, "Selected Row Foreground Color",
+				WidgetPropertyCategory.Display, new RGB(0, 0, 0)));
+		addProperty(new ColorProperty(PROP_COLOR_SELECT_BACK, "Selected Row Background Color",
+				WidgetPropertyCategory.Display, new RGB(217, 217, 255)));
 		addProperty(new ComboProperty(PROP_DISPLAY_LEVEL, "Display Level", 
 				WidgetPropertyCategory.Display, DetailPanelModel.DisplayLevel.stringValues(), 0));
 		removeProperty(PROP_COLOR_BACKGROUND);
