@@ -71,6 +71,11 @@
       <url>file:/dls_sw/work/common/CSS/mirrors/eclipse-orbit-luna</url>
       <layout>p2</layout>
     </repository>
+    <repository>
+      <id>dawn</id>
+      <url>file:/dls_sw/work/common/CSS/mirrors/dawn</url>
+      <layout>p2</layout>
+    </repository>
   </repositories>
   
   <!-- if a local repository is specified then enable the repository for build. -->

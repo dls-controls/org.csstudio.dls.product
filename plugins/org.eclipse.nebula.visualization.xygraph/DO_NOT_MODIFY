@@ -1,5 +1,0 @@
-This plugin is included as-is, any changes should be made to
-Dawn Science swt-xy-graph repository and the resulting bundle
-used to update this one.
-
-Only this file and the pom.xml are added to enable a Tycho build.
