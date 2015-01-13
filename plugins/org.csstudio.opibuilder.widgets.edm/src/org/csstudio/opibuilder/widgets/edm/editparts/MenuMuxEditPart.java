@@ -15,6 +15,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Display;
 
 /**The editpart of a muxMenu.
  *
@@ -54,14 +55,23 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
 
 		return comboFigure;
 	}
-	
+
 	@Override
-	protected void doActivate() {
-		super.doActivate();
+	public void activate() {
+		super.activate();
 		
-		setInitialSelection();
-	};
-	
+		// Delay setting initialisation until local PVs have started.
+		// It would be preferable to be able to queue this on the same
+		// thread that starts the PVs, but I'm not sure this is possible.
+		int DELAY = 100; // milliseconds
+		Display.getCurrent().timerExec(DELAY, new Runnable() {
+			@Override
+			public void run() {
+				setInitialSelection();
+			}
+		});
+	}
+
 	@Override
 	protected void doDeActivate() {
 		super.doDeActivate();
