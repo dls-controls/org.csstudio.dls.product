@@ -43,7 +43,7 @@
   <repositories>
     <repository>
       <id>csstudio-maven-osgi-bundles</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-maven-osgi-bundles-4.1</url>
+      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-maven-osgi-bundles</url>
       <layout>p2</layout>
     </repository>
     <repository>
