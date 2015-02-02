@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="css-remote-4.0" sequenceNumber="61">
+<?pde version="3.8"?><target name="css-remote-4.0" sequenceNumber="74">
 <locations>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="net.miginfocom.layout.swing" version="3.7.1.v200911230030"/>
@@ -475,109 +475,109 @@
 </location>
 <location path="${eclipse_home}" type="Profile"/>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.csstudio.thirdparty.all.feature.feature.group" version="1.0.1.201410141927"/>
-<unit id="org.csstudio.thirdparty.all.feature.source.feature.group" version="1.0.1.201410141927"/>
+<unit id="org.csstudio.thirdparty.all.feature.feature.group" version="1.0.1.201412102117"/>
+<unit id="org.csstudio.thirdparty.all.feature.source.feature.group" version="1.0.1.201412102117"/>
 <repository location="http://download.controlsystemstudio.org/thirdparty/4.0"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.csstudio.channelfinder.feature.feature.group" version="1.1.2.201410141404"/>
-<unit id="org.csstudio.utilities.feature.feature.group" version="3.2.1.201410161421"/>
-<unit id="org.csstudio.pvmanager.ca.feature.feature.group" version="3.2.2.201410161422"/>
-<unit id="org.csstudio.applications.all.feature.feature.group" version="1.0.5.201410141736"/>
-<unit id="org.csstudio.logbook.viewer.feature.feature.group" version="1.0.0.201410131916"/>
-<unit id="org.csstudio.core.util.feature.feature.group" version="3.1.1.201410161422"/>
-<unit id="org.csstudio.trends.databrowser2.feature.feature.group" version="3.2.2.201410101911"/>
-<unit id="org.csstudio.boy.feature.feature.group" version="3.2.2.201410151234"/>
-<unit id="org.csstudio.email.feature.feature.group" version="1.0.0.201409191717"/>
-<unit id="org.csstudio.channel.feature.feature.group" version="1.1.3.201410151234"/>
-<unit id="org.csstudio.core.feature.feature.group" version="3.3.2.201410161420"/>
-<unit id="org.csstudio.olog.feature.feature.group" version="1.2.0.201410131916"/>
-<unit id="org.csstudio.applications.all.feature.source.feature.group" version="1.0.5.201410141736"/>
-<unit id="org.csstudio.archive.reader.appliance.feature.feature.group" version="1.0.0.201409231807"/>
-<unit id="org.csstudio.alarm.beast.ui.feature.feature.group" version="4.0.102.201410151234"/>
-<unit id="org.eclipse.nebula.widgets.grid.feature.feature.group" version="1.0.0.201409131548"/>
-<unit id="org.csstudio.opibuilder.feature.feature.group" version="4.0.103.201410151234"/>
-<unit id="org.csstudio.scan.ui.feature.feature.group" version="4.0.203.201410101911"/>
+<unit id="org.csstudio.channelfinder.feature.feature.group" version="1.1.2.201412181943"/>
+<unit id="org.csstudio.utilities.feature.feature.group" version="3.2.1.201411220955"/>
+<unit id="org.csstudio.pvmanager.ca.feature.feature.group" version="3.2.2.201411220955"/>
+<unit id="org.csstudio.applications.all.feature.feature.group" version="1.0.6.201412181943"/>
+<unit id="org.csstudio.logbook.viewer.feature.feature.group" version="1.0.0.201411041858"/>
+<unit id="org.csstudio.core.util.feature.feature.group" version="3.1.2.201412012205"/>
+<unit id="org.csstudio.trends.databrowser2.feature.feature.group" version="3.2.2.201411201544"/>
+<unit id="org.csstudio.boy.feature.feature.group" version="3.2.2.201412171225"/>
+<unit id="org.csstudio.email.feature.feature.group" version="1.0.0.201411041858"/>
+<unit id="org.csstudio.channel.feature.feature.group" version="1.1.3.201411041858"/>
+<unit id="org.csstudio.core.feature.feature.group" version="3.3.3.201412012205"/>
+<unit id="org.csstudio.olog.feature.feature.group" version="1.2.0.201412111537"/>
+<unit id="org.csstudio.applications.all.feature.source.feature.group" version="1.0.6.201412181943"/>
+<unit id="org.csstudio.archive.reader.appliance.feature.feature.group" version="1.0.0.201411041858"/>
+<unit id="org.csstudio.alarm.beast.ui.feature.feature.group" version="4.0.102.201412181943"/>
+<unit id="org.eclipse.nebula.widgets.grid.feature.feature.group" version="1.0.0.201410291959"/>
+<unit id="org.csstudio.opibuilder.feature.feature.group" version="4.0.107.201412171225"/>
+<unit id="org.csstudio.scan.ui.feature.feature.group" version="4.0.203.201411041858"/>
 <repository location="http://download.controlsystemstudio.org/applications/4.0"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.csstudio.pvmanager.jdbc.feature.feature.group" version="3.3.0.201410161419"/>
-<unit id="org.csstudio.core.all.feature.feature.group" version="1.0.18.201410151927"/>
-<unit id="org.csstudio.pvmanager.pva.feature.feature.group" version="3.3.2.201410161419"/>
-<unit id="org.csstudio.pvmanager.extra.feature.feature.group" version="3.3.0.201410161420"/>
-<unit id="org.csstudio.pvmanager.autocomplete.feature.feature.group" version="1.0.1.201409241901"/>
-<unit id="org.csstudio.pvmanager.exec.feature.feature.group" version="3.3.0.201410161418"/>
-<unit id="org.csstudio.core.all.feature.source.feature.group" version="1.0.18.201410151927"/>
-<unit id="org.csstudio.pvmanager.feature.feature.group" version="4.0.0.201410161420"/>
+<unit id="org.csstudio.pvmanager.jdbc.feature.feature.group" version="3.3.0.201411220831"/>
+<unit id="org.csstudio.core.all.feature.feature.group" version="1.0.18.201411211119"/>
+<unit id="org.csstudio.pvmanager.pva.feature.feature.group" version="3.3.2.201411220832"/>
+<unit id="org.csstudio.pvmanager.extra.feature.feature.group" version="3.3.0.201411220954"/>
+<unit id="org.csstudio.pvmanager.autocomplete.feature.feature.group" version="1.0.1.201411042232"/>
+<unit id="org.csstudio.pvmanager.exec.feature.feature.group" version="3.3.0.201411220831"/>
+<unit id="org.csstudio.core.all.feature.source.feature.group" version="1.0.18.201411211119"/>
+<unit id="org.csstudio.pvmanager.feature.feature.group" version="4.0.0.201411220954"/>
 <repository location="http://download.controlsystemstudio.org/core/4.0"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.hibernate.core" version="4.1.3.Final"/>
 <unit id="org.objenesis" version="1.0.0"/>
 <unit id="com.google.guava" version="18.0.0"/>
-<unit id="org.epics.vtype.source" version="2.8.0"/>
-<unit id="org.csstudio.utility.pvmanager.sys" version="4.0.0.20141013094640"/>
+<unit id="org.epics.vtype.source" version="2.9.0.20141118145458"/>
+<unit id="org.csstudio.utility.pvmanager.sys" version="4.0.0.20141118145514"/>
 <unit id="org.epics.pvdata" version="3.0.3"/>
 <unit id="com.google.inject" version="3.0.0"/>
 <unit id="org.epics.jca.source" version="2.3.6"/>
-<unit id="org.csstudio.utility.pvmanager.epics" version="4.0.0.20141013094638"/>
+<unit id="org.csstudio.utility.pvmanager.epics" version="4.0.0.20141118145430"/>
 <unit id="log4j" version="1.2.17"/>
 <unit id="org.epics.pvmanager-graphene.source" version="2.8.0"/>
 <unit id="org.epics.jca" version="2.3.6"/>
 <unit id="javax.inject.javax.inject" version="1.0.0"/>
-<unit id="org.csstudio.utility.pvmanager" version="4.0.0.20141013094636"/>
+<unit id="org.csstudio.utility.pvmanager" version="4.0.0.20141118145429"/>
 <unit id="batik" version="1.5.0"/>
 <unit id="org.epics.util" version="0.3.2"/>
 <unit id="org.epics.pvmanager-integration" version="2.8.0"/>
 <unit id="com.sun.mail.javax.mail" version="1.5.2"/>
 <unit id="javax.validation.api" version="1.0.0.GA"/>
 <unit id="org.antlr.runtime" version="3.4.0"/>
-<unit id="org.csstudio.utility.pvmanager.exec" version="4.0.0.20141013094638"/>
+<unit id="org.csstudio.utility.pvmanager.exec" version="4.0.0.20141118145431"/>
 <unit id="org.hibernate.common.hibernate-commons-annotations" version="4.0.1.Final"/>
 <unit id="org.eclipse.swt.gtk.linux.x86_64" version="3.3.0.v3346"/>
 <unit id="org.epics.pvaccess" version="3.0.5"/>
-<unit id="org.csstudio.utility.pvmanager.vtype" version="4.0.0.20141013094638"/>
+<unit id="org.csstudio.utility.pvmanager.vtype" version="4.0.0.20141118145431"/>
 <unit id="org.antlr.stringtemplate.source" version="3.2.1"/>
 <unit id="org.epics.vtype-json.source" version="2.8.0"/>
-<unit id="org.csstudio.utility.pvmanager.file" version="4.0.0.20141013094639"/>
+<unit id="org.csstudio.utility.pvmanager.file" version="4.0.0.20141118145431"/>
 <unit id="org.apache.commons.beanutils" version="1.9.2"/>
 <unit id="org.epics.pvmanager-integration.source" version="2.8.0"/>
 <unit id="org.junit-dep" version="4.10.0"/>
 <unit id="org.epics.graphene.source" version="0.8.0"/>
 <unit id="org.epics.pvmanager-graphene" version="2.8.0"/>
-<unit id="org.csstudio.platform.libs.epics" version="4.0.0.20141013094642"/>
+<unit id="org.csstudio.platform.libs.epics" version="4.0.0.20141118145515"/>
 <unit id="org.javassist" version="3.15.0.GA"/>
 <unit id="dom4j" version="1.6.1"/>
 <unit id="org.apache.commons.collections" version="3.2.1"/>
 <unit id="slf4j.log4j12" version="1.7.7"/>
-<unit id="org.csstudio.utility.pvmanager.file.json" version="4.0.0.20141013094639"/>
+<unit id="org.csstudio.utility.pvmanager.file.json" version="4.0.0.20141118145431"/>
 <unit id="com.miglayout.core" version="4.2.0"/>
 <unit id="org.hamcrest.core" version="1.3.0"/>
 <unit id="org.epics.graphene" version="0.8.0"/>
 <unit id="org.apache.ant" version="1.9.4"/>
-<unit id="org.csstudio.utility.pvmanager.jdbc" version="4.0.0.20141013094639"/>
+<unit id="org.csstudio.utility.pvmanager.jdbc" version="4.0.0.20141118145431"/>
 <unit id="org.hamcrest.library" version="1.3.0"/>
 <unit id="jul.to.slf4j" version="1.7.7"/>
 <unit id="javax.activation" version="1.1.0"/>
 <unit id="com.mysql.jdbc" version="5.1.32"/>
 <unit id="log4j.over.slf4j" version="1.5.11"/>
 <unit id="commons-logging" version="1.1.1"/>
-<unit id="org.csstudio.utility.pvmanager.sim" version="4.0.0.20141013094640"/>
+<unit id="org.csstudio.utility.pvmanager.sim" version="4.0.0.20141118145513"/>
 <unit id="com.miglayout.swt" version="4.2.0"/>
 <unit id="org.glassfish.javax.json" version="1.0.4"/>
 <unit id="com.miglayout.swing" version="4.2.0"/>
 <unit id="slf4j.api" version="1.7.7"/>
 <unit id="org.hibernate.javax.persistence.hibernate-jpa-2.0-api" version="1.0.1.Final"/>
-<unit id="org.csstudio.utility.pvmanager.loc" version="4.0.0.20141013094639"/>
+<unit id="org.csstudio.utility.pvmanager.loc" version="4.0.0.20141118145431"/>
 <unit id="org.epics.caj" version="1.1.14"/>
 <unit id="org.apache.ant.launcher" version="1.9.4"/>
 <unit id="aopalliance" version="1.0.0"/>
 <unit id="org.apache.ant.junit" version="1.9.4"/>
 <unit id="junit" version="4.11.0"/>
-<unit id="org.csstudio.utility.pvmanager.pva" version="4.0.0.20141013094639"/>
-<unit id="org.csstudio.utility.pvmanager.graphene" version="4.0.0.20141013094641"/>
+<unit id="org.csstudio.utility.pvmanager.pva" version="4.0.0.20141118145432"/>
+<unit id="org.csstudio.utility.pvmanager.graphene" version="4.0.0.20141118145515"/>
 <unit id="antlr" version="2.7.7"/>
-<unit id="org.csstudio.utility.pvmanager.extra" version="4.0.0.20141013094640"/>
+<unit id="org.csstudio.utility.pvmanager.extra" version="4.0.0.20141118145514"/>
 <unit id="org.jboss.spec.javax.transaction.jboss-transaction-api_1.1_spec" version="1.0.0.Final"/>
 <unit id="org.jdom" version="1.1.0"/>
 <unit id="org.antlr.runtime.source" version="3.4.0"/>
@@ -592,10 +592,11 @@
 <unit id="org.epics.vtype-json" version="2.8.0"/>
 <unit id="org.epics.pvaccess.source" version="3.0.5"/>
 <unit id="org.terracotta.internal.statistics" version="1.0.1"/>
-<unit id="org.epics.vtype" version="2.8.0"/>
+<unit id="org.epics.vtype" version="2.9.0.20141118145458"/>
 <unit id="org.antlr.stringtemplate" version="3.2.1"/>
 <unit id="org.jboss.logging.jboss-logging" version="3.1.0.GA"/>
 <repository location="http://download.controlsystemstudio.org/maven-osgi-bundles/4.0"/>
 </location>
+<location path="/dls_sw/work/common/CSS/mirrors/target-platform-workaround" type="Directory"/>
 </locations>
 </target>
