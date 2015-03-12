@@ -43,22 +43,17 @@
   <repositories>
     <repository>
       <id>csstudio-maven-osgi-bundles</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-maven-osgi-bundles</url>
+      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-maven-osgi-bundles-4.1</url>
       <layout>p2</layout>
     </repository>
     <repository>
       <id>csstudio-thirdparty</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-thirdparty</url>
+      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-thirdparty-4.1</url>
       <layout>p2</layout>
     </repository>
     <repository>
       <id>csstudio-core</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-core</url>
-      <layout>p2</layout>
-    </repository>
-    <repository>
-      <id>csstudio-applications</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-applications</url>
+      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-core-4.1</url>
       <layout>p2</layout>
     </repository>
     <repository>
