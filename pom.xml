@@ -57,6 +57,11 @@
       <layout>p2</layout>
     </repository>
     <repository>
+      <id>csstudio-applications</id>
+      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-applications-4.1</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
       <id>luna</id>
       <url>file:/dls_sw/work/common/CSS/mirrors/eclipse-luna</url>
       <layout>p2</layout>
