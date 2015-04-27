@@ -61,6 +61,7 @@
       <feature id="org.csstudio.utilities.feature"/>
       <feature id="org.csstudio.boy.feature"/>
       <feature id="org.csstudio.product.feature"/>
+      <feature id="org.csstudio.trends.databrowser2.opiwidget.feature"/>
       <feature id="org.csstudio.pvmanager.autocomplete.feature"/>
    </features>
 
