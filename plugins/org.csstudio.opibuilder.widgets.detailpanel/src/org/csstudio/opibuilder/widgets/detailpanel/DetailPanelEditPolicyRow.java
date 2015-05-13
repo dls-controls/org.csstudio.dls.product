@@ -18,7 +18,7 @@ public class DetailPanelEditPolicyRow extends DirectEditPolicy {
         DetailPanelEditpart editpart = (DetailPanelEditpart)getHost();
         int rowNumber = editpart.getFirstSelectedRow();
         if(rowNumber >= 0) {
-            result = new SetWidgetPropertyCommand(editpart.getWidgetModel(), 
+            result = new SetWidgetPropertyCommand(editpart.getWidgetModel(),
                     DetailPanelModelRow.makePropertyName(DetailPanelModelRow.PROP_ROW_NAME, rowNumber),
                     (String)edit.getCellEditor().getValue());
         }

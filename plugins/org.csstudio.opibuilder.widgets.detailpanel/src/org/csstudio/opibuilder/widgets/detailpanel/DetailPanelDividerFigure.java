@@ -8,17 +8,17 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
 public class DetailPanelDividerFigure extends Figure {
-    
+
     /* Drawing information */
     boolean horizontal;
     int position;
     int offset;
     Figure container;
     boolean showDivider;
-    
+
     /* Colours */
     private final static Color BORDER_COLOR = CustomMediaFactory.getInstance().getColor(
-            CustomMediaFactory.COLOR_DARK_GRAY); 
+            CustomMediaFactory.COLOR_DARK_GRAY);
 
     /* Constructor */
     public DetailPanelDividerFigure(Figure container, boolean horizontal) {
@@ -36,33 +36,33 @@ public class DetailPanelDividerFigure extends Figure {
             setCursor(Cursors.SIZENS);
         }
     }
-    
+
     /* Clean up */
     public void dispose() {
     }
-    
+
     /* Return the current divider position in pixels */
     public int getDividerPosition() {
         return position;
     }
-    
+
     /* Set the offset of the divider */
     public void setOffset(int offset) {
         this.offset = offset;
     }
-    
+
     /* Return the current offset of the divider */
     public int getOffset() {
         return offset;
     }
-    
+
     /* The divider position has changed */
     public void setPosition(int pos) {
         position = pos;
         revalidate();
         repaint();
     }
-    
+
     /* Show or hide the divider.  We only show the divider while it
      * is being dragged. */
     public void showDivider(boolean show) {
@@ -85,7 +85,7 @@ public class DetailPanelDividerFigure extends Figure {
             graphics.popState();
         }
     }
-    
+
     /* Layout the divider */
     @Override
     protected void layout() {
@@ -94,12 +94,12 @@ public class DetailPanelDividerFigure extends Figure {
             setBounds(new Rectangle(containerBounds.x + position + offset - 1,
                     containerBounds.y, 3, containerBounds.height));
         } else {
-            setBounds(new Rectangle(containerBounds.x, 
+            setBounds(new Rectangle(containerBounds.x,
                     containerBounds.y + position + offset - 1,
                     containerBounds.width, 3));
         }
     }
-    
+
     /* Return the rectangle that contains the divider */
     public Rectangle getContainerRectangle() {
         return container.getClientArea();

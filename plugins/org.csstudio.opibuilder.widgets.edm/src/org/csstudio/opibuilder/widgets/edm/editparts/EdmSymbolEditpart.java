@@ -12,7 +12,7 @@ import org.epics.vtype.AlarmSeverity;
 
 
 public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
-    
+
     @Override
     protected IFigure doCreateFigure() {
         EdmSymbolModel model = (EdmSymbolModel) getModel();
@@ -26,7 +26,7 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
     protected void registerPropertyChangeHandlers() {
         // changes to the filename property
         IWidgetPropertyChangeHandler handler = new IWidgetPropertyChangeHandler() {
-            public boolean handleChange(final Object oldValue, final Object newValue, final IFigure figure) {                
+            public boolean handleChange(final Object oldValue, final Object newValue, final IFigure figure) {
                 EdmSymbolFigure imageFigure = (EdmSymbolFigure) figure;
                 IPath absolutePath = (IPath)newValue;
                 if(!absolutePath.isAbsolute()) {
@@ -37,10 +37,10 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
             }
         };
         setPropertyChangeHandler(EdmSymbolModel.PROP_EDM_IMAGE_FILE, handler);
-        
+
         // changes to sub image width property
         handler = new IWidgetPropertyChangeHandler() {
-            public boolean handleChange(final Object oldValue, final Object newValue, final IFigure figure) {                
+            public boolean handleChange(final Object oldValue, final Object newValue, final IFigure figure) {
                 EdmSymbolFigure imageFigure = (EdmSymbolFigure) figure;
                 Double val = (Double) newValue;
                 imageFigure.setSubImageWidth(val.intValue());

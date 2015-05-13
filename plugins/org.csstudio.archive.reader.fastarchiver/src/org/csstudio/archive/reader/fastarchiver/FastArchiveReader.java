@@ -18,7 +18,7 @@ import org.epics.util.time.Timestamp;
 
 /**
  * Archive Reader to fetch data from the FA Archiver.
- * 
+ *
  * @author FJohlinger
  */
 public class FastArchiveReader implements ArchiveReader {
@@ -30,7 +30,7 @@ public class FastArchiveReader implements ArchiveReader {
 
     /**
      * Connect to the Fast Archiver
-     * 
+     *
      * @param url
      *            String must start with "fads://" followed by the host and
      *            optionally a colon and a port. Default port is 8888.
@@ -118,7 +118,7 @@ public class FastArchiveReader implements ArchiveReader {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @throws IOException
      * @throws FADataNotAvailableException
      */
@@ -132,7 +132,7 @@ public class FastArchiveReader implements ArchiveReader {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @throws IOException
      * @throws FADataNotAvailableException
      */
@@ -160,7 +160,7 @@ public class FastArchiveReader implements ArchiveReader {
 
     /**
      * Creates a brief description of the ArchiverReader
-     * 
+     *
      * @return description as a String
      */
     private String createDescription() {

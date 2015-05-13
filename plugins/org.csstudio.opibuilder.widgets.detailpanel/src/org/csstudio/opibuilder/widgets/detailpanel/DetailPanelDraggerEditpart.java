@@ -10,7 +10,7 @@ public class DetailPanelDraggerEditpart extends MouseMotionListener.Stub impleme
     /* Properties */
     private enum DragState {IDLE, DRAGGING};
     DragState dragState = DragState.IDLE;
-    
+
     /* Relationships */
     DetailPanelEditpart editpart;
     DetailPanelDraggerFigure dragger;
@@ -27,13 +27,13 @@ public class DetailPanelDraggerEditpart extends MouseMotionListener.Stub impleme
         this.dragger.addMouseListener(this);
         this.dragger.addMouseMotionListener(this);
     }
-    
+
     /* Clean up */
     public void dispose() {
         this.dragger.removeMouseListener(this);
         this.dragger.removeMouseMotionListener(this);
     }
-    
+
     /* The mouse button has been pressed while over the dragger */
     @Override
     public void mousePressed(MouseEvent me) {
@@ -45,7 +45,7 @@ public class DetailPanelDraggerEditpart extends MouseMotionListener.Stub impleme
             me.consume();
         }
     }
-    
+
     /* Dragging the row */
     @Override
     public void mouseDragged(MouseEvent me) {
@@ -55,12 +55,12 @@ public class DetailPanelDraggerEditpart extends MouseMotionListener.Stub impleme
             me.consume();
         }
     }
-    
+
     /* Ignore double clicks for now. */
     @Override
     public void mouseDoubleClicked(MouseEvent me) {
     }
-    
+
     /* The mouse button has been released */
     @Override
     public void mouseReleased(MouseEvent me) {
@@ -76,7 +76,7 @@ public class DetailPanelDraggerEditpart extends MouseMotionListener.Stub impleme
                 if(moveTo != rowNumber && moveTo != rowNumber+1) {
                     // Create a command object to move the row
                     editpart.getViewer().getEditDomain().getCommandStack().execute(
-                        new DetailPanelChangeRowIndexCommand(editpart, rowNumber, moveTo)); 
+                        new DetailPanelChangeRowIndexCommand(editpart, rowNumber, moveTo));
                 }
                 me.consume();
             }

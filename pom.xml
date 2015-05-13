@@ -5,7 +5,7 @@
   are made available under the terms of the Eclipse Distribution License v1.0
   which accompanies this distribution, and is available at
   http://www.eclipse.org/org/documents/edl-v10.php
- 
+
   Contributors:
      Jan Hatje - created the pom to build the plug-ins
 -->
@@ -20,12 +20,12 @@
 
   <!--
     USE MAVEN 3.0
-  --> 
+  -->
   <prerequisites>
     <maven>3.0</maven>
   </prerequisites>
 
-  <!-- 
+  <!--
     PROPERTIES
   -->
   <properties>
@@ -72,7 +72,7 @@
       <layout>p2</layout>
     </repository>
   </repositories>
-  
+
   <!-- if a local repository is specified then enable the repository for build. -->
   <profiles>
     <profile>
@@ -134,7 +134,7 @@
             <jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree>
           </configuration>
         </plugin>
-      </plugins> 
+      </plugins>
     </pluginManagement>
 
     <!--

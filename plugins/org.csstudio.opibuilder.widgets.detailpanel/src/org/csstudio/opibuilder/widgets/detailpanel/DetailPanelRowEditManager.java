@@ -17,13 +17,13 @@ import org.eclipse.ui.part.CellEditorActionHandler;
 // the DetailPanelEditPolicyRow object is called to make the change.
 
 public class DetailPanelRowEditManager extends DirectEditManager {
-    
+
     private CellEditorActionHandler actionHandler;
     private IActionBars actionBars;
     private IAction copy, cut, paste, undo, redo, find, selectAll, delete;
     private DetailPanelEditpart editpart;
     private int rowNumber;
-    
+
     // Constructor.  Save information.
     public DetailPanelRowEditManager(AbstractBaseEditPart source, int rowNumber, CellEditorLocator locator) {
         super(source, TextCellEditor.class, locator);
@@ -51,7 +51,7 @@ public class DetailPanelRowEditManager extends DirectEditManager {
             actionBars.updateActionBars();
         }
     }
-    
+
     // Clean up after the pop up box is removed.
     @Override
     protected void bringDown() {

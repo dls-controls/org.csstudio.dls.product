@@ -46,15 +46,15 @@ public class FARequestPerformanceTest {
 
         // get time after method call
         long after = System.nanoTime();
-        
-        System.out.printf("'fetchData' takes %d nanoseconds\n", after - before); 
+
+        System.out.printf("'fetchData' takes %d nanoseconds\n", after - before);
         assertEquals("Did not return data but an error message", 0, data[0]);
     }
 
     @Test
     public void testDecodeDataUndec() {
         // Create large bytebuffer
-        int[] values = new int[datalength]; 
+        int[] values = new int[datalength];
         for (int i = 0; i < values.length; i++){
             values[i] = i*13/7;
         }
@@ -62,11 +62,11 @@ public class FARequestPerformanceTest {
         int offset = 50;
         ByteBuffer input = FARequestTest.encodeUndec(blockSize, values, offset);
         input.position(0);
-        
+
         ArchiveVDisplayType[] output = null;
         long before = 0;
         long after = 0;
-        
+
         try {
             before = System.nanoTime();
             output = FARequest.decodeDataUndec(input, values.length, blockSize, offset, 0);
@@ -75,16 +75,16 @@ public class FARequestPerformanceTest {
             fail("Throws Exception for valid input");
             return;
         }
-        
-        System.out.printf("'decodeDataUndec' takes %d nanoseconds\n", after - before); 
+
+        System.out.printf("'decodeDataUndec' takes %d nanoseconds\n", after - before);
         assertNotNull("Did not decode", output);
-        
+
     }
 
     @Test
     public void testDecodeDataDec() {
         // Create large bytebuffer
-        int[][] values = new int[datalength][4]; 
+        int[][] values = new int[datalength][4];
         for (int i = 0; i < values.length; i++){
             values[i] = new int[]{i*13/7, i/7, i*13, i/37};
         }
@@ -92,11 +92,11 @@ public class FARequestPerformanceTest {
         int offset = 50;
         ByteBuffer input = FARequestTest.encodeDec(blockSize, values, offset);
         input.position(0);
-        
+
         ArchiveVDisplayType[] output = null;
         long before = 0;
         long after = 0;
-        
+
         try {
             before = System.nanoTime();
             output = FARequest.decodeDataDec(input, values.length, blockSize, offset, 0, 3);
@@ -105,16 +105,16 @@ public class FARequestPerformanceTest {
             fail("Throws Exception for valid input");
             return;
         }
-        
-        
-        System.out.printf("'decodeDataDec' takes %d nanoseconds\n", after - before); 
+
+
+        System.out.printf("'decodeDataDec' takes %d nanoseconds\n", after - before);
         assertNotNull("Did not decode", output);
     }
 
     @Test
     public void testDecodeDataUndecToDec() {
         // Create large bytebuffer
-        int[] values = new int[datalength]; 
+        int[] values = new int[datalength];
         for (int i = 0; i < values.length; i++){
             values[i] = i*13/7;
         }
@@ -122,11 +122,11 @@ public class FARequestPerformanceTest {
         int offset = 50;
         ByteBuffer input = FARequestTest.encodeUndec(blockSize, values, offset);
         input.position(0);
-        
+
         ArchiveVDisplayType[] output = null;
         long before = 0;
         long after = 0;
-        
+
         try {
             before = System.nanoTime();
             output = FARequest.decodeDataUndecToDec(input, values.length, blockSize, offset, 0, 10000);
@@ -135,9 +135,9 @@ public class FARequestPerformanceTest {
             fail("Throws Exception for valid input");
             return;
         }
-        
-        
-        System.out.printf("'decodeDataUndecToDec' takes %d nanoseconds\n", after - before); 
+
+
+        System.out.printf("'decodeDataUndecToDec' takes %d nanoseconds\n", after - before);
         assertNotNull("Did not decode", output);
     }
 

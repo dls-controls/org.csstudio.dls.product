@@ -8,7 +8,7 @@ import org.junit.Test;
 public class CircularBufferTest {
 
     private CircularBuffer<String> circularBuffer;
-    
+
     @Test
     public void testCircularBuffer() {
         circularBuffer = new CircularBuffer<String>(5);
@@ -20,17 +20,17 @@ public class CircularBufferTest {
         for(int i=0; i<10; i++){
             circularBuffer.add("e" + i);
             System.out.println(circularBuffer);
-        }        
+        }
     }
-    
+
     @Test
-    public void testToArray() {        
+    public void testToArray() {
         circularBuffer = new CircularBuffer<String>(5);
         for(int i=0; i<10; i++){
             circularBuffer.add("e" + i);
         }
         assertArrayEquals(new String[]{"e5", "e6", "e7", "e8", "e9"}, circularBuffer.toArray());
-        
+
     }
     @Test
     public void testClear() {
@@ -43,7 +43,7 @@ public class CircularBufferTest {
         System.out.println(circularBuffer);
     }
 
-    
+
 
     @Test
     public void testSetBufferSize() {
@@ -81,7 +81,7 @@ public class CircularBufferTest {
         int i=200000-102400;
         //System.out.println(circularBuffer);
         for(String s : circularBuffer){
-            assertEquals("e"+i, s);            
+            assertEquals("e"+i, s);
             i++;
         }
     }

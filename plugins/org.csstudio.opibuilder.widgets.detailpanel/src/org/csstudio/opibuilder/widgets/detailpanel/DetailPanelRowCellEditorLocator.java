@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Text;
 public class DetailPanelRowCellEditorLocator implements CellEditorLocator {
 
     private IFigure labelFigure;
-    
+
     public DetailPanelRowCellEditorLocator(IFigure figure) {
         labelFigure = figure;
     }

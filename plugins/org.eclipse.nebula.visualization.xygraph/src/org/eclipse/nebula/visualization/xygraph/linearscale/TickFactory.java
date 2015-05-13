@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 Diamond Light Source Ltd.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,7 +42,7 @@ public class TickFactory {
          */
         roundAndChopMode,
         /**
-         * Use Exponent 
+         * Use Exponent
          */
         useExponent,
         /**
@@ -86,9 +86,9 @@ public class TickFactory {
     }
 
     private String getTickString(double value) {
-        
+
         if (scale!=null) value = scale.getLabel(value);
-        
+
         String returnString = "";
         if (Double.isNaN(value))
             return returnString;
@@ -152,7 +152,7 @@ public class TickFactory {
     }
 
     /**
-     * Round numerator down to multiples of denominators 
+     * Round numerator down to multiples of denominators
      * @param n numerator
      * @param d denominator
      * @return
@@ -190,7 +190,7 @@ public class TickFactory {
     }
 
     /**
-     * Round numerator up to multiples of denominators 
+     * Round numerator up to multiples of denominators
      * @param n numerator
      * @param d denominator
      * @return
@@ -234,21 +234,21 @@ public class TickFactory {
      * @return floor of log 10
      */
     private static int log10(BigDecimal x) {
-        int c = x.compareTo(BigDecimal.ONE); 
+        int c = x.compareTo(BigDecimal.ONE);
         int e = 0;
         while (c < 0) {
             e--;
             x = x.scaleByPowerOfTen(1);
             c = x.compareTo(BigDecimal.ONE);
         }
-    
+
         c = x.compareTo(BigDecimal.TEN);
         while (c >= 0) {
             e++;
             x = x.scaleByPowerOfTen(-1);
             c = x.compareTo(BigDecimal.TEN);
         }
-    
+
         return e;
     }
 
@@ -262,7 +262,7 @@ public class TickFactory {
             double f; /* fractional part of x */
             double nf; /* nice, rounded number */
             BigDecimal bf;
-    
+
             expv = log10(x);
             bf = x.scaleByPowerOfTen(-expv);
             f = bf.doubleValue(); /* between 1 and 10 */
@@ -306,8 +306,8 @@ public class TickFactory {
         if (bRange.compareTo(EPSILON.multiply(magnitude)) < 0) {
             return 0;
         }
-        
-        
+
+
         // Important fix: This avoids tick labeller entering an infinite loop
         // for some plotting cases.
         try {
@@ -318,7 +318,7 @@ public class TickFactory {
             // Might be a big number that doubleValue() does not work on - carry on!
         }
 
-    
+
         bRange = nicenum(bRange, false);
         BigDecimal bUnit;
         int nTicks = maxTicks - 1;
@@ -390,9 +390,9 @@ public class TickFactory {
      * ticks is exceed by one in the case where the range straddles zero.
      * @param min
      * @param max
-     * @param maxTicks 
+     * @param maxTicks
      * @param allowMinMaxOver allow min/maximum overwrite
-     * @param tight if true then remove ticks outside range 
+     * @param tight if true then remove ticks outside range
      * @return a list of the ticks for the axis
      */
     public List<Tick> generateTicks(double min, double max, int maxTicks,
@@ -470,7 +470,7 @@ public class TickFactory {
      * Generate a list of ticks that span range given by min and max.
      * @param min
      * @param max
-     * @param maxTicks 
+     * @param maxTicks
      * @param tight if true then remove ticks outside range  (ignored)
      * @return a list of the ticks for the axis
      */
@@ -629,7 +629,7 @@ public class TickFactory {
      * @param max (must be >0)
      * @param maxTicks
      * @param allowMinMaxOver allow min/maximum overwrite
-     * @param tight if true then remove ticks outside range 
+     * @param tight if true then remove ticks outside range
      * @return a list of the ticks for the axis
      */
     public List<Tick> generateLogTicks(double min, double max, int maxTicks,
@@ -723,28 +723,28 @@ public class TickFactory {
         }
         return ticks;
     }
-    
+
 
     /**
      * Create a ITicksProvider for a scale.
-     * 
+     *
      * @param scale - the scale to create the ticks provider for.
      * @param defaultProviderName - may be null
      * @return
      */
     public static ITicksProvider createTicksProvider(IScaleProvider scale, String defaultProviderName) {
-        
+
         String provider;
         if (Activator.getDefault()!=null) { // We are in OSGI
             IPreferenceStore store = Activator.getDefault().getPreferenceStore();
             provider = store.getString(XYPreferences.TICKS_PROVIDER);
-    
+
         } else {
             provider = defaultProviderName;
         }
 
         if (provider==null) provider = XYPreferences.TICKS_PROVIDER_ORIGINAL;
-        
+
         ITicksProvider ticks;
         if (XYPreferences.TICKS_PROVIDER_ORIGINAL.equals(provider))
             ticks = new LinearScaleTicks(scale);

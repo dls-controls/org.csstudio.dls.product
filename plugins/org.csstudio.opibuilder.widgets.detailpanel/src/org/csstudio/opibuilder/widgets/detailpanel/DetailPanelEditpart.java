@@ -22,17 +22,17 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
 
     // There should really be a row edit part.
     private LinkedList<DetailPanelEditpartRow> rows;
-    
+
     /* Constructor */
     public DetailPanelEditpart() {
-        rows = new LinkedList<DetailPanelEditpartRow>(); 
+        rows = new LinkedList<DetailPanelEditpartRow>();
     }
-    
+
     /* Create and initialise the figure*/
     @Override
     protected IFigure doCreateFigure() {
         DetailPanelFigure theFigure = new DetailPanelFigure();
-        new DetailPanelDividerEditpart(this, theFigure.getVerticalDivider(), 
+        new DetailPanelDividerEditpart(this, theFigure.getVerticalDivider(),
                 /*horizontal=*/true, DetailPanelModel.PROP_VERT_DIVIDER_POS);
         return theFigure;
     }
@@ -42,13 +42,13 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
     public DetailPanelModel getWidgetModel() {
         return (DetailPanelModel)super.getWidgetModel();
     }
-    
+
     /* Get the right kind of figure object */
     @Override
     public DetailPanelFigure getFigure() {
         return (DetailPanelFigure)super.getFigure();
     }
-    
+
     /* A class that allows row property change handlers to be registered. */
     class RowPropertyChangeHandler implements IWidgetPropertyChangeHandler {
         protected int rowNumber;
@@ -218,7 +218,7 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
             }
         });
     }
-    
+
     /* Update the figure from the model */
     public void updateFigures(boolean initialState) {
         // Update the figure from the model
@@ -239,28 +239,28 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
         setAllGroupCollapse(initialState);
         setShown(getWidgetModel().getDisplayLevel());
     }
-    
+
     /* A row mode property has been changed */
     public synchronized void setRowMode(int rowNumber, DetailPanelModelRow.Mode mode) {
         getFigure().setRowMode(rowNumber, mode);
         setAllGroupCollapse(false);
     }
-    
+
     /* A row level property has been changed */
     public synchronized void setRowLevel(int rowNumber, DetailPanelModel.DisplayLevel level) {
         getFigure().setRowLevel(rowNumber, level);
     }
-    
+
     /* A row name property has been changed */
     public synchronized void setRowName(int rowNumber, String name) {
         getFigure().setRowName(rowNumber, name);
     }
-    
+
     /* A row tooltip property has been changed */
     public synchronized void setRowTooltip(int rowNumber, String tip) {
         getFigure().setRowTooltip(rowNumber, tip);
     }
-    
+
     /* The number of rows property has been changed */
     public synchronized void setRows(int numberOfRows) {
         getWidgetModel().setRows(numberOfRows);
@@ -279,23 +279,23 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
         }
         setAllGroupCollapse(false);
     }
-    
+
     /* The vertical divider position has changed */
     public synchronized void setVerticalDividerPos(int pos) {
         getFigure().setVerticalDividerPos(pos);
     }
-    
+
     /* A row divider position has changed */
     public synchronized void setRowDividerPos(int rowNumber, int pos) {
         getFigure().setRowDividerPos(rowNumber, pos);
     }
-    
+
     /* The odd row background colour has changed. */
     public synchronized void setOddRowBackgroundColor(RGB color) {
         getWidgetModel().colorsChanged();
         getFigure().setOddRowBackgroundColor(color);
     }
-    
+
     /* The even row background colour has changed. */
     public synchronized void setEvenRowBackgroundColor(RGB color) {
         getWidgetModel().colorsChanged();
@@ -306,7 +306,7 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
     public synchronized void setOddRowForegroundColor(RGB color) {
         getFigure().setOddRowForegroundColor(color);
     }
-    
+
     /* The even row foreground colour has changed. */
     public synchronized void setEvenRowForegroundColor(RGB color) {
         getFigure().setEvenRowForegroundColor(color);
@@ -350,12 +350,12 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
     @Override
     public void performRequest(Request request){
         int rowNumber = getFirstSelectedRow();
-        if (rowNumber >= 0 && 
+        if (rowNumber >= 0 &&
                 getWidgetModel().getRow(rowNumber).getMode() != DetailPanelModelRow.Mode.FULLWIDTH &&
-                getExecutionMode() == ExecutionMode.EDIT_MODE && ( 
-                request.getType() == RequestConstants.REQ_DIRECT_EDIT || 
+                getExecutionMode() == ExecutionMode.EDIT_MODE && (
+                request.getType() == RequestConstants.REQ_DIRECT_EDIT ||
                 request.getType() == RequestConstants.REQ_OPEN)) {
-            new DetailPanelRowEditManager(this, rowNumber, 
+            new DetailPanelRowEditManager(this, rowNumber,
                     new DetailPanelRowCellEditorLocator(getFigure().getRowNameLabel(rowNumber))).show();
         }
     }
@@ -371,7 +371,7 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
     public IFigure getContentPane() {
         return getFigure().getContentPane();
     }
-    
+
     /* Set the collapse state of all the row.  Set the initialState flag
      * to true when the widget is being activated the first time. */
     public void setAllGroupCollapse(boolean initialState) {
@@ -398,7 +398,7 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
         getFigure().setGroupCollapse(groupRowNumber, collapse);
         // Show or hide the group's rows
         int rowIndex = groupRowNumber;
-        boolean going = true; 
+        boolean going = true;
         while(going) {
             rowIndex++;
             if(rowIndex >= rows.size()) {
@@ -414,7 +414,7 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
             }
         }
     }
-    
+
     /* Set the shown state of the rows. */
     public void setShown(DetailPanelModel.DisplayLevel displayLevel) {
         DetailPanelModel.DisplayLevel groupLevel = DetailPanelModel.DisplayLevel.LOW;
@@ -432,12 +432,12 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
                 rowLevel = groupLevel;
             }
             // Show the row if its level is less than or equal to the display level
-            boolean showRow = rowLevel.ordinal() <= displayLevel.ordinal(); 
+            boolean showRow = rowLevel.ordinal() <= displayLevel.ordinal();
             row.setShown(showRow);
             getWidgetModel().setShown(rowIndex, showRow);
         }
     }
-    
+
     /* Move a row.*/
     public void moveRow(int oldIndex, int newIndex, DetailPanelModelRow.Mode mode) {
         // Set the new mode
@@ -459,7 +459,7 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
             }
         }
     }
-    
+
     /* Work out the set of changes needed to move a row from one location to another.
      * The changes are added to the command object as items that are implemented sequentially.
      */
@@ -531,12 +531,12 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
             }
         }
     }
-    
+
     /* Deselect all rows within the figure */
     public void deselectAll() {
         getFigure().deselectAll();
     }
-    
+
     /* Create commands that indent all the selected rows */
     public CompoundCommand indentSelectedRows() {
         // Somewhere to accumulate the commands
@@ -544,10 +544,10 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
         // For each row...
         for(int rowIndex=0; rowIndex<rows.size(); rowIndex++) {
             // Can the row be indented?
-            if(rowIndex > 0 && getFigure().isRowSelected(rowIndex) && 
+            if(rowIndex > 0 && getFigure().isRowSelected(rowIndex) &&
                     getWidgetModel().getRow(rowIndex).getMode() != DetailPanelModelRow.Mode.FULLWIDTH &&
                     getWidgetModel().getRow(rowIndex).getMode() != DetailPanelModelRow.Mode.INDENTED) {
-                cmds.add(new SetWidgetPropertyCommand(getWidgetModel(), 
+                cmds.add(new SetWidgetPropertyCommand(getWidgetModel(),
                         DetailPanelModelRow.makePropertyName(DetailPanelModelRow.PROP_ROW_MODE, rowIndex),
                         DetailPanelModelRow.Mode.INDENTED.ordinal()));
             }
@@ -562,9 +562,9 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
         // For each row...
         for(int rowIndex=0; rowIndex<rows.size(); rowIndex++) {
             // Can the row be indented?
-            if(getFigure().isRowSelected(rowIndex) && 
+            if(getFigure().isRowSelected(rowIndex) &&
                     getWidgetModel().getRow(rowIndex).getMode() == DetailPanelModelRow.Mode.INDENTED) {
-                cmds.add(new SetWidgetPropertyCommand(getWidgetModel(), 
+                cmds.add(new SetWidgetPropertyCommand(getWidgetModel(),
                         DetailPanelModelRow.makePropertyName(DetailPanelModelRow.PROP_ROW_MODE, rowIndex),
                         DetailPanelModelRow.Mode.STARTEXPANDED.ordinal()));
             }
@@ -578,14 +578,14 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
         // For each row...
         for(int rowIndex=0; rowIndex<rows.size() && !result; rowIndex++) {
             // Can the row be indented?
-            if(getFigure().isRowSelected(rowIndex) && 
+            if(getFigure().isRowSelected(rowIndex) &&
                     getWidgetModel().getRow(rowIndex).getMode() == DetailPanelModelRow.Mode.INDENTED) {
                 result = true;
             }
         }
         return result;
     }
-    
+
     /* Return the index of the first selected row, -1 for none */
     public int getFirstSelectedRow() {
         int result = -1;

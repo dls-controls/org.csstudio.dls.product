@@ -34,7 +34,7 @@ public class EdmSymbolFigure extends Figure {
         super.paintClientArea(graphics);
         if(image != null) {
             // If what were trying to draw is out of bounds, draw a rectangle
-            if((1+subImageSelection) * subImageWidth > image.getBounds().width || subImageSelection * subImageWidth < 0 || 
+            if((1+subImageSelection) * subImageWidth > image.getBounds().width || subImageSelection * subImageWidth < 0 ||
                     getClientArea().x < 0 || getClientArea().y < 0 || getClientArea().width < 0 || getClientArea().height < 0) {
                 graphics.fillRectangle(getClientArea().x, getClientArea().y, getClientArea().width, getClientArea().height);
             } else {
@@ -66,12 +66,12 @@ public class EdmSymbolFigure extends Figure {
         }
         repaint();
     }
-    
+
     public void setSubImageWidth(int width) {
         this.subImageWidth = width;
         repaint();
     }
-    
+
     public void setSubImageSelection(int imageNum) {
         this.subImageSelection = imageNum;
         repaint();

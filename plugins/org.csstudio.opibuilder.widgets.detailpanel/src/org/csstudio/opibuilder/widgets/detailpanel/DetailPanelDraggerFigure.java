@@ -15,7 +15,7 @@ public class DetailPanelDraggerFigure extends Figure {
     private PointList triangle3;
     private PointList triangle4;
     private Point offset;
-    
+
     /* Constructor */
     public DetailPanelDraggerFigure() {
         // Initialise the points
@@ -37,7 +37,7 @@ public class DetailPanelDraggerFigure extends Figure {
         triangle4.addPoint(V/4, V/4+1);
         offset = new Point(0,0);
     }
-    
+
     // Draw the dragger
     @Override
     protected void paintFigure(Graphics graphics) {

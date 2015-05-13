@@ -27,7 +27,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
 
     private Combo combo;
     private SelectionListener comboSelectionListener;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -47,7 +47,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
 
         if(comboSelectionListener !=null)
             combo.removeSelectionListener(comboSelectionListener);
-        
+
         comboSelectionListener = new MuxMenuSelectionListener();
         combo.addSelectionListener(comboSelectionListener);
 
@@ -59,7 +59,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
     @Override
     public void activate() {
         super.activate();
-        
+
         // Delay setting initialisation until local PVs have started.
         // It would be preferable to be able to queue this on the same
         // thread that starts the PVs, but I'm not sure this is possible.
@@ -112,7 +112,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
             MenuMuxModel model = getWidgetModel();
 
             int selectedIdx = combo.getSelectionIndex();
-            
+
             for (int set_index = 0; set_index < model.getNumSets(); set_index++) {
                 List<String> values = model.getValues(set_index);
 
@@ -130,7 +130,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
     private void updateCombo(List<String> items) {
 
         if (items == null) {
-            System.err.println("NULL ITEMS");            
+            System.err.println("NULL ITEMS");
         }
         else if(getExecutionMode() == ExecutionMode.RUN_MODE) {
             combo.removeAll();
@@ -211,5 +211,5 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
         else
             super.setValue(value);
     }
-    
+
 }

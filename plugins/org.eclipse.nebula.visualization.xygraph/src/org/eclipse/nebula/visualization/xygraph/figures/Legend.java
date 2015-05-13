@@ -23,8 +23,8 @@ import org.eclipse.nebula.visualization.xygraph.util.XYGraphMediaFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
-/**The legend to indicate the style and size of the trace line and point. 
- * The border color of the legend is same as the traces' Y-Axis color. 
+/**The legend to indicate the style and size of the trace line and point.
+ * The border color of the legend is same as the traces' Y-Axis color.
  * @author Xihui Chen
  *
  */
@@ -32,23 +32,23 @@ public class Legend extends RectangleFigure {
     private final static int ICON_WIDTH = 25;
     private final static int INNER_GAP = 2;
     private final static int OUT_GAP = 5;
-    
+
 //    private final static Font LEGEND_FONT = XYGraphMediaFactory.getInstance().getFont(
 //            XYGraphMediaFactory.FONT_ARIAL);
-//    
+//
 //    private final Color WHITE_COLOR = XYGraphMediaFactory.getInstance().getColor(
-//            XYGraphMediaFactory.COLOR_WHITE); 
-    
+//            XYGraphMediaFactory.COLOR_WHITE);
+
     private final Color BLACK_COLOR = XYGraphMediaFactory.getInstance().getColor(
             XYGraphMediaFactory.COLOR_BLACK);
-    
+
     private final List<Trace> traceList = new ArrayList<Trace>();
-    
-    
+
+
     public Legend(XYGraph xyGraph) {
 //        setFont(LEGEND_FONT);
         xyGraph.getPlotArea().addPropertyChangeListener(PlotArea.BACKGROUND_COLOR, new PropertyChangeListener() {
-            
+
             public void propertyChange(PropertyChangeEvent evt) {
                 setBackgroundColor((Color) evt.getNewValue());
             }
@@ -64,15 +64,15 @@ public class Legend extends RectangleFigure {
     public void addTrace(Trace trace){
         traceList.add(trace);
     }
-    
+
     /**Remove a trace from the axis.
      * @param trace
      * @return true if this axis contained the specified trace
-     */    
+     */
     public boolean removeTrace(Trace trace){
         return traceList.remove(trace);
     }
-    
+
     @Override
     protected void outlineShape(Graphics graphics) {
         if (!isVisible()) return;
@@ -95,26 +95,26 @@ public class Legend extends RectangleFigure {
         int i=0;
         for(Trace trace : traceList){
             if (!trace.isVisible()) continue;
-            int hwidth = OUT_GAP + ICON_WIDTH + INNER_GAP +  
+            int hwidth = OUT_GAP + ICON_WIDTH + INNER_GAP +
                     + FigureUtilities.getTextExtents(trace.getName(), getFont()).width;
             int hEnd = hPos + hwidth;
             if(hEnd    > (bounds.x + bounds.width) && i>0){
                 hPos= bounds.x + INNER_GAP;
                 vPos += ICON_WIDTH + INNER_GAP;
                 hEnd = hPos + hwidth;
-            }    
-                
+            }
+
         //    graphics.setForegroundColor(trace.getYAxis().getForegroundColor());
         //    Rectangle rect = new Rectangle(hPos, vPos-INNER_GAP/2, hwidth - OUT_GAP,ICON_WIDTH-INNER_GAP);
         //    graphics.fillRectangle(rect);
         //    graphics.drawRectangle(rect);
-            drawTraceLegend(trace, graphics, hPos, vPos);            
+            drawTraceLegend(trace, graphics, hPos, vPos);
             hPos = hEnd;
             i++;
         }
-        
+
     }
-    
+
     private void drawTraceLegend(Trace trace, Graphics graphics, int hPos, int vPos){
         graphics.pushState();
         if (XYPreferences.useAdvancedGraphics())
@@ -123,7 +123,7 @@ public class Legend extends RectangleFigure {
         //draw symbol
         switch (trace.getTraceType()) {
         case BAR:
-            trace.drawLine(graphics, new Point(hPos + ICON_WIDTH/2, vPos + trace.getPointSize()/2), 
+            trace.drawLine(graphics, new Point(hPos + ICON_WIDTH/2, vPos + trace.getPointSize()/2),
                 new Point(hPos + ICON_WIDTH/2, vPos + ICON_WIDTH));
             trace.drawPoint(graphics, new Point(hPos + ICON_WIDTH/2, vPos+ trace.getPointSize()/2));
             break;
@@ -132,7 +132,7 @@ public class Legend extends RectangleFigure {
             if (XYPreferences.useAdvancedGraphics())
                 graphics.setAlpha(trace.getAreaAlpha());
             graphics.fillPolygon(new int[]{hPos, vPos + ICON_WIDTH/2,
-                    hPos + ICON_WIDTH/2, vPos + trace.getPointSize()/2, 
+                    hPos + ICON_WIDTH/2, vPos + trace.getPointSize()/2,
                     hPos + ICON_WIDTH, vPos + ICON_WIDTH/2,
                     hPos + ICON_WIDTH, vPos + ICON_WIDTH,
                     hPos, vPos + ICON_WIDTH});
@@ -141,19 +141,19 @@ public class Legend extends RectangleFigure {
             trace.drawPoint(graphics, new Point(hPos + ICON_WIDTH/2, vPos+ trace.getPointSize()/2));
             break;
         default:
-            trace.drawLine(graphics, new Point(hPos, vPos + ICON_WIDTH/2), 
-                new Point(hPos + ICON_WIDTH, vPos + ICON_WIDTH/2));    
-            trace.drawPoint(graphics, new Point(hPos + ICON_WIDTH/2, vPos+ICON_WIDTH/2));        
+            trace.drawLine(graphics, new Point(hPos, vPos + ICON_WIDTH/2),
+                new Point(hPos + ICON_WIDTH, vPos + ICON_WIDTH/2));
+            trace.drawPoint(graphics, new Point(hPos + ICON_WIDTH/2, vPos+ICON_WIDTH/2));
             break;
         }
-    
+
         //draw text
-        graphics.drawText(trace.getName(), hPos+ICON_WIDTH + INNER_GAP, 
-                vPos + ICON_WIDTH/2 -  
+        graphics.drawText(trace.getName(), hPos+ICON_WIDTH + INNER_GAP,
+                vPos + ICON_WIDTH/2 -
                 FigureUtilities.getTextExtents(trace.getName(), getFont()).height/2);
         graphics.popState();
     }
-    
+
     @Override
     public Dimension getPreferredSize(int wHint, int hHint) {
         int maxWidth =0;
@@ -162,15 +162,15 @@ public class Legend extends RectangleFigure {
 //        int i=0;
         for(Trace trace : traceList){
             if (!trace.isVisible()) continue;
-            hEnd = hEnd + OUT_GAP + ICON_WIDTH + INNER_GAP +  
+            hEnd = hEnd + OUT_GAP + ICON_WIDTH + INNER_GAP +
                     + FigureUtilities.getTextExtents(trace.getName(), getFont()).width;
-            
+
             if(hEnd    > wHint){
-                hEnd= INNER_GAP + OUT_GAP + ICON_WIDTH + INNER_GAP +  
+                hEnd= INNER_GAP + OUT_GAP + ICON_WIDTH + INNER_GAP +
                     + FigureUtilities.getTextExtents(trace.getName(), getFont()).width;
-                height += ICON_WIDTH + INNER_GAP;                
-            }    
-            if(maxWidth < hEnd) 
+                height += ICON_WIDTH + INNER_GAP;
+            }
+            if(maxWidth < hEnd)
                 maxWidth = hEnd;
 //            i++;
         }
@@ -182,5 +182,5 @@ public class Legend extends RectangleFigure {
     public List<Trace> getTraceList() {
         return traceList;
     }
-    
+
 }

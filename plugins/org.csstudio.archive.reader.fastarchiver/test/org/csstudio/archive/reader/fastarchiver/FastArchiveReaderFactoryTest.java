@@ -32,15 +32,15 @@ public class FastArchiveReaderFactoryTest {
                 assertNotNull(far);
             } catch (IOException | FADataNotAvailableException e) {
                 fail(e.getMessage());
-            } 
+            }
     }
-    
+
     @Test(expected = FADataNotAvailableException.class)
     public void testGetArchiverReaderInCorrectPrefixUrl() throws Exception {
         faArchRF.getArchiveReader(incorrectPrefixUrl);
 
     }
-    
+
     @Test(expected = IOException.class)
     public void testGetArchiverReaderIncorrectHostUrl() throws Exception {
         faArchRF.getArchiveReader(incorrectHostUrl);

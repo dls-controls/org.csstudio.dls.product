@@ -9,21 +9,21 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
 /**
- * Linear(straight) scale has the tick labels and tick marks on a straight line. 
- * It can be used for any scale based widget, such as 2D plot, chart, graph, 
+ * Linear(straight) scale has the tick labels and tick marks on a straight line.
+ * It can be used for any scale based widget, such as 2D plot, chart, graph,
  * thermometer or tank etc. <br>
  * A scale is comprised of Margins, Scale line, tick labels and tick marks which include
  * minor ticks and major ticks. <br>
- * 
- * Margin is half of the label's length(Horizontal Scale) or 
- * height(Vertical scale), so that the label can be displayed correctly. 
+ *
+ * Margin is half of the label's length(Horizontal Scale) or
+ * height(Vertical scale), so that the label can be displayed correctly.
  * So the range must be set before you can get the correct margin.<br><br>
- * 
+ *
  * |Margin|______|______|______|______|______|______|Margin| <br>
- * 
+ *
  *
  * @author Xihui Chen
- *  
+ *
  */
 public class LinearScale extends AbstractScale implements IScaleProvider {
 
@@ -38,12 +38,12 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
     }
 
     private static final int SPACE_BTW_MARK_LABEL = 2;
-    
+
     /** scale direction, no meaning for round scale */
     private Orientation orientation = Orientation.HORIZONTAL;
 
     /**
-     * 
+     *
      */
     /** the scale tick labels */
     private LinearScaleTickLabels tickLabels;
@@ -53,7 +53,7 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
 
     /** the length of the whole scale */
     private int length;
-    
+
     private int margin;
 
     /** if true, then ticks are based on axis dataset indexes */
@@ -65,11 +65,11 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
     public LinearScale() {
         tickLabels = new LinearScaleTickLabels(this);
         tickMarks = new LinearScaleTickMarks(this);
-        add(tickMarks);        
-        add(tickLabels);    
+        add(tickMarks);
+        add(tickLabels);
 //        setFont(XYGraphMediaFactory.getInstance().getFont(
 //                XYGraphMediaFactory.FONT_ARIAL));
- 
+
     }
 
     /**
@@ -110,7 +110,7 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
 
     /**
      * Margin is half of the label's length(Horizontal Scale) or
-     * height(Vertical scale), so that the label can be displayed correctly. 
+     * height(Vertical scale), so that the label can be displayed correctly.
      * So the range and format pattern must be set correctly
      * before you can get the correct margin.
      * @return the margin
@@ -129,23 +129,23 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
 
     @Override
     public Dimension getPreferredSize(int wHint, int hHint) {
-        
+
         Dimension size = new Dimension(wHint, hHint);
         LinearScaleTickLabels fakeTickLabels = new LinearScaleTickLabels(this);
 
         if(isHorizontal()) {
             //length = wHint;
             fakeTickLabels.update(wHint-2*getMargin());
-            size.height = fakeTickLabels.getTickLabelMaxHeight() 
+            size.height = fakeTickLabels.getTickLabelMaxHeight()
                             + SPACE_BTW_MARK_LABEL + LinearScaleTickMarks.MAJOR_TICK_LENGTH;
         } else {
             //length = hHint;
             fakeTickLabels.update(hHint-2*getMargin());
-            size.width = fakeTickLabels.getTickLabelMaxLength() 
+            size.width = fakeTickLabels.getTickLabelMaxLength()
                             + SPACE_BTW_MARK_LABEL + LinearScaleTickMarks.MAJOR_TICK_LENGTH;
-        
+
         }
-            
+
         return size;
     }
 
@@ -156,7 +156,7 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
 
     /**
      * Gets the scale tick labels.
-     * 
+     *
      * @return the scale tick labels
      */
     public LinearScaleTickLabels getScaleTickLabels() {
@@ -164,7 +164,7 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
     }
     /**
      * Gets the scale tick marks.
-     * 
+     *
      * @return the scale tick marks
      */
     public LinearScaleTickMarks getScaleTickMarks() {
@@ -179,9 +179,9 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
     }
 
     /**
-     * Get the position of the value based on scale. 
+     * Get the position of the value based on scale.
      * @param value the value to find its position. Support value out of range.
-     * @param relative return the position relative to the left/bottom bound of the scale if true. 
+     * @param relative return the position relative to the left/bottom bound of the scale if true.
      * If false, return the absolute position which has the scale bounds counted.
      * @return position in pixels
      */
@@ -190,15 +190,15 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
     }
 
     /**
-     * Get the position of the value based on scale. 
+     * Get the position of the value based on scale.
      * @param value the value to find its position. Support value out of range.
-     * @param relative return the position relative to the left/bottom bound of the scale if true. 
+     * @param relative return the position relative to the left/bottom bound of the scale if true.
      * If false, return the absolute position which has the scale bounds counted.
      * @return position in pixels
      */
-    public double getValuePrecisePosition(double value, boolean relative) {        
+    public double getValuePrecisePosition(double value, boolean relative) {
         updateTick();
-        //coerce to range        
+        //coerce to range
         //value = value < min ? min : (value > max ? max : value);
         Range r = getLocalRange();
         double min = r.getLower();
@@ -211,9 +211,9 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
             //            "Invalid value: value must be greater than 0");
             pixelsToStart = ((Math.log10(value) - Math.log10(min))/
                             (Math.log10(max) - Math.log10(min)) * ((double)length - 2d*margin)) + margin;
-        }else            
+        }else
             pixelsToStart = ((value - min)/(max-min)*((double)length-2d*margin)) + margin;
-        
+
         if(relative) {
             if(orientation == Orientation.HORIZONTAL)
                 return pixelsToStart;
@@ -224,13 +224,13 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
                 return pixelsToStart + bounds.x;
             else
                 return length - pixelsToStart + bounds.y;
-        }        
+        }
     }
 
      /**
-     * Get the corresponding value on the position of the scale. 
+     * Get the corresponding value on the position of the scale.
      * @param the position.
-     * @param true if the position is relative to the left/bottom bound of the scale; 
+     * @param true if the position is relative to the left/bottom bound of the scale;
      * False if it is the absolute position.
      * @return the value corresponding to the position.
      */
@@ -255,11 +255,11 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
         double min = r.getLower();
         double max = r.getUpper();
         if(isLogScaleEnabled())
-            value = Math.pow(10, 
+            value = Math.pow(10,
                     (pixelsToStart - margin)*(Math.log10(max)-Math.log10(min))/(length - 2*margin) + Math.log10(min));
         else
             value = (pixelsToStart - margin)*(max - min)/(length - 2*margin) + min;
-        
+
         return value;
     }
 
@@ -281,7 +281,7 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
     @Override
     protected void layout() {
         super.layout();
-        layoutTicks();    
+        layoutTicks();
     }
 
     protected void layoutTicks() {
@@ -324,7 +324,7 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
             else
                 length = rect.height - getInsets().getHeight();
         }
-        super.setBounds(rect);   
+        super.setBounds(rect);
     }
 
     @Override
@@ -334,7 +334,7 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
         }
         tickLabels.setFont(font);
         super.setFont(font);
-        
+
     }
 
     /*
@@ -344,9 +344,9 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
     public void setForegroundColor(Color color) {
         tickMarks.setForegroundColor(color);
         tickLabels.setForegroundColor(color);
-        super.setForegroundColor(color);        
+        super.setForegroundColor(color);
     }
-    
+
     /**
      * @param orientation the orientation to set
      */
@@ -355,7 +355,7 @@ public class LinearScale extends AbstractScale implements IScaleProvider {
         setDirty(true);
         revalidate();
     }
-    
+
 
     private Range localRange = null;
 

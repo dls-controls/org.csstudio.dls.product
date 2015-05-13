@@ -20,7 +20,7 @@ import org.epics.vtype.AlarmSeverity;
 /**
  * Class with common methods for communicating with the fast archiver and
  * decoding data streams.
- * 
+ *
  * @author FJohlinger
  */
 
@@ -57,7 +57,7 @@ public abstract class FARequest {
     /**
      * Takes a string to write to the server and returns the complete response
      * as a byte[]
-     * 
+     *
      * @param request
      *            String to be written to the server
      * @return byte[] containing the complete response
@@ -105,7 +105,7 @@ public abstract class FARequest {
     /**
      * Decodes the raw data from the Archive from a ByteBuffer into an array of
      * ArchiveVNumbers
-     * 
+     *
      * @param bb
      *            the ByteBuffer with the raw data
      * @param sampleCount
@@ -172,7 +172,7 @@ public abstract class FARequest {
     /**
      * Decodes the raw data from the Archive from a ByteBuffer into an array of
      * ArchiveVStatistics
-     * 
+     *
      * @param bb
      *            the ByteBuffer with the raw data
      * @param sampleCount
@@ -257,7 +257,7 @@ public abstract class FARequest {
     /**
      * Decodes the raw data from the Archive from a ByteBuffer into an array of
      * ArchiveVNumbers adding a decimation.
-     * 
+     *
      * @param bb
      *            the ByteBuffer with the raw data
      * @param sampleCount
@@ -396,7 +396,7 @@ public abstract class FARequest {
     /**
      * Decodes decimated data from the Archive from a ByteBuffer into an array of
      * ArchiveVNumbers, adding an extra decimation
-     * 
+     *
      * @param bb
      *            the ByteBuffer with the raw data
      * @param sampleCount
@@ -474,7 +474,7 @@ public abstract class FARequest {
             data[indexValues][1] = min;
             data[indexValues][2] = max;
             data[indexValues][3] = std;
-            times[indexValues] = timestamp;            
+            times[indexValues] = timestamp;
 
             timestamp += timeInterval;
         }
@@ -490,13 +490,13 @@ public abstract class FARequest {
         double stdDec = Math.pow((data[0][3]), 2);
         double startTime = times[0];
         int indexValues = 0;
-        
+
         for (int i = 1; i < data.length; i++){
             meanDec += data[i][0];
             stdDec += Math.pow((data[i][3]), 2);
             if(data[i][1] < minDec) minDec = data[i][1];
             if(data[i][2] > maxDec) maxDec = data[i][2];
-            
+
             // add decimated value to array
             if ((i+1)%extraDecimation == 0){
                 meanDec = meanDec/extraDecimation;
@@ -507,7 +507,7 @@ public abstract class FARequest {
                         AlarmSeverity.NONE, "status", null, meanDec, minDec, maxDec, stdDec,
                         extraDecimation*originalDecimation);
                 indexValues++;
-                
+
                 if (i+1 < data.length){
                     meanDec = 0;
                     minDec = data[i+1][1];
@@ -530,11 +530,11 @@ public abstract class FARequest {
         }
         return values;
     }
-    
+
     /**
      * Creates a new Timestamp object from a given value of microseconds from
      * the epoch.
-     * 
+     *
      * @param timeInMicroS
      *            time in microseconds from epoch
      * @return corresponding Timestamp

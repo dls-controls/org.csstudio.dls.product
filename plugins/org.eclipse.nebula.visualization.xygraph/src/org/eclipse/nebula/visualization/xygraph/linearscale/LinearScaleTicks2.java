@@ -31,42 +31,42 @@ class Tick {
     private double value;
     private double position;
     private int tPosition;
-    
+
     /**
      * @param tickText
      */
     public void setText(String tickText) {
         text = tickText;
     }
-    
+
     /**
      * @return the tick text
      */
     public String getText() {
         return text;
     }
-    
+
     /**
      * @param tickValue
      */
     public void setValue(double tickValue) {
         value = tickValue;
     }
-    
+
     /**
      * @return the tick value
      */
     public double getValue() {
         return value;
     }
-    
+
     /**
      * @param tickPosition in pixels
      */
     public void setPosition(double tickPosition) {
         position = tickPosition;
     }
-    
+
     /**
      * @return the tick position in pixels
      */
@@ -279,7 +279,7 @@ public class LinearScaleTicks2 implements ITicksProvider {
 
     /**
      * Update positions and max dimensions of tick labels
-     * 
+     *
      * @return true if there is no overlaps
      */
     private boolean updateLabelPositionsAndCheckGaps(int length, final int hMargin, final int tMargin, final boolean isReversed) {

@@ -6,10 +6,10 @@ import org.eclipse.swt.graphics.Font;
 
 /**
  * Provides a scale for drawing tick marks.
- * 
+ *
  * This allows the scale to draw tick marks different to the range which the
  * scale is operating over.
- * 
+ *
  * @author Matthew Gerring
  *
  */

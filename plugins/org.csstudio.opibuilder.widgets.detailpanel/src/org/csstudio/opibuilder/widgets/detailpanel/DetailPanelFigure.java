@@ -16,10 +16,10 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 
 public class DetailPanelFigure extends Figure {
-    
+
     /* Data required for drawing the widget */
     private LinkedList<DetailPanelFigureRow> rows;
-    
+
     /* Colours */
     private Color oddRowForegroundColor;
     private Color evenRowForegroundColor;
@@ -28,7 +28,7 @@ public class DetailPanelFigure extends Figure {
     private Color selectedBackgroundColor;
     private Color selectedForegroundColor;
     private Color borderColor;
-    
+
     /* Layout information */
     private FreeformLayer pane;
     private ScrollPane scrollPane;
@@ -67,7 +67,7 @@ public class DetailPanelFigure extends Figure {
         pane.add(draggerDivider);
         draggerDivider.setVisible(false);
     }
-    
+
     // Return the widget for a row name.
     public Label getRowNameLabel(int rowNumber) {
         Label result = null;
@@ -76,7 +76,7 @@ public class DetailPanelFigure extends Figure {
         }
         return result;
     }
-    
+
     /* Return the drawing area rectangle taking account of the scroll bar. */
     Rectangle getDrawingArea(int requiredHeight) {
         Rectangle rect = getClientArea();
@@ -85,17 +85,17 @@ public class DetailPanelFigure extends Figure {
         }
         return rect;
     }
-    
+
     /* Return the widget's pane. */
     Figure getPane() {
         return pane;
     }
-    
+
     // Return the dragger divider figure
     DetailPanelDividerFigure getDraggerDivider() {
         return draggerDivider;
     }
-    
+
     /* Add a widget created by a row to the children. */
     void addRowWidget(Figure child, boolean atEnd) {
         if(atEnd) {
@@ -104,27 +104,27 @@ public class DetailPanelFigure extends Figure {
             pane.add(child, 0);
         }
     }
-    
+
     /* Swap properties between two rows */
     public void swapRowProperties(int rowA, int rowB) {
         rows.get(rowA).swapProperties(rows.get(rowB));
     }
-    
+
     /* Remove a widget created by a row. */
     void removeRowWidget(Figure child) {
         pane.remove(child);
     }
-    
+
     /* Return the vertical divider part of the figure */
     DetailPanelDividerFigure getVerticalDivider() {
         return verticalDivider;
     }
-    
+
     /* Return a figure row */
     DetailPanelFigureRow getRow(int rowNumber) {
         return rows.get(rowNumber);
     }
-    
+
     @Override
     protected void layout() {
         super.layout();
@@ -134,7 +134,7 @@ public class DetailPanelFigure extends Figure {
             row.layout();
         }
     }
-    
+
     /* Called to do the drawing of the widget */
     @Override
     protected void paintClientArea(Graphics graphics) {
@@ -145,7 +145,7 @@ public class DetailPanelFigure extends Figure {
         // Super class last so that child objects are drawn on top
         super.paintClientArea(graphics);
     }
-    
+
     /* Set edit mode */
     public void setEditMode(boolean m) {
         editMode = m;
@@ -153,7 +153,7 @@ public class DetailPanelFigure extends Figure {
             row.setEditMode(m);
         }
     }
-    
+
     /* Add a row to the figure.  */
     public void addRow() {
         DetailPanelFigureRow row = new DetailPanelFigureRow(this, rows.size());
@@ -162,7 +162,7 @@ public class DetailPanelFigure extends Figure {
         revalidate();
         repaint();
     }
-    
+
     /* Remove the last row from the figure.  */
     public void removeRow() {
         rows.getLast().dispose();
@@ -170,14 +170,14 @@ public class DetailPanelFigure extends Figure {
         revalidate();
         repaint();
     }
-    
+
     /* The vertical divider position has changed */
     public void setVerticalDividerPos(int pos) {
         verticalDivider.setPosition(pos);
         invalidate();
         repaint();
     }
-    
+
     /* A row divider position has changed */
     public void setRowDividerPos(int rowNumber, int pos) {
         rows.get(rowNumber).setDividerPos(pos);
@@ -192,7 +192,7 @@ public class DetailPanelFigure extends Figure {
         invalidate();
         repaint();
     }
-    
+
     /* Odd row background colour has changed */
     public void setOddRowBackgroundColor(RGB color) {
         oddRowBackgroundColor = CustomMediaFactory.getInstance().getColor(color);
@@ -200,7 +200,7 @@ public class DetailPanelFigure extends Figure {
         invalidate();
         repaint();
     }
-    
+
     /* Even row foreground colour has changed */
     public void setEvenRowForegroundColor(RGB color) {
         evenRowForegroundColor = CustomMediaFactory.getInstance().getColor(color);
@@ -208,7 +208,7 @@ public class DetailPanelFigure extends Figure {
         invalidate();
         repaint();
     }
-    
+
     /* Odd row background colour has changed */
     public void setOddRowForegroundColor(RGB color) {
         oddRowForegroundColor = CustomMediaFactory.getInstance().getColor(color);
@@ -216,7 +216,7 @@ public class DetailPanelFigure extends Figure {
         invalidate();
         repaint();
     }
-    
+
     /* Selected foreground colour has changed */
     public void setSelectedForegroundColor(RGB color) {
         selectedForegroundColor = CustomMediaFactory.getInstance().getColor(color);
@@ -224,7 +224,7 @@ public class DetailPanelFigure extends Figure {
         invalidate();
         repaint();
     }
-    
+
     /* Selected background colour has changed */
     public void setSelectedBackgroundColor(RGB color) {
         selectedBackgroundColor = CustomMediaFactory.getInstance().getColor(color);
@@ -232,7 +232,7 @@ public class DetailPanelFigure extends Figure {
         invalidate();
         repaint();
     }
-    
+
     /* Border colour has changed */
     public void setBorderColor(RGB color) {
         borderColor = CustomMediaFactory.getInstance().getColor(color);
@@ -240,7 +240,7 @@ public class DetailPanelFigure extends Figure {
         invalidate();
         repaint();
     }
-    
+
     /* Return the colour appropriate for the row.*/
     public Color getRowBackgroundColor(int rowNumber, boolean selected) {
         Color result;
@@ -254,7 +254,7 @@ public class DetailPanelFigure extends Figure {
         }
         return result;
     }
-    
+
     /* Return the colour appropriate for the row.*/
     public Color getRowForegroundColor(int rowNumber, boolean selected) {
         Color result;
@@ -268,96 +268,96 @@ public class DetailPanelFigure extends Figure {
         }
         return result;
     }
-    
+
     /* Return the border colour */
     public Color getBorderColor() {
         return borderColor;
     }
-    
+
     /* Tell the rows a colour has changed */
     private void updateRowColors() {
         for(DetailPanelFigureRow row: rows) {
             row.setColor();
         }
     }
-    
+
     /* Update the visibility of all rows */
     public void setAllRowsVisibility() {
         for(DetailPanelFigureRow row: rows) {
             row.setVisibility();
         }
     }
-    
-    
+
+
     /* A row has name flag has changed */
     public void setRowMode(int rowNumber, DetailPanelModelRow.Mode mode) {
         rows.get(rowNumber).setMode(mode);
         revalidate();
         repaint();
     }
-    
+
     /* A row level has changed */
     public void setRowLevel(int rowNumber, DetailPanelModel.DisplayLevel level) {
         rows.get(rowNumber).setLevel(level);
         revalidate();
         repaint();
     }
-    
+
     /* Get a row level */
     public DetailPanelModel.DisplayLevel getRowLevel(int rowNumber) {
         return rows.get(rowNumber).getLevel();
     }
-    
+
     /* A row has group collapse state has changed */
     public void setGroupCollapse(int rowNumber, boolean collapse) {
         rows.get(rowNumber).setGroupCollapse(collapse);
         revalidate();
         repaint();
     }
-    
+
     /* A row name has changed */
     public void setRowName(int rowNumber, String name) {
         rows.get(rowNumber).setName(name);
         revalidate();
         repaint();
     }
-    
+
     /* A row tooltip has changed */
     public void setRowTooltip(int rowNumber, String tip) {
         rows.get(rowNumber).setTooltip(tip);
         revalidate();
         repaint();
     }
-    
+
     /* A row name drawing area has changed.  Note that this gets
      * called during the layout of the model so should not do
      * any invalidating of the drawing. */
     public void setRowNameArea(int rowNumber, Rectangle area) {
         rows.get(rowNumber).setNameArea(area);
     }
-    
+
     /* A visible row number has changed.  Note that this gets
      * called during the layout of the model so should not do
      * any invalidating of the drawing. */
     public void setVisibleRowNumber(int rowNumber, int visibleRowNumber) {
         rows.get(rowNumber).setVisibleRowNumber(visibleRowNumber);
     }
-    
+
     /* Return the number of rows created so far */
     public int getRowCount() {
         return rows.size();
     }
-    
+
     /* Clean up any image resources */
     public void dispose() {
         // Currently I don't have any resources loaded
     }
-    
+
     /* Return the content pane. */
     public IFigure getContentPane() {
         return pane;
     }
-    
+
     /* Return the index of the row immediately after the boundary that is
      * nearest to the given Y coordinate.  If the top of the panel is
      * nearest, 0 is returned.  If the bottom of the panel is nearest,
@@ -394,7 +394,7 @@ public class DetailPanelFigure extends Figure {
         }
         return result;
     }
-    
+
     /* Return true if the next row is a group member. */
     public boolean isNextRowGroupMember(int rowNumber) {
         boolean result = false;

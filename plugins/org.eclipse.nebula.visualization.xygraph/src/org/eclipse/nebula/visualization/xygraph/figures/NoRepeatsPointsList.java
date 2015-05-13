@@ -6,7 +6,7 @@ import org.eclipse.draw2d.geometry.PointList;
 public class NoRepeatsPointsList extends PointList {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 8769260981259832495L;
 
@@ -14,7 +14,7 @@ public class NoRepeatsPointsList extends PointList {
      * Does not add the same point twice in a row.
      */
     public void addPoint(int x, int y) {
-        
+
         if (size()<1) {
             super.addPoint(x, y);
             return;
@@ -33,7 +33,7 @@ public class NoRepeatsPointsList extends PointList {
                 }
             }
         }
-        
+
         super.addPoint(x, y);
     }
 }

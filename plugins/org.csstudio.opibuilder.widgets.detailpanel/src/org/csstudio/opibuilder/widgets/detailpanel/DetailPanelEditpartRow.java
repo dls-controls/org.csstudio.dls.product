@@ -6,14 +6,14 @@ import org.eclipse.draw2d.MouseMotionListener;
 import org.eclipse.swt.SWT;
 
 public class DetailPanelEditpartRow {
-    
+
     public class GroupTriangleListener extends MouseMotionListener.Stub implements MouseListener {
         /* Do nothing with this event. */
         @Override
         public void mouseDoubleClicked(MouseEvent arg0) {
         }
 
-        /* The group triangle has been pressed, change the 
+        /* The group triangle has been pressed, change the
          * group collapse state.
          */
         @Override
@@ -44,7 +44,7 @@ public class DetailPanelEditpartRow {
             figure.setHighlightGroupTriangle(false);
         }
     }
-    
+
     public class NameLabelListener extends MouseMotionListener.Stub implements MouseListener {
         /* Do nothing with this event. */
         @Override
@@ -73,7 +73,7 @@ public class DetailPanelEditpartRow {
         }
 
     }
-    
+
     private DetailPanelDividerEditpart divider;
     private DetailPanelDraggerEditpart dragger;
     private DetailPanelFigureRow figure;
@@ -84,7 +84,7 @@ public class DetailPanelEditpartRow {
     public DetailPanelEditpartRow(DetailPanelEditpart e, DetailPanelFigureRow f, DetailPanelModelRow model) {
         figure = f;
         editpart = e;
-        divider = new DetailPanelDividerEditpart(editpart, figure.getDivider(), /*horizontal=*/false, 
+        divider = new DetailPanelDividerEditpart(editpart, figure.getDivider(), /*horizontal=*/false,
                     DetailPanelModelRow.makePropertyName(DetailPanelModelRow.PROP_ROW_HEIGHT, model.getRowNumber()));
         dragger = new DetailPanelDraggerEditpart(editpart, figure.getDragger(), figure.getDraggerDivider(),
                 model.getRowNumber());
@@ -95,7 +95,7 @@ public class DetailPanelEditpartRow {
         figure.getNameLabel().addMouseListener(nameLabelListener);
         figure.getNameLabel().addMouseMotionListener(nameLabelListener);
     }
-    
+
     public void dispose() {
         divider.dispose();
         dragger.dispose();
@@ -109,12 +109,12 @@ public class DetailPanelEditpartRow {
     public boolean isGroup() {
         return figure.isGroup();
     }
-    
+
     /* Return true if this row is a collapsed group header. */
     public boolean isCollapsedGroup() {
         return figure.isCollapsedGroup();
     }
-    
+
     /* Return the group collapse state */
     public boolean getGroupCollapse() {
         return figure.getGroupCollapse();
@@ -124,7 +124,7 @@ public class DetailPanelEditpartRow {
     public void setCollapse(boolean c) {
         figure.setCollapse(c);
     }
-    
+
     /* Set the shown state of this row */
     public void setShown(boolean s) {
         figure.setShown(s);

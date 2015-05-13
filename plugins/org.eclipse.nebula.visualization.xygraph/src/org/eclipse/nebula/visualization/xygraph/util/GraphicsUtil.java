@@ -42,7 +42,7 @@ public final class GraphicsUtil {
                 graphics.rotate(90);
                 graphics.drawText(text, 0, -FigureUtilities.getTextExtents(text, graphics.getFont()).height);
             }else{
-                graphics.rotate(270);            
+                graphics.rotate(270);
                 graphics.drawText(text, -FigureUtilities.getTextWidth(text, graphics.getFont()), 0);
             }
             graphics.popState();
@@ -52,12 +52,12 @@ public final class GraphicsUtil {
 
             final int w = titleSize.height;
             final int h = titleSize.width +1;
-            Image image = new Image(Display.getCurrent(),w, h);            
+            Image image = new Image(Display.getCurrent(),w, h);
                     try {
-                        final GC gc = createGC(image);    
+                        final GC gc = createGC(image);
                         final Color titleColor = graphics.getForegroundColor();
-                        RGB transparentRGB = new RGB(240, 240, 240);        
-                                        
+                        RGB transparentRGB = new RGB(240, 240, 240);
+
                         gc.setBackground(XYGraphMediaFactory.getInstance().getColor(transparentRGB));
                         gc.fillRectangle(image.getBounds());
                         gc.setForeground(titleColor);
@@ -75,20 +75,20 @@ public final class GraphicsUtil {
                         gc.drawText(text, 0, 0);
                         tr.dispose();
                         gc.dispose();
-                        final ImageData imageData = image.getImageData();                
+                        final ImageData imageData = image.getImageData();
                         image.dispose();
                         imageData.transparentPixel = imageData.palette.getPixel(transparentRGB);
-                        image = new Image(Display.getCurrent(), imageData);                
-                                
+                        image = new Image(Display.getCurrent(), imageData);
+
                         graphics.drawImage(image, x, y);
-                        
+
                     } finally{
-                        image.dispose();        
+                        image.dispose();
                     }
         }
     }
-    
-    
+
+
     /** Draw vertical text.
      * @param graphics draw2D graphics.
      * @param text text to be drawn.
@@ -97,7 +97,7 @@ public final class GraphicsUtil {
     public static final void drawVerticalText(Graphics graphics, String text, Point location, boolean upToDown){
         drawVerticalText(graphics, text, location.x, location.y, upToDown);
     }
-    
+
     /**
      * Used for single sourcing, returns null if called in RAP Context.
      * @param image
@@ -110,7 +110,7 @@ public final class GraphicsUtil {
             return null;
         }
     }
-    
+
     public static void setTransform(GC gc, Transform transform) {
         try {
             GC.class.getMethod("setTransform", Transform.class).invoke(gc, transform);

@@ -10,7 +10,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.graphics.RGB;
 
 public class EdmSymbolModel extends AbstractPVWidgetModel {
-    
+
     public static final String PROP_EDM_IMAGE_FILE = "image_file";
     public static final String PROP_SUB_IMAGE_WIDTH= "sub_image_width";
 
@@ -40,7 +40,7 @@ public class EdmSymbolModel extends AbstractPVWidgetModel {
         }
         return absolutePath;
     }
-    
+
     public int getSubImageWidth() {
         Double width = (Double) getProperty(PROP_SUB_IMAGE_WIDTH).getPropertyValue();
         return width.intValue();

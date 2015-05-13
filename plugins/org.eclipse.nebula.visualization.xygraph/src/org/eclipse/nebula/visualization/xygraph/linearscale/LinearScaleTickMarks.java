@@ -10,7 +10,7 @@ import org.eclipse.nebula.visualization.xygraph.util.SWTConstants;
  * Linear scale tick marks.
  * @author Xihui Chen
  */
-public class LinearScaleTickMarks extends Figure {   
+public class LinearScaleTickMarks extends Figure {
 
 
 
@@ -27,7 +27,7 @@ public class LinearScaleTickMarks extends Figure {
 
     /**
      * Constructor.
-     * 
+     *
      * @param chart
      *            the chart
      * @param style
@@ -36,7 +36,7 @@ public class LinearScaleTickMarks extends Figure {
      *            the scale
      */
     public LinearScaleTickMarks(LinearScale scale) {
-        
+
         this.scale = scale;
 
         setForegroundColor(scale.getForegroundColor());
@@ -65,7 +65,7 @@ public class LinearScaleTickMarks extends Figure {
 
     /**
      * Draw the X tick marks.
-     * 
+     *
      * @param tickLabelPositions
      *            the tick label positions
      * @param tickLabelSide
@@ -79,7 +79,7 @@ public class LinearScaleTickMarks extends Figure {
      */
     private void drawXTickMarks(Graphics gc, ITicksProvider ticks,
             LabelSide tickLabelSide, int width, int height) {
-        
+
         // draw tick marks
         gc.setLineStyle(SWTConstants.LINE_SOLID);
         int imax = ticks.getMajorCount();
@@ -139,12 +139,12 @@ public class LinearScaleTickMarks extends Figure {
             gc.drawLine(scale.getMargin(), height - 1, width - scale.getMargin(), height - 1);
         }
         }
-        
+
     }
 
     /**
      * Draw the Y tick marks.
-     * 
+     *
      * @param tickLabelPositions
      *            the tick label positions
      * @param tickLabelSide
@@ -168,7 +168,7 @@ public class LinearScaleTickMarks extends Figure {
                 if(ticks.isVisible(i))
                     tickLength = MAJOR_TICK_LENGTH;
                 else
-                     tickLength = MINOR_TICK_LENGTH;            
+                     tickLength = MINOR_TICK_LENGTH;
 
                 x = tickLabelSide == LabelSide.Primary ? width - 1 - LINE_WIDTH - tickLength : LINE_WIDTH;
                 y = height - ticks.getPosition(i);
@@ -187,7 +187,7 @@ public class LinearScaleTickMarks extends Figure {
                         gc.drawLine(x, y, x + MINOR_TICK_LENGTH, y);
                 }
             }
-        } else {        
+        } else {
             int x = tickLabelSide == LabelSide.Primary ? width - LINE_WIDTH - MAJOR_TICK_LENGTH : LINE_WIDTH;
             for (int i = 0; i < imax; i++) {
                 y = height - ticks.getPosition(i);

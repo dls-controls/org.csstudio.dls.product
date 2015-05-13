@@ -18,7 +18,7 @@ public class TickFactoryTest {
         try {
             TickFactory.roundDown(BigDecimal.ONE, BigDecimal.ZERO);
         } catch (IllegalArgumentException iae) {
-            
+
         } catch (Exception e) {
             Assert.fail("Did not throw IAE");
         }
@@ -26,7 +26,7 @@ public class TickFactoryTest {
         try {
             TickFactory.roundUp(BigDecimal.ONE, BigDecimal.ZERO);
         } catch (IllegalArgumentException iae) {
-            
+
         } catch (Exception e) {
             Assert.fail("Did not throw IAE");
         }
@@ -174,7 +174,7 @@ public class TickFactoryTest {
         testGeneratedBothTicks(0, 0.07, 2, "0.0", "0.1");
 
         testGeneratedBothTicks(-0.5, 0.5, 2, "-0.5", "0.0", "0.5");
-        testGeneratedBothTicks(-0.1, 0.1, 2, "-0.1", "0.0", "0.1"); 
+        testGeneratedBothTicks(-0.1, 0.1, 2, "-0.1", "0.0", "0.1");
 
         testGeneratedLooseTicks(0, 695, 8, "0", "200", "400", "600", "800");
         testGeneratedTightTicks(0, 695, 8, "0", "200", "400", "600");
@@ -357,7 +357,7 @@ public class TickFactoryTest {
         for (int i = 0; i < out.length; i++)
             values[i] = negate(out[i]);
         checkTickValues(t, values);
-        
+
         if (upper != lower) {
             t = tf.generateTicks(-upper, -lower, nTicks, true, tight);
             for (int i = 0; i < out.length; i++)

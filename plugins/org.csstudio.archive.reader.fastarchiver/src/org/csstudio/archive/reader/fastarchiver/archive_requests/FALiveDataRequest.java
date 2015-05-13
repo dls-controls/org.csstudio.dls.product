@@ -13,7 +13,7 @@ import org.csstudio.archive.vtype.ArchiveVDisplayType;
  * Class to get new values for an item in the Fast Archiver. Uses the
  * undecimated data stream. Stores the data for approx. 3 seconds between
  * fetches.
- * 
+ *
  * @author FJohlinger
  *
  */
@@ -32,7 +32,7 @@ public class FALiveDataRequest extends FARequest {
     private BufferedInputStream inFromServer;
 
     /**
-     * 
+     *
      * @param url
      *            needs to start with "fads://" followed by the host name and
      *            optionally a colon followed by a port number (default 8888)
@@ -69,7 +69,7 @@ public class FALiveDataRequest extends FARequest {
      * reconnectAfter is the number of times the archiver tries to fetch data,
      * without actually returning new values, before trying to reconnect to the
      * archiver.
-     * 
+     *
      * @return the current value for reconnectAfter
      */
     public int getReconnectAfter() {
@@ -81,7 +81,7 @@ public class FALiveDataRequest extends FARequest {
      * without actually returning new values, before trying to reconnect to the
      * archiver. Default value is {@value #noNewValuesOccurence}, should be
      * higher for more frequent requests.
-     * 
+     *
      * @param reconnectAfter
      */
     public synchronized void setReconnectAfter(int reconnectAfter) {
@@ -90,7 +90,7 @@ public class FALiveDataRequest extends FARequest {
 
     /**
      * Used to get the initial data from the live data stream
-     * 
+     *
      * @throws FADataNotAvailableException
      *             when the server returns an error message
      * @throws IOException
@@ -212,7 +212,7 @@ public class FALiveDataRequest extends FARequest {
     /**
      * Calculates the number of bytes that can be read from the inputStream,
      * using complete blocks
-     * 
+     *
      * @throws IOException
      *             if the stream has been closed
      */

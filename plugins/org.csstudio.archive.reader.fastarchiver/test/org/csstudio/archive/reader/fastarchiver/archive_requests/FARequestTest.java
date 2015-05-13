@@ -228,7 +228,7 @@ public class FARequestTest {
         data.position(0);
         FARequest.decodeDataUndecToDec(data, 0, blockSize, offset, -1, 0);
     }
-    
+
     @Test
     public void testDecodeDataDecToDecValidInput() {
         int blockSize = 4;
@@ -249,7 +249,7 @@ public class FARequestTest {
 
         // manually calculate result
         double[][] expected = new double[][]{{2, 0, 5, Math.sqrt(35.0)}, {10/3.0, 3, 6, Math.sqrt(110)}};
-        
+
         for (int i = 0; i < expected.length; i++) {
             assertEquals("Mean not calculated properly", expected[i][0] / 1000.0, result[i].getAverage(), 0.000001);
         }

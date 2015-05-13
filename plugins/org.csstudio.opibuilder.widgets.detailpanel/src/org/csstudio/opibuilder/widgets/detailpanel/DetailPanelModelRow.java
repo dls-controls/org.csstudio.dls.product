@@ -54,7 +54,7 @@ public class DetailPanelModelRow {
     private boolean collapsed = false;
     private boolean shown = true;
     private boolean childrenVisible  = false;
-    
+
     /* Make a row property name */
     public static String makePropertyName(String propertyName, int rowNumber) {
         return "row_" + rowNumber + "_" + propertyName;
@@ -86,18 +86,18 @@ public class DetailPanelModelRow {
         model.addProperty(new StringProperty(propName,    "Name", category, "", /*multiline=*/false));
         model.setPropertyVisible(propName, false);
         propName = makePropertyName(PROP_ROW_HEIGHT, rowNumber);
-        model.addProperty(new IntegerProperty(propName,    "Height", category, 
+        model.addProperty(new IntegerProperty(propName,    "Height", category,
                 /*default=*/20, /*min=*/0, /*max=*/50000));
         model.setPropertyVisible(propName, false);
         propName = makePropertyName(PROP_ROW_TOOLTIP, rowNumber);
         model.addProperty(new StringProperty(propName,    "Tooltip", category, "", /*multiline=*/true));
         model.setPropertyVisible(propName, false);
         propName = makePropertyName(PROP_ROW_LEVEL, rowNumber);
-        model.addProperty(new ComboProperty(propName,    "Min Display Level", category, 
+        model.addProperty(new ComboProperty(propName,    "Min Display Level", category,
                 DetailPanelModel.DisplayLevel.stringValues(), 0));
         model.setPropertyVisible(propName, false);
     }
-    
+
     /* Constructor */
     public DetailPanelModelRow(DetailPanelModel model, int rowNumber) {
         this.rowNumber = rowNumber;
@@ -109,9 +109,9 @@ public class DetailPanelModelRow {
         this.model.setPropertyVisible(makePropertyName(PROP_ROW_HEIGHT, this.rowNumber), true);
         this.model.setPropertyVisible(makePropertyName(PROP_ROW_TOOLTIP, this.rowNumber), true);
         this.model.setPropertyVisible(makePropertyName(PROP_ROW_LEVEL, this.rowNumber), true);
-        // Does the children container already exist? 
+        // Does the children container already exist?
         // When the model is created from a stored file, the container is created for us.
-        List<AbstractWidgetModel> modelChildren = model.getChildren(); 
+        List<AbstractWidgetModel> modelChildren = model.getChildren();
         if(modelChildren.size() > rowNumber) {
             // Use the container created for us.  Luckily they will exist as children in row number order.
             this.children = (GroupingContainerModel)modelChildren.get(rowNumber);
@@ -137,17 +137,17 @@ public class DetailPanelModelRow {
         this.children.setScaleOptions(false, false, true);
         this.children.setPropertyValue(GroupingContainerModel.PROP_SHOW_SCROLLBAR, false);
     }
-    
+
     /* Return the row number */
     public int getRowNumber() {
         return rowNumber;
     }
-    
+
     /* One or more colour property has changed */
     public void colorsChanged() {
         this.children.setBackgroundColor(model.getRowBackgroundColor(visibleRowNumber));
     }
-    
+
     /* Clean up */
     public void dispose() {
         // Hide the property page rows
@@ -167,7 +167,7 @@ public class DetailPanelModelRow {
             });
         }
     }
-    
+
     /* Copy the properties from the other row into this one */
     public void copyProperties(DetailPanelModelRow other) {
         model.setPropertyValue(makePropertyName(PROP_ROW_MODE, rowNumber),
@@ -181,7 +181,7 @@ public class DetailPanelModelRow {
         model.setPropertyValue(makePropertyName(PROP_ROW_LEVEL, rowNumber),
                 other.model.getPropertyValue(makePropertyName(PROP_ROW_LEVEL, other.rowNumber)));
     }
-    
+
     protected void swapProperty(DetailPanelModelRow other, String property, boolean fire) {
         Object a, b;
         a = other.model.getPropertyValue(makePropertyName(property, other.rowNumber));
@@ -189,7 +189,7 @@ public class DetailPanelModelRow {
         model.setPropertyValue(makePropertyName(property, rowNumber), a, fire);
         other.model.setPropertyValue(makePropertyName(property, other.rowNumber), b, fire);
     }
-    
+
     /* Swap the properties between the other row and this one */
     public void swapProperties(final DetailPanelModelRow other) {
         swapProperty(other, PROP_ROW_MODE, false);
@@ -197,7 +197,7 @@ public class DetailPanelModelRow {
         swapProperty(other, PROP_ROW_HEIGHT, true);
         swapProperty(other, PROP_ROW_TOOLTIP, true);
         swapProperty(other, PROP_ROW_LEVEL, true);
-        
+
         boolean t;
         t = other.collapsed;
         other.collapsed = collapsed;
@@ -211,7 +211,7 @@ public class DetailPanelModelRow {
         Rectangle tr = other.nameArea;
         other.nameArea = nameArea;
         nameArea = tr;
-        
+
         List<AbstractWidgetModel> otherChildren = new LinkedList<AbstractWidgetModel>(other.children.getChildren());
         List<AbstractWidgetModel> myChildren = new LinkedList<AbstractWidgetModel>(children.getChildren());
         other.children.removeAllChildren();
@@ -222,8 +222,8 @@ public class DetailPanelModelRow {
         for(AbstractWidgetModel child: myChildren) {
             other.children.addChild(child, true);
         }
-        
-        
+
+
 //        UIBundlingThread.getInstance().addRunnable(new Runnable() {
 //            @Override
 //            public void run() {
@@ -242,43 +242,43 @@ public class DetailPanelModelRow {
 //            }
 //        });
     }
-    
+
     /* Get a row property value.  Check to see if this function is ever called. */
     public Object getPropertyValue(String propertyName) {
         return model.getPropertyValue(makePropertyName(propertyName, rowNumber));
     }
-    
+
     /* Return the row mode. */
     public Mode getMode() {
         return Mode.values()[(int)model.getPropertyValue(makePropertyName(PROP_ROW_MODE, rowNumber))];
     }
-    
+
     /* Set the row mode. */
     public void setMode(DetailPanelModelRow.Mode mode, boolean fire) {
         model.setPropertyValue(makePropertyName(PROP_ROW_MODE, rowNumber), mode.ordinal(), fire);
     }
-    
+
     /* Return the row level. */
     public DetailPanelModel.DisplayLevel getLevel() {
         return DetailPanelModel.DisplayLevel.values()[(int)model.getPropertyValue(makePropertyName(PROP_ROW_LEVEL, rowNumber))];
     }
-    
+
     /* Return the row name. */
     public String getName() {
         return (String)model.getPropertyValue(makePropertyName(PROP_ROW_NAME, rowNumber));
     }
-    
+
     /* Return the row minimum height. */
     public int getHeight() {
         return (int)model.getPropertyValue(makePropertyName(PROP_ROW_HEIGHT, rowNumber));
     }
-    
+
     /* Return the tooltip. */
     public String getTooltip() {
         return (String)model.getPropertyValue(makePropertyName(PROP_ROW_TOOLTIP, rowNumber));
     }
-    
-    /* Adjust the layout of the container and the name area.  
+
+    /* Adjust the layout of the container and the name area.
      * Returns the start y of the next row. */
     public int adjustLayout(int width, int y, int height, int verticalDividerPos) {
         // What height do the children take up?
@@ -286,7 +286,7 @@ public class DetailPanelModelRow {
         for(AbstractWidgetModel child: children.getChildren()) {
             Rectangle childRect = child.getBounds();
             if((childRect.y + childRect.height) > childrenHeight) {
-                childrenHeight = childRect.y + childRect.height; 
+                childrenHeight = childRect.y + childRect.height;
             }
         }
         // Adjust the row height to match
@@ -307,7 +307,7 @@ public class DetailPanelModelRow {
         }
         return y + childrenHeight;
     }
-    
+
     /* Set the visible row number and return the next visible row number. */
     public int setVisibleRowNumber(int n) {
         visibleRowNumber = n;
@@ -317,23 +317,23 @@ public class DetailPanelModelRow {
         children.setBackgroundColor(model.getRowBackgroundColor(visibleRowNumber));
         return n;
     }
-    
+
     /* Return the visible row number. */
     public int getVisibleRowNumber() {
         return visibleRowNumber;
     }
-    
+
     /* Return the previously calculated name area for this row */
     public Rectangle getNameArea() {
         return nameArea;
     }
-    
+
     /* Set the collapse state of this group member row. */
     public void setCollapse(boolean c) {
         collapsed = c;
         controlVisibility();
     }
-    
+
     /* Set the shown state of the row */
     public void setShown(boolean s) {
         shown = s;
@@ -370,6 +370,6 @@ public class DetailPanelModelRow {
             childrenVisible = false;
         }
     }
-    
+
 }
 

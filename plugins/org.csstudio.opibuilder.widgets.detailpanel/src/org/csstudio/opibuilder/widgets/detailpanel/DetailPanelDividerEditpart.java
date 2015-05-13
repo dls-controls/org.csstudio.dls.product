@@ -16,13 +16,13 @@ public class DetailPanelDividerEditpart  extends MouseMotionListener.Stub implem
     private Rectangle containerClientArea;
     private Boolean horizontal;
     private String propertyName;
-    
+
     /* Relationships */
     DetailPanelEditpart editpart;
     DetailPanelDividerFigure figure;
 
     /* Constructor */
-    public DetailPanelDividerEditpart(DetailPanelEditpart editpart, DetailPanelDividerFigure figure, 
+    public DetailPanelDividerEditpart(DetailPanelEditpart editpart, DetailPanelDividerFigure figure,
             boolean horizontal, String propertyName) {
         this.editpart = editpart;
         this.figure = figure;
@@ -31,13 +31,13 @@ public class DetailPanelDividerEditpart  extends MouseMotionListener.Stub implem
         this.figure.addMouseListener(this);
         this.figure.addMouseMotionListener(this);
     }
-    
+
     /* Clean up */
     public void dispose() {
         this.figure.removeMouseListener(this);
         this.figure.removeMouseMotionListener(this);
     }
-    
+
     /* The mouse button has been pressed while over the divider */
     public void mousePressed(MouseEvent me) {
         if (me.button == 1 /* left button */) {
@@ -53,7 +53,7 @@ public class DetailPanelDividerEditpart  extends MouseMotionListener.Stub implem
             me.consume();
         }
     }
-    
+
     /* Dragging the divider */
     @Override
     public void mouseDragged(MouseEvent me) {
@@ -64,7 +64,7 @@ public class DetailPanelDividerEditpart  extends MouseMotionListener.Stub implem
             me.consume();
         }
     }
-    
+
     /* Calculate the new position of the divider in pixels taking account of
      * the available space.     */
     private int newDividerPos(MouseEvent me) {
@@ -88,12 +88,12 @@ public class DetailPanelDividerEditpart  extends MouseMotionListener.Stub implem
         }
         return pixelPos;
     }
-    
+
     /* Ignore double clicks for now.  Possible automatic size function later? */
     @Override
     public void mouseDoubleClicked(MouseEvent me) {
     }
-    
+
     /* The mouse button has been released */
     public void mouseReleased(MouseEvent me) {
         if (me.button == 1 /* left button */) {
@@ -103,11 +103,11 @@ public class DetailPanelDividerEditpart  extends MouseMotionListener.Stub implem
                 figure.showDivider(false);
                 // Change the model
                 editpart.getViewer().getEditDomain().getCommandStack().execute(
-                    new SetWidgetPropertyCommand(editpart.getWidgetModel(), propertyName, 
+                    new SetWidgetPropertyCommand(editpart.getWidgetModel(), propertyName,
                     newDividerPos(me)));
                 me.consume();
             }
         }
     }
-    
+
 }

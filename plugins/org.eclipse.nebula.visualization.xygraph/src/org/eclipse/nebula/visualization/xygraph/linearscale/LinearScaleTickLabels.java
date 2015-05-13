@@ -16,7 +16,7 @@ public class LinearScaleTickLabels extends Figure {
 
     /**
      * Constructor.
-     * 
+     *
      * @param linearScale
      *            the scale
      */
@@ -35,7 +35,7 @@ public class LinearScaleTickLabels extends Figure {
 
     /**
      * Updates the tick labels.
-     * 
+     *
      * @param length
      *            scale tick length (without margin)
      */
@@ -59,7 +59,7 @@ public class LinearScaleTickLabels extends Figure {
 
     /**
      * Draw the X tick.
-     * 
+     *
      * @param graphics
      *            the graphics context
      */
@@ -77,7 +77,7 @@ public class LinearScaleTickLabels extends Figure {
 
     /**
      * Draw the Y tick.
-     * 
+     *
      * @param graphics
      *            the graphics context
      */

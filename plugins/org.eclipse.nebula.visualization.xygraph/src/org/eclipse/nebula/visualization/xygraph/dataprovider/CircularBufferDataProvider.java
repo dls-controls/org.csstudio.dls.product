@@ -15,24 +15,24 @@ import org.eclipse.swt.widgets.Display;
 
 
 /**
- * Provides data to a trace. 
+ * Provides data to a trace.
  * @author Xihui Chen
  *
  */
 public class CircularBufferDataProvider extends AbstractDataProvider{
-    
+
     public enum UpdateMode{
         X_OR_Y("X or Y"),
         X_AND_Y("X AND Y"),
         X("X"),
         Y("Y"),
         TRIGGER("Trigger");
-                
+
         private UpdateMode(String description) {
              this.description = description;
         }
         private String description;
-        
+
         @Override
         public String toString() {
             return description;
@@ -44,17 +44,17 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
                 sv[i++] = p.toString();
             return sv;
         }
-    }    
+    }
 
     public enum PlotMode{
         LAST_N("Plot last n pts."),
-        N_STOP("Plot n pts & stop.");    
-                
+        N_STOP("Plot n pts & stop.");
+
         private PlotMode(String description) {
              this.description = description;
         }
         private String description;
-        
+
         @Override
         public String toString() {
             return description;
@@ -67,47 +67,47 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
             return sv;
         }
     }
-    
-    private CircularBuffer<ISample> traceData;    
-    
+
+    private CircularBuffer<ISample> traceData;
+
     private double currentXData;
-    
+
     private double currentYData;
-    
-    private long currentYDataTimestamp;    
-    
+
+    private long currentYDataTimestamp;
+
     private boolean currentXDataChanged = false;
-    
+
     private boolean currentYDataChanged = false;
-    
+
     private boolean currentYDataTimestampChanged = false;
-    
+
     private double[] currentXDataArray = new double[]{};
-    
+
     private double[] currentYDataArray = new double[]{};
-    
+
     private boolean currentXDataArrayChanged = false;
-    
+
     private boolean currentYDataArrayChanged = false;
-    
+
     private boolean xAxisDateEnabled = false;
-    
+
     private int updateDelay = 0;
     private boolean duringDelay = false;
-    
+
     private boolean concatenate_data = true;
-    
+
     /**
      * this indicates if the max and min of the data need to be recalculated.
      */
     private boolean dataRangedirty = false;
-    
+
     private UpdateMode updateMode = UpdateMode.X_AND_Y;
-    
+
     private PlotMode plotMode = PlotMode.LAST_N;
 
     private Runnable fireUpdate;
-    
+
     public CircularBufferDataProvider(boolean chronological) {
         super(chronological);
         traceData = new CircularBuffer<ISample>(100);
@@ -117,7 +117,7 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
                     listener.dataChanged(CircularBufferDataProvider.this);
                 }
                 duringDelay = false;
-            }            
+            }
         };
     }
 
@@ -140,7 +140,7 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
         if(!xAxisDateEnabled|| (xAxisDateEnabled && currentYDataTimestampChanged))
             tryToAddDataPoint();
     }
-    
+
     public synchronized void addSample(ISample sample){
         if(traceData.size() == traceData.getBufferSize() && plotMode == PlotMode.N_STOP)
             return;
@@ -150,13 +150,13 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
         }
         fireDataChange();
     }
-    
+
     private boolean hasErrors = false;
     @Override
     public boolean hasErrors() {
         return hasErrors;
     }
-    
+
     /**Set the time stamp of currrent YData
      * @param timestamp timestamp of Y data in milliseconds.
      */
@@ -164,13 +164,13 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
         if(!xAxisDateEnabled){
             clearTrace();
             xAxisDateEnabled = true;
-        }        
+        }
         this.currentYDataTimestamp = timestamp;
         currentYDataTimestampChanged = true;
         if(currentYDataChanged)
-            tryToAddDataPoint();        
+            tryToAddDataPoint();
     }
-    
+
     /**Set current YData and its timestamp when the new value generated.
      * @param currentYData the currentYData to set
      * @param timestamp timestamp of Y data in milliseconds.
@@ -180,12 +180,12 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
         this.currentYData = newValue;
         currentYDataChanged = true;
         this.currentYDataTimestamp = timestamp;
-        currentYDataTimestampChanged = true;        
+        currentYDataTimestampChanged = true;
         tryToAddDataPoint();
     }
-    
+
     /**
-     * Try to add a new data point to trace data. 
+     * Try to add a new data point to trace data.
      * Whether it will be added or not is up to the update mode.
      */
     private void tryToAddDataPoint(){
@@ -200,14 +200,14 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
         case X_AND_Y:
             if((chronological && currentYDataChanged) ||
                     (!chronological && (currentXDataChanged && currentYDataChanged)))
-                addDataPoint();                    
+                addDataPoint();
             break;
         case X:
-            if((chronological && currentYDataChanged) || 
+            if((chronological && currentYDataChanged) ||
                     (!chronological && currentXDataChanged))
                 addDataPoint();
             break;
-        case Y:            
+        case Y:
             if(currentYDataChanged)
                 addDataPoint();
             break;
@@ -222,8 +222,8 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
     /**
      * add a new data point to trace data.
      */
-    private void addDataPoint() {    
-        double newXValue;        
+    private void addDataPoint() {
+        double newXValue;
         if(!concatenate_data)
             traceData.clear();
         if(chronological){
@@ -238,7 +238,7 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
                     newXValue = 0;
                 else
                     newXValue = traceData.getTail().getXValue() +1;
-            }                    
+            }
         }else{
             newXValue = currentXData;
         }
@@ -246,10 +246,10 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
             currentXDataChanged = false;
             currentYDataChanged = false;
             currentYDataTimestampChanged = false;
-            fireDataChange();            
+            fireDataChange();
     }
-    
-    
+
+
     /**
      * @param currentXData the currentXData to set
      */
@@ -258,7 +258,7 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
         currentXDataArrayChanged = true;
         tryToAddDataArray();
     }
-    
+
     /**
      * @param currentXData the currentXData to set
      */
@@ -267,10 +267,10 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
         currentYDataArrayChanged = true;
         tryToAddDataArray();
     }
-    
-    
+
+
     /**
-     * Try to add a new data array to trace data. 
+     * Try to add a new data array to trace data.
      * Whether it will be added or not is up to the update mode.
      */
     private void tryToAddDataArray(){
@@ -285,32 +285,32 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
         case X_AND_Y:
             if((chronological && currentYDataArrayChanged) ||
                     (!chronological && (currentXDataArrayChanged && currentYDataArrayChanged)))
-                addDataArray();                    
+                addDataArray();
             break;
         case X:
-            if((chronological && currentYDataArrayChanged) || 
+            if((chronological && currentYDataArrayChanged) ||
                     (!chronological && currentXDataArrayChanged))
                 addDataArray();
             break;
-        case Y:            
+        case Y:
             if(currentYDataArrayChanged)
                 addDataArray();
-            break;    
+            break;
         case TRIGGER:
         default:
             break;
         }
     }
-    
-    
+
+
     /**
      * add a new data point to trace data.
      */
-    private void addDataArray() {    
+    private void addDataArray() {
         if(!concatenate_data)
             traceData.clear();
-            
-        if(chronological){    
+
+        if(chronological){
             double[] newXValueArray;
             newXValueArray = new double[currentYDataArray.length];
             if(traceData.size() == 0)
@@ -323,30 +323,30 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
                 }
             for(int i=0; i<Math.min(newXValueArray.length, currentYDataArray.length); i++){
                 traceData.add(new Sample(newXValueArray[i], currentYDataArray[i]));
-            }                    
-        }else{            
+            }
+        }else{
             //newXValueArray = currentXDataArray;
-            
-            // if the data array size is longer than buffer size, 
+
+            // if the data array size is longer than buffer size,
             //just ignore the tail data.
             for(int i=0; i<Math.min(traceData.getBufferSize(),
                     Math.min(currentXDataArray.length, currentYDataArray.length)); i++){
                 traceData.add(new Sample(currentXDataArray[i], currentYDataArray[i]));
             }
         }
-        
+
             currentXDataChanged = false;
             currentYDataChanged = false;
             currentYDataTimestampChanged = false;
-            fireDataChange();        
+            fireDataChange();
     }
-    
+
 
     public synchronized void clearTrace(){
         traceData.clear();
         fireDataChange();
     }
-    
+
     public Iterator<ISample> iterator() {
         return traceData.iterator();
     }
@@ -358,14 +358,14 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
         traceData.setBufferSize(bufferSize, false);
     }
 
-    
+
     /**
      * @param updateMode the updateMode to set
      */
     public void setUpdateMode(UpdateMode updateMode) {
         this.updateMode = updateMode;
     }
-    
+
     /**
      * @return the update mode.
      */
@@ -373,7 +373,7 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
         return updateMode;
     }
 
-    /**In TRIGGER update mode, the trace data could be updated by this method 
+    /**In TRIGGER update mode, the trace data could be updated by this method
      * @param triggerValue the triggerValue to set
      */
     public void triggerUpdate() {
@@ -390,7 +390,7 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
     protected void innerUpdate() {
         dataRangedirty = true;
     }
-    
+
     @Override
     protected void updateDataRange(){
         if(!dataRangedirty)
@@ -401,7 +401,7 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
             double xMax;
             xMin = traceData.getHead().getXValue();
             xMax = xMin;
-            
+
             double yMin;
             double yMax;
             yMin = traceData.getHead().getYValue();
@@ -410,14 +410,14 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
                 if(xMin > dp.getXValue()-dp.getXMinusError())
                     xMin = dp.getXValue()-dp.getXMinusError();
                 if(xMax < dp.getXValue()+dp.getXPlusError())
-                    xMax = dp.getXValue()+ dp.getXPlusError();    
-                
+                    xMax = dp.getXValue()+ dp.getXPlusError();
+
                 if(yMin > dp.getYValue() - dp.getYMinusError())
                     yMin = dp.getYValue() - dp.getYMinusError();
                 if(yMax < dp.getYValue() + dp.getYPlusError())
-                    yMax = dp.getYValue() + dp.getYPlusError();    
+                    yMax = dp.getYValue() + dp.getYPlusError();
             }
-            
+
             xDataMinMax = new Range(xMin, xMax);
             yDataMinMax = new Range(yMin, yMax);
         }else {
@@ -443,8 +443,8 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
         return traceData.size();
     }
 
-    /**If xAxisDateEnable is true, you will need to use 
-     * {@link #setCurrentYData(double, long)} or {@link #setCurrentYDataTimestamp(long)} to set the 
+    /**If xAxisDateEnable is true, you will need to use
+     * {@link #setCurrentYData(double, long)} or {@link #setCurrentYDataTimestamp(long)} to set the
      * time stamp of ydata. This flag will be automatically enabled when
      * either of these two methods were called.
      * The default value is false.
@@ -461,17 +461,17 @@ public class CircularBufferDataProvider extends AbstractDataProvider{
     public synchronized void setUpdateDelay(int updateDelay) {
         this.updateDelay = updateDelay;
     }
-    
+
     @Override
     protected synchronized void fireDataChange() {
         if(updateDelay >0){
-            innerUpdate();            
+            innerUpdate();
             if(!duringDelay){
-                Display.getCurrent().timerExec(updateDelay, fireUpdate);    
+                Display.getCurrent().timerExec(updateDelay, fireUpdate);
                 duringDelay = true;
-            }                    
+            }
         }else
-            super.fireDataChange();            
+            super.fireDataChange();
     }
 
     public void setConcatenate_data(boolean concatenate_data) {

@@ -88,24 +88,24 @@ public class SingleSourceHelperImpl extends SingleSourceHelper {
      */
     @Override
     protected String getInternalImageSavePath(String[] filterExtensions) {
-        
+
         try { // Swt use reflection
             Class clazz = getClass().getClassLoader().loadClass("org.eclipse.swt.widgets.FileDialog");
-            
+
             Object dialog = clazz.getConstructor(Shell.class, int.class).newInstance(Display.getDefault().getShells()[0], SWT.SAVE);
-            
+
             Method setFilterNamesMethod = clazz.getMethod("setFilterNames", String[].class);
             setFilterNamesMethod.invoke(dialog, new String[] { "PNG Files", "All Files (*.*)" });
-            
-            
+
+
             if (filterExtensions==null) filterExtensions = new String[] { "*.png", "*.*" };
             Method setFilterExtensionsMethod = clazz.getMethod("setFilterExtensions", String[].class);
             setFilterExtensionsMethod.invoke(dialog, filterExtensions);
-            
+
             Method openMethod = clazz.getMethod("open");
             String path = (String)openMethod.invoke(dialog);
             return path;
-            
+
         } catch (Throwable ne) {
             throw new RuntimeException(ne.getMessage(), ne);
         }
@@ -113,20 +113,20 @@ public class SingleSourceHelperImpl extends SingleSourceHelper {
 
     @Override
     protected IFile getProjectSaveFilePath(final String name) {
-        
+
         try {
             final Bundle bundle = Platform.getBundle("org.eclipse.emf.common.ui");
             final Class  clazz  = bundle.loadClass("org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog");
-            
+
             final Method openNewMethod = clazz.getMethod("openNewFile", Shell.class,String.class,String.class, IPath.class,  List.class);
-            
-            IFile exportTo = (IFile)openNewMethod.invoke(null, Display.getDefault().getActiveShell(), 
-                    "Create file to export to", 
-                    "Export data from "+name+"'", 
+
+            IFile exportTo = (IFile)openNewMethod.invoke(null, Display.getDefault().getActiveShell(),
+                    "Create file to export to",
+                    "Export data from "+name+"'",
                     null, null);
-    
+
             return exportTo;
-            
+
         } catch (Throwable ne) {
             throw new RuntimeException(ne.getMessage(), ne);
         }

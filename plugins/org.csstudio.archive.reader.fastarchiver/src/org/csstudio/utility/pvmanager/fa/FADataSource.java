@@ -14,7 +14,7 @@ import org.epics.pvmanager.DataSource;
 
 /**
  * Provides FAChannelHandlers to connect to the live stream of the FA Archiver.
- * 
+ *
  * @author FJohlinger
  */
 public class FADataSource extends DataSource {
@@ -78,7 +78,7 @@ public class FADataSource extends DataSource {
 
     /**
      * Returns the lookup name to use to find the channel handler in the cache.
-     * 
+     *
      * @param channelName the channel name
      * @return the channel handler to look up in the cache
      */

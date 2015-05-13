@@ -13,7 +13,7 @@ import java.util.List;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
-/**The memento to hold the properties of an XYGraph, 
+/**The memento to hold the properties of an XYGraph,
  * so to make the operation on XYGraph undoable.
  * @author Xihui Chen
  *
@@ -28,30 +28,30 @@ public class XYGraphMemento {
     private boolean showLegend;
     private boolean showPlotAreaBorder;
     private boolean transparent;
-    
+
     private List<AnnotationMemento> annotationMementoList;
     private List<AxisMemento> axisMementoList;
     private List<TraceMemento> traceMementoList;
-    
+
     public XYGraphMemento() {
         annotationMementoList = new ArrayList<AnnotationMemento>();
         axisMementoList = new ArrayList<AxisMemento>();
         traceMementoList = new ArrayList<TraceMemento>();
     }
-    
+
     public void addAnnotationMemento(AnnotationMemento memento){
         annotationMementoList.add(memento);
     }
-    
+
     public void addAxisMemento(AxisMemento memento){
         axisMementoList.add(memento);
     }
-    
+
     public void addTraceMemento(TraceMemento memento){
         traceMementoList.add(memento);
     }
-    
-    
+
+
     /**
      * @return the title
      */
@@ -172,7 +172,7 @@ public class XYGraphMemento {
     public List<TraceMemento> getTraceMementoList() {
         return traceMementoList;
     }
-    
-    
-    
+
+
+
 }

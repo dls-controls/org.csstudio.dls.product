@@ -15,7 +15,7 @@ import org.junit.Test;
  * Most parts of the class are hard to test, so create an instance and therefore
  * an connection to the live stream use methods in normal circumstances,
  * simulating the use by the DataBrowser.
- * 
+ *
  * Tested with large gap between calls to fetchNewValues, tested with small
  * decimation. Reconnecting has been tested in use in DataBrowser, by
  * interrupting the Fast Archiver using a debug command, but not using J-Unit
@@ -84,7 +84,7 @@ public class FALiveDataRequestTest {
         }
 
         Thread.sleep(timeout);
-        
+
         // second fetch
         try {
             newValuesAfterGap = faLive.fetchNewValues(decimation);
@@ -101,7 +101,7 @@ public class FALiveDataRequestTest {
         Timestamp lastTimeBeforeGap = newValuesBeforeGap[newValuesBeforeGap.length-1].getTimestamp();
         Timestamp firstTimeAfterGap = newValuesAfterGap[0].getTimestamp();
         assertTrue(lastTimeBeforeGap.durationBetween(firstTimeAfterGap).toNanosLong() < 1000000000);
-        
+
     }
 
     @Test

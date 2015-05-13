@@ -448,7 +448,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
                     TraceProperty.YPV.propIDPre, i);
             for(TraceProperty traceProperty : TraceProperty.values()){
                 final String propID = DawnXYGraphModel.makeTracePropID(
-                    traceProperty.propIDPre, i);    
+                    traceProperty.propIDPre, i);
                 final IWidgetPropertyChangeHandler handler = new TracePropertyChangeHandler(i, traceProperty, xPVPropID, yPVPropID);
 
                 if(concatenate){
@@ -544,7 +544,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             break;
         case XPV_VALUE:
             if(newValue == null || !(newValue instanceof VType))
-                break;            
+                break;
             if(dataProvider.isConcatenate_data()){
                 IPV pv = getPV(xPVPropID);
                 for(VType o:pv.getAllBufferedValues()){
@@ -645,7 +645,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             ((CircularBufferDataProvider)traceList.get(i).getDataProvider()).clearTrace();
         }
     }
-    
+
     public double[] getXBuffer(int i){
         CircularBufferDataProvider dataProvider = (CircularBufferDataProvider)traceList.get(i).getDataProvider();
         double[] XBuffer = new double[dataProvider.getSize()];
@@ -654,7 +654,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         }
         return XBuffer;
     }
-    
+
     public double[] getYBuffer(int i){
         CircularBufferDataProvider dataProvider = (CircularBufferDataProvider)traceList.get(i).getDataProvider();
         double[] YBuffer = new double[dataProvider.getSize()];

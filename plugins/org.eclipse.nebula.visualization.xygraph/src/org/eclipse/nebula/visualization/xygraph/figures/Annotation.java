@@ -46,15 +46,15 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
         NONE(0, "None"),
         UP_DOWN(1, "Up&Down"),
         LEFT_RIGHT(2, "Left&Right"),
-        FOUR_DIRECTIONS(3, "Four Directions");        
-        
+        FOUR_DIRECTIONS(3, "Four Directions");
+
         private CursorLineStyle(int index, String description) {
              this.index = index;
              this.description = description;
         }
         private int index;
         private String description;
-        
+
         @Override
         public String toString() {
             return description;
@@ -65,38 +65,38 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
             for(CursorLineStyle p : values())
                 sv[i++] = p.toString();
             return sv;
-        }    
+        }
         /**
          * @return the index
          */
         public int getIndex() {
             return index;
         }
-        
-        
+
+
     }
-    
+
     private IAnnotationLabelProvider labelProvider = null;
-    
-    private Axis xAxis;    
-    private Axis yAxis;    
+
+    private Axis xAxis;
+    private Axis yAxis;
     private String name;
     private CursorLineStyle cursorLineStyle = CursorLineStyle.NONE;
     private Point currentPosition;
 
     private double xValue;
     private double yValue;
-    
-    
+
+
     private Trace trace;
     private ISample currentSnappedSample;
-    
+
     private boolean showName = true;
     private boolean showSampleInfo = true;
     private boolean showPosition = true;
-    
-    private Color annotationColor = null;    
-    
+
+    private Color annotationColor = null;
+
     private Label infoLabel;
     //label's relative position to currentPosition
     private double dx = 40;
@@ -105,27 +105,27 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
     private double x0, y0;
     private boolean knowX0Y0 = false;
     private boolean infoLabelArmed = false;
-    
+
     private Pointer  pointer;
-    
+
     private XYGraph xyGraph;
-    
+
     private final static int POINT_SIZE = 6;
     private final static int CURSOR_LINE_LENGTH = 3;
     private final static int ARROW_LINE_LENGTH = 12;
     private boolean pointerDragged;
-    
+
 
     /**Construct an annotation on a trace.
      * @param name the name of the annotation.
      * @param trace the trace which the annotation will snap to.
-     */    
+     */
     public Annotation(String name, Trace trace) {
         this(name, trace.getXAxis(), trace.getYAxis());
         this.trace = trace;
         trace.getDataProvider().addDataProviderListener(this);
     }
-    
+
     /**Construct a free annotation.
      * @param xAxis the xAxis of the annotation.
      * @param yAxis the yAxis of the annotation.
@@ -135,63 +135,63 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
         this.xAxis = xAxis;
         this.yAxis = yAxis;
         this.name = name;
-        trace = null;            
+        trace = null;
         infoLabel = new Label();
         infoLabel.setOpaque(false);
-        infoLabel.setCursor(Cursors.SIZEALL);        
+        infoLabel.setCursor(Cursors.SIZEALL);
         add(infoLabel);
         InfoLabelDragger infoLabelDragger = new InfoLabelDragger();
         infoLabel.addMouseMotionListener(infoLabelDragger);
-        infoLabel.addMouseListener(infoLabelDragger);        
+        infoLabel.addMouseListener(infoLabelDragger);
         pointer = new Pointer();
         add(pointer);
-        updateToDefaultPosition();    
+        updateToDefaultPosition();
         xAxis.addListener(this);
         yAxis.addListener(this);
     }
-    
-    
+
+
 
     @Override
     public boolean containsPoint(int x, int y) {
-        
+
         return infoLabel.containsPoint(x, y) || pointer.containsPoint(x,y);
     }
-    
+
     @Override
     protected void paintFigure(Graphics graphics) {
         super.paintFigure(graphics);
-        
+
         if(trace != null && currentSnappedSample == null &&!pointerDragged)
             updateToDefaultPosition();
-            
+
         if (XYPreferences.useAdvancedGraphics())
             graphics.setAntialias(SWT.ON);
         Color tempColor;
         if(annotationColor == null){
-            tempColor = yAxis.getForegroundColor();            
+            tempColor = yAxis.getForegroundColor();
         }else
             tempColor = annotationColor;
         infoLabel.setForegroundColor(tempColor);
         pointer.setForegroundColor(tempColor);
         graphics.setForegroundColor(tempColor);
         Dimension size = infoLabel.getPreferredSize();
-        updateX0Y0Fromdxdy(size);    
+        updateX0Y0Fromdxdy(size);
         //System.out.println(x0 +": " +y0 + " ");
-        
-        Rectangle infoBounds = new Rectangle((int) (currentPosition.x + x0 - size.width/2.0), 
+
+        Rectangle infoBounds = new Rectangle((int) (currentPosition.x + x0 - size.width/2.0),
                 (int) (currentPosition.y +y0 - size.height/2.0), size.width, size.height);
-        
-        infoLabel.setBounds(infoBounds);        
-        
+
+        infoLabel.setBounds(infoBounds);
+
         pointer.setBounds(new Rectangle(currentPosition.x - POINT_SIZE, currentPosition.y - POINT_SIZE,
                 2*POINT_SIZE, 2*POINT_SIZE));
-        
+
         if(infoLabelArmed) //draw infoLabel Armed rect
             graphics.drawRectangle(infoBounds);
-        
+
         //draw indicate line
-        graphics.drawLine(currentPosition.x + (int)dx, currentPosition.y + (int)dy, 
+        graphics.drawLine(currentPosition.x + (int)dx, currentPosition.y + (int)dy,
                 currentPosition.x, currentPosition.y);
         //draw Arrow
         int x1 = (int) (ARROW_LINE_LENGTH*Math.cos(Math.atan(-dy/dx)-Math.PI/9));
@@ -199,59 +199,59 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
         if(dx <0){
             x1 = -x1;
             y1 = -y1;
-        }            
+        }
         graphics.drawLine(currentPosition.x + x1, currentPosition.y - y1, currentPosition.x, currentPosition.y);
         x1 = (int) (ARROW_LINE_LENGTH*Math.cos(Math.atan(-dy/dx)+Math.PI/9));
         y1 = (int) (ARROW_LINE_LENGTH*Math.sin(Math.atan(-dy/dx)+Math.PI/9));
         if(dx <0){
             x1 = -x1;
             y1 = -y1;
-        }    
+        }
         graphics.drawLine(currentPosition.x + x1, currentPosition.y - y1, currentPosition.x, currentPosition.y);
-                
+
         //draw Cursor Line
         switch (cursorLineStyle) {
         case NONE:
             //left
-            graphics.drawLine(currentPosition.x - POINT_SIZE/2, currentPosition.y, 
+            graphics.drawLine(currentPosition.x - POINT_SIZE/2, currentPosition.y,
                     currentPosition.x - POINT_SIZE/2 - CURSOR_LINE_LENGTH, currentPosition.y);
             //right
-            graphics.drawLine(currentPosition.x + POINT_SIZE/2, currentPosition.y, 
+            graphics.drawLine(currentPosition.x + POINT_SIZE/2, currentPosition.y,
                     currentPosition.x + POINT_SIZE/2 + CURSOR_LINE_LENGTH, currentPosition.y);
             //up
-            graphics.drawLine(currentPosition.x , currentPosition.y - POINT_SIZE/2, 
+            graphics.drawLine(currentPosition.x , currentPosition.y - POINT_SIZE/2,
                     currentPosition.x, currentPosition.y - POINT_SIZE/2 - CURSOR_LINE_LENGTH);
             //down
-            graphics.drawLine(currentPosition.x , currentPosition.y + POINT_SIZE/2, 
-                    currentPosition.x, currentPosition.y + POINT_SIZE/2 + CURSOR_LINE_LENGTH);            
+            graphics.drawLine(currentPosition.x , currentPosition.y + POINT_SIZE/2,
+                    currentPosition.x, currentPosition.y + POINT_SIZE/2 + CURSOR_LINE_LENGTH);
             break;
         case FOUR_DIRECTIONS:
         case LEFT_RIGHT:
             //left
-            graphics.drawLine(currentPosition.x - POINT_SIZE/2, currentPosition.y, 
+            graphics.drawLine(currentPosition.x - POINT_SIZE/2, currentPosition.y,
                     xAxis.getValuePosition(xAxis.getRange().getLower(), false), currentPosition.y);
             //right
-            graphics.drawLine(currentPosition.x + POINT_SIZE/2, currentPosition.y, 
+            graphics.drawLine(currentPosition.x + POINT_SIZE/2, currentPosition.y,
                     xAxis.getValuePosition(xAxis.getRange().getUpper(), false), currentPosition.y);
             if(cursorLineStyle != CursorLineStyle.FOUR_DIRECTIONS)
                 break;
         case UP_DOWN:
             //up
-            graphics.drawLine(currentPosition.x , currentPosition.y - POINT_SIZE/2, 
+            graphics.drawLine(currentPosition.x , currentPosition.y - POINT_SIZE/2,
                     currentPosition.x, yAxis.getValuePosition(yAxis.getRange().getUpper(), false));
             //down
-            graphics.drawLine(currentPosition.x , currentPosition.y + POINT_SIZE/2, 
-                    currentPosition.x, yAxis.getValuePosition(yAxis.getRange().getLower(), false));    
+            graphics.drawLine(currentPosition.x , currentPosition.y + POINT_SIZE/2,
+                    currentPosition.x, yAxis.getValuePosition(yAxis.getRange().getLower(), false));
             break;
         default:
             break;
         }
-        
-        
+
+
     }
 
-    
-    
+
+
     /**update (x0, y0) if it is unknown.
      * @param size the label size
      * @return
@@ -267,50 +267,50 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
                 //assume this is the intersection
                 y0 = dy-h/2.0;
                 x0 = (dx/dy)*y0;
-                if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) && 
+                if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) &&
                         new Range(x0-w/2.0, x0 + w/2.0).inRange(dx))
                     return;
-                
+
                 y0 = dy+h/2.0;
                 x0 = (dx/dy)*y0;
-                if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) && 
+                if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) &&
                         new Range(x0-w/2.0, x0 + w/2.0).inRange(dx))
                     return;
             }else{
-                
+
             }
             if(dx!=0){
                 x0 = dx+w/2.0;
                 y0 = (dy/dx)*x0;
-                if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) && 
+                if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) &&
                         new Range(y0-h/2.0, y0+h/2.0).inRange(dy))
                     return;
-                
+
                 x0 = dx-w/2.0;
                 y0 = (dy/dx)*x0;
-                if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) && 
+                if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) &&
                         new Range(y0-h/2.0, y0+h/2.0).inRange(dy))
                     return;
             }
-        }else        
+        }else
             return;
     }
-    
+
     /**update (dx, dy) if (x0, y0) has been updated by dragging.
      * @param size the label size
      * @return
      */
-    private void updatedxdyFromX0Y0() {        
+    private void updatedxdyFromX0Y0() {
         Dimension size = infoLabel.getPreferredSize();
         int h = size.height;
         int w = size.width;
         if(y0 != 0){
             dy = y0+h/2.0;
             dx = x0*dy/y0;
-            if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) && 
+            if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) &&
                     new Range(x0-w/2.0, x0 + w/2.0).inRange(dx))
                 return;
-            
+
             dy = y0-h/2.0;
             dx = x0*dy/y0;
             if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) &&
@@ -322,24 +322,24 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
         if(x0 != 0){
             dx = x0-size.width/2.0;
             dy = y0*dx/x0;
-            if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) && 
+            if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) &&
                     new Range(y0-h/2.0, y0+h/2.0).inRange(dy))
                 return;
-            
+
             dx = x0+size.width/2.0;
             dy = y0*dx/x0;
             if(new Range(0, x0).inRange(dx) && new Range(0, y0).inRange(dy) &&
                     new Range(y0-h/2.0, y0+h/2.0).inRange(dy))
-                return;    
+                return;
         }else
             dx=0;
     }
-    
-    
+
+
     /**
      * move the annotation to the center of the plot area or trace.
      */
-    private void updateToDefaultPosition(){    
+    private void updateToDefaultPosition(){
         if(trace != null && trace.getHotSampleList().size()>0){
             currentSnappedSample = trace.getHotSampleList().get(trace.getHotSampleList().size()/2);
             currentPosition = new Point(xAxis.getValuePosition(currentSnappedSample.getXValue(), false),
@@ -360,7 +360,7 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
                 yValue = (yAxis.getRange().getLower() + yAxis.getRange().getUpper())/2;
 
             currentPosition = new Point(xAxis.getValuePosition(xValue, false),
-                yAxis.getValuePosition(yValue, false));    
+                yAxis.getValuePosition(yValue, false));
         }
         updateInfoLableText(true);
     }
@@ -376,20 +376,20 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
         yValue = y;
 
         currentPosition = new Point(xAxis.getValuePosition(xValue, false),
-                yAxis.getValuePosition(yValue, false));    
-        
+                yAxis.getValuePosition(yValue, false));
+
         updateInfoLableText(true);
     }
-    
+
     /**
-     * 
+     *
      */
     protected void updateInfoLableText(boolean updateX0Y0) {
-        String info = null;        
+        String info = null;
         if (labelProvider!=null) {
             info = labelProvider.getInfoText(xValue, yValue, showName, showSampleInfo, showPosition);
         }
-        
+
         if (info==null) {
             info = "";
             if(showName)
@@ -397,20 +397,20 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
             if(showSampleInfo && currentSnappedSample != null && !currentSnappedSample.getInfo().equals(""))
                 info += "\n" + currentSnappedSample.getInfo();
             if(showPosition)
-                    info += "\n" + "(" + xAxis.format(xValue) + ", " + 
+                    info += "\n" + "(" + xAxis.format(xValue) + ", " +
                     (Double.isNaN(yValue) ? "NaN" : yAxis.format(yValue)) + ")";
         }
-            
+
         infoLabel.setText(info);
         knowX0Y0 = !updateX0Y0;
-        
+
     }
-    
+
     private void updateInfoLableText(){
         updateInfoLableText(true);
     }
-    
-    
+
+
     /**
      * @param axis the xAxis to set
      */
@@ -418,7 +418,7 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
         if(this.xAxis == axis)
             return;
         xAxis = axis;
-        updateToDefaultPosition();        
+        updateToDefaultPosition();
         repaint();
     }
     /**
@@ -427,7 +427,7 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
     public void setYAxis(Axis axis) {
         if(this.yAxis == axis)
             return;
-        yAxis = axis;            
+        yAxis = axis;
         updateToDefaultPosition();
         repaint();
     }
@@ -441,13 +441,13 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
     /**
      * @param trace the trace to set
      */
-    public void setTrace(Trace trace) {        
+    public void setTrace(Trace trace) {
         if(this.trace == trace)
             return;
         this.xAxis = trace.getXAxis();
-        this.yAxis = trace.getYAxis();            
+        this.yAxis = trace.getYAxis();
         if(!isFree() && this.trace != trace)
-            this.trace.getDataProvider().removeDataProviderListener(this);        
+            this.trace.getDataProvider().removeDataProviderListener(this);
         if(isFree() || this.trace != trace){
             this.trace = trace;
             updateToDefaultPosition();
@@ -456,30 +456,30 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
         trace.getDataProvider().addDataProviderListener(this);
         repaint();
     }
-    
+
     /**Make the annotation free.
-     * @param xAxis 
+     * @param xAxis
      * @param yAxis
      */
-    public void setFree(Axis xAxis, Axis yAxis){        
-        if(trace != null){            
+    public void setFree(Axis xAxis, Axis yAxis){
+        if(trace != null){
             trace.getDataProvider().removeDataProviderListener(this);
             trace = null;
-            updateToDefaultPosition();    
-        }            
+            updateToDefaultPosition();
+        }
         setXAxis(xAxis);
         setYAxis(yAxis);
-        
+
         repaint();
     }
-    
+
     /**
      * @return true if the annotation is free.
      */
     public boolean isFree(){
         return trace == null;
     }
-    
+
     /**
      * @param showName the showName to set
      */
@@ -526,8 +526,8 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
     public void setCursorLineStyle(CursorLineStyle cursorLineStyle) {
         this.cursorLineStyle = cursorLineStyle;
     }
-    
-    
+
+
     /**
      * @param currentPosition the currentPosition to set
      */
@@ -540,21 +540,21 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
             y0 +=deltaY;
             knowX0Y0 = true;
             updatedxdyFromX0Y0();
-            
+
             //System.out.println(x0 + ":" + y0 +" " + dx + ": " + dy + " " + this.currentPosition + " " +currentPosition);
         }
         this.currentPosition = currentPosition;
         xValue = xAxis.getPositionValue(currentPosition.x, false);
         yValue = yAxis.getPositionValue(currentPosition.y, false);
-        
+
         updateInfoLableText(keepLablePosition);
-        
-        repaint();    
+
+        repaint();
     }
 
     /**
      * @param currentSnappedSample the currentSnappedSample to set
-     * @param keepLabelPosition 
+     * @param keepLabelPosition
      */
     public void setCurrentSnappedSample(ISample currentSnappedSample, boolean keepLabelPosition) {
         if(!trace.getHotSampleList().contains(currentSnappedSample))
@@ -571,15 +571,15 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
         }
         repaint();
     }
-    
-    
+
+
 
     public void axisRevalidated(Axis axis) {
         currentPosition = new Point(xAxis.getValuePosition(xValue, false),
                 yAxis.getValuePosition(yValue, false));
         updateInfoLableText();
     }
-    
+
     public void axisRangeChanged(Axis axis, Range old_range, Range new_range) {
         //do nothing
     }
@@ -589,10 +589,10 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
             return;
         if(trace.getHotSampleList().contains(currentSnappedSample)){
             currentPosition = new Point(xAxis.getValuePosition(xValue, false),
-                yAxis.getValuePosition(yValue, false));            
+                yAxis.getValuePosition(yValue, false));
         }
         else if(trace.getHotSampleList().size() > 0){
-            updateToDefaultPosition();    
+            updateToDefaultPosition();
             pointerDragged = false;
         }
     }
@@ -603,7 +603,7 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
     public void setxyGraph(XYGraph xyGraph) {
         this.xyGraph = xyGraph;
     }
-    
+
     public void setdxdy(double dx, double dy){
         this.dx = dx;
         this.dy = dy;
@@ -647,7 +647,7 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
     public double getYValue() {
         return yValue;
     }
-    
+
     /**
      * @return the cursorLineStyle
      */
@@ -693,7 +693,7 @@ public class Annotation extends Figure implements IAxisListener, IDataProviderLi
 
 
 class InfoLabelDragger extends MouseMotionListener.Stub implements MouseListener{
-    
+
     private MovingAnnotationLabelCommand command;
     @Override
     public void mouseDragged(MouseEvent me) {
@@ -706,7 +706,7 @@ class InfoLabelDragger extends MouseMotionListener.Stub implements MouseListener
     }
 
     public void mouseDoubleClicked(MouseEvent me) {}
-    
+
     public void mousePressed(MouseEvent me) {
         command = new MovingAnnotationLabelCommand(Annotation.this);
         command.setBeforeMovingDxDy(dx, dy);
@@ -714,7 +714,7 @@ class InfoLabelDragger extends MouseMotionListener.Stub implements MouseListener
         Annotation.this.repaint();
         me.consume(); //it must be consumed to make dragging smoothly.
     }
-    
+
     public void mouseReleased(MouseEvent me) {
         command.setAfterMovingDxDy(dx, dy);
         xyGraph.getOperationsManager().addCommand(command);
@@ -722,20 +722,20 @@ class InfoLabelDragger extends MouseMotionListener.Stub implements MouseListener
         Annotation.this.repaint();
         me.consume();
     }
-    
+
 }
-    
+
 class Pointer extends Figure{
-    
-    class PointerDragger extends MouseMotionListener.Stub implements MouseListener{        
-        
+
+    class PointerDragger extends MouseMotionListener.Stub implements MouseListener{
+
         private MovingAnnotationCommand command;
         @Override
         public void mouseDragged(MouseEvent me) {
             //free
             if(trace == null){
-                setCurrentPosition(me.getLocation(), 
-                        me.getState() == (InputEvent.BUTTON1 | InputEvent.CONTROL));        
+                setCurrentPosition(me.getLocation(),
+                        me.getState() == (InputEvent.BUTTON1 | InputEvent.CONTROL));
             }else{ //snap to trace
                 //double tempX = xAxis.getPositionValue(me.getLocation().x, false);
                 //double tempY = yAxis.getPositionValue(me.getLocation().y, false);
@@ -744,28 +744,28 @@ class Pointer extends Figure{
                 double d;
                 for(ISample s : trace.getHotSampleList()){
                     d =  Math.sqrt(Math.pow(
-                            xAxis.getValuePosition(s.getXValue(), false) - me.getLocation().x, 2) + 
+                            xAxis.getValuePosition(s.getXValue(), false) - me.getLocation().x, 2) +
                             Math.pow(yAxis.getValuePosition(s.getYValue(), false) - me.getLocation().y, 2));
                     if(minD > d){
                         minD = d;
                         tempSample = s;
-                    }                         
-                }    
+                    }
+                }
                 if(tempSample != null && currentSnappedSample != tempSample)
-                    setCurrentSnappedSample(tempSample, 
+                    setCurrentSnappedSample(tempSample,
                             me.getState() == (InputEvent.BUTTON1 | InputEvent.CONTROL));
                 else if(tempSample == null){
-                    setCurrentPosition(me.getLocation(), 
-                            me.getState() == (InputEvent.BUTTON1 | InputEvent.CONTROL));    
+                    setCurrentPosition(me.getLocation(),
+                            me.getState() == (InputEvent.BUTTON1 | InputEvent.CONTROL));
                     pointerDragged = true;
                 }
-                            
-            }        
+
+            }
             me.consume();
         }
-        
+
         public void mouseDoubleClicked(MouseEvent me) {}
-        
+
         public void mousePressed(MouseEvent me) {
             command = new MovingAnnotationCommand(Annotation.this);
             if(isFree())
@@ -775,7 +775,7 @@ class Pointer extends Figure{
             command.setBeforeDxDy(dx, dy);
             me.consume(); //it must be consumed to make dragging smoothly.
         }
-        
+
         public void mouseReleased(MouseEvent me) {
             if(command != null){
                 if(isFree())
@@ -785,29 +785,29 @@ class Pointer extends Figure{
                 command.setAfterDxDy(dx, dy);
                 xyGraph.getOperationsManager().addCommand(command);
             }
-            
+
         }
     }
-    
+
     public Pointer() {
         setCursor(Cursors.CROSS);
         PointerDragger dragger = new PointerDragger();
         addMouseMotionListener(dragger);
         addMouseListener(dragger);
     }
-    
+
     @Override
     protected void paintClientArea(Graphics graphics) {
         super.paintClientArea(graphics);
         if (XYPreferences.useAdvancedGraphics())
             graphics.setAntialias(SWT.ON);
-        //draw X-cross point        
-        Rectangle clientArea = getClientArea().getCopy().shrink(POINT_SIZE/2, POINT_SIZE/2);        
+        //draw X-cross point
+        Rectangle clientArea = getClientArea().getCopy().shrink(POINT_SIZE/2, POINT_SIZE/2);
         graphics.drawLine(clientArea.x, clientArea.y,
                 clientArea.x + clientArea.width, clientArea.y + clientArea.height);
         graphics.drawLine(clientArea.x + clientArea.width, clientArea.y,
                 clientArea.x, clientArea.y + clientArea.height);
-                
+
     }
 }
 
@@ -823,7 +823,7 @@ public void toFront() {
     final IFigure par = getParent();
     if (par!=null) {
         par.remove(this);
-        final int end = par.getChildren()!=null 
+        final int end = par.getChildren()!=null
                 ? par.getChildren().size()
                         : 0;
         par.add(this, end);

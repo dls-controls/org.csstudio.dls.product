@@ -94,7 +94,7 @@ public class LogbookView extends ViewPart {
         public ArrayList<String> getAttachments() {
             return attachments;
         }
-        
+
         public void clear() {
             for(Button button : buttons) {
                 button.dispose();
@@ -102,11 +102,11 @@ public class LogbookView extends ViewPart {
             for(Label label : labels) {
                 label.dispose();
             }
-            
+
             buttons.clear();
             labels.clear();
             attachments.clear();
-            
+
             defaultLabel = new Label(parentGroup, SWT.NONE);
             defaultLabel.setText("No Attachments");
             parentGroup.getParent().layout();

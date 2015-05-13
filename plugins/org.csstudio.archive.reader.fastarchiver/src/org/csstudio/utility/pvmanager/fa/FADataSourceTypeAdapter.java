@@ -7,7 +7,7 @@ import org.epics.pvmanager.ValueCache;
 
 /**
  * Matches and fills a cache with the data from the FA Archiver.
- * 
+ *
  * @author FJohlinger
  */
 public class FADataSourceTypeAdapter implements
@@ -16,7 +16,7 @@ public class FADataSourceTypeAdapter implements
     /**
      * FALiveDataRequest always returns values as ArchiveVDisplayTypes. Hence
      * match() checks whether the type in the ValueCache can store these.
-     * 
+     *
      * @return 0 if ArchiveVDisplayType cannot be stored in ValueCache, 1 if it
      *         can.
      */

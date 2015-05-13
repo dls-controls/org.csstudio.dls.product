@@ -7,7 +7,7 @@ import org.epics.vtype.VType;
 /**
  * Used to return data from the Fast Archiver. Backed by an Array, uses VType
  * ArchiveVNumber and ArchiveVStatistics, subclasses of ArchiveVDisplayType
- * 
+ *
  * @author FJohlinger
  */
 public class FAValueIterator implements ValueIterator {
@@ -51,7 +51,7 @@ public class FAValueIterator implements ValueIterator {
 
     /**
      * To be used for testing
-     * 
+     *
      * @return the number of remaining elements in the iterator, -1 if iterator
      *         is closed.
      */

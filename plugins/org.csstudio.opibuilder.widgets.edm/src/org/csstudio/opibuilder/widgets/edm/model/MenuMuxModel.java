@@ -21,15 +21,15 @@ public class MenuMuxModel extends ComboModel {
 
         VALUES("values", "Values"),//$NON-NLS-1$
         TARGET("target", "Target");//$NON-NLS-1$
-        
+
         public String propIDPre;
         public String description;
-        
+
         private MuxProperty(String propertyIDPrefix, String description) {
             this.propIDPre = propertyIDPrefix;
             this.description = description;
         }
-        
+
         @Override
         public String toString() {
             return description;
@@ -45,9 +45,9 @@ public class MenuMuxModel extends ComboModel {
      */
     public static final String PROP_ITEMS = "items";//$NON-NLS-1$
     public static final String PROP_INITIAL_STATE = "initial";//$NON-NLS-1$
-    
+
     public static final String PROP_NUM_SETS = "num_sets";//$NON-NLS-1$
-    
+
     public MenuMuxModel() {
         setBackgroundColor(new RGB(255,255,255));
         setForegroundColor(new RGB(0,0,0));
@@ -64,11 +64,11 @@ public class MenuMuxModel extends ComboModel {
 
         addProperty(new StringProperty(
                 PROP_INITIAL_STATE, "Initial State", WidgetPropertyCategory.Misc, ""));
-        
-        
+
+
         addMuxProperties();
     }
-        
+
     private void addMuxProperties() {
         for (int set_index = 0; set_index < MAX_SETS; set_index++) {
             WidgetPropertyCategory category = new NameDefinedCategory("Set " + set_index);
@@ -90,7 +90,7 @@ public class MenuMuxModel extends ComboModel {
             break;
         }
     }
-    
+
     static public String makePropId(String prefix, int index) {
         return prefix + index;
     }
@@ -102,7 +102,7 @@ public class MenuMuxModel extends ComboModel {
     public List<String> getValues(int index){
         return (List<String>)getPropertyValue(MenuMuxModel.makePropId(MuxProperty.VALUES.propIDPre, index));
     }
-        
+
     @Override
     @SuppressWarnings("unchecked")
     public List<String> getItems(){

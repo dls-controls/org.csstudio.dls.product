@@ -79,7 +79,7 @@ public class Axis extends LinearScale{
     final private List<IAxisListener> listeners = new ArrayList<IAxisListener>();
 
     private ZoomType zoomType = ZoomType.NONE;
-    
+
     private boolean axisAutoscaleTight = false;
 
     private Point start;
@@ -266,7 +266,7 @@ public class Axis extends LinearScale{
 
             final double l = range.getLower();
             final double h = range.getUpper();
-            
+
             if (Double.isInfinite(l) || Double.isInfinite(h)
                     || Double.isNaN(l) || Double.isNaN(h))
                 continue;
@@ -863,18 +863,18 @@ public class Axis extends LinearScale{
     }
     public void clear() {
         for (Iterator<IAxisListener> it = listeners.iterator(); it.hasNext();) {
-            if (traceList.contains(it.next())) it.remove();    
+            if (traceList.contains(it.next())) it.remove();
         }
         traceList.clear();
     }
-    
+
     /**
      * @param set whether autoscale sets axis range tight to the data or the end of axis is set to the nearest tickmark
      */
     public void setAxisAutoscaleTight(boolean axisTight) {
         this.axisAutoscaleTight = axisTight;
     }
-    
+
     /**
      * @return true if autoscaling axis is tight to displayed data
      */

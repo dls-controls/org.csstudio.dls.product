@@ -12,22 +12,22 @@ import org.eclipse.swt.graphics.Font;
 
 
 /**
- * The abstract scale has the common properties for linear(straight) scale and 
+ * The abstract scale has the common properties for linear(straight) scale and
  * round scale.
  * @author Xihui Chen
  *
  */
-public abstract class AbstractScale extends Figure{    
-    
+public abstract class AbstractScale extends Figure{
+
 
     /** ticks label's position relative to tick marks*/
     public enum LabelSide {
 
-        /** bottom or left side of tick marks for linear scale, 
+        /** bottom or left side of tick marks for linear scale,
          *  or outside for round scale */
         Primary,
 
-        /** top or right side of tick marks for linear scale, 
+        /** top or right side of tick marks for linear scale,
          *  or inside for round scale*/
         Secondary
     }
@@ -47,10 +47,10 @@ public abstract class AbstractScale extends Figure{
      */
     private static final int ENGINEERING_LIMIT = 4;
 
-    private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd\nHH:mm:ss";        
-    
+    private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd\nHH:mm:ss";
+
     /** ticks label position */
-    private LabelSide tickLabelSide = LabelSide.Primary;   
+    private LabelSide tickLabelSide = LabelSide.Primary;
 
 
     /** the default minimum value of log scale range */
@@ -58,45 +58,45 @@ public abstract class AbstractScale extends Figure{
 
     /** the default maximum value of log scale range */
     public final static double DEFAULT_LOG_SCALE_MAX = 100d;
-    
+
     /** the default label format */
-    private String default_decimal_format = "############.##";    
-    
+    private String default_decimal_format = "############.##";
+
     /** the state if the axis scale is log scale */
     protected boolean logScaleEnabled = false;
-    
+
     /** The minimum value of the scale */
     protected double min = DEFAULT_MIN;
-    
+
     /** The maximum value of the scale */
-    protected double max = DEFAULT_MAX;    
+    protected double max = DEFAULT_MAX;
 
      /** the format for tick labels */
      private String formatPattern;
-    
+
     /** the time unit for tick step */
     private int timeUnit = 0;
-    
-     /** Whenever any parameter has been  changed, the scale should be marked as dirty, 
+
+     /** Whenever any parameter has been  changed, the scale should be marked as dirty,
       * so all the inner parameters could be recalculated before the next paint*/
     private boolean dirty = true;
 
     private boolean dateEnabled = false;
-    
+
     private boolean scaleLineVisible = true;
 
     /** the pixels hint for major tick mark step */
     private int majorTickMarkStepHint = 30;
-    
+
     /** the pixels hint for minor tick mark step */
     private int minorTickMarkStepHint = 4;
-    
+
     private boolean minorTicksVisible= true;
-    
+
     private double majorGridStep = 0;
 
     private boolean autoFormat = true;
-    
+
     protected Range range = new Range(min, max);
 
     private Format cachedFormat = null;
@@ -105,12 +105,12 @@ public abstract class AbstractScale extends Figure{
 
     /**
      * Formats the given object.
-     * 
+     *
      * @param obj
      *            the object
      * @return the formatted string
      */
-    public String format(Object obj) {     
+    public String format(Object obj) {
         if (cachedFormat == null) {
             if (isDateEnabled()) {
                 if (autoFormat || formatPattern == null
@@ -188,12 +188,12 @@ public abstract class AbstractScale extends Figure{
         return majorTickMarkStepHint;
     }
 
-    /** get the scale range */ 
+    /** get the scale range */
     public Range getRange() {
         return range;
     }
 
-    
+
     /**
      * @return the side of the tick label relative to the tick marks
      */
@@ -231,14 +231,14 @@ public abstract class AbstractScale extends Figure{
 
     /**
      * Gets the state indicating if log scale is enabled.
-     * 
+     *
      * @return true if log scale is enabled
      */
     public boolean isLogScaleEnabled() {
         return logScaleEnabled;
     }
 
-    
+
     /**
      * @return the minorTicksVisible
      */
@@ -246,7 +246,7 @@ public abstract class AbstractScale extends Figure{
         return minorTicksVisible;
     }
 
-    
+
     /**
      * @return the scaleLineVisible
      */
@@ -264,7 +264,7 @@ public abstract class AbstractScale extends Figure{
         revalidate();
     }
 
-    /** Whenever any parameter has been changed, the scale should be marked as dirty, 
+    /** Whenever any parameter has been changed, the scale should be marked as dirty,
      * so all the inner parameters could be recalculated before the next paint
      * @param dirty the dirty to set
      */
@@ -276,22 +276,22 @@ public abstract class AbstractScale extends Figure{
      * Sets the format pattern for axis tick label. see {@link Format}
      * <p>
      * If <tt>null</tt> is set, default format will be used.
-     * 
+     *
      * @param format
      *            the format
      * @exception NullPointerException if <code>pattern</code> is null
      * @exception IllegalArgumentException if the given pattern is invalid.
      */
     public void setFormatPattern(String formatPattern) {
-        
+
         this.userDefinedFormat = true;
         setFormat(formatPattern);
     }
-    
+
     public void setDefaultFormatPattern(String formatPattern) {
         setFormat(formatPattern);
     }
-    
+
     protected void setFormat(String formatPattern) {
         try {
              new DecimalFormat(formatPattern);
@@ -302,11 +302,11 @@ public abstract class AbstractScale extends Figure{
          }
         cachedFormat = null;
         this.formatPattern = formatPattern;
-       
+
         autoFormat = false;
         setDirty(true);
         revalidate();
-        repaint();        
+        repaint();
     }
 
     public boolean hasUserDefinedFormat() {
@@ -319,7 +319,7 @@ public abstract class AbstractScale extends Figure{
     public String getFormatPattern() {
         return formatPattern;
     }
-    
+
     @Override
     public void setFont(Font f) {
         super.setFont(f);
@@ -335,12 +335,12 @@ public abstract class AbstractScale extends Figure{
 
         if (logScaleEnabled == enabled) {
             return;
-        } 
-        
+        }
+
         if(enabled) {
             if(min == DEFAULT_MIN && max == DEFAULT_MAX) {
                 min = DEFAULT_LOG_SCALE_MIN;
-                max = DEFAULT_LOG_SCALE_MAX;                   
+                max = DEFAULT_LOG_SCALE_MAX;
             }
             if(max <= 0) {
                 max = DEFAULT_LOG_SCALE_MAX;
@@ -355,7 +355,7 @@ public abstract class AbstractScale extends Figure{
             min = DEFAULT_MIN;
             max = DEFAULT_MAX;
         }
-            
+
         logScaleEnabled = enabled;
         setTicksAtEnds(true);
         range = new Range(min, max);
@@ -367,7 +367,7 @@ public abstract class AbstractScale extends Figure{
     /**
      * @param majorTickMarkStepHint the majorTickMarkStepHint to set, should be less than 1000.
      */
-    public void setMajorTickMarkStepHint(int majorTickMarkStepHint) {        
+    public void setMajorTickMarkStepHint(int majorTickMarkStepHint) {
         this.majorTickMarkStepHint = majorTickMarkStepHint;
         setDirty(true);
         revalidate();
@@ -395,16 +395,16 @@ public abstract class AbstractScale extends Figure{
     /**set the scale range
      * @param lower the lower limit
      * @param upper the upper limit
-     * @throws IllegalArgumentException  
-     * if lower or upper is Nan of Infinite, or lower >= upper or (upper - lower) is Infinite  
+     * @throws IllegalArgumentException
+     * if lower or upper is Nan of Infinite, or lower >= upper or (upper - lower) is Infinite
      */
     public void setRange(double lower, double upper){
-        if (Double.isNaN(lower) || Double.isNaN(upper) 
+        if (Double.isNaN(lower) || Double.isNaN(upper)
                 || Double.isInfinite(lower) || Double.isInfinite(upper) || Double.isInfinite(upper-lower)) {
             throw new IllegalArgumentException("Illegal range: lower=" + lower + ", upper=" + upper);
         }
 
-        forceRange = lower == upper; 
+        forceRange = lower == upper;
         if (forceRange) {
             final double delta = (lower == 0 ? 1 : Math.abs(lower)) * ZERO_RANGE_FRACTION;
             upper += delta;
@@ -447,10 +447,10 @@ public abstract class AbstractScale extends Figure{
 
     /**Set the time unit for a date enabled scale. The format of the time
      * would be determined by it.
-     * @param timeUnit the timeUnit to set. It should be one of: 
-     * <tt>Calendar.MILLISECOND</tt>, <tt>Calendar.SECOND</tt>, 
-     * <tt>Calendar.MINUTE</tt>, <tt>Calendar.HOUR_OF_DAY</tt>, 
-     * <tt>Calendar.DATE</tt>, <tt>Calendar.MONTH</tt>, 
+     * @param timeUnit the timeUnit to set. It should be one of:
+     * <tt>Calendar.MILLISECOND</tt>, <tt>Calendar.SECOND</tt>,
+     * <tt>Calendar.MINUTE</tt>, <tt>Calendar.HOUR_OF_DAY</tt>,
+     * <tt>Calendar.DATE</tt>, <tt>Calendar.MONTH</tt>,
      * <tt>Calendar.YEAR</tt>.
      * @see Calendar
      */

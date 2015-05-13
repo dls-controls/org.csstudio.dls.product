@@ -27,35 +27,35 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class MenuMuxFigure extends AbstractSWTWidgetFigure<Combo> {
 
-    
+
     Triangle selector;
-    private final static Color GRAY_COLOR = 
+    private final static Color GRAY_COLOR =
         CustomMediaFactory.getInstance().getColor(240,240,240);
-    private final static Color DARK_GRAY_COLOR = 
+    private final static Color DARK_GRAY_COLOR =
         CustomMediaFactory.getInstance().getColor(CustomMediaFactory.COLOR_DARK_GRAY);
 
     private static final int SELECTOR_WIDTH = 8;
 
     private Combo combo;
-    
+
     public MenuMuxFigure(AbstractBaseEditPart editPart) {
         super(editPart);
         if(!runmode){
-            selector = new Triangle();    
+            selector = new Triangle();
             selector.setBackgroundColor(DARK_GRAY_COLOR);
             selector.setDirection(PositionConstants.SOUTH);
             selector.setFill(true);
             add(selector);
         }
-        
+
     }
-    
+
     @Override
     protected Combo createSWTWidget(Composite parent, int style) {
         combo= new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
         return combo;
     }
-    
+
     @Override
     protected void layout() {
         super.layout();
@@ -65,7 +65,7 @@ public class MenuMuxFigure extends AbstractSWTWidgetFigure<Combo> {
                     clientArea.y, SELECTOR_WIDTH, clientArea.height));
         }
     }
-    
+
     @Override
     protected void paintOutlineFigure(Graphics graphics) {
         // draw this so that it can be seen in the outline view
@@ -78,14 +78,14 @@ public class MenuMuxFigure extends AbstractSWTWidgetFigure<Combo> {
                     clientArea.getSize().shrink(1, 1)));
         }
     }
-    
+
     public void setText(String text) {
         combo.setText(text);
     }
-    
+
     public Dimension getAutoSizeDimension(){
-        return new Dimension(getBounds().width, 
+        return new Dimension(getBounds().width,
                 combo.computeSize(SWT.DEFAULT, SWT.DEFAULT).y + getInsets().getHeight());
-    }    
-    
+    }
+
 }

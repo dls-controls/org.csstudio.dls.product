@@ -19,7 +19,7 @@ import org.epics.pvmanager.ValueCache;
 /**
  * Extends the multiplexedChannelHandler, using values from the FA Archiver
  * and creating a FADataSourceTypeAdapter to handle these.
- * 
+ *
  * @author FJohlinger
  *
  */
@@ -57,7 +57,7 @@ public class FAChannelHandler extends
     /**
      * Creates a new FAChannelHandler to handle connections with the DLS Fast
      * Archiver
-     * 
+     *
      * @param channelName
      *            PV name
      * @param url
@@ -69,7 +69,7 @@ public class FAChannelHandler extends
      */
     public FAChannelHandler(String channelName, String url, int[] bpmAndCoordinate) {
         super(channelName);
-        
+
         this.url = url;
         this.bpm = bpmAndCoordinate[0];
         this.coordinate = bpmAndCoordinate[1];
@@ -106,8 +106,8 @@ public class FAChannelHandler extends
     }
 
     /**
-     * {@inheritDoc} 
-     * 
+     * {@inheritDoc}
+     *
      * Returns a FADataSourceTypeAdapter
      */
     @Override

@@ -53,7 +53,7 @@ public class PlotArea extends Figure {
     private Point end;
     private boolean armed;
 
-    private Color revertBackColor;    
+    private Color revertBackColor;
 
     public PlotArea(final XYGraph xyGraph) {
         this.xyGraph = xyGraph;
@@ -74,7 +74,7 @@ public class PlotArea extends Figure {
     public void setBackgroundColor(final Color bg) {
         RGB backRGB = bg.getRGB();
         revertBackColor = XYGraphMediaFactory.getInstance().getColor(255- backRGB.red,
-                255 - backRGB.green, 255 - backRGB.blue);    
+                255 - backRGB.green, 255 - backRGB.blue);
         Color oldColor = getBackgroundColor();
         super.setBackgroundColor(bg);
         firePropertyChange(BACKGROUND_COLOR, oldColor, bg);
@@ -88,8 +88,8 @@ public class PlotArea extends Figure {
         traceList.add(trace);
         add(trace);
         revalidate();
-    }    
-    
+    }
+
 
     /**Remove a trace from the plot area.
      * @param trace
@@ -201,7 +201,7 @@ public class PlotArea extends Figure {
                 graphics.setLineDash(new int[]{1,1});
                 graphics.setForegroundColor(ColorConstants.black);
                 graphics.drawRectangle(start.x, start.y, end.x - start.x, end.y - start.y);
-                
+
                 graphics.setForegroundColor(ColorConstants.white);
                 graphics.drawRectangle(start.x+1, start.y+1, end.x - start.x, end.y - start.y);
 
@@ -269,18 +269,18 @@ public class PlotArea extends Figure {
     public List<Annotation> getAnnotationList() {
         return annotationList;
     }
-    
+
     /**
-     * Alternative listener which will be notified 
+     * Alternative listener which will be notified
      * in addition to processing the internal tools.
      */
     private Collection<MouseListener>       auxilliaryClickListeners;
     /**
-     * Alternative listener which will be notified 
+     * Alternative listener which will be notified
      * in addition to processing the internal tools.
      */
     private Collection<MouseMotionListener> auxilliaryMotionListeners;
-    
+
 
     /** Listener to mouse events, performs panning and some zooms
      *  Is very similar to the Axis.AxisMouseListener, but unclear
@@ -295,10 +295,10 @@ public class PlotArea extends Figure {
         public void mousePressed(final MouseEvent me)
         {
             fireMousePressed(me);
-            
+
             // Only react to 'main' mouse button, only react to 'real' zoom
             if (me.button != 1  ||  zoomType == ZoomType.NONE) return;
-            
+
             armed = true;
             // get start position
             switch (zoomType)
@@ -356,7 +356,7 @@ public class PlotArea extends Figure {
             me.consume();
         }
 
-        public void mouseDoubleClicked(final MouseEvent me) { 
+        public void mouseDoubleClicked(final MouseEvent me) {
             fireMouseDoubleClicked(me);
         }
 
@@ -477,7 +477,7 @@ public class PlotArea extends Figure {
 
         /**Get the new Range which will honor its original range direction.
          * @param axis the axis whose range should be honored
-         * @param t1 start    
+         * @param t1 start
          * @param t2 end
          * @return the new range
          */
@@ -546,7 +546,7 @@ public class PlotArea extends Figure {
         if (this.auxilliaryMotionListeners==null) auxilliaryMotionListeners = new HashSet<MouseMotionListener>();
         auxilliaryMotionListeners.add(auxilliaryMotionListener);
     }
-    
+
     public void removeAuxilliaryClickListener(MouseListener auxilliaryClickListener) {
         if (this.auxilliaryClickListeners==null)  return;
         auxilliaryClickListeners.remove(auxilliaryClickListener);
@@ -556,12 +556,12 @@ public class PlotArea extends Figure {
         if (this.auxilliaryMotionListeners==null) return;
         auxilliaryMotionListeners.remove(auxilliaryMotionListener);
     }
-    
+
     public void addAuxilliaryClickListener(MouseListener auxilliaryClickListener) {
         if (this.auxilliaryClickListeners==null)  auxilliaryClickListeners = new HashSet<MouseListener>();
         auxilliaryClickListeners.add(auxilliaryClickListener);
     }
-    
+
     public void fireMouseReleased(MouseEvent me) {
         if (this.auxilliaryClickListeners==null)  return;
         for (MouseListener l : auxilliaryClickListeners) l.mouseReleased(me);
@@ -574,33 +574,33 @@ public class PlotArea extends Figure {
 
     public void fireMousePressed(MouseEvent me) {
         if (this.auxilliaryClickListeners==null)  return;
-        for (MouseListener l : auxilliaryClickListeners) l.mousePressed(me);        
+        for (MouseListener l : auxilliaryClickListeners) l.mousePressed(me);
     }
 
 
     public void fireMouseMoved(MouseEvent me) {
         if (this.auxilliaryMotionListeners==null)  return;
-        for (MouseMotionListener l : auxilliaryMotionListeners) l.mouseMoved(me);        
+        for (MouseMotionListener l : auxilliaryMotionListeners) l.mouseMoved(me);
     }
 
     public void fireMouseHover(MouseEvent me) {
         if (this.auxilliaryMotionListeners==null)  return;
-        for (MouseMotionListener l : auxilliaryMotionListeners) l.mouseHover(me);        
+        for (MouseMotionListener l : auxilliaryMotionListeners) l.mouseHover(me);
     }
 
     public void fireMouseEntered(MouseEvent me) {
         if (this.auxilliaryMotionListeners==null)  return;
-        for (MouseMotionListener l : auxilliaryMotionListeners) l.mouseEntered(me);        
+        for (MouseMotionListener l : auxilliaryMotionListeners) l.mouseEntered(me);
     }
 
     public void fireMouseExited(MouseEvent me) {
         if (this.auxilliaryMotionListeners==null)  return;
-        for (MouseMotionListener l : auxilliaryMotionListeners) l.mouseExited(me);        
+        for (MouseMotionListener l : auxilliaryMotionListeners) l.mouseExited(me);
     }
 
     public void fireMouseDragged(MouseEvent me) {
         if (this.auxilliaryMotionListeners==null)  return;
-        for (MouseMotionListener l : auxilliaryMotionListeners) l.mouseDragged(me);        
+        for (MouseMotionListener l : auxilliaryMotionListeners) l.mouseDragged(me);
     }
 
 

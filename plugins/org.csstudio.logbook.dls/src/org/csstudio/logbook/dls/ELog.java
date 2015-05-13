@@ -26,7 +26,7 @@ public class ELog {
 
     private final RDBUtil rdb;
     public final static String[] IMAGE_TYPES = {"png", "ico", "gif", "jpg", "jpeg", "bmp", "tif"};
-    private static ArrayList<String> supportedExtensions; 
+    private static ArrayList<String> supportedExtensions;
 
     private enum AttachmentType {
         ATTACHMENT, IMAGE
@@ -100,7 +100,7 @@ public class ELog {
 
     private int createTextEntry(String username, String title, String text, String logbook) throws Exception {
         int entryId = -1;
-        
+
         // Replace line endings for HTML
         text = text.replace("\n","<br />");
 
@@ -159,7 +159,7 @@ public class ELog {
             // RDB file types are 'I' for image and 'A' for attachment
             switch (attachmentType) {
             case IMAGE:
-                statement.setString(5, "I");    
+                statement.setString(5, "I");
                 final int fileSize = (int) inputFile.length();
                 final FileInputStream inputStream = new FileInputStream(inputFile);
                 statement.setBinaryStream(8, inputStream, fileSize);
@@ -198,7 +198,7 @@ public class ELog {
         return -1;
     }
 
-    private boolean isLdapAuthenticated(final String fedid,final String password) throws Exception {    
+    private boolean isLdapAuthenticated(final String fedid,final String password) throws Exception {
         Hashtable <String, String> env = new Hashtable<String, String>();
 
         env.put(Context.INITIAL_CONTEXT_FACTORY,"com.sun.jndi.ldap.LdapCtxFactory");
@@ -212,7 +212,7 @@ public class ELog {
         try {
             DirContext ctx = new InitialDirContext(env);
             ctx.close();
-            return true;            
+            return true;
         } catch (NamingException e) {
             return false ;
         }
@@ -223,9 +223,9 @@ public class ELog {
                 .prepareStatement("SELECT  insert_flag "+
                         "FROM    cs_ger_userlogbookaccess a, " +
                         "cs_log_logbook b "+
-                        "WHERE  b.logbook_id        = a.logbook_id " +                                   
+                        "WHERE  b.logbook_id        = a.logbook_id " +
                         "AND    lower(user_id)      = lower('" + fed_id.trim() +"') " +
-                        "AND    lower(logbook_name) = lower('" + logbook.trim() +"') ");    
+                        "AND    lower(logbook_name) = lower('" + logbook.trim() +"') ");
 
         try {
             statement.execute();
@@ -243,6 +243,6 @@ public class ELog {
             statement.close();
         }
         return false;
-    }       
+    }
 
 }

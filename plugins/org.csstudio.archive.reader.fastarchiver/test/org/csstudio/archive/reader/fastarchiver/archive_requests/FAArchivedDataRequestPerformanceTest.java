@@ -26,7 +26,7 @@ public class FAArchivedDataRequestPerformanceTest {
             TimeDuration.ofSeconds(43200), TimeDuration.ofSeconds(86400),
             TimeDuration.ofSeconds(259200), TimeDuration.ofSeconds(518400),
             TimeDuration.ofSeconds(1036800), TimeDuration.ofSeconds(1382400) };
-    
+
     private TimeDuration[] timeIntervalsRaw = new TimeDuration[] {
             TimeDuration.ofSeconds(10), TimeDuration.ofSeconds(20),
             TimeDuration.ofSeconds(30), TimeDuration.ofSeconds(40),
@@ -34,7 +34,7 @@ public class FAArchivedDataRequestPerformanceTest {
             TimeDuration.ofSeconds(90), TimeDuration.ofSeconds(120),
             TimeDuration.ofSeconds(300), TimeDuration.ofSeconds(900),
             TimeDuration.ofSeconds(1800)};
-    
+
     private static final String URL = "fads://fa-archiver:8888"; // specific to DLS
     private static String name;
     private static HashMap<String, int[]> mapping;
@@ -61,7 +61,7 @@ public class FAArchivedDataRequestPerformanceTest {
         Timestamp end;
         Timestamp start;
         int count = 8000;
-        
+
         for (TimeDuration timeInterval: timeIntervals){
             end = Timestamp.now();
             start = end.minus(timeInterval);
@@ -86,12 +86,12 @@ public class FAArchivedDataRequestPerformanceTest {
         }
 
     }
-    
+
     @Test
     public void testGetRawValues() {
         Timestamp start;
         Timestamp end;
-        
+
         for (TimeDuration timeInterval : timeIntervalsRaw) {
             end = Timestamp.now();
             start = end.minus(timeInterval);

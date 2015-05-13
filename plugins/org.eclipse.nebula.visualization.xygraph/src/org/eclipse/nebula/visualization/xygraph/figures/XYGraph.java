@@ -106,7 +106,7 @@ public class XYGraph extends Figure {
         setOpaque(!transparent);
         legendMap = new LinkedHashMap<Axis, Legend>();
         titleLabel = new Label();
-        String sysFontName = 
+        String sysFontName =
                 Display.getCurrent().getSystemFont().getFontData()[0].getName();
         setTitleFont(XYGraphMediaFactory.getInstance().getFont(
                 new FontData(sysFontName, 12, SWT.BOLD)));
@@ -370,7 +370,7 @@ public class XYGraph extends Figure {
         else
             return yAxisList.remove(axis);
     }
-    
+
     /**Add a trace
      * @param trace
      */
@@ -395,7 +395,7 @@ public class XYGraph extends Figure {
             legendMap.get(trace.getYAxis()).addTrace(trace);
             add(legendMap.get(trace.getYAxis()));
         }
-        
+
 
         if (xAxis==null || yAxis==null) {
             try {
@@ -410,7 +410,7 @@ public class XYGraph extends Figure {
             xAxis.addTrace(trace);
             yAxis.addTrace(trace);
         }
-        
+
         plotArea.addTrace(trace);
         trace.setXYGraph(this);
         trace.dataChanged(null);
@@ -659,11 +659,11 @@ public class XYGraph extends Figure {
         command.saveState();
         operationsManager.addCommand(command);
     }
-      
-    /** @param trim 
+
+    /** @param trim
      * @return Image of the XYFigure. Receiver must dispose. */
     public Image getImage(org.eclipse.swt.graphics.Rectangle size){
-        
+
         Rectangle orig = new Rectangle(bounds);
 
         try {
@@ -673,17 +673,17 @@ public class XYGraph extends Figure {
             plotArea.layout();
             primaryYAxis.layout();
             primaryXAxis.layout();
-            
+
             Image image = new Image(null, bounds.width + 6, bounds.height + 6);
             GC gc = GraphicsUtil.createGC(image);
-            SWTGraphics graphics = new SWTGraphics(gc); 
+            SWTGraphics graphics = new SWTGraphics(gc);
             graphics.translate(-bounds.x + 3, -bounds.y + 3);
             graphics.setForegroundColor(getForegroundColor());
-            graphics.setBackgroundColor(getBackgroundColor());        
+            graphics.setBackgroundColor(getBackgroundColor());
             paint(graphics);
             gc.dispose();
             return image;
-            
+
         } finally {
             setBounds(orig);
             layout();

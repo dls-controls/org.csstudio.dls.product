@@ -19,7 +19,7 @@ public class DetailPanelChangeRowIndexCommand extends Command {
             newMode = nm;
         }
     }
-    
+
     private DetailPanelEditpart editpart;
     private LinkedList<Item> items;
 
@@ -29,11 +29,11 @@ public class DetailPanelChangeRowIndexCommand extends Command {
         setLabel("Change row location");
         this.editpart.determineRowMove(oldIndex, newIndex, this);
     }
-    
+
     public void addItem(int o, int n, DetailPanelModelRow.Mode om, DetailPanelModelRow.Mode nm) {
         this.items.addLast(new Item(o, n, om, nm));
     }
-    
+
     @Override
     public void execute() {
         for(Item item: items) {
@@ -43,7 +43,7 @@ public class DetailPanelChangeRowIndexCommand extends Command {
         editpart.getFigure().setAllRowsVisibility();
         editpart.getFigure().layout();
     }
-    
+
     @Override
     public void undo() {
         Iterator<Item> pos = items.descendingIterator();

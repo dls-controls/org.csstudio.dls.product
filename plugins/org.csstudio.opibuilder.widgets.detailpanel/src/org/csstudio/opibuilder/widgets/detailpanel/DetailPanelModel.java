@@ -11,7 +11,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.RGB;
 
 public class DetailPanelModel extends AbstractContainerModel {
-    
+
     // The display level enumeration
     public enum DisplayLevel {
         LOW("Low"),
@@ -36,7 +36,7 @@ public class DetailPanelModel extends AbstractContainerModel {
 
     /* Constants */
     public static final int MAX_ROW_COUNT = 1000;
-    
+
     /* The widget properties */
     public static final String PROP_ROW_COUNT = "row_count";
     public static final String PROP_VERT_DIVIDER_POS = "vert_divider_pos";
@@ -47,13 +47,13 @@ public class DetailPanelModel extends AbstractContainerModel {
     public static final String PROP_COLOR_SELECT_FORE = "color_select_fore";
     public static final String PROP_COLOR_SELECT_BACK = "color_select_back";
     public static final String PROP_DISPLAY_LEVEL = "display_level";
-    
+
     /* The rows */
     private LinkedList<DetailPanelModelRow> rows;
-    
+
     /* Id of this widget model */
     public static final String ID = "org.csstudio.opibuilder.widgets.detailpanel";
-    
+
     /* Constructor */
     public DetailPanelModel() {
         // Initialise the rows
@@ -61,7 +61,7 @@ public class DetailPanelModel extends AbstractContainerModel {
         // What does this do? How can the model have a size?
         setSize(300, 200);
     }
-    
+
     /* Create the properties */
     @Override
     protected void configureProperties() {
@@ -82,7 +82,7 @@ public class DetailPanelModel extends AbstractContainerModel {
                 WidgetPropertyCategory.Display, new RGB(0, 0, 0)));
         addProperty(new ColorProperty(PROP_COLOR_SELECT_BACK, "Selected Row Background Color",
                 WidgetPropertyCategory.Display, new RGB(217, 217, 255)));
-        addProperty(new ComboProperty(PROP_DISPLAY_LEVEL, "Display Level", 
+        addProperty(new ComboProperty(PROP_DISPLAY_LEVEL, "Display Level",
                 WidgetPropertyCategory.Display, DetailPanelModel.DisplayLevel.stringValues(), 0));
         removeProperty(PROP_COLOR_BACKGROUND);
         removeProperty(PROP_COLOR_FOREGROUND);
@@ -98,41 +98,41 @@ public class DetailPanelModel extends AbstractContainerModel {
             rows.get(j).copyProperties(rows.get(j-1));
         }
     }
-    
+
     /* Shift row properties down one to remove them for a deleted row */
     public void leftShiftRowProperties(int rowNumber) {
         for(int j=rowNumber; j<getChildren().size(); j++) {
             rows.get(j).copyProperties(rows.get(j+1));
         }
     }
-    
+
     /* Swap properties between two rows */
     public void swapRowProperties(int rowA, int rowB) {
         rows.get(rowA).swapProperties(rows.get(rowB));
     }
-    
+
     /* Return our widget identifier */
     @Override
     public String getTypeID() {
         return ID;
     }
-    
+
     /* Return the number of rows parameter */
     public int getRowCount() {
         return (Integer)getPropertyValue(PROP_ROW_COUNT);
     }
-    
+
     /* Return the vertical divider position */
     public int getVerticalDividerPos() {
         return (Integer)getPropertyValue(PROP_VERT_DIVIDER_POS);
     }
-    
+
     /* Get a row property value.  The base property name is
      * extended by the row number to access a row specific property. */
     public Object getRowPropertyValue(int rowNumber, String propertyName) {
         return rows.get(rowNumber).getPropertyValue(propertyName);
     }
-    
+
     /* Set the number of rows in the model. */
     public void setRows(int numberOfRows) {
         while(rows.size() > numberOfRows) {
@@ -143,7 +143,7 @@ public class DetailPanelModel extends AbstractContainerModel {
             rows.add(new DetailPanelModelRow(this, rows.size()));
         }
     }
-    
+
     /* Get a specific row */
     public DetailPanelModelRow getRow(int rowNumber) {
         DetailPanelModelRow result = null;
@@ -152,7 +152,7 @@ public class DetailPanelModel extends AbstractContainerModel {
         }
         return result;
     }
-    
+
     /* Determine the layout of the rows within the given rectangle.*/
     /* Returns the height required by the layout.  */
     public int adjustLayout(Rectangle rect) {
@@ -170,7 +170,7 @@ public class DetailPanelModel extends AbstractContainerModel {
         }
         return yStart;
     }
-    
+
     /* Return the appropriate background colour for a row */
     public RGB getRowBackgroundColor(int rowNumber) {
         RGB result;
@@ -181,12 +181,12 @@ public class DetailPanelModel extends AbstractContainerModel {
         }
         return result;
     }
-    
+
     /* Return the odd row background colour */
     public RGB getOddRowBackgroundColor() {
         return getRGBFromColorProperty(PROP_COLOR_ODD_ROW_BACK);
     }
-    
+
     /* Return the even row background colour */
     public RGB getEvenRowBackgroundColor() {
         return getRGBFromColorProperty(PROP_COLOR_EVEN_ROW_BACK);
@@ -209,12 +209,12 @@ public class DetailPanelModel extends AbstractContainerModel {
             row.colorsChanged();
         }
     }
-    
+
     /* Return the rows of the model */
     public LinkedList<DetailPanelModelRow> getRows() {
         return rows;
     }
-    
+
     /* Set the collapse state of a group's member row */
     public void setCollapse(int rowNumber, boolean collapse) {
         DetailPanelModelRow row = rows.get(rowNumber);

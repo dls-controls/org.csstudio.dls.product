@@ -23,10 +23,10 @@ public class FAChannelHandlerTest {
     private static final String URL = "fads://fa-archiver:8888";
     FAChannelHandler faCH;
 
-    
+
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        bpmMapping = new FAInfoRequest(URL).fetchMapping();    
+        bpmMapping = new FAInfoRequest(URL).fetchMapping();
     }
 
     @AfterClass
@@ -48,18 +48,18 @@ public class FAChannelHandlerTest {
         faCH.write(new Object(), new ChannelWriteCallback() {
             @Override
             public void channelWritten(Exception ex) {
-                // NOP    
+                // NOP
             }
         });
     }
-    
+
     @Test
     public void testFindTypeAdapter() throws IOException, FADataNotAvailableException{
         FALiveDataRequest connection = new FALiveDataRequest(URL, 4, 0);
         ValueCache<ArchiveVDisplayType> cache = new ValueCacheImpl<ArchiveVDisplayType>(ArchiveVDisplayType.class);
         assertTrue(faCH.findTypeAdapter(cache, connection) instanceof FADataSourceTypeAdapter);
     }
-    
-    
+
+
 
 }

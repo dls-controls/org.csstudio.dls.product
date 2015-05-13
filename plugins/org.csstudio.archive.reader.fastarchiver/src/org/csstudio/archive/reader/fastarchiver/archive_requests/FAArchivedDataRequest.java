@@ -15,7 +15,7 @@ import org.epics.util.time.Timestamp;
 
 /**
  * Class to communicate with Fast Archiver about archived data requests.
- * 
+ *
  * @author FJohlinger
  */
 
@@ -28,7 +28,7 @@ public class FAArchivedDataRequest extends FARequest {
 
     // Extra_Dec allows a further decimation by 100
     int extraDecimation = 100;
-    
+
     protected enum Decimation {
         UNDEC, DEC, DOUBLE_DEC, EXTRA_DEC
     };
@@ -57,7 +57,7 @@ public class FAArchivedDataRequest extends FARequest {
     // PUBLIC METHODS
     /**
      * Used to get undecimated data out of the archiver.
-     * 
+     *
      * @param name
      *            name of BPM also specifying the coordinate and the data set
      *            wanted
@@ -86,7 +86,7 @@ public class FAArchivedDataRequest extends FARequest {
     /**
      * Used to get optimised data out of the archiver, decimation dependent on
      * value of count
-     * 
+     *
      * @param name
      *            name of BPM also specifying the coordinate and the data set
      *            wanted
@@ -120,7 +120,7 @@ public class FAArchivedDataRequest extends FARequest {
     /**
      * Used by constructor to initialise sampleFrequency and firstDecimation
      * with information from the Fast Archiver
-     * 
+     *
      * @throws IOException
      *             when no connection can be made with the host (and port)
      *             specified
@@ -146,7 +146,7 @@ public class FAArchivedDataRequest extends FARequest {
     /**
      * Creates a ValueIterator which returns the samples in the specified time
      * interval as VTypes (ArchiveVstatistics or ArchiveVNumber)
-     * 
+     *
      * @param request
      *            message to server with request for data
      * @param start
@@ -217,8 +217,8 @@ public class FAArchivedDataRequest extends FARequest {
                 values = decodeDataDec(bb, (int) sampleCount, blockSize,
                         offset, coordinate, count);
             }
-            
-            
+
+
 
         }
 
@@ -229,7 +229,7 @@ public class FAArchivedDataRequest extends FARequest {
      * Uses the sample frequency, decimation factor and length of the time
      * interval to calculate the right decimation factor to use for data request
      * from Archive
-     * 
+     *
      * @param start
      *            Timestamp of first sample
      * @param end
@@ -284,7 +284,7 @@ public class FAArchivedDataRequest extends FARequest {
     /**
      * Calculates the number of bytes to read from the InputStream for the
      * undecimated data retrieval dependent on:
-     * 
+     *
      * @param sampleCount
      *            the total number of samples returned
      * @param blockSize
@@ -314,7 +314,7 @@ public class FAArchivedDataRequest extends FARequest {
     /**
      * Calculates the number of bytes to read from the InputStream for the
      * decimated data retrieval dependent on:
-     * 
+     *
      * @param sampleCount
      *            the total number of samples returned
      * @param blockSize

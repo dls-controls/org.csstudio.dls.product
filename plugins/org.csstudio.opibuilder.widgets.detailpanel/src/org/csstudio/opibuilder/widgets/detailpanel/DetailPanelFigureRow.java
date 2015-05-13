@@ -29,13 +29,13 @@ public class DetailPanelFigureRow {
     private boolean shown = true;
     private boolean editMode = false;
     private boolean waitingForInitialMode = true;
-    private static final int groupTriangleSize = 12; 
+    private static final int groupTriangleSize = 12;
     private static final int groupTriangleMargin = 2;
     private static final int indentSize = 10;
     private int top = 0;
     private int bottom = 0;
     private boolean selected = false;
-    
+
     /* Constructor */
     public DetailPanelFigureRow(DetailPanelFigure f, int n) {
         figure = f;
@@ -79,7 +79,7 @@ public class DetailPanelFigureRow {
         divider = new DetailPanelDividerFigure(figure.getPane(), /*horizontal=*/false);
         figure.addRowWidget(divider, /*atEnd=*/true);
     }
-    
+
     /* The row is destroyed */
     public void dispose() {
         name.setToolTip(null);
@@ -89,74 +89,74 @@ public class DetailPanelFigureRow {
         figure.removeRowWidget(divider);
         figure.removeRowWidget(dragger);
     }
-    
+
     /* Return the figure's dragger divider */
     DetailPanelDividerFigure getDraggerDivider() {
         return figure.getDraggerDivider();
     }
-    
+
     /* Set edit mode */
     public void setEditMode(boolean m) {
         editMode = m;
         figure.setAllRowsVisibility();
     }
-    
+
     /* Return the row number */
     public int getRowNumber() {
         return rowNumber;
     }
-    
+
     /* Return the group collapse state. */
     public boolean getGroupCollapse() {
         return groupCollapse;
     }
-    
+
     /* Set the collapse state of this row */
     public void setCollapse(boolean c) {
         collapsed = c;
         figure.setAllRowsVisibility();
     }
-    
+
     /* Return true if this row is a group header. */
     public boolean isGroup() {
         return mode == DetailPanelModelRow.Mode.STARTEXPANDED || mode == DetailPanelModelRow.Mode.STARTCOLLAPSED;
     }
-    
+
     /* Return true if this row is a group member. */
     public boolean isGroupMember() {
         return mode == DetailPanelModelRow.Mode.INDENTED;
     }
-    
+
     /* Return true if this row is a collapsed group header. */
     public boolean isCollapsedGroup() {
         return mode == DetailPanelModelRow.Mode.STARTCOLLAPSED;
     }
-    
+
     /* Return the group triangle object */
     public Shape getGroupTriangle() {
         return groupTriangle;
     }
-    
+
     /* Return the name label object */
     public Label getNameLabel() {
         return name;
     }
-    
+
     /* Return the divider object */
     public DetailPanelDividerFigure getDivider() {
         return divider;
     }
-    
+
     /* Return the dragger object */
     public DetailPanelDraggerFigure getDragger() {
         return dragger;
     }
-    
+
     /* Set the divider's position */
     public void setDividerPos(int pos) {
         divider.setPosition(pos);
     }
-    
+
     /* Set the group collapse state */
     public void setGroupCollapse(boolean c) {
         groupCollapse = c;
@@ -166,12 +166,12 @@ public class DetailPanelFigureRow {
             groupTriangle.setDirection(PositionConstants.SOUTH);
         }
     }
-    
+
     /* Perform layout actions */
     protected void layout() {
         divider.layout();
     }
-    
+
     /* Set mode */
     public void setMode(DetailPanelModelRow.Mode m) {
         if(!isGroup() && (m == DetailPanelModelRow.Mode.STARTEXPANDED || m == DetailPanelModelRow.Mode.STARTCOLLAPSED)) {
@@ -185,13 +185,13 @@ public class DetailPanelFigureRow {
         mode = m;
         figure.setAllRowsVisibility();
     }
-    
+
     /* Set level */
     public void setLevel(DetailPanelModel.DisplayLevel l) {
         level = l;
         figure.setAllRowsVisibility();
     }
-    
+
     /* Set the visibility of the components of the row. */
     /* A row is visible if: */
     /*   it is not collapsed */
@@ -203,12 +203,12 @@ public class DetailPanelFigureRow {
         divider.setVisible(isVisible());
         dragger.setVisible(isVisible() && editMode);
     }
-    
+
     // Return the visibility of the row
     public boolean isVisible() {
         return !collapsed && shown;
     }
-    
+
     /* Set the display state for the group triangle */
     public void setHighlightGroupTriangle(boolean h) {
         highlightGroupTriangle = h;
@@ -219,12 +219,12 @@ public class DetailPanelFigureRow {
         }
         groupTriangle.repaint();
     }
-    
+
     /* Set the row name */
     public void setName(String name) {
         this.name.setText(name);
     }
-    
+
     /* Set the row tooltip */
     public void setTooltip(String tip) {
         this.tooltip.setText(tip);
@@ -234,7 +234,7 @@ public class DetailPanelFigureRow {
             name.setToolTip(tooltip);
         }
     }
-    
+
     /* One of the colours has changed */
     public void setColor() {
         nameArea.setBackgroundColor(figure.getRowBackgroundColor(visibleRowNumber, selected));
@@ -243,7 +243,7 @@ public class DetailPanelFigureRow {
         groupTriangle.setForegroundColor(figure.getRowForegroundColor(visibleRowNumber, selected));
         dragger.setForegroundColor(figure.getRowForegroundColor(visibleRowNumber, selected));
     }
-    
+
     /* Set the name drawing area */
     public void setNameArea(Rectangle area) {
         top = area.y;
@@ -254,7 +254,7 @@ public class DetailPanelFigureRow {
         Rectangle rect = area;
         nameArea.setBounds(rect);
         // The group triangle
-        Rectangle triangleRect = new Rectangle(rect.x+groupTriangleMargin, rect.y+rect.height/2-groupTriangleSize/2, 
+        Rectangle triangleRect = new Rectangle(rect.x+groupTriangleMargin, rect.y+rect.height/2-groupTriangleSize/2,
                 groupTriangleSize, groupTriangleSize);
         groupTriangle.setBounds(triangleRect);
         // The move icon
@@ -276,34 +276,34 @@ public class DetailPanelFigureRow {
         rect.setX(x);
         name.setBounds(rect.getShrinked(2, 0));
     }
-    
+
     /* Set the visible row number of the row. */
     public void setVisibleRowNumber(int n) {
         visibleRowNumber = n;
         setColor();
     }
-    
+
     /* Paint the row */
     public void paint(Graphics g) {
         // Does nothing at the moment.
     }
-    
+
     /* Return the level of this row. */
     public DetailPanelModel.DisplayLevel getLevel() {
         return level;
     }
-    
+
     /* Set the shown state of this row */
     public void setShown(boolean s) {
         shown = s;
         figure.setAllRowsVisibility();
     }
-    
+
     /* Return the distance from the given y coordinate to the top of this row */
     public int distanceToTop(int y) {
         return Math.abs(top - y);
     }
-    
+
     /* Return the distance from the given y coordinate to the bottom of this row */
     public int distanceToBottom(int y) {
         return Math.abs(bottom - y);
@@ -326,7 +326,7 @@ public class DetailPanelFigureRow {
         other.shown = shown;
         shown = t;
     }
-    
+
     /* This row is to be selected. */
     public void select(boolean extend, boolean rightButton) {
         if(!extend && !(rightButton && selected)) {
@@ -335,16 +335,16 @@ public class DetailPanelFigureRow {
         selected = true;
         setColor();
     }
-    
+
     /* The row is to be deselected. */
     public void deselect() {
         selected = false;
         setColor();
     }
-    
+
     /* Is the row selected? */
     public boolean isSelected() {
         return selected;
     }
-    
+
 }

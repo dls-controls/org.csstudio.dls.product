@@ -1,7 +1,7 @@
 package org.eclipse.nebula.visualization.xygraph.linearscale;
 
 /** A value range of 'start' ... 'end' or 'lower' .. 'upper'.
- * 
+ *
  *  @author Xihui Chen
  *  @author Kay Kasemir Removed a broken and unused copy-constructor, 'final'
  */
@@ -11,12 +11,12 @@ public class Range {
 
     /** the upper value of range */
     final private double upper;
-    
+
     /** the range between the upper and lower */
     final private double range;
 
     /** Initialize with start...end values, sorting them to get lower...upper.
-     * 
+     *
      * @param start
      *            the start value of range
      * @param end
@@ -47,9 +47,9 @@ public class Range {
             else
                 return (value > upper && value < lower);
         }
-            
+
     }
-    
+
     /**If a value in the range or not. The boundary is included.
      * @param value
      * @return true if the value is in the range. Otherwise false.
@@ -58,9 +58,9 @@ public class Range {
         if(lower <= upper)
             return value >= lower && value <= upper;
         else
-            return value >= upper && value <= lower;              
+            return value >= upper && value <= lower;
     }
-    
+
     /**
      * If a value is inside the range assuming it it rangeMultiplier times bigger
      * @param value The value to check
@@ -68,14 +68,14 @@ public class Range {
      * @return
      */
     public boolean inExtendedRange(final double value, final double rangeMultiplier) {
-        double extention = range*rangeMultiplier;       
-        
+        double extention = range*rangeMultiplier;
+
         if(lower <= upper)
             return value >= (lower-extention) && value <= (upper+extention);
         else
             return value >= (upper-extention) && value <= (lower+extention);
     }
-    
+
     public boolean isMinBigger(){
         return lower>upper;
     }

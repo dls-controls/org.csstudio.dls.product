@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
-/**This will help to create the necessary widgets 
+/**This will help to create the necessary widgets
  * to configure an axis's properties.
  * @author Xihui Chen
  *
@@ -41,32 +41,32 @@ public class AxisConfigPage {
     private Axis axis;
     private Text titleText;
     private Label scaleFontLabel;
-    private Font scaleFont;    
+    private Font scaleFont;
     private Label titleFontLabel;
     private Font titleFont;
     private ColorSelector axisColorSelector;
     private Button primaryButton;
     private Button logButton;
-    
+
     private Button autoScaleButton;
     private Label maxOrAutoScaleLabel;
-    private DoubleInputText maxOrAutoScaleThrText;    
+    private DoubleInputText maxOrAutoScaleThrText;
     private Label minLabel;
     private DoubleInputText minText;
-    
+
     private Button dateEnabledButton;
     private Button autoFormat;
     private Label formatLabel;
-    private Text formatText;    
-    
+    private Text formatText;
+
     private Button showGridButton;
     private Button dashGridLineButton;
     private ColorSelector gridColorSelector;
     private Button showAxisButton;
-    
+
     private Composite composite;
     private boolean enableRanges;
-    
+
     public AxisConfigPage(XYGraph xyGraph, Axis axis, boolean enableRanges) {
         this.xyGraph = xyGraph;
         this.axis = axis;
@@ -74,26 +74,26 @@ public class AxisConfigPage {
         titleFont = axis.getTitleFont();
         this.enableRanges = enableRanges;
     }
-    
+
     public void createPage(final Composite composite){
         this.composite = composite;
         composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         composite.setLayout(new GridLayout(3, false));
         GridData gd;
-        GridData labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);        
-        
+        GridData labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+
         final Label titleLabel = new Label(composite, 0);
         titleLabel.setText("Title: ");
         titleLabel.setLayoutData(labelGd);
-        
+
         titleText = new Text(composite, SWT.BORDER | SWT.SINGLE);
         gd = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
-        titleText.setLayoutData(gd);        
-        
-        titleFontLabel = new Label(composite, 0);        
-        labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1);    
+        titleText.setLayoutData(gd);
+
+        titleFontLabel = new Label(composite, 0);
+        labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1);
         titleFontLabel.setLayoutData(labelGd);
-        
+
         final Button titleFontButton = new Button(composite, SWT.PUSH);
         titleFontButton.setText("Change...");
         gd = new GridData(SWT.BEGINNING, SWT.CENTER, false, false, 1, 1);
@@ -113,12 +113,12 @@ public class AxisConfigPage {
                 }
             }
         });
-        
-        
-        scaleFontLabel = new Label(composite, 0);        
-        labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1);    
+
+
+        scaleFontLabel = new Label(composite, 0);
+        labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1);
         scaleFontLabel.setLayoutData(labelGd);
-        
+
         final Button scaleFontButton = new Button(composite, SWT.PUSH);
         scaleFontButton.setText("Change...");
         gd = new GridData(SWT.BEGINNING, SWT.CENTER, false, false, 1, 1);
@@ -138,12 +138,12 @@ public class AxisConfigPage {
                 }
             }
         });
-        
+
         final Label colorLabel = new Label(composite, 0);
-        colorLabel.setText("Axis Color:");        
-        labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1);    
+        colorLabel.setText("Axis Color:");
+        labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1);
         colorLabel.setLayoutData(labelGd);
-        
+
         axisColorSelector = new ColorSelector(composite);
         gd = new GridData(SWT.BEGINNING, SWT.CENTER, false, false, 1, 1);
         axisColorSelector.getButton().setLayoutData(gd);
@@ -155,49 +155,49 @@ public class AxisConfigPage {
                         axisColorSelector.getColorValue()));
             }
         });
-        
-        
+
+
         primaryButton = new Button(composite, SWT.CHECK);
         configCheckButton(primaryButton, "On Primary Side(Bottom/Left)");
-        
+
         logButton = new Button(composite, SWT.CHECK);
         configCheckButton(logButton, "Log");
-        
+
         autoScaleButton = new Button(composite, SWT.CHECK);
         configCheckButton(autoScaleButton, "Auto Scale Enabled");
-        
+
         maxOrAutoScaleLabel = new Label(composite, 0);
-        labelGd = new GridData(SWT.BEGINNING, SWT.CENTER, false, false, 1, 1);    
-        maxOrAutoScaleLabel.setLayoutData(labelGd);            
-        maxOrAutoScaleThrText = new DoubleInputText(composite, SWT.BORDER | SWT.SINGLE);        
+        labelGd = new GridData(SWT.BEGINNING, SWT.CENTER, false, false, 1, 1);
+        maxOrAutoScaleLabel.setLayoutData(labelGd);
+        maxOrAutoScaleThrText = new DoubleInputText(composite, SWT.BORDER | SWT.SINGLE);
         gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1);
-        maxOrAutoScaleThrText.getText().setLayoutData(gd);        
+        maxOrAutoScaleThrText.getText().setLayoutData(gd);
         maxOrAutoScaleThrText.getText().setEnabled(enableRanges);
-        
+
         minLabel = new Label(composite, 0);
-        minLabel.setText("Minimum: ");    
-        labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);    
+        minLabel.setText("Minimum: ");
+        labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
         minLabel.setLayoutData(labelGd);
-        minText = new DoubleInputText(composite, SWT.BORDER | SWT.SINGLE);        
+        minText = new DoubleInputText(composite, SWT.BORDER | SWT.SINGLE);
         gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1);
         minText.getText().setLayoutData(gd);
         minText.getText().setEnabled(enableRanges);
-        
+
         if (!enableRanges) {
             final CLabel info = new CLabel(composite, SWT.WRAP);
             info.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false, 3, 1));
             info.setText("Automatic rescale is on, max. and min. therefore cannot be edited.");
             info.setImage(Activator.getImageDescriptor("icons/rescale.png").createImage());
-            
+
             Label sep = new Label(composite, SWT.SEPARATOR|SWT.HORIZONTAL);
             sep.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false, 3, 1));
 
         }
-    
+
         //autoScale button listener
         autoScaleButton.addSelectionListener(new SelectionAdapter(){
             @Override
-            public void widgetSelected(SelectionEvent e) {    
+            public void widgetSelected(SelectionEvent e) {
                 if(autoScaleButton.getSelection()){
                     maxOrAutoScaleLabel.setText("Auto Scale Threshold(%)");
                     maxOrAutoScaleThrText.setRange(new Range(0, 100));
@@ -216,20 +216,20 @@ public class AxisConfigPage {
                 composite.getShell().layout(true, true);
             }
         });
-        
+
         dateEnabledButton = new Button(composite, SWT.CHECK);
         configCheckButton(dateEnabledButton, "Time Format Enabled");
-        
+
         autoFormat = new Button(composite, SWT.CHECK);
         configCheckButton(autoFormat, "Auto Format");
-        
-        formatLabel = new Label(composite, 0);        
-        labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);    
-        formatLabel.setLayoutData(labelGd);        
+
+        formatLabel = new Label(composite, 0);
+        labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+        formatLabel.setLayoutData(labelGd);
         formatText = new Text(composite, SWT.BORDER | SWT.SINGLE);
         gd = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
-        formatText.setLayoutData(gd);        
-        
+        formatText.setLayoutData(gd);
+
         dateEnabledButton.addSelectionListener(new SelectionAdapter(){
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -237,16 +237,16 @@ public class AxisConfigPage {
                 boolean saveAutoFormat = axis.isAutoFormat();
                 axis.setDateEnabled(dateEnabledButton.getSelection());
                 axis.setAutoFormat(true);
-                formatLabel.setText(dateEnabledButton.getSelection()? 
+                formatLabel.setText(dateEnabledButton.getSelection()?
                         "Time Format: " : "Numeric Format: ");
                 formatText.setText(axis.getFormatPattern());
                 axis.setDateEnabled(saveDateEnabled);
                 axis.setAutoFormat(saveAutoFormat);
                 composite.getShell().layout(true, true);
-                
+
             }
         });
-        
+
         autoFormat.addSelectionListener(new SelectionAdapter(){
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -260,10 +260,10 @@ public class AxisConfigPage {
                     axis.setDateEnabled(saveDateEnabled);
                     axis.setAutoFormat(saveAutoFormat);
                 }
-                
+
             }
         });
-        
+
         Label sep = new Label(composite, SWT.SEPARATOR|SWT.HORIZONTAL);
         sep.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false, 3, 1));
 
@@ -271,30 +271,30 @@ public class AxisConfigPage {
         configCheckButton(showGridButton, "Show Grid Line");
         dashGridLineButton = new Button(composite, SWT.CHECK);
         configCheckButton(dashGridLineButton, "Dash Grid Line");
-        
-        Label gridColorLabel = new Label(composite, 0);        
+
+        Label gridColorLabel = new Label(composite, 0);
         gridColorLabel.setText("Grid Color");
-        labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);    
-        gridColorLabel.setLayoutData(labelGd);        
-        
+        labelGd = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+        gridColorLabel.setLayoutData(labelGd);
+
         gridColorSelector = new ColorSelector(composite);
         gd = new GridData(SWT.BEGINNING, SWT.CENTER, false, false, 1, 1);
         gridColorSelector.getButton().setLayoutData(gd);
-        
+
         showAxisButton = new Button(composite, SWT.CHECK);
         configCheckButton(showAxisButton, "Show Axis");
         initialize();
     }
 
-    
-    
+
+
     private void configCheckButton(Button button, String text) {
-        button.setText(text);    
+        button.setText(text);
         button.setLayoutData(
                 new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false, 3, 2));
     }
-    
-    
+
+
     /**
      * @return the composite
      */
@@ -312,7 +312,7 @@ public class AxisConfigPage {
         axis.setLogScale(logButton.getSelection());
         axis.setAutoScale(autoScaleButton.getSelection());
         if(autoScaleButton.getSelection())
-            axis.setAutoScaleThreshold(maxOrAutoScaleThrText.getDoubleValue());            
+            axis.setAutoScaleThreshold(maxOrAutoScaleThrText.getDoubleValue());
         else
             axis.setRange(minText.getDoubleValue(), maxOrAutoScaleThrText.getDoubleValue());
         axis.setDateEnabled(dateEnabledButton.getSelection());
@@ -320,15 +320,15 @@ public class AxisConfigPage {
         if(!autoFormat.getSelection()){
             String saveFormat = axis.getFormatPattern();
             try {
-                axis.setFormatPattern(formatText.getText());            
+                axis.setFormatPattern(formatText.getText());
                 axis.format(0);
-            } catch (Exception e) {                
+            } catch (Exception e) {
                 axis.setFormatPattern(saveFormat);
-                MessageBox mb = new MessageBox(Display.getCurrent().getActiveShell(), 
+                MessageBox mb = new MessageBox(Display.getCurrent().getActiveShell(),
                             SWT.ICON_ERROR | SWT.OK);
                 mb.setMessage("Failed to set format due to incorrect format pattern: "
                         + e.getMessage());
-                mb.setText("Format pattern error!");                
+                mb.setText("Format pattern error!");
                 mb.open();
             }
         }
@@ -340,7 +340,7 @@ public class AxisConfigPage {
     }
 
 
-    
+
     private void initialize(){
         titleText.setText(axis.getTitle());
         scaleFontLabel.setForeground(axis.getForegroundColor());
@@ -371,21 +371,21 @@ public class AxisConfigPage {
             minLabel.setVisible(true);
             minText.getText().setVisible(true);
         }
-        
+
         minText.getText().setText(String.valueOf(r.getLower()));
-        dateEnabledButton.setSelection(axis.isDateEnabled());        
+        dateEnabledButton.setSelection(axis.isDateEnabled());
         autoFormat.setSelection(axis.isAutoFormat());
-        formatLabel.setText(dateEnabledButton.getSelection()? 
-                "Time Format: " : "Numeric Format: ");    
+        formatLabel.setText(dateEnabledButton.getSelection()?
+                "Time Format: " : "Numeric Format: ");
         formatText.setText(axis.getFormatPattern());
         //formatLabel.setVisible(!autoFormat.getSelection());
         formatText.setEnabled(!autoFormat.getSelection());
-        
+
         showGridButton.setSelection(axis.isShowMajorGrid());
         dashGridLineButton.setSelection(axis.isDashGridLine());
         gridColorSelector.setColorValue(axis.getMajorGridColor().getRGB());
         showAxisButton.setSelection(axis.isVisible());
     }
-    
-    
+
+
 }

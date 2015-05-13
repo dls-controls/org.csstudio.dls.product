@@ -155,7 +155,7 @@ public class FAArchivedDataRequestTest {
         int coordinate = 0;
         int bpm = 4;
         Decimation decimation = Decimation.DEC;
-        
+
         // invalid input
         Timestamp endTooEarly = Timestamp.now().minus(
                 TimeDuration.ofHours(30 * 24));

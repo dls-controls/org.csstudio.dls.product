@@ -8,7 +8,7 @@ public class DetailPanelDisplayLevelHighAction extends AbstractWidgetTargetActio
 
     public void run(IAction action) {
         DetailPanelEditpart editpart = (DetailPanelEditpart)selection.getFirstElement();
-        execute(new SetWidgetPropertyCommand(editpart.getWidgetModel(), 
+        execute(new SetWidgetPropertyCommand(editpart.getWidgetModel(),
                         DetailPanelModel.PROP_DISPLAY_LEVEL, DetailPanelModel.DisplayLevel.HIGH.ordinal()));
     }
 }

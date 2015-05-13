@@ -33,9 +33,9 @@ public class FADataSourceTypeAdapterTest {
             assertEquals(1, result);
         }
     }
-    
+
     @Test
-    @SuppressWarnings({ "rawtypes", "unchecked" })    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testMatchInvalidClass() throws Exception {
         Class[] validClasses = new Class[]{Exception.class, ArchiveVNumber.class};
         for (Class clazz : validClasses) {
@@ -45,13 +45,13 @@ public class FADataSourceTypeAdapterTest {
             assertEquals(0, result);
         }
     }
-    
+
     @Test(expected=UnsupportedOperationException.class)
     public void testGetSubscriptionParameter() {
         ValueCache<ArchiveVDisplayType> cache = new ValueCacheImpl<ArchiveVDisplayType>(ArchiveVDisplayType.class);
         faDSAdapType.getSubscriptionParameter(cache, connection);
     }
-    
+
     @Test
     public void testUpdateCacheOfValidType() {
         ValueCache<ArchiveVDisplayType> cache = new ValueCacheImpl<ArchiveVDisplayType>(ArchiveVDisplayType.class);
@@ -59,7 +59,7 @@ public class FADataSourceTypeAdapterTest {
         assertTrue(faDSAdapType.updateCache(cache, connection, newValue));
         assertEquals(cache.readValue(), newValue);
     }
-    
+
     @Test
     public void testUpdateCacheOfInvalidType() {
         ValueCache<Exception> cache = new ValueCacheImpl<Exception>(Exception.class);
@@ -67,7 +67,7 @@ public class FADataSourceTypeAdapterTest {
         assertFalse(faDSAdapType.updateCache(cache, connection, newValue));
         assertNull(cache.readValue());
     }
-    
-    
+
+
 
 }
