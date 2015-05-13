@@ -12,5 +12,5 @@ package org.eclipse.nebula.visualization.xygraph.undo;
  *
  */
 public interface IOperationsManagerListener {
-	public void operationsHistoryChanged(OperationsManager manager);
+    public void operationsHistoryChanged(OperationsManager manager);
 }

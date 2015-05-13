@@ -15,18 +15,18 @@ import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableExc
  */
 public class FastArchiveReaderFactory implements ArchiveReaderFactory {
 
-	private static HashMap<String, ArchiveReader> archivers = new HashMap<String, ArchiveReader>();
-		
-	/**
-	 * {@inheritDoc}
-	 * @throws FADataNotAvailableException 
-	 * @throws IOException 
-	 */
-	@Override
-	public ArchiveReader getArchiveReader(String url) throws IOException, FADataNotAvailableException {
-		if (!archivers.containsKey(url)) 
-			archivers.put(url, new FastArchiveReader(url));
-		return archivers.get(url);
-	}
+    private static HashMap<String, ArchiveReader> archivers = new HashMap<String, ArchiveReader>();
+        
+    /**
+     * {@inheritDoc}
+     * @throws FADataNotAvailableException 
+     * @throws IOException 
+     */
+    @Override
+    public ArchiveReader getArchiveReader(String url) throws IOException, FADataNotAvailableException {
+        if (!archivers.containsKey(url)) 
+            archivers.put(url, new FastArchiveReader(url));
+        return archivers.get(url);
+    }
 
 }

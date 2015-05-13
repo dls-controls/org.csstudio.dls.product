@@ -10,28 +10,28 @@ import org.eclipse.nebula.visualization.xygraph.preference.XYPreferences;
  */
 public class LinearScaleTickLabels extends Figure {
 
-	private ITicksProvider ticks;
+    private ITicksProvider ticks;
 
-	private IScaleProvider scale;
+    private IScaleProvider scale;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param linearScale
-	 *            the scale
-	 */
-	protected LinearScaleTickLabels(IScaleProvider linearScale) {
-		scale = linearScale;
-		ticks = TickFactory.createTicksProvider(scale, XYPreferences.TICKS_PROVIDER_ORIGINAL);
+    /**
+     * Constructor.
+     * 
+     * @param linearScale
+     *            the scale
+     */
+    protected LinearScaleTickLabels(IScaleProvider linearScale) {
+        scale = linearScale;
+        ticks = TickFactory.createTicksProvider(scale, XYPreferences.TICKS_PROVIDER_ORIGINAL);
 
-		setTicksIndexBased(scale.isTicksIndexBased());
-		setFont(scale.getFont());
-		setForegroundColor(scale.getForegroundColor());
-	}
+        setTicksIndexBased(scale.isTicksIndexBased());
+        setFont(scale.getFont());
+        setForegroundColor(scale.getForegroundColor());
+    }
 
-	public ITicksProvider getTicksProvider() {
-		return ticks;
-	}
+    public ITicksProvider getTicksProvider() {
+        return ticks;
+    }
 
     /**
      * Updates the tick labels.
@@ -40,21 +40,21 @@ public class LinearScaleTickLabels extends Figure {
      *            scale tick length (without margin)
      */
     protected Range update(int length) {
-    	final Range range = scale.getScaleRange();
-		return ticks.update(range.getLower(), range.getUpper(), length);
+        final Range range = scale.getScaleRange();
+        return ticks.update(range.getLower(), range.getUpper(), length);
     }
 
     @Override
     protected void paintClientArea(Graphics graphics) {
-    	graphics.translate(bounds.x, bounds.y);
-    	graphics.setFont(getFont());
-    	if (scale.isHorizontal()) {
+        graphics.translate(bounds.x, bounds.y);
+        graphics.setFont(getFont());
+        if (scale.isHorizontal()) {
             drawXTick(graphics);
         } else {
             drawYTick(graphics);
         }
 
-    	super.paintClientArea(graphics);
+        super.paintClientArea(graphics);
     };
 
     /**
@@ -97,34 +97,34 @@ public class LinearScaleTickLabels extends Figure {
         }
     }
 
-	/**
-	 * @return the tickLabelMaxLength
-	 */
-	public int getTickLabelMaxLength() {
-		return ticks.getMaxWidth();
-	}
+    /**
+     * @return the tickLabelMaxLength
+     */
+    public int getTickLabelMaxLength() {
+        return ticks.getMaxWidth();
+    }
 
-	/**
-	 * @return the tickLabelMaxHeight
-	 */
-	public int getTickLabelMaxHeight() {
-		return ticks.getMaxHeight();
-	}
+    /**
+     * @return the tickLabelMaxHeight
+     */
+    public int getTickLabelMaxHeight() {
+        return ticks.getMaxHeight();
+    }
 
-	public IScaleProvider getScale() {
-		return scale;
-	}
+    public IScaleProvider getScale() {
+        return scale;
+    }
 
-	public void setScale(IScaleProvider scale) {
-		this.scale = scale;
-	}
+    public void setScale(IScaleProvider scale) {
+        this.scale = scale;
+    }
 
-	/**
-	 * @param isTicksIndexBased if true, make ticks based on axis dataset indexes
-	 */
-	public void setTicksIndexBased(boolean isTicksIndexBased) {
-		if (ticks instanceof LinearScaleTicks2) {
-			((LinearScaleTicks2) ticks).setTicksIndexBased(isTicksIndexBased);
-		}
-	}
+    /**
+     * @param isTicksIndexBased if true, make ticks based on axis dataset indexes
+     */
+    public void setTicksIndexBased(boolean isTicksIndexBased) {
+        if (ticks instanceof LinearScaleTicks2) {
+            ((LinearScaleTicks2) ticks).setTicksIndexBased(isTicksIndexBased);
+        }
+    }
 }

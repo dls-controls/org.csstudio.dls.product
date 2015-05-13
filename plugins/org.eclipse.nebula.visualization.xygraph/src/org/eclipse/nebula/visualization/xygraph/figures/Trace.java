@@ -135,7 +135,7 @@ public class Trace extends Figure implements IDataProviderListener,
         public enum PointStyle {
                 NONE(Messages.PointNone), POINT(Messages.PointPoint), CIRCLE(
                                 Messages.PointCircle), 
-                        		FILLED_CIRCLE(Messages.PointFilledCircle),
+                                FILLED_CIRCLE(Messages.PointFilledCircle),
                                 TRIANGLE(Messages.PointTriangle), FILLED_TRIANGLE(
                                 Messages.PointFilledTriangle), SQUARE(Messages.PointSquare), FILLED_SQUARE(
                                 Messages.PointFilledSquare), DIAMOND(Messages.PointDiamond), FILLED_DIAMOND(
@@ -238,12 +238,12 @@ public class Trace extends Figure implements IDataProviderListener,
         
         public Trace(String name) {
             this.setName(name);
-       	 
+            
         }
 
         public Trace(String name, Axis xAxis, Axis yAxis, IDataProvider dataProvider) {
-        	this.setName(name);
-        	init(xAxis, yAxis, dataProvider);
+            this.setName(name);
+            init(xAxis, yAxis, dataProvider);
         }
 
         /**
@@ -254,17 +254,17 @@ public class Trace extends Figure implements IDataProviderListener,
          * @param dataProvider
          */
         public void init(Axis xAxis, Axis yAxis, IDataProvider dataProvider) {
-        	this.xAxis = xAxis;
+            this.xAxis = xAxis;
             this.yAxis = yAxis;
             xAxis.addTrace(this);
             yAxis.addTrace(this);
             xAxis.addListener(this);
             yAxis.addListener(this);
             setDataProvider(dataProvider);
-            hotSampleist = new ArrayList<ISample>();		
+            hotSampleist = new ArrayList<ISample>();        
         }
 
-		protected void drawErrorBar(Graphics graphics, Point dpPos, ISample dp) {
+        protected void drawErrorBar(Graphics graphics, Point dpPos, ISample dp) {
                 graphics.pushState();
                 graphics.setForegroundColor(errorBarColor);
                 graphics.setLineStyle(SWTConstants.LINE_SOLID);
@@ -931,7 +931,7 @@ public class Trace extends Figure implements IDataProviderListener,
                         }
                 }
                 } catch (Throwable ne) {
-                	ne.printStackTrace();
+                    ne.printStackTrace();
                 } finally {
                     graphics.popState();
                 }

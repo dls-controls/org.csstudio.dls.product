@@ -7,12 +7,12 @@ package org.csstudio.archive.reader.fastarchiver.exceptions;
  *
  */
 public class FADataNotAvailableException extends Exception {
-	
-	private static final long serialVersionUID = 1L;
-	
-	public FADataNotAvailableException(String message){
-		super(message);
-	}
-	
+    
+    private static final long serialVersionUID = 1L;
+    
+    public FADataNotAvailableException(String message){
+        super(message);
+    }
+    
 
 }

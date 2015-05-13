@@ -25,191 +25,191 @@ import org.eclipse.swt.widgets.Display;
  */
 public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
 
-	private Combo combo;
-	private SelectionListener comboSelectionListener;
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected IFigure doCreateFigure() {
-		final MenuMuxModel model = getWidgetModel();
-		if (model == null) {
-			System.err.println("NULL model");
-		}
+    private Combo combo;
+    private SelectionListener comboSelectionListener;
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected IFigure doCreateFigure() {
+        final MenuMuxModel model = getWidgetModel();
+        if (model == null) {
+            System.err.println("NULL model");
+        }
 
-		MenuMuxFigure comboFigure = new MenuMuxFigure(this);
+        MenuMuxFigure comboFigure = new MenuMuxFigure(this);
 
-		combo = comboFigure.getSWTWidget();
-		if (combo == null) {
-			System.err.println("NULL COMBO");
-		}
+        combo = comboFigure.getSWTWidget();
+        if (combo == null) {
+            System.err.println("NULL COMBO");
+        }
 
-		if(comboSelectionListener !=null)
-			combo.removeSelectionListener(comboSelectionListener);
-		
-		comboSelectionListener = new MuxMenuSelectionListener();
-		combo.addSelectionListener(comboSelectionListener);
+        if(comboSelectionListener !=null)
+            combo.removeSelectionListener(comboSelectionListener);
+        
+        comboSelectionListener = new MuxMenuSelectionListener();
+        combo.addSelectionListener(comboSelectionListener);
 
-		updateCombo(model.getItems());
+        updateCombo(model.getItems());
 
-		return comboFigure;
-	}
+        return comboFigure;
+    }
 
-	@Override
-	public void activate() {
-		super.activate();
-		
-		// Delay setting initialisation until local PVs have started.
-		// It would be preferable to be able to queue this on the same
-		// thread that starts the PVs, but I'm not sure this is possible.
-		int DELAY = 100; // milliseconds
-		Display.getCurrent().timerExec(DELAY, new Runnable() {
-			@Override
-			public void run() {
-				setInitialSelection();
-			}
-		});
-	}
+    @Override
+    public void activate() {
+        super.activate();
+        
+        // Delay setting initialisation until local PVs have started.
+        // It would be preferable to be able to queue this on the same
+        // thread that starts the PVs, but I'm not sure this is possible.
+        int DELAY = 100; // milliseconds
+        Display.getCurrent().timerExec(DELAY, new Runnable() {
+            @Override
+            public void run() {
+                setInitialSelection();
+            }
+        });
+    }
 
-	@Override
-	protected void doDeActivate() {
-		super.doDeActivate();
+    @Override
+    protected void doDeActivate() {
+        super.doDeActivate();
 
-		if(comboSelectionListener !=null)
-			combo.removeSelectionListener(comboSelectionListener);
-	}
+        if(comboSelectionListener !=null)
+            combo.removeSelectionListener(comboSelectionListener);
+    }
 
-	private void setInitialSelection() {
-		if (combo.getItemCount() > 0) {
-			String initialState = getWidgetModel().getInitialState();
+    private void setInitialSelection() {
+        if (combo.getItemCount() > 0) {
+            String initialState = getWidgetModel().getInitialState();
 
-			if (initialState != null && !initialState.isEmpty()) {
-				try {
-					int selectedIndex = Integer.parseInt(initialState);
-					combo.select(selectedIndex);
-				}
-				catch (NumberFormatException ex) {
-					System.err.println("Invalid initial state: " + initialState);
-				}
-			}
-			else
-			{
-				// Default selection is the first element
-				combo.select(0);
-			}
-			// force a selection change event to set the associated loc:// pv
-			comboSelectionListener.widgetSelected(null);
-		}
-	}
+            if (initialState != null && !initialState.isEmpty()) {
+                try {
+                    int selectedIndex = Integer.parseInt(initialState);
+                    combo.select(selectedIndex);
+                }
+                catch (NumberFormatException ex) {
+                    System.err.println("Invalid initial state: " + initialState);
+                }
+            }
+            else
+            {
+                // Default selection is the first element
+                combo.select(0);
+            }
+            // force a selection change event to set the associated loc:// pv
+            comboSelectionListener.widgetSelected(null);
+        }
+    }
 
-	private class MuxMenuSelectionListener extends SelectionAdapter {
-		/// Selection change handler for the MenuMux Combobox
+    private class MuxMenuSelectionListener extends SelectionAdapter {
+        /// Selection change handler for the MenuMux Combobox
 
-		@Override
-		public void widgetSelected(SelectionEvent e) {
-			/// On selected change put the selected PV name to the associated local pv (e.g. $d)
-			MenuMuxModel model = getWidgetModel();
+        @Override
+        public void widgetSelected(SelectionEvent e) {
+            /// On selected change put the selected PV name to the associated local pv (e.g. $d)
+            MenuMuxModel model = getWidgetModel();
 
-			int selectedIdx = combo.getSelectionIndex();
-			
-			for (int set_index = 0; set_index < model.getNumSets(); set_index++) {
-				List<String> values = model.getValues(set_index);
+            int selectedIdx = combo.getSelectionIndex();
+            
+            for (int set_index = 0; set_index < model.getNumSets(); set_index++) {
+                List<String> values = model.getValues(set_index);
 
-				if (selectedIdx < values.size()) {
-					String value = values.get(selectedIdx);
-					setPVValue(MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, set_index), value);
-				}
-			}
-		}
-	}
+                if (selectedIdx < values.size()) {
+                    String value = values.get(selectedIdx);
+                    setPVValue(MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, set_index), value);
+                }
+            }
+        }
+    }
 
-	/**
-	 * @param items
-	 */
-	private void updateCombo(List<String> items) {
+    /**
+     * @param items
+     */
+    private void updateCombo(List<String> items) {
 
-		if (items == null) {
-			System.err.println("NULL ITEMS");			
-		}
-		else if(getExecutionMode() == ExecutionMode.RUN_MODE) {
-			combo.removeAll();
+        if (items == null) {
+            System.err.println("NULL ITEMS");            
+        }
+        else if(getExecutionMode() == ExecutionMode.RUN_MODE) {
+            combo.removeAll();
 
-			for(String item : items){
-				combo.add(item);
-			}
-		}
-	}
+            for(String item : items){
+                combo.add(item);
+            }
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public MenuMuxModel getWidgetModel() {
-		return (MenuMuxModel)getModel();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MenuMuxModel getWidgetModel() {
+        return (MenuMuxModel)getModel();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void registerPropertyChangeHandlers() {
-		autoSizeWidget((MenuMuxFigure) getFigure());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void registerPropertyChangeHandlers() {
+        autoSizeWidget((MenuMuxFigure) getFigure());
 
-		// Items
-		IWidgetPropertyChangeHandler itemsHandler = new IWidgetPropertyChangeHandler() {
-			@Override
-			@SuppressWarnings("unchecked")
-			public boolean handleChange(final Object oldValue,
-					final Object newValue, final IFigure refreshableFigure) {
-				if(newValue != null && newValue instanceof List){
-					updateCombo((List<String>)newValue);
-				}
-				return true;
-			}
-		};
-		setPropertyChangeHandler(MenuMuxModel.PROP_ITEMS, itemsHandler);
+        // Items
+        IWidgetPropertyChangeHandler itemsHandler = new IWidgetPropertyChangeHandler() {
+            @Override
+            @SuppressWarnings("unchecked")
+            public boolean handleChange(final Object oldValue,
+                    final Object newValue, final IFigure refreshableFigure) {
+                if(newValue != null && newValue instanceof List){
+                    updateCombo((List<String>)newValue);
+                }
+                return true;
+            }
+        };
+        setPropertyChangeHandler(MenuMuxModel.PROP_ITEMS, itemsHandler);
 
-		//size change handlers--always apply the default height
-		IWidgetPropertyChangeHandler handle = new IWidgetPropertyChangeHandler() {
-			@Override
-			public boolean handleChange(final Object oldValue, final Object newValue,
-					final IFigure figure) {
-				autoSizeWidget((MenuMuxFigure)figure);
-				return true;
-			}
-		};
-		setPropertyChangeHandler(AbstractWidgetModel.PROP_WIDTH, handle);
-		setPropertyChangeHandler(AbstractWidgetModel.PROP_HEIGHT, handle);
-		setPropertyChangeHandler(AbstractWidgetModel.PROP_BORDER_STYLE, handle);
-		setPropertyChangeHandler(AbstractWidgetModel.PROP_BORDER_WIDTH, handle);
-		setPropertyChangeHandler(MenuMuxModel.PROP_FONT, handle);
-	}
+        //size change handlers--always apply the default height
+        IWidgetPropertyChangeHandler handle = new IWidgetPropertyChangeHandler() {
+            @Override
+            public boolean handleChange(final Object oldValue, final Object newValue,
+                    final IFigure figure) {
+                autoSizeWidget((MenuMuxFigure)figure);
+                return true;
+            }
+        };
+        setPropertyChangeHandler(AbstractWidgetModel.PROP_WIDTH, handle);
+        setPropertyChangeHandler(AbstractWidgetModel.PROP_HEIGHT, handle);
+        setPropertyChangeHandler(AbstractWidgetModel.PROP_BORDER_STYLE, handle);
+        setPropertyChangeHandler(AbstractWidgetModel.PROP_BORDER_WIDTH, handle);
+        setPropertyChangeHandler(MenuMuxModel.PROP_FONT, handle);
+    }
 
-	private void autoSizeWidget(MenuMuxFigure comboFigure) {
-		Dimension d = comboFigure.getAutoSizeDimension();
-		getWidgetModel().setSize(getWidgetModel().getWidth(), d.height);
-	}
+    private void autoSizeWidget(MenuMuxFigure comboFigure) {
+        Dimension d = comboFigure.getAutoSizeDimension();
+        getWidgetModel().setSize(getWidgetModel().getWidth(), d.height);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getValue() {
-		return combo.getText();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getValue() {
+        return combo.getText();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setValue(Object value) {
-		if(value instanceof String)
-			combo.setText((String) value);
-		else if (value instanceof Number)
-			combo.select(((Number)value).intValue());
-		else
-			super.setValue(value);
-	}
-	
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setValue(Object value) {
+        if(value instanceof String)
+            combo.setText((String) value);
+        else if (value instanceof Number)
+            combo.select(((Number)value).intValue());
+        else
+            super.setValue(value);
+    }
+    
 }
