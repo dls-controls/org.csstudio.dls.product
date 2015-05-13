@@ -6,13 +6,13 @@ import org.eclipse.nebula.visualization.xygraph.Activator;
 
 public class XYPreferenceInitializer extends AbstractPreferenceInitializer {
 
-	public XYPreferenceInitializer() {
-	}
+    public XYPreferenceInitializer() {
+    }
 
-	@Override
-	public void initializeDefaultPreferences() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    @Override
+    public void initializeDefaultPreferences() {
+        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
-		store.setDefault(XYPreferences.TICKS_PROVIDER, XYPreferences.TICKS_PROVIDER_MARK_2);
-	}
+        store.setDefault(XYPreferences.TICKS_PROVIDER, XYPreferences.TICKS_PROVIDER_MARK_2);
+    }
 }

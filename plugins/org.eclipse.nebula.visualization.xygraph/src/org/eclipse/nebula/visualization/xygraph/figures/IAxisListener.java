@@ -15,15 +15,15 @@ import org.eclipse.nebula.visualization.xygraph.linearscale.Range;
  *
  */
 public interface IAxisListener {
-	
+
     /**
      * This event indicates a change in the axis' value range
      */
     public void axisRangeChanged(Axis axis, Range old_range, Range new_range);
-    
-	/**
-	 * This method will be notified by axis whenever the axis is revalidated.
-	 */
-	public void axisRevalidated(Axis axis);	
-		
+
+    /**
+     * This method will be notified by axis whenever the axis is revalidated.
+     */
+    public void axisRevalidated(Axis axis);
+
 }

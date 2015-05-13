@@ -44,13 +44,13 @@ import org.eclipse.swt.widgets.Display;
  */
 public class XYGraph extends Figure {
 
-	public static final String X_AXIS = "X-Axis";
-	public static final String Y_AXIS = "Y-Axis";
+    public static final String X_AXIS = "X-Axis";
+    public static final String Y_AXIS = "Y-Axis";
 
 
-	private static final int GAP = 2;
-//	public final static Color WHITE_COLOR = ColorConstants.white;
-//	public final static Color BLACK_COLOR = ColorConstants.black;
+    private static final int GAP = 2;
+//    public final static Color WHITE_COLOR = ColorConstants.white;
+//    public final static Color BLACK_COLOR = ColorConstants.black;
 
     /** Default colors for newly added item, used over when reaching the end.
      *  <p>
@@ -73,528 +73,528 @@ public class XYGraph extends Figure {
         new RGB(219, 128,   4), // orange
     };
 
-	private int traceNum = 0;
-	private boolean transparent = false;
-	protected boolean showLegend = true;
+    private int traceNum = 0;
+    private boolean transparent = false;
+    protected boolean showLegend = true;
 
-	private Map<Axis, Legend> legendMap;
+    private Map<Axis, Legend> legendMap;
 
-	/** Graph title. Should never be <code>null</code> because
-	 *  otherwise the ToolbarArmedXYGraph's GraphConfigPage
-	 *  can crash.
-	 */
-	private String title = "";
-	private Color titleColor;
-	private Label titleLabel;
+    /** Graph title. Should never be <code>null</code> because
+     *  otherwise the ToolbarArmedXYGraph's GraphConfigPage
+     *  can crash.
+     */
+    private String title = "";
+    private Color titleColor;
+    private Label titleLabel;
 
-	private List<Axis> xAxisList;
-	private List<Axis> yAxisList;
-	private PlotArea plotArea;
+    private List<Axis> xAxisList;
+    private List<Axis> yAxisList;
+    private PlotArea plotArea;
 
-	// TODO Clients can set these to null. Should these be 'final'? Or provider getter?
-	public Axis primaryXAxis;
-	public Axis primaryYAxis;
+    // TODO Clients can set these to null. Should these be 'final'? Or provider getter?
+    public Axis primaryXAxis;
+    public Axis primaryYAxis;
 
-	private OperationsManager operationsManager;
+    private OperationsManager operationsManager;
 
-	private ZoomType zoomType;
+    private ZoomType zoomType;
 
-	/**
-	 * Constructor.
-	 */
-	public XYGraph() {
-		setOpaque(!transparent);
-		legendMap = new LinkedHashMap<Axis, Legend>();
-		titleLabel = new Label();
-		String sysFontName = 
-				Display.getCurrent().getSystemFont().getFontData()[0].getName();
-		setTitleFont(XYGraphMediaFactory.getInstance().getFont(
-				new FontData(sysFontName, 12, SWT.BOLD)));
-		//titleLabel.setVisible(false);
-		xAxisList = new ArrayList<Axis>();
-		yAxisList = new ArrayList<Axis>();
-		plotArea = createPlotArea(this);
-		getPlotArea().setOpaque(!transparent);
+    /**
+     * Constructor.
+     */
+    public XYGraph() {
+        setOpaque(!transparent);
+        legendMap = new LinkedHashMap<Axis, Legend>();
+        titleLabel = new Label();
+        String sysFontName =
+                Display.getCurrent().getSystemFont().getFontData()[0].getName();
+        setTitleFont(XYGraphMediaFactory.getInstance().getFont(
+                new FontData(sysFontName, 12, SWT.BOLD)));
+        //titleLabel.setVisible(false);
+        xAxisList = new ArrayList<Axis>();
+        yAxisList = new ArrayList<Axis>();
+        plotArea = createPlotArea(this);
+        getPlotArea().setOpaque(!transparent);
 
-		add(titleLabel);
-		add(plotArea);
-		primaryYAxis = new Axis(Y_AXIS, true);
-		primaryYAxis.setTickLabelSide(LabelSide.Primary);
-		primaryYAxis.setAutoScaleThreshold(0.1);
-		addAxis(primaryYAxis);
+        add(titleLabel);
+        add(plotArea);
+        primaryYAxis = new Axis(Y_AXIS, true);
+        primaryYAxis.setTickLabelSide(LabelSide.Primary);
+        primaryYAxis.setAutoScaleThreshold(0.1);
+        addAxis(primaryYAxis);
 
-		primaryXAxis = new Axis(X_AXIS, false);
-		primaryXAxis.setTickLabelSide(LabelSide.Primary);
-		addAxis(primaryXAxis);
+        primaryXAxis = new Axis(X_AXIS, false);
+        primaryXAxis.setTickLabelSide(LabelSide.Primary);
+        addAxis(primaryXAxis);
 
-		operationsManager = new OperationsManager();
-	}
+        operationsManager = new OperationsManager();
+    }
 
-	protected PlotArea createPlotArea(XYGraph xyGraph) {
-		return new PlotArea(xyGraph);
-	}
+    protected PlotArea createPlotArea(XYGraph xyGraph) {
+        return new PlotArea(xyGraph);
+    }
 
-	@Override
-	public boolean isOpaque() {
-		return false;
-	}
+    @Override
+    public boolean isOpaque() {
+        return false;
+    }
 
-	@Override
-	protected void layout() {
-		Rectangle clientArea = getClientArea().getCopy();
-		boolean hasRightYAxis = false;
-		boolean hasTopXAxis = false;
-		boolean hasLeftYAxis = false;
-		boolean hasBottomXAxis = false;
-		if(titleLabel != null && titleLabel.isVisible() && !(titleLabel.getText().length() <= 0)){
-			Dimension titleSize = titleLabel.getPreferredSize();
-			titleLabel.setBounds(new Rectangle(clientArea.x + clientArea.width/2 - titleSize.width/2,
-					clientArea.y, titleSize.width, titleSize.height));
-			clientArea.y += titleSize.height + GAP;
-			clientArea.height -= titleSize.height + GAP;
-		}
-		if(showLegend){
-			List<Integer> rowHPosList = new ArrayList<Integer>();
-			List<Dimension> legendSizeList = new ArrayList<Dimension>();
-			List<Integer> rowLegendNumList = new ArrayList<Integer>();
-			List<Legend> legendList = new ArrayList<Legend>();
-			Object[] yAxes = legendMap.keySet().toArray();
-			int hPos = 0;
-			int rowLegendNum = 0;
-			for(int i = 0; i< yAxes.length; i++){
-				Legend legend = legendMap.get(yAxes[i]);
-				if(legend != null && legend.isVisible()){
-					legendList.add(legend);
-					Dimension legendSize = legend.getPreferredSize(clientArea.width, clientArea.height);
-					legendSizeList.add(legendSize);
-					if((hPos+legendSize.width + GAP) > clientArea.width){
-						if(rowLegendNum ==0)
-							break;
-						rowHPosList.add(clientArea.x + (clientArea.width-hPos)/2);
-						rowLegendNumList.add(rowLegendNum);
-						rowLegendNum = 1;
-						hPos = legendSize.width + GAP;
-						clientArea.height -=legendSize.height +GAP;
-						if(i==yAxes.length-1){
-							hPos =legendSize.width + GAP;
-							rowLegendNum = 1;
-							rowHPosList.add(clientArea.x + (clientArea.width-hPos)/2);
-							rowLegendNumList.add(rowLegendNum);
-							clientArea.height -=legendSize.height +GAP;
-						}
-					}else{
-						hPos+=legendSize.width + GAP;
-						rowLegendNum++;
-						if(i==yAxes.length-1){
-							rowHPosList.add(clientArea.x + (clientArea.width-hPos)/2);
-							rowLegendNumList.add(rowLegendNum);
-							clientArea.height -=legendSize.height +GAP;
-						}
-					}
-				}
-			}
-			int lm = 0;
-			int vPos = clientArea.y + clientArea.height + GAP;
-			for(int i=0; i<rowLegendNumList.size(); i++){
-				hPos = rowHPosList.get(i);
-				for(int j=0; j<rowLegendNumList.get(i); j++){
-					legendList.get(lm).setBounds(new Rectangle(
-							hPos, vPos, legendSizeList.get(lm).width, legendSizeList.get(lm).height));
-					hPos += legendSizeList.get(lm).width + GAP;
-					lm++;
-				}
-				vPos += legendSizeList.get(lm-1).height + GAP;
-			}
-		}
+    @Override
+    protected void layout() {
+        Rectangle clientArea = getClientArea().getCopy();
+        boolean hasRightYAxis = false;
+        boolean hasTopXAxis = false;
+        boolean hasLeftYAxis = false;
+        boolean hasBottomXAxis = false;
+        if(titleLabel != null && titleLabel.isVisible() && !(titleLabel.getText().length() <= 0)){
+            Dimension titleSize = titleLabel.getPreferredSize();
+            titleLabel.setBounds(new Rectangle(clientArea.x + clientArea.width/2 - titleSize.width/2,
+                    clientArea.y, titleSize.width, titleSize.height));
+            clientArea.y += titleSize.height + GAP;
+            clientArea.height -= titleSize.height + GAP;
+        }
+        if(showLegend){
+            List<Integer> rowHPosList = new ArrayList<Integer>();
+            List<Dimension> legendSizeList = new ArrayList<Dimension>();
+            List<Integer> rowLegendNumList = new ArrayList<Integer>();
+            List<Legend> legendList = new ArrayList<Legend>();
+            Object[] yAxes = legendMap.keySet().toArray();
+            int hPos = 0;
+            int rowLegendNum = 0;
+            for(int i = 0; i< yAxes.length; i++){
+                Legend legend = legendMap.get(yAxes[i]);
+                if(legend != null && legend.isVisible()){
+                    legendList.add(legend);
+                    Dimension legendSize = legend.getPreferredSize(clientArea.width, clientArea.height);
+                    legendSizeList.add(legendSize);
+                    if((hPos+legendSize.width + GAP) > clientArea.width){
+                        if(rowLegendNum ==0)
+                            break;
+                        rowHPosList.add(clientArea.x + (clientArea.width-hPos)/2);
+                        rowLegendNumList.add(rowLegendNum);
+                        rowLegendNum = 1;
+                        hPos = legendSize.width + GAP;
+                        clientArea.height -=legendSize.height +GAP;
+                        if(i==yAxes.length-1){
+                            hPos =legendSize.width + GAP;
+                            rowLegendNum = 1;
+                            rowHPosList.add(clientArea.x + (clientArea.width-hPos)/2);
+                            rowLegendNumList.add(rowLegendNum);
+                            clientArea.height -=legendSize.height +GAP;
+                        }
+                    }else{
+                        hPos+=legendSize.width + GAP;
+                        rowLegendNum++;
+                        if(i==yAxes.length-1){
+                            rowHPosList.add(clientArea.x + (clientArea.width-hPos)/2);
+                            rowLegendNumList.add(rowLegendNum);
+                            clientArea.height -=legendSize.height +GAP;
+                        }
+                    }
+                }
+            }
+            int lm = 0;
+            int vPos = clientArea.y + clientArea.height + GAP;
+            for(int i=0; i<rowLegendNumList.size(); i++){
+                hPos = rowHPosList.get(i);
+                for(int j=0; j<rowLegendNumList.get(i); j++){
+                    legendList.get(lm).setBounds(new Rectangle(
+                            hPos, vPos, legendSizeList.get(lm).width, legendSizeList.get(lm).height));
+                    hPos += legendSizeList.get(lm).width + GAP;
+                    lm++;
+                }
+                vPos += legendSizeList.get(lm-1).height + GAP;
+            }
+        }
 
-		for(int i=xAxisList.size()-1; i>=0; i--){
-			Axis xAxis = xAxisList.get(i);
-			Dimension xAxisSize = xAxis.getPreferredSize(clientArea.width, clientArea.height);
-			if(xAxis.getTickLabelSide() == LabelSide.Primary){
-				if(xAxis.isVisible())
-					hasBottomXAxis = true;
-				xAxis.setBounds(new Rectangle(clientArea.x,
-					clientArea.y + clientArea.height - xAxisSize.height,
-					xAxisSize.width, xAxisSize.height));
-				clientArea.height -= xAxisSize.height;
-			}else{
-				if(xAxis.isVisible())
-					hasTopXAxis = true;
-				xAxis.setBounds(new Rectangle(clientArea.x,
-					clientArea.y+1,
-					xAxisSize.width, xAxisSize.height));
-				clientArea.y += xAxisSize.height ;
-				clientArea.height -= xAxisSize.height;
-			}
-		}
+        for(int i=xAxisList.size()-1; i>=0; i--){
+            Axis xAxis = xAxisList.get(i);
+            Dimension xAxisSize = xAxis.getPreferredSize(clientArea.width, clientArea.height);
+            if(xAxis.getTickLabelSide() == LabelSide.Primary){
+                if(xAxis.isVisible())
+                    hasBottomXAxis = true;
+                xAxis.setBounds(new Rectangle(clientArea.x,
+                    clientArea.y + clientArea.height - xAxisSize.height,
+                    xAxisSize.width, xAxisSize.height));
+                clientArea.height -= xAxisSize.height;
+            }else{
+                if(xAxis.isVisible())
+                    hasTopXAxis = true;
+                xAxis.setBounds(new Rectangle(clientArea.x,
+                    clientArea.y+1,
+                    xAxisSize.width, xAxisSize.height));
+                clientArea.y += xAxisSize.height ;
+                clientArea.height -= xAxisSize.height;
+            }
+        }
 
-		for(int i=yAxisList.size()-1; i>=0; i--){
-			Axis yAxis = yAxisList.get(i);
-			int hintHeight = clientArea.height + (hasTopXAxis ? yAxis.getMargin() :0)
-				+ (hasBottomXAxis ? yAxis.getMargin() :0);
-			if(hintHeight > getClientArea().height)
-				hintHeight = clientArea.height;
-			Dimension yAxisSize = yAxis.getPreferredSize(clientArea.width,
-					hintHeight);
-			if(yAxis.getTickLabelSide() == LabelSide.Primary){ // on the left
-				if(yAxis.isVisible())
-					hasLeftYAxis = true;
-				yAxis.setBounds(new Rectangle(clientArea.x,
-					clientArea.y - (hasTopXAxis? yAxis.getMargin():0),
-					yAxisSize.width, yAxisSize.height));
-				clientArea.x += yAxisSize.width;
-				clientArea.width -= yAxisSize.width;
-			}else{ // on the right
-				if(yAxis.isVisible())
-					hasRightYAxis = true;
-				yAxis.setBounds(new Rectangle(clientArea.x + clientArea.width - yAxisSize.width -1,
-					clientArea.y- (hasTopXAxis? yAxis.getMargin():0),
-					yAxisSize.width, yAxisSize.height));
-				clientArea.width -= yAxisSize.width;
-			}
-		}
+        for(int i=yAxisList.size()-1; i>=0; i--){
+            Axis yAxis = yAxisList.get(i);
+            int hintHeight = clientArea.height + (hasTopXAxis ? yAxis.getMargin() :0)
+                + (hasBottomXAxis ? yAxis.getMargin() :0);
+            if(hintHeight > getClientArea().height)
+                hintHeight = clientArea.height;
+            Dimension yAxisSize = yAxis.getPreferredSize(clientArea.width,
+                    hintHeight);
+            if(yAxis.getTickLabelSide() == LabelSide.Primary){ // on the left
+                if(yAxis.isVisible())
+                    hasLeftYAxis = true;
+                yAxis.setBounds(new Rectangle(clientArea.x,
+                    clientArea.y - (hasTopXAxis? yAxis.getMargin():0),
+                    yAxisSize.width, yAxisSize.height));
+                clientArea.x += yAxisSize.width;
+                clientArea.width -= yAxisSize.width;
+            }else{ // on the right
+                if(yAxis.isVisible())
+                    hasRightYAxis = true;
+                yAxis.setBounds(new Rectangle(clientArea.x + clientArea.width - yAxisSize.width -1,
+                    clientArea.y- (hasTopXAxis? yAxis.getMargin():0),
+                    yAxisSize.width, yAxisSize.height));
+                clientArea.width -= yAxisSize.width;
+            }
+        }
 
-		//re-adjust xAxis bounds
-		for(int i=xAxisList.size()-1; i>=0; i--){
-			Axis xAxis = xAxisList.get(i);
-			Rectangle r = xAxis.getBounds().getCopy();
-			if(hasLeftYAxis)
-				r.x = clientArea.x - xAxis.getMargin()-1;
-			r.width = clientArea.width + (hasLeftYAxis ? xAxis.getMargin() : -1) +
-					(hasRightYAxis? xAxis.getMargin() : 0);
-			xAxis.setBounds(r);
-		}
+        //re-adjust xAxis bounds
+        for(int i=xAxisList.size()-1; i>=0; i--){
+            Axis xAxis = xAxisList.get(i);
+            Rectangle r = xAxis.getBounds().getCopy();
+            if(hasLeftYAxis)
+                r.x = clientArea.x - xAxis.getMargin()-1;
+            r.width = clientArea.width + (hasLeftYAxis ? xAxis.getMargin() : -1) +
+                    (hasRightYAxis? xAxis.getMargin() : 0);
+            xAxis.setBounds(r);
+        }
 
-		if(plotArea != null && plotArea.isVisible()){
+        if(plotArea != null && plotArea.isVisible()){
 
-			Rectangle plotAreaBound = new Rectangle(
-					primaryXAxis.getBounds().x + primaryXAxis.getMargin(),
-					primaryYAxis.getBounds().y + primaryYAxis.getMargin(),
-					primaryXAxis.getTickLength(),
-					primaryYAxis.getTickLength()
-					);
-			plotArea.setBounds(plotAreaBound);
+            Rectangle plotAreaBound = new Rectangle(
+                    primaryXAxis.getBounds().x + primaryXAxis.getMargin(),
+                    primaryYAxis.getBounds().y + primaryYAxis.getMargin(),
+                    primaryXAxis.getTickLength(),
+                    primaryYAxis.getTickLength()
+                    );
+            plotArea.setBounds(plotAreaBound);
 
-		}
+        }
 
-		super.layout();
-	}
+        super.layout();
+    }
 
 
 
-	/**
-	 * @param zoomType the zoomType to set
-	 */
-	public void setZoomType(ZoomType zoomType) {
-		this.zoomType = zoomType;
-		plotArea.setZoomType(zoomType);
-		for(Axis axis : xAxisList)
-			axis.setZoomType(zoomType);
-		for(Axis axis : yAxisList)
-			axis.setZoomType(zoomType);
-	}
+    /**
+     * @param zoomType the zoomType to set
+     */
+    public void setZoomType(ZoomType zoomType) {
+        this.zoomType = zoomType;
+        plotArea.setZoomType(zoomType);
+        for(Axis axis : xAxisList)
+            axis.setZoomType(zoomType);
+        for(Axis axis : yAxisList)
+            axis.setZoomType(zoomType);
+    }
 
-	/**
-	 * @return the zoomType
-	 */
-	public ZoomType getZoomType() {
-		return zoomType;
-	}
+    /**
+     * @return the zoomType
+     */
+    public ZoomType getZoomType() {
+        return zoomType;
+    }
 
-	/**
-	 * @param title the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title.trim();
-		titleLabel.setText(title);
-	}
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title.trim();
+        titleLabel.setText(title);
+    }
 
-	/**
-	 * @param showTitle true if title should be shown; false otherwise.
-	 */
-	public void setShowTitle(boolean showTitle){
-		titleLabel.setVisible(showTitle);
-		revalidate();
-	}
+    /**
+     * @param showTitle true if title should be shown; false otherwise.
+     */
+    public void setShowTitle(boolean showTitle){
+        titleLabel.setVisible(showTitle);
+        revalidate();
+    }
 
-	/**
-	 * @return true if title should be shown; false otherwise.
-	 */
-	public boolean isShowTitle(){
-		return titleLabel.isVisible();
-	}
+    /**
+     * @return true if title should be shown; false otherwise.
+     */
+    public boolean isShowTitle(){
+        return titleLabel.isVisible();
+    }
 
-	/**
-	 * @param showLegend true if legend should be shown; false otherwise.
-	 */
-	public void setShowLegend(boolean showLegend){
-		this.showLegend = showLegend;
-		for(Axis yAxis : legendMap.keySet()){
-			Legend legend = legendMap.get(yAxis);
-			legend.setVisible(showLegend);
-		}
-		revalidate();
-	}
+    /**
+     * @param showLegend true if legend should be shown; false otherwise.
+     */
+    public void setShowLegend(boolean showLegend){
+        this.showLegend = showLegend;
+        for(Axis yAxis : legendMap.keySet()){
+            Legend legend = legendMap.get(yAxis);
+            legend.setVisible(showLegend);
+        }
+        revalidate();
+    }
 
-	/**
-	 * @return the showLegend
-	 */
-	public boolean isShowLegend() {
-		return showLegend;
-	}
+    /**
+     * @return the showLegend
+     */
+    public boolean isShowLegend() {
+        return showLegend;
+    }
 
-	/**Add an axis to the graph
-	 * @param axis
-	 */
-	public void addAxis(Axis axis){
-		if(axis.isHorizontal())
-			xAxisList.add(axis);
-		else
-			yAxisList.add(axis);
-		plotArea.addGrid(new Grid(axis));
-		add(axis);
-		axis.setXyGraph(this);
-		revalidate();
-	}
+    /**Add an axis to the graph
+     * @param axis
+     */
+    public void addAxis(Axis axis){
+        if(axis.isHorizontal())
+            xAxisList.add(axis);
+        else
+            yAxisList.add(axis);
+        plotArea.addGrid(new Grid(axis));
+        add(axis);
+        axis.setXyGraph(this);
+        revalidate();
+    }
 
-	/**Remove an axis from the graph
-	 * @param axis
-	 * @return true if this axis exists.
-	 */
-	public boolean removeAxis(Axis axis){
-		remove(axis);
-		plotArea.removeGrid(axis.getGrid());
-		revalidate();
-		if(axis.isHorizontal())
-			return xAxisList.remove(axis);
-		else
-			return yAxisList.remove(axis);
-	}
-	
-	/**Add a trace
-	 * @param trace
-	 */
-	public void addTrace(Trace trace){
+    /**Remove an axis from the graph
+     * @param axis
+     * @return true if this axis exists.
+     */
+    public boolean removeAxis(Axis axis){
+        remove(axis);
+        plotArea.removeGrid(axis.getGrid());
+        revalidate();
+        if(axis.isHorizontal())
+            return xAxisList.remove(axis);
+        else
+            return yAxisList.remove(axis);
+    }
+
+    /**Add a trace
+     * @param trace
+     */
+    public void addTrace(Trace trace){
         addTrace(trace, null, null);
-	}
+    }
 
-	/**Add a trace
-	 * @param trace
-	 */
-	public void addTrace(Trace trace, Axis xAxis, Axis yAxis){
-		if (trace.getTraceColor() == null)
-		{   // Cycle through default colors
-		    trace.setTraceColor(XYGraphMediaFactory.getInstance().getColor(
-		    		DEFAULT_TRACES_COLOR[traceNum % DEFAULT_TRACES_COLOR.length]));
-        	++traceNum;
-		}
-		if(legendMap.containsKey(trace.getYAxis()))
-			legendMap.get(trace.getYAxis()).addTrace(trace);
-		else{
-			legendMap.put(trace.getYAxis(), new Legend(this));
-			legendMap.get(trace.getYAxis()).addTrace(trace);
-			add(legendMap.get(trace.getYAxis()));
-		}
-		
-
-		if (xAxis==null || yAxis==null) {
-			try {
-				for (Axis axis : getAxisList()) {
-					axis.addTrace(trace);
-				}
-			} catch (Throwable ne) {
-				// Ignored, this is a bug fix for Dawn 1.0
-				// to make the plots rescale after a plot is deleted.
-			}
-		} else {
-			xAxis.addTrace(trace);
-			yAxis.addTrace(trace);
-		}
-		
-		plotArea.addTrace(trace);
-		trace.setXYGraph(this);
-		trace.dataChanged(null);
-		revalidate();
-		repaint();
-	}
-
-	/**Remove a trace.
-	 * @param trace
-	 */
-	public void removeTrace(Trace trace){
-		if(legendMap.containsKey(trace.getYAxis())){
-			legendMap.get(trace.getYAxis()).removeTrace(trace);
-			if(legendMap.get(trace.getYAxis()).getTraceList().size() <=0){
-				remove(legendMap.remove(trace.getYAxis()));
-			}
-		}
-		try {
-			for (Axis axis : getAxisList()) {
-				axis.removeTrace(trace);
-			}
-		} catch (Throwable ne) {
-			// Ignored, this is a bug fix for Dawn 1.0
-			// to make the plots rescale after a plot is deleted.
-		}
-		plotArea.removeTrace(trace);
-		revalidate();
-		repaint();
-	}
-
-	/**Add an annotation
-	 * @param annotation
-	 */
-	public void addAnnotation(Annotation annotation){
-		plotArea.addAnnotation(annotation);
-	}
-
-	/**Remove an annotation
-	 * @param annotation
-	 */
-	public void removeAnnotation(Annotation annotation){
-		plotArea.removeAnnotation(annotation);
-	}
-
-	/**
-	 * @param titleFont the titleFont to set
-	 */
-	public void setTitleFont(Font titleFont) {
-		titleLabel.setFont(titleFont);
-	}
-
-	/**
-	 * @return the title font.
-	 */
-	public Font getTitleFont(){
-		return titleLabel.getFont();
-	}
-
-	/**
-	 * @param titleColor the titleColor to set
-	 */
-	public void setTitleColor(Color titleColor) {
-		this.titleColor = titleColor;
-		titleLabel.setForegroundColor(titleColor);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void paintFigure(final Graphics graphics) {
-		if (!transparent) {
-			graphics.fillRectangle(getClientArea());
-		}
-		super.paintFigure(graphics);
-	}
-
-	/**
-	 * @param transparent the transparent to set
-	 */
-	public void setTransparent(boolean transparent) {
-		this.transparent = transparent;
-		getPlotArea().setOpaque(!transparent);
-		repaint();
-	}
+    /**Add a trace
+     * @param trace
+     */
+    public void addTrace(Trace trace, Axis xAxis, Axis yAxis){
+        if (trace.getTraceColor() == null)
+        {   // Cycle through default colors
+            trace.setTraceColor(XYGraphMediaFactory.getInstance().getColor(
+                    DEFAULT_TRACES_COLOR[traceNum % DEFAULT_TRACES_COLOR.length]));
+            ++traceNum;
+        }
+        if(legendMap.containsKey(trace.getYAxis()))
+            legendMap.get(trace.getYAxis()).addTrace(trace);
+        else{
+            legendMap.put(trace.getYAxis(), new Legend(this));
+            legendMap.get(trace.getYAxis()).addTrace(trace);
+            add(legendMap.get(trace.getYAxis()));
+        }
 
 
-	/**
-	 * @return the transparent
-	 */
-	public boolean isTransparent() {
-		return transparent;
-	}
+        if (xAxis==null || yAxis==null) {
+            try {
+                for (Axis axis : getAxisList()) {
+                    axis.addTrace(trace);
+                }
+            } catch (Throwable ne) {
+                // Ignored, this is a bug fix for Dawn 1.0
+                // to make the plots rescale after a plot is deleted.
+            }
+        } else {
+            xAxis.addTrace(trace);
+            yAxis.addTrace(trace);
+        }
+
+        plotArea.addTrace(trace);
+        trace.setXYGraph(this);
+        trace.dataChanged(null);
+        revalidate();
+        repaint();
+    }
+
+    /**Remove a trace.
+     * @param trace
+     */
+    public void removeTrace(Trace trace){
+        if(legendMap.containsKey(trace.getYAxis())){
+            legendMap.get(trace.getYAxis()).removeTrace(trace);
+            if(legendMap.get(trace.getYAxis()).getTraceList().size() <=0){
+                remove(legendMap.remove(trace.getYAxis()));
+            }
+        }
+        try {
+            for (Axis axis : getAxisList()) {
+                axis.removeTrace(trace);
+            }
+        } catch (Throwable ne) {
+            // Ignored, this is a bug fix for Dawn 1.0
+            // to make the plots rescale after a plot is deleted.
+        }
+        plotArea.removeTrace(trace);
+        revalidate();
+        repaint();
+    }
+
+    /**Add an annotation
+     * @param annotation
+     */
+    public void addAnnotation(Annotation annotation){
+        plotArea.addAnnotation(annotation);
+    }
+
+    /**Remove an annotation
+     * @param annotation
+     */
+    public void removeAnnotation(Annotation annotation){
+        plotArea.removeAnnotation(annotation);
+    }
+
+    /**
+     * @param titleFont the titleFont to set
+     */
+    public void setTitleFont(Font titleFont) {
+        titleLabel.setFont(titleFont);
+    }
+
+    /**
+     * @return the title font.
+     */
+    public Font getTitleFont(){
+        return titleLabel.getFont();
+    }
+
+    /**
+     * @param titleColor the titleColor to set
+     */
+    public void setTitleColor(Color titleColor) {
+        this.titleColor = titleColor;
+        titleLabel.setForegroundColor(titleColor);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void paintFigure(final Graphics graphics) {
+        if (!transparent) {
+            graphics.fillRectangle(getClientArea());
+        }
+        super.paintFigure(graphics);
+    }
+
+    /**
+     * @param transparent the transparent to set
+     */
+    public void setTransparent(boolean transparent) {
+        this.transparent = transparent;
+        getPlotArea().setOpaque(!transparent);
+        repaint();
+    }
 
 
-	/** TODO This allows clients to change the traces via getPlotArea().getTraceList() and then add/remove/clear/...,
-	 *       circumventing the designated addTrace()/removeTrace().
-	 *       Can it be non-public?
-	 * @return the plotArea, which contains all the elements drawn inside it.
-	 */
-	public PlotArea getPlotArea() {
-		return plotArea;
-	}
-
-	/** @return Image of the XYFigure. Receiver must dispose. */
-	public Image getImage(){
-		return SingleSourceHelper.getXYGraphSnapShot(this);
-	}
+    /**
+     * @return the transparent
+     */
+    public boolean isTransparent() {
+        return transparent;
+    }
 
 
-	/**
-	 * @return the titleColor
-	 */
-	public Color getTitleColor() {
-		if(titleColor == null)
-			return getForegroundColor();
-		return titleColor;
-	}
+    /** TODO This allows clients to change the traces via getPlotArea().getTraceList() and then add/remove/clear/...,
+     *       circumventing the designated addTrace()/removeTrace().
+     *       Can it be non-public?
+     * @return the plotArea, which contains all the elements drawn inside it.
+     */
+    public PlotArea getPlotArea() {
+        return plotArea;
+    }
 
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
-	}
+    /** @return Image of the XYFigure. Receiver must dispose. */
+    public Image getImage(){
+        return SingleSourceHelper.getXYGraphSnapShot(this);
+    }
 
-	/**
-	 * @return the operationsManager
-	 */
-	public OperationsManager getOperationsManager() {
-		return operationsManager;
-	}
 
-	/**
-	 * @return the xAxisList
-	 */
-	public List<Axis> getXAxisList() {
-		return xAxisList;
-	}
+    /**
+     * @return the titleColor
+     */
+    public Color getTitleColor() {
+        if(titleColor == null)
+            return getForegroundColor();
+        return titleColor;
+    }
 
-	/**
-	 * @return the yAxisList
-	 */
-	public List<Axis> getYAxisList() {
-		return yAxisList;
-	}
+    /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
 
-	/**
-	 * @return the all the axis include xAxes and yAxes.
-	 * yAxisList is appended to xAxisList in the returned list.
-	 */
-	public List<Axis> getAxisList(){
-		List<Axis> list = new ArrayList<Axis>();
-		list.addAll(xAxisList);
-		list.addAll(yAxisList);
-		return list;
-	}
+    /**
+     * @return the operationsManager
+     */
+    public OperationsManager getOperationsManager() {
+        return operationsManager;
+    }
 
-	/**
-	 * @return the legendMap
-	 */
-	public Map<Axis, Legend> getLegendMap() {
-		return legendMap;
-	}
+    /**
+     * @return the xAxisList
+     */
+    public List<Axis> getXAxisList() {
+        return xAxisList;
+    }
 
-	/**
-	 * Perform forced autoscale to all axes.
-	 */
-	public void performAutoScale(){
-	    final ZoomCommand command = new ZoomCommand("Auto Scale", xAxisList, yAxisList);
-		for(Axis axis : xAxisList){
-			if (!axis.isVisible()) continue;
-			axis.performAutoScale(true);
-		}
-		for(Axis axis : yAxisList){
-			if (!axis.isVisible()) continue;
-			axis.performAutoScale(true);
-		}
-		command.saveState();
-		operationsManager.addCommand(command);
-	}
+    /**
+     * @return the yAxisList
+     */
+    public List<Axis> getYAxisList() {
+        return yAxisList;
+    }
 
-	/** Stagger all axes: Autoscale each axis so that traces on various
-	 *  axes don't overlap
-	 */
+    /**
+     * @return the all the axis include xAxes and yAxes.
+     * yAxisList is appended to xAxisList in the returned list.
+     */
+    public List<Axis> getAxisList(){
+        List<Axis> list = new ArrayList<Axis>();
+        list.addAll(xAxisList);
+        list.addAll(yAxisList);
+        return list;
+    }
+
+    /**
+     * @return the legendMap
+     */
+    public Map<Axis, Legend> getLegendMap() {
+        return legendMap;
+    }
+
+    /**
+     * Perform forced autoscale to all axes.
+     */
+    public void performAutoScale(){
+        final ZoomCommand command = new ZoomCommand("Auto Scale", xAxisList, yAxisList);
+        for(Axis axis : xAxisList){
+            if (!axis.isVisible()) continue;
+            axis.performAutoScale(true);
+        }
+        for(Axis axis : yAxisList){
+            if (!axis.isVisible()) continue;
+            axis.performAutoScale(true);
+        }
+        command.saveState();
+        operationsManager.addCommand(command);
+    }
+
+    /** Stagger all axes: Autoscale each axis so that traces on various
+     *  axes don't overlap
+     */
     public void performStagger()
     {
         final double GAP = 0.1;
@@ -659,39 +659,39 @@ public class XYGraph extends Figure {
         command.saveState();
         operationsManager.addCommand(command);
     }
-  	
-	/** @param trim 
-	 * @return Image of the XYFigure. Receiver must dispose. */
-	public Image getImage(org.eclipse.swt.graphics.Rectangle size){
-		
-		Rectangle orig = new Rectangle(bounds);
 
-		try {
-			setBounds(new Rectangle(0,0,size.width,size.height));
-			layout();
-			plotArea.layout();
-			plotArea.layout();
-			primaryYAxis.layout();
-			primaryXAxis.layout();
-			
-			Image image = new Image(null, bounds.width + 6, bounds.height + 6);
-			GC gc = GraphicsUtil.createGC(image);
-			SWTGraphics graphics = new SWTGraphics(gc); 
-			graphics.translate(-bounds.x + 3, -bounds.y + 3);
-			graphics.setForegroundColor(getForegroundColor());
-			graphics.setBackgroundColor(getBackgroundColor());		
-			paint(graphics);
-			gc.dispose();
-			return image;
-			
-		} finally {
-			setBounds(orig);
-			layout();
-			plotArea.layout();
-			plotArea.layout();
-			primaryYAxis.layout();
-			primaryXAxis.layout();
-		}
-	}
+    /** @param trim
+     * @return Image of the XYFigure. Receiver must dispose. */
+    public Image getImage(org.eclipse.swt.graphics.Rectangle size){
+
+        Rectangle orig = new Rectangle(bounds);
+
+        try {
+            setBounds(new Rectangle(0,0,size.width,size.height));
+            layout();
+            plotArea.layout();
+            plotArea.layout();
+            primaryYAxis.layout();
+            primaryXAxis.layout();
+
+            Image image = new Image(null, bounds.width + 6, bounds.height + 6);
+            GC gc = GraphicsUtil.createGC(image);
+            SWTGraphics graphics = new SWTGraphics(gc);
+            graphics.translate(-bounds.x + 3, -bounds.y + 3);
+            graphics.setForegroundColor(getForegroundColor());
+            graphics.setBackgroundColor(getBackgroundColor());
+            paint(graphics);
+            gc.dispose();
+            return image;
+
+        } finally {
+            setBounds(orig);
+            layout();
+            plotArea.layout();
+            plotArea.layout();
+            primaryYAxis.layout();
+            primaryXAxis.layout();
+        }
+    }
 
 }

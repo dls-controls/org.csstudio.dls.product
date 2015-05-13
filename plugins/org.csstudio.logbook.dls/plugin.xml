@@ -14,5 +14,5 @@
             name="Create DLS ELog Entry"
             restorable="true">
       </view>
-   </extension>   
+   </extension>
 </plugin>

@@ -18,14 +18,14 @@ package org.eclipse.nebula.visualization.xygraph.linearscale;
 import java.util.List;
 
 /**
- * 
+ *
  *
  */
 public interface ITicksProvider {
 
     /**
      * Gets the tick positions.
-     * 
+     *
      * @return the tick positions
      */
     public List<Integer> getPositions();
@@ -78,7 +78,7 @@ public interface ITicksProvider {
 
     /**
      * Update ticks
-     * 
+     *
      * @param min
      * @param max
      * @param length
@@ -87,13 +87,13 @@ public interface ITicksProvider {
     public Range update(double min , double max, int length);
 
     /**
-     * 
+     *
      * @return maximum width in pixels of tick labels
      */
     public int getMaxWidth();
 
     /**
-     * 
+     *
      * @return maximum height in pixels of tick labels
      */
     public int getMaxHeight();

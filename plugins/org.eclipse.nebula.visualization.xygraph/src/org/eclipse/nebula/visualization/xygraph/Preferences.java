@@ -9,7 +9,7 @@ package org.eclipse.nebula.visualization.xygraph;
 
 
 /** Access to preference settings.
- * 
+ *
  *  See preferences.ini for details on the available settings
  *  @author Kay Kasemir
  */
@@ -17,19 +17,19 @@ package org.eclipse.nebula.visualization.xygraph;
 public class Preferences
 {
     public static final String PROHIBIT_ADVANCED_GRAPHICS = "prohibit_advanced_graphics"; //$NON-NLS-1$
-	// useAdvancedGraphics() is called from many drawing operations, so
+    // useAdvancedGraphics() is called from many drawing operations, so
     // only determine it once
     private static boolean use_advanced_graphics = true;
 
-  
+
     public static boolean useAdvancedGraphics()
     {
-    	if(use_advanced_graphics){
-    		String value = System.getProperty(PROHIBIT_ADVANCED_GRAPHICS); //$NON-NLS-1$
-    		if(value == null || !value.equals("true")) //$NON-NLS-1$
-    			return true;
-    		return  false;
-    	}
+        if(use_advanced_graphics){
+            String value = System.getProperty(PROHIBIT_ADVANCED_GRAPHICS); //$NON-NLS-1$
+            if(value == null || !value.equals("true")) //$NON-NLS-1$
+                return true;
+            return  false;
+        }
         return false;
     }
 }

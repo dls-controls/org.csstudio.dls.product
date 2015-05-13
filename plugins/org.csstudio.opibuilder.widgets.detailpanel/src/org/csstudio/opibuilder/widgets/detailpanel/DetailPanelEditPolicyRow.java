@@ -12,21 +12,21 @@ import org.eclipse.gef.requests.DirectEditRequest;
 
 public class DetailPanelEditPolicyRow extends DirectEditPolicy {
 
-	@Override
-	protected Command getDirectEditCommand(DirectEditRequest edit) {
-		Command result = null;
-		DetailPanelEditpart editpart = (DetailPanelEditpart)getHost();
-		int rowNumber = editpart.getFirstSelectedRow();
-		if(rowNumber >= 0) {
-			result = new SetWidgetPropertyCommand(editpart.getWidgetModel(), 
-					DetailPanelModelRow.makePropertyName(DetailPanelModelRow.PROP_ROW_NAME, rowNumber),
-					(String)edit.getCellEditor().getValue());
-		}
-		return result;
-	}
+    @Override
+    protected Command getDirectEditCommand(DirectEditRequest edit) {
+        Command result = null;
+        DetailPanelEditpart editpart = (DetailPanelEditpart)getHost();
+        int rowNumber = editpart.getFirstSelectedRow();
+        if(rowNumber >= 0) {
+            result = new SetWidgetPropertyCommand(editpart.getWidgetModel(),
+                    DetailPanelModelRow.makePropertyName(DetailPanelModelRow.PROP_ROW_NAME, rowNumber),
+                    (String)edit.getCellEditor().getValue());
+        }
+        return result;
+    }
 
-	@Override
-	protected void showCurrentEditValue(DirectEditRequest edit) {
-	}
+    @Override
+    protected void showCurrentEditValue(DirectEditRequest edit) {
+    }
 
 }
