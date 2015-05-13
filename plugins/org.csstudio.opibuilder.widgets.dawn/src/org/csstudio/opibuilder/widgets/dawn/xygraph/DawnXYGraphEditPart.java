@@ -19,7 +19,6 @@ import org.csstudio.opibuilder.util.ConsoleService;
 import org.csstudio.opibuilder.util.OPIColor;
 import org.csstudio.opibuilder.util.OPIFont;
 import org.csstudio.opibuilder.widgets.editparts.DropPVtoXYGraphEditPolicy;
-import org.csstudio.opibuilder.widgets.dawn.xygraph.DawnXYGraphModel;
 import org.csstudio.opibuilder.widgets.dawn.xygraph.DawnXYGraphModel.AxisProperty;
 import org.csstudio.opibuilder.widgets.dawn.xygraph.DawnXYGraphModel.TraceProperty;
 import org.csstudio.simplepv.IPV;

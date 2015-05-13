@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.csstudio.archive.reader.fastarchiver.archive_requests.FAInfoRequest;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
