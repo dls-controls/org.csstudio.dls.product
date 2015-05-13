@@ -30,8 +30,14 @@
   -->
   <properties>
     <!-- VERSIONS -->
-    <tycho.version>0.20.0</tycho.version>
-    <tycho-extras.version>0.20.0</tycho-extras.version>
+    <tycho.version>0.22.0</tycho.version>
+    <tycho-extras.version>0.22.0</tycho-extras.version>
+    <cs-studio.version>4.1</cs-studio.version>
+    <cs-studio.central.url>http://download.controlsystemstudio.org/product/${cs-studio.version}</cs-studio.central.url>
+    <cs-studio.update.url>http://download.controlsystemstudio.org/updates/${cs-studio.version}</cs-studio.update.url>
+    <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository</orbit-site>
+    <eclipse-site>http://download.eclipse.org/releases/luna</eclipse-site>
+    <eclipse-update-site>http://download.eclipse.org/eclipse/updates/4.4</eclipse-update-site>
   </properties>
 
   <!--
@@ -40,38 +46,6 @@
   <!--
     P2 REPOSITORIES
   -->
-  <repositories>
-    <repository>
-      <id>csstudio-maven-osgi-bundles</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-maven-osgi-bundles-4.1</url>
-      <layout>p2</layout>
-    </repository>
-    <repository>
-      <id>csstudio-thirdparty</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-thirdparty-4.1</url>
-      <layout>p2</layout>
-    </repository>
-    <repository>
-      <id>csstudio-core</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-core-4.1</url>
-      <layout>p2</layout>
-    </repository>
-    <repository>
-      <id>csstudio-applications</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-applications-4.1</url>
-      <layout>p2</layout>
-    </repository>
-    <repository>
-      <id>luna</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/eclipse-luna</url>
-      <layout>p2</layout>
-    </repository>
-    <repository>
-      <id>orbit</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/eclipse-orbit-luna</url>
-      <layout>p2</layout>
-    </repository>
-  </repositories>
 
   <!-- if a local repository is specified then enable the repository for build. -->
   <profiles>
@@ -90,8 +64,143 @@
         </repository>
       </repositories>
     </profile>
+    <profile>
+      <id>csstudio-composite-repo-enable</id>
+      <activation>
+        <property>
+          <name>csstudio.composite.repo</name>
+        </property>
+      </activation>
+      <repositories>
+        <repository>
+          <id>csstudio-composite-repo</id>
+          <url>file:${csstudio.composite.repo}</url>
+          <layout>p2</layout>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
+      <id>dls-mirror-enable</id>
+      <activation>
+        <file>
+          <exists>${dls.mirror.path}/artifacts.jar</exists>
+        </file>
+      </activation>
+      <repositories>
+        <repository>
+          <id>csstudio-maven-osgi-bundles</id>
+          <url>csstudio-maven-osgi-bundles-4.1</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>csstudio-thirdparty</id>
+          <url>${dls.mirror.path}/csstudio-thirdparty-4.1</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>csstudio-core</id>
+          <url>${dls.mirror.path}/csstudio-core-4.1</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>csstudio-applications</id>
+          <url>${dls.mirror.path}/csstudio-core-4.1</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>luna</id>
+          <url>${dls.mirror.path}/eclipse-luna</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>orbit</id>
+          <url>${dls.mirror.path}/eclipse-orbit-luna</url>
+          <layout>p2</layout>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
+      <id>css-remote-enable</id>
+      <activation>
+        <file>
+          <exists>${cs-studio.central.url}/artifacts.jar</exists>
+        </file>
+      </activation>
+      <repositories>
+        <repository>
+          <id>csstudio-product</id>
+          <url>${cs-studio.central.url}</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>csstudio-updates</id>
+          <url>${cs-studio.update.url}</url>
+          <layout>p2</layout>
+        </repository>
+      </repositories>
+      <properties>
+        <eclipse-site>http://download.eclipse.org/releases/luna</eclipse-site>
+        <eclipse-update-site>http://download.eclipse.org/eclipse/updates/4.4</eclipse-update-site>
+        <platform-version>[4.3,4.4)</platform-version>
+      </properties>
+    </profile>
+    <profile>
+      <id>eclipse-sites</id>
+      <activation>
+        <property>
+          <name>!eclipse</name>
+        </property>
+      </activation>
+      <repositories>
+        <repository>
+          <id>eclipse</id>
+          <url>${eclipse-site}</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>eclipse-updates</id>
+          <url>${eclipse-update-site}</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>orbit</id>
+          <url>${orbit-site}</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>efx</id>
+          <url>http://download.eclipse.org/efxclipse/runtime-released/1.2.0/site</url>
+          <layout>p2</layout>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
+      <id>cs-studio-sites</id>
+      <activation>
+        <property>
+          <name>!cs-studio</name>
+        </property>
+      </activation>
+      <repositories>
+        <repository>
+          <id>csstudio-thirdparty</id>
+          <url>http://download.controlsystemstudio.org/thirdparty/4.1</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>csstudio-maven-osgi-bundles</id>
+          <url>http://download.controlsystemstudio.org/maven-osgi-bundles/4.1</url>
+          <layout>p2</layout>
+        </repository>
+        <!-- Adding the core to enable jenkins build until re-organization is complete -->
+        <repository>
+          <id>csstudio-core</id>
+          <url>http://download.controlsystemstudio.org/core/4.1</url>
+          <layout>p2</layout>
+        </repository>
+      </repositories>
+    </profile>
   </profiles>
-
 
   <!--
     CHILD MODULES
