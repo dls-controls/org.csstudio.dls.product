@@ -8,6 +8,6 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>org.csstudio.dls.product</artifactId>
-  <version>3.2.8-SNAPSHOT</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>
