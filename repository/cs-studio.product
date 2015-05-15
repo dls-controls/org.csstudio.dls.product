@@ -16,7 +16,10 @@
    <launcherArgs>
       <vmArgs>-Xmx2048m
 -Xms256m
--XX:MaxPermSize=512M</vmArgs>
+-XX:MaxPermSize=512M
+-Dosgi.requiredJavaVersion=1.8
+-Dorg.osgi.framework.bundle.parent=ext
+-Dosgi.framework.extensions=org.eclipse.fx.osgi</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
@@ -53,6 +56,8 @@
    <features>
       <feature id="org.eclipse.rcp"/>
       <feature id="org.eclipse.equinox.p2.user.ui"/>
+      <!-- required for any plugins using javafx -->
+      <feature id="org.eclipse.fx.target.rcp.feature"/>
       <feature id="org.csstudio.core.base.feature"/>
       <feature id="org.csstudio.core.platform.feature"/>
       <feature id="org.csstudio.core.utility.feature"/>
