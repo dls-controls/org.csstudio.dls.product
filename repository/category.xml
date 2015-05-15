@@ -4,7 +4,7 @@
       <category name="CATEGORY"/>
    </feature>-->
 
-   <feature id="org.csstudio.product.feature">
+   <feature id="org.csstudio.dls.product.feature">
       <!--<category name="org.csstudio.category.core"/>-->
    </feature>
 

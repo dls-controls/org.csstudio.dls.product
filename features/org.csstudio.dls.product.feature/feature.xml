@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.csstudio.product.feature"
-      label="CS-Studio Product"
-      version="3.2.0.qualifier"
-      provider-name="CS-Studio Collaboration &lt;cs-studio-core@lists.sourceforge.net&gt;"
-      plugin="org.csstudio.product">
+      id="org.csstudio.dls.product.feature"
+      label="DLS CS-Studio Product"
+      version="0.0.1.qualifier"
+      provider-name="Will Rogers &lt;will.rogers@diamond.ac.uk&gt;"
+      plugin="org.csstudio.dls.product">
 
    <description url="http://controlsystemstudio.github.io/">
       CS-Studio Product.
