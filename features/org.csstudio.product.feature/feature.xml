@@ -18,7 +18,7 @@
       Eclipse Public License.
    </license>
    <plugin
-         id="org.csstudio.product"
+         id="org.csstudio.dls.product"
          download-size="0"
          install-size="0"
          version="0.0.0"
