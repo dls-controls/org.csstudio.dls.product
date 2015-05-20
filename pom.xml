@@ -117,6 +117,11 @@
           <url>file:${dls.mirror.path}/eclipse-orbit-luna</url>
           <layout>p2</layout>
         </repository>
+        <repository>
+          <id>efx</id>
+          <url>file:${dls.mirror.path}/efxclipse</url>
+          <layout>p2</layout>
+        </repository>
       </repositories>
     </profile>
     <profile>
