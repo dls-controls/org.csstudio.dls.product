@@ -153,7 +153,6 @@ public class Axis extends LinearScale{
 
     @Override
     public void setVisible(boolean visible) {
-        System.out.println("setVisible(" + visible + ") :: " + this + ", " + grid);
         super.setVisible(visible);
         grid.setVisible(visible);
         revalidate();
