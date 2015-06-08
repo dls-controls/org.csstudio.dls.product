@@ -30,8 +30,14 @@
   -->
   <properties>
     <!-- VERSIONS -->
-    <tycho.version>0.20.0</tycho.version>
-    <tycho-extras.version>0.20.0</tycho-extras.version>
+    <tycho.version>0.22.0</tycho.version>
+    <tycho-extras.version>0.22.0</tycho-extras.version>
+    <cs-studio.version>4.1</cs-studio.version>
+    <cs-studio.central.url>http://download.controlsystemstudio.org/product/${cs-studio.version}</cs-studio.central.url>
+    <cs-studio.update.url>http://download.controlsystemstudio.org/updates/${cs-studio.version}</cs-studio.update.url>
+    <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository</orbit-site>
+    <eclipse-site>http://download.eclipse.org/releases/luna</eclipse-site>
+    <eclipse-update-site>http://download.eclipse.org/eclipse/updates/4.4</eclipse-update-site>
   </properties>
 
   <!--
@@ -40,38 +46,6 @@
   <!--
     P2 REPOSITORIES
   -->
-  <repositories>
-    <repository>
-      <id>csstudio-maven-osgi-bundles</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-maven-osgi-bundles-4.1</url>
-      <layout>p2</layout>
-    </repository>
-    <repository>
-      <id>csstudio-thirdparty</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-thirdparty-4.1</url>
-      <layout>p2</layout>
-    </repository>
-    <repository>
-      <id>csstudio-core</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-core-4.1</url>
-      <layout>p2</layout>
-    </repository>
-    <repository>
-      <id>csstudio-applications</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/csstudio-applications-4.1</url>
-      <layout>p2</layout>
-    </repository>
-    <repository>
-      <id>luna</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/eclipse-luna</url>
-      <layout>p2</layout>
-    </repository>
-    <repository>
-      <id>orbit</id>
-      <url>file:/dls_sw/work/common/CSS/mirrors/eclipse-orbit-luna</url>
-      <layout>p2</layout>
-    </repository>
-  </repositories>
 
   <!-- if a local repository is specified then enable the repository for build. -->
   <profiles>
@@ -90,8 +64,142 @@
         </repository>
       </repositories>
     </profile>
+    <profile>
+      <id>csstudio-composite-repo-enable</id>
+      <activation>
+        <property>
+          <name>csstudio.composite.repo</name>
+        </property>
+      </activation>
+      <repositories>
+        <repository>
+          <id>csstudio-composite-repo</id>
+          <url>file:${csstudio.composite.repo}</url>
+          <layout>p2</layout>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
+      <id>dls-mirror-enable</id>
+      <activation>
+        <file>
+          <exists>${dls.mirror.path}</exists>
+        </file>
+      </activation>
+      <repositories>
+        <repository>
+          <id>csstudio-maven-osgi-bundles</id>
+          <url>file:${dls.mirror.path}/csstudio-maven-osgi-bundles-4.1</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>csstudio-thirdparty</id>
+          <url>file:${dls.mirror.path}/csstudio-thirdparty-4.1</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>csstudio-core</id>
+          <url>file:${dls.mirror.path}/csstudio-core-4.1</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>csstudio-applications</id>
+          <url>file:${dls.mirror.path}/csstudio-applications-4.1</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>luna</id>
+          <url>file:${dls.mirror.path}/eclipse-luna</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>orbit</id>
+          <url>file:${dls.mirror.path}/eclipse-orbit-luna</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>efx</id>
+          <url>file:${dls.mirror.path}/efxclipse</url>
+          <layout>p2</layout>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
+      <id>eclipse-sites</id>
+      <activation>
+        <property>
+          <name>!eclipse</name>
+        </property>
+      </activation>
+      <repositories>
+        <repository>
+          <id>eclipse</id>
+          <url>${eclipse-site}</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>eclipse-updates</id>
+          <url>${eclipse-update-site}</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>orbit</id>
+          <url>${orbit-site}</url>
+          <layout>p2</layout>
+        </repository>
+        <repository>
+          <id>efx</id>
+          <url>http://download.eclipse.org/efxclipse/runtime-released/1.2.0/site</url>
+          <layout>p2</layout>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
+      <id>cs-studio-sites</id>
+      <activation>
+        <property>
+          <name>!cs-studio</name>
+        </property>
+      </activation>
+      <repositories>
+        <repository>
+          <id>csstudio-composite</id>
+          <url>http://download.controlsystemstudio.org/updates/4.1</url>
+          <layout>p2</layout>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
+      <id>checkstyle</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>2.15</version>
+            <executions>
+              <execution>
+                <id>validate</id>
+                <phase>validate</phase>
+                <configuration>
+                  <configLocation>../cs-studio/build/cs-studio-jenkins-checkstyle</configLocation>
+                  <encoding>UTF-8</encoding>
+                  <consoleOutput>true</consoleOutput>
+                  <outputFile>checkstyle-output.xml</outputFile>
+                  <sourceDirectory>.</sourceDirectory>
+                  <failsOnError>true</failsOnError>
+                  <linkXRef>false</linkXRef>
+                </configuration>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
-
 
   <!--
     CHILD MODULES
@@ -228,5 +336,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>

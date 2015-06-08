@@ -8,7 +8,6 @@ import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.Date;
 
-import org.csstudio.archive.reader.fastarchiver.archive_requests.FARequest;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
 import org.csstudio.archive.vtype.ArchiveVNumber;
 import org.csstudio.archive.vtype.ArchiveVStatistics;

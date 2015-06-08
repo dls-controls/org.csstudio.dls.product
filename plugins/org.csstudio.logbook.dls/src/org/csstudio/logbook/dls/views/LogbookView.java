@@ -53,7 +53,6 @@ public class LogbookView extends ViewPart {
                 return;
             }
 
-            System.out.println("Disposing default label");
             defaultLabel.dispose();
             attachments.add(filePath);
 

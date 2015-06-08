@@ -12,7 +12,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-    <module>org.csstudio.product</module>
+    <module>org.csstudio.dls.product</module>
     <module>org.csstudio.startup.intro</module>
     <module>org.csstudio.archive.reader.fastarchiver</module>
     <module>org.csstudio.opibuilder.widgets.edm</module>

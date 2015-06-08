@@ -8,9 +8,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import org.csstudio.archive.reader.ValueIterator;
-import org.csstudio.archive.reader.fastarchiver.archive_requests.FAArchivedDataRequest;
 import org.csstudio.archive.reader.fastarchiver.archive_requests.FAArchivedDataRequest.Decimation;
-import org.csstudio.archive.reader.fastarchiver.archive_requests.FAInfoRequest;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
 import org.epics.util.time.TimeDuration;
 import org.epics.util.time.Timestamp;
