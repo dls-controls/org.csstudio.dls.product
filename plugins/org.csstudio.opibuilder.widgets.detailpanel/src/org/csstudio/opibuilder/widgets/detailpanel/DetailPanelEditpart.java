@@ -11,14 +11,11 @@ import org.csstudio.opibuilder.editparts.ConnectionHandler;
 import org.csstudio.opibuilder.editparts.ExecutionMode;
 import org.csstudio.opibuilder.editparts.IPVWidgetEditpart;
 import org.csstudio.opibuilder.editparts.PVWidgetConnectionHandler;
-import org.csstudio.opibuilder.editparts.PVWidgetEditpartDelegate;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.util.OPIColor;
-import org.csstudio.opibuilder.visualparts.BorderFactory;
 import org.csstudio.opibuilder.widgets.detailpanel.DetailPanelFigure;
 import org.csstudio.simplepv.IPV;
 import org.csstudio.simplepv.VTypeHelper;
-import org.eclipse.draw2d.Border;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutListener;
 import org.eclipse.gef.EditPart;
@@ -682,19 +679,6 @@ public class DetailPanelEditpart extends AbstractContainerEditpart implements IP
 		delegate.initFigure(figure);
 	}
 
-	private DetailPanelConnectionHandler connectionHandler;
-
-	public void delegatedAddToConnectionHandler(String pvName, IPV pv) {
-		if (connectionHandler == null)
-			connectionHandler = new DetailPanelConnectionHandler(this);
-		connectionHandler.addPV(pvName, pv);
-	}
-
-	public void delegatedRemoveFromConnectionHandler(String pvName) {
-		if (connectionHandler != null)
-			connectionHandler.removePV(pvName);
-	}
-
 	/* These functions implement the IPVWidgetEditpart interface */
 
 	@Override
@@ -742,8 +726,4 @@ public class DetailPanelEditpart extends AbstractContainerEditpart implements IP
 		return delegate.isPVControlWidget();
 	}
 
-	@Override
-	public Border calculateBorder(){		
-		return null;		
-	}
 }

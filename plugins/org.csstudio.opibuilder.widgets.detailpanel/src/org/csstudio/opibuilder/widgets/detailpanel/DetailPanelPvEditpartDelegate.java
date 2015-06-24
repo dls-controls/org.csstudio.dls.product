@@ -130,7 +130,6 @@ public class DetailPanelPvEditpartDelegate implements IPVWidgetEditpart {
 					IPV pv = BOYPVFactory.createPV((String) sp.getPropertyValue(), 
 							isAllValuesBuffered);
 					pvMap.put(sp.getPropertyID(), pv);
-					editpart.delegatedAddToConnectionHandler((String) sp.getPropertyValue(), pv);
 					WidgetPVListener pvListener = new WidgetPVListener(sp.getPropertyID());
 					pv.addListener(pvListener);
 					pvListenerMap.put(sp.getPropertyID(), pvListener);
@@ -272,7 +271,6 @@ public class DetailPanelPvEditpartDelegate implements IPVWidgetEditpart {
 			public boolean handleChange(Object oldValue, Object newValue,
 					IFigure figure) {
 				IPV oldPV = pvMap.get(pvNamePropID);
-				editpart.delegatedRemoveFromConnectionHandler((String)oldValue);
 				if(oldPV != null){
 					oldPV.stop();
 					oldPV.removeListener(pvListenerMap.get(pvNamePropID));
@@ -287,7 +285,6 @@ public class DetailPanelPvEditpartDelegate implements IPVWidgetEditpart {
 					WidgetPVListener pvListener = new WidgetPVListener(pvNamePropID);
 					newPV.addListener(pvListener);					
 					pvMap.put(pvNamePropID, newPV);
-					editpart.delegatedAddToConnectionHandler(newPVName, newPV);
 					pvListenerMap.put(pvNamePropID, pvListener);
 
 					newPV.start();
