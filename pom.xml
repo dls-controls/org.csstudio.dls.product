@@ -80,51 +80,6 @@
       </repositories>
     </profile>
     <profile>
-      <id>dls-mirror-enable</id>
-      <activation>
-        <file>
-          <exists>${dls.mirror.path}</exists>
-        </file>
-      </activation>
-      <repositories>
-        <repository>
-          <id>csstudio-maven-osgi-bundles</id>
-          <url>file:${dls.mirror.path}/csstudio-maven-osgi-bundles-4.1</url>
-          <layout>p2</layout>
-        </repository>
-        <repository>
-          <id>csstudio-thirdparty</id>
-          <url>file:${dls.mirror.path}/csstudio-thirdparty-4.1</url>
-          <layout>p2</layout>
-        </repository>
-        <repository>
-          <id>csstudio-core</id>
-          <url>file:${dls.mirror.path}/csstudio-core-4.1</url>
-          <layout>p2</layout>
-        </repository>
-        <repository>
-          <id>csstudio-applications</id>
-          <url>file:${dls.mirror.path}/csstudio-applications-4.1</url>
-          <layout>p2</layout>
-        </repository>
-        <repository>
-          <id>luna</id>
-          <url>file:${dls.mirror.path}/eclipse-luna</url>
-          <layout>p2</layout>
-        </repository>
-        <repository>
-          <id>orbit</id>
-          <url>file:${dls.mirror.path}/eclipse-orbit-luna</url>
-          <layout>p2</layout>
-        </repository>
-        <repository>
-          <id>efx</id>
-          <url>file:${dls.mirror.path}/efxclipse</url>
-          <layout>p2</layout>
-        </repository>
-      </repositories>
-    </profile>
-    <profile>
       <id>eclipse-sites</id>
       <activation>
         <property>
