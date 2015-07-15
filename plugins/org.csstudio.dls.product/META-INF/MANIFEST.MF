@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: DLS CS-Studio Product
 Bundle-SymbolicName: org.csstudio.dls.product;singleton:=true
 Bundle-Version: 0.0.1.qualifier
-Bundle-Activator: org.csstudio.product.Activator
+Bundle-Activator: org.csstudio.dls.product.Activator
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
