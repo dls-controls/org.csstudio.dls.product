@@ -286,8 +286,35 @@
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-          <skipTests>true</skipTests>
+          <!-- Exclude the UI tests -->
+          <excludes>
+            <exclude>**/*UiPluginTest.java</exclude>
+            <exclude>**/*Demo.java</exclude>
+          </excludes>
+          <skipTests>${skipTests}</skipTests>
+          <!--Some tests fail right now -->
+          <testFailureIgnore>true</testFailureIgnore>
+          <failIfNoTests>false</failIfNoTests>
+          <!--UI tests. -->
+          <!--useUIHarness>true</useUIHarness> <useUIThread>false</useUIThread -->
         </configuration>
+      </plugin>
+      <!-- Used for collecting tests results before sending them to Sonar. -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.5.3.201107060350</version>
+        <configuration>
+          <includes>*</includes>
+          <destFile>${project.basedir}/../target/jacoco.exec</destFile>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
