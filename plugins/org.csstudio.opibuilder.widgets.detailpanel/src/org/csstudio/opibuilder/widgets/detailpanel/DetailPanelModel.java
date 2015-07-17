@@ -3,14 +3,17 @@ package org.csstudio.opibuilder.widgets.detailpanel;
 import java.util.LinkedList;
 
 import org.csstudio.opibuilder.model.AbstractContainerModel;
+import org.csstudio.opibuilder.model.IPVWidgetModel;
 import org.csstudio.opibuilder.properties.ColorProperty;
 import org.csstudio.opibuilder.properties.ComboProperty;
 import org.csstudio.opibuilder.properties.IntegerProperty;
+import org.csstudio.opibuilder.properties.PVNameProperty;
+import org.csstudio.opibuilder.properties.PVValueProperty;
 import org.csstudio.opibuilder.properties.WidgetPropertyCategory;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.RGB;
 
-public class DetailPanelModel extends AbstractContainerModel {
+public class DetailPanelModel extends AbstractContainerModel implements IPVWidgetModel {
 
     // The display level enumeration
     public enum DisplayLevel {
@@ -35,7 +38,7 @@ public class DetailPanelModel extends AbstractContainerModel {
     }
 
     /* Constants */
-    public static final int MAX_ROW_COUNT = 1000;
+    public static final int MAX_ROW_COUNT = 200;
 
     /* The widget properties */
     public static final String PROP_ROW_COUNT = "row_count";
@@ -66,6 +69,8 @@ public class DetailPanelModel extends AbstractContainerModel {
     @Override
     protected void configureProperties() {
         // Widget properties
+        addPVProperty(new PVNameProperty(PROP_PVNAME, "PV Name", WidgetPropertyCategory.Basic,
+                ""), new PVValueProperty(PROP_PVVALUE, null));
         addProperty(new IntegerProperty(PROP_ROW_COUNT, "Row Count",
                 WidgetPropertyCategory.Behavior, /*default=*/1, /*min=*/1, /*max=*/MAX_ROW_COUNT));
         addProperty(new IntegerProperty(PROP_VERT_DIVIDER_POS, "Vertical Divider",
@@ -239,5 +244,34 @@ public class DetailPanelModel extends AbstractContainerModel {
     public boolean isChildrenOperationAllowable() {
         return false;
     }
+
+
+    /* These functions provide the IPVWidgetModel interface */
+
+    @Override
+    public boolean isBorderAlarmSensitve(){
+        return false;
+    }
+
+    @Override
+    public boolean isForeColorAlarmSensitve(){
+        return false;
+    }
+
+    @Override
+    public boolean isBackColorAlarmSensitve(){
+        return false;
+    }
+
+    @Override
+    public boolean isAlarmPulsing(){
+        return false;
+    }
+
+    @Override
+    public String getPVName(){
+        return null;
+    }
+
 }
 

@@ -2,12 +2,20 @@ package org.csstudio.opibuilder.widgets.detailpanel;
 
 import java.util.LinkedList;
 
+import org.csstudio.csdata.ProcessVariable;
 import org.csstudio.opibuilder.commands.SetWidgetPropertyCommand;
+import org.csstudio.opibuilder.dnd.DropPVtoPVWidgetEditPolicy;
 import org.csstudio.opibuilder.editparts.AbstractBaseEditPart;
 import org.csstudio.opibuilder.editparts.AbstractContainerEditpart;
+import org.csstudio.opibuilder.editparts.ConnectionHandler;
 import org.csstudio.opibuilder.editparts.ExecutionMode;
+import org.csstudio.opibuilder.editparts.IPVWidgetEditpart;
+import org.csstudio.opibuilder.editparts.PVWidgetConnectionHandler;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.util.OPIColor;
+import org.csstudio.opibuilder.widgets.detailpanel.DetailPanelFigure;
+import org.csstudio.simplepv.IPV;
+import org.csstudio.simplepv.VTypeHelper;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutListener;
 import org.eclipse.gef.EditPart;
@@ -16,14 +24,19 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.graphics.RGB;
+import org.epics.vtype.VType;
 
-public class DetailPanelEditpart extends AbstractContainerEditpart {
+public class DetailPanelEditpart extends AbstractContainerEditpart implements IPVWidgetEditpart {
+
+    // The PV widget delegate
+    protected DetailPanelPvEditpartDelegate delegate;
 
     // There should really be a row edit part.
     private LinkedList<DetailPanelEditpartRow> rows;
 
     /* Constructor */
     public DetailPanelEditpart() {
+        delegate = new DetailPanelPvEditpartDelegate(this);
         rows = new LinkedList<DetailPanelEditpartRow>();
     }
 
@@ -161,6 +174,18 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
                     return false;
                 }
             });
+            setPropertyChangeHandler(DetailPanelModelRow.makePropertyName(DetailPanelModelRow.PROP_ROW_NAME_VALUE, i), new RowPropertyChangeHandler(i) {
+                public boolean handleChange(final Object oldValue, final Object newValue, final IFigure figure) {
+                    // A pv aware widget uses a derivative of the secret VType class
+                    if(newValue != null) {
+                        if(newValue instanceof VType) {
+                            // The secret VTypeHelper can be used to access the VType instance
+                            DetailPanelEditpart.this.setRowNameValue(rowNumber, VTypeHelper.getString((VType)newValue));
+                        }
+                    }
+                    return false;
+                }
+            });
             setPropertyChangeHandler(DetailPanelModelRow.makePropertyName(DetailPanelModelRow.PROP_ROW_HEIGHT, i), new RowPropertyChangeHandler(i) {
                 public boolean handleChange(final Object oldValue, final Object newValue, final IFigure figure) {
                     if(newValue != null) {
@@ -196,6 +221,8 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
     public void activate() {
         // Base class
         super.activate();
+        // The PV delegate
+        delegate.startPVs();
         // Initialise the figure from the model
         updateFigures(true);
         // Register a layout listener
@@ -253,6 +280,11 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
     /* A row name property has been changed */
     public synchronized void setRowName(int rowNumber, String name) {
         getFigure().setRowName(rowNumber, name);
+    }
+
+    /* A row name property has been changed */
+    public synchronized void setRowNameValue(int rowNumber, String name) {
+        getFigure().setRowNameValue(rowNumber, name);
     }
 
     /* A row tooltip property has been changed */
@@ -340,6 +372,8 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
     @Override
     protected void createEditPolicies() {
         super.createEditPolicies();
+        installEditPolicy(DropPVtoPVWidgetEditPolicy.DROP_PV_ROLE,
+                new DropPVtoPVWidgetEditPolicy());
         installEditPolicy(EditPolicy.CONTAINER_ROLE, null);
         installEditPolicy(EditPolicy.LAYOUT_ROLE, null);
         installEditPolicy("DETAILPANEL", new DetailPanelEditPolicy(this));
@@ -596,4 +630,100 @@ public class DetailPanelEditpart extends AbstractContainerEditpart {
         }
         return result;
     }
+
+    /* Overrides required by the PV delegate */
+    @Override
+    protected void doActivate() {
+        super.doActivate();
+        delegate.doActivate();
+    }
+
+    @Override
+    protected ConnectionHandler createConnectionHandler() {
+        return new PVWidgetConnectionHandler(this);
+    }
+
+    @Override
+    protected void doDeActivate() {
+        if(isActive()){
+            delegate.doDeActivate();
+            super.doDeActivate();
+        }
+    }
+
+    @Override
+    public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
+        if(key == ProcessVariable.class){
+            return new ProcessVariable(getPVName());
+        }
+        return super.getAdapter(key);
+    }
+
+    public void setIgnoreOldPVValue(boolean ignoreOldValue) {
+        delegate.setIgnoreOldPVValue(ignoreOldValue);
+    }
+
+    @Override
+    protected void registerBasePropertyChangeHandlers() {
+        super.registerBasePropertyChangeHandlers();
+        delegate.registerBasePropertyChangeHandlers();
+    }
+
+    protected void markAsControlPV(String pvPropId, String pvValuePropId){
+        delegate.markAsControlPV(pvPropId, pvValuePropId);
+    }
+
+    @Override
+    protected void initFigure(IFigure figure) {
+        super.initFigure(figure);
+        delegate.initFigure(figure);
+    }
+
+    /* These functions implement the IPVWidgetEditpart interface */
+
+    @Override
+    public String[] getAllPVNames() {
+        return delegate.getAllPVNames();
+    }
+
+    @Override
+    public IPV getControlPV() {
+        return delegate.getControlPV();
+    }
+
+    @Override
+    public IPV getPV() {
+        return delegate.getPV();
+    }
+
+    @Override
+    public String getPVName() {
+        return delegate.getPVName();
+    }
+
+    @Override
+    public IPV getPV(String pvPropId) {
+        return delegate.getPV(pvPropId);
+    }
+
+    @Override
+    public VType getPVValue(String pvPropId) {
+        return delegate.getPVValue(pvPropId);
+    }
+
+    @Override
+    public void setPVValue(String pvPropId, Object value) {
+        delegate.setPVValue(pvPropId, value);
+    }
+
+    @Override
+    public void addSetPVValueListener(ISetPVValueListener listener) {
+        delegate.addSetPVValueListener(listener);
+    }
+
+    @Override
+    public boolean isPVControlWidget() {
+        return delegate.isPVControlWidget();
+    }
+
 }

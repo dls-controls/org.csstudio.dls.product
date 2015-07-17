@@ -322,6 +322,13 @@ public class DetailPanelFigure extends Figure {
         repaint();
     }
 
+    /* A row name value has changed */
+    public void setRowNameValue(int rowNumber, String name) {
+        rows.get(rowNumber).setNameValue(name);
+        revalidate();
+        repaint();
+    }
+
     /* A row tooltip has changed */
     public void setRowTooltip(int rowNumber, String tip) {
         rows.get(rowNumber).setTooltip(tip);

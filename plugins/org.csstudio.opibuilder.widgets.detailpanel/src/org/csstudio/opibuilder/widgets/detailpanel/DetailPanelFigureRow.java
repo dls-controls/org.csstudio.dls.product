@@ -225,6 +225,11 @@ public class DetailPanelFigureRow {
         this.name.setText(name);
     }
 
+    /* Set the row name value */
+    public void setNameValue(String name) {
+        this.name.setText(name);
+    }
+
     /* Set the row tooltip */
     public void setTooltip(String tip) {
         this.tooltip.setText(tip);

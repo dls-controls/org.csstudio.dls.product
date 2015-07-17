@@ -6,6 +6,8 @@ import java.util.List;
 import org.csstudio.opibuilder.model.AbstractWidgetModel;
 import org.csstudio.opibuilder.properties.ComboProperty;
 import org.csstudio.opibuilder.properties.IntegerProperty;
+import org.csstudio.opibuilder.properties.PVNameProperty;
+import org.csstudio.opibuilder.properties.PVValueProperty;
 import org.csstudio.opibuilder.properties.StringProperty;
 import org.csstudio.opibuilder.properties.WidgetPropertyCategory;
 import org.csstudio.opibuilder.visualparts.BorderStyle;
@@ -41,6 +43,7 @@ public class DetailPanelModelRow {
     /* The row properties */
     public static final String PROP_ROW_MODE = "row_mode";
     public static final String PROP_ROW_NAME = "row_name";
+    public static final String PROP_ROW_NAME_VALUE = "row_name_value";
     public static final String PROP_ROW_HEIGHT = "row_height";
     public static final String PROP_ROW_TOOLTIP = "row_tooltip";
     public static final String PROP_ROW_LEVEL = "row_level";
@@ -79,12 +82,17 @@ public class DetailPanelModelRow {
     public static void declareProperties(DetailPanelModel model, int rowNumber) {
         WidgetPropertyCategory category = makePropertyCategory(rowNumber);
         String propName;
+        String propNameValue;
         propName = makePropertyName(PROP_ROW_MODE, rowNumber);
         model.addProperty(new ComboProperty(propName,    "Mode", category, Mode.stringValues(), Mode.STARTEXPANDED.ordinal()));
         model.setPropertyVisible(propName, false);
+
         propName = makePropertyName(PROP_ROW_NAME, rowNumber);
-        model.addProperty(new StringProperty(propName,    "Name", category, "", /*multiline=*/false));
+        propNameValue = makePropertyName(PROP_ROW_NAME_VALUE, rowNumber);
+        model.addPVProperty(new PVNameProperty(propName, "Name", category, ""),
+                new PVValueProperty(propNameValue, null));
         model.setPropertyVisible(propName, false);
+
         propName = makePropertyName(PROP_ROW_HEIGHT, rowNumber);
         model.addProperty(new IntegerProperty(propName,    "Height", category,
                 /*default=*/20, /*min=*/0, /*max=*/50000));
