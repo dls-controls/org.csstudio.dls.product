@@ -137,7 +137,7 @@
                 <id>validate</id>
                 <phase>validate</phase>
                 <configuration>
-                  <configLocation>../cs-studio/build/cs-studio-jenkins-checkstyle</configLocation>
+                  <configLocation>./build/cs-studio-jenkins-checkstyle</configLocation>
                   <encoding>UTF-8</encoding>
                   <consoleOutput>true</consoleOutput>
                   <outputFile>checkstyle-output.xml</outputFile>
