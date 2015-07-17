@@ -726,4 +726,9 @@ public class DetailPanelEditpart extends AbstractContainerEditpart implements IP
         return delegate.isPVControlWidget();
     }
 
+    @Override
+    public void setControlEnabled(boolean enabled) {
+        delegate.setControlEnabled(enabled);
+    }
+
 }

@@ -446,4 +446,10 @@ public class DetailPanelPvEditpartDelegate implements IPVWidgetEditpart {
 
         }
     }
+
+    @Override
+    public void setControlEnabled(boolean enabled) {
+        // Do nothing for now.
+    }
+
 }
