@@ -13,7 +13,6 @@ import org.csstudio.opibuilder.editparts.IPVWidgetEditpart;
 import org.csstudio.opibuilder.editparts.PVWidgetConnectionHandler;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.util.OPIColor;
-import org.csstudio.opibuilder.widgets.detailpanel.DetailPanelFigure;
 import org.csstudio.simplepv.IPV;
 import org.csstudio.simplepv.VTypeHelper;
 import org.eclipse.draw2d.IFigure;

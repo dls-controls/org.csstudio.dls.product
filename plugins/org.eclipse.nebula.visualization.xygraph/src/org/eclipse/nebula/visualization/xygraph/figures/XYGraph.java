@@ -480,6 +480,7 @@ public class XYGraph extends Figure {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void paintFigure(final Graphics graphics) {
         if (!transparent) {
             graphics.fillRectangle(getClientArea());

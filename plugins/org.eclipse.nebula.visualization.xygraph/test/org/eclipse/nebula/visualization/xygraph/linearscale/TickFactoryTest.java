@@ -3,8 +3,6 @@ package org.eclipse.nebula.visualization.xygraph.linearscale;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.eclipse.nebula.visualization.xygraph.linearscale.Tick;
-import org.eclipse.nebula.visualization.xygraph.linearscale.TickFactory;
 import org.eclipse.nebula.visualization.xygraph.linearscale.TickFactory.TickFormatting;
 import org.junit.Assert;
 import org.junit.Test;
