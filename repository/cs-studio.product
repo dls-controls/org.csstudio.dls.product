@@ -67,7 +67,6 @@
       <feature id="org.csstudio.pvmanager.exec.feature"/>
       <feature id="org.csstudio.pvmanager.extra.feature"/>
       <feature id="org.csstudio.pvmanager.pva.feature"/>
-      <feature id="org.csstudio.utilities.feature"/>
       <feature id="org.csstudio.applications.opibuilder.feature"/>
       <feature id="org.csstudio.trends.databrowser2.feature"/>
       <feature id="org.csstudio.trends.databrowser2.opiwidget.feature"/>
