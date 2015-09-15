@@ -18,7 +18,8 @@
 -Xms256m
 -Dosgi.requiredJavaVersion=1.8
 -Dorg.osgi.framework.bundle.parent=ext
--Dosgi.framework.extensions=org.eclipse.fx.osgi</vmArgs>
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Dosgi.checkConfiguration=true</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
