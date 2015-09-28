@@ -112,6 +112,8 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
             MenuMuxModel model = getWidgetModel();
 
             int selectedIdx = combo.getSelectionIndex();
+            // Write the index to the control PV.
+            setPVValue(MenuMuxModel.PROP_PVNAME, selectedIdx);
 
             for (int set_index = 0; set_index < model.getNumSets(); set_index++) {
                 List<String> values = model.getValues(set_index);
