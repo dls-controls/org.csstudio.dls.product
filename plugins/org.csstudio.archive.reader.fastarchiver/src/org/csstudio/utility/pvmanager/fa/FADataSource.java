@@ -9,8 +9,8 @@ import org.csstudio.archive.reader.fastarchiver.archive_requests.FAInfoRequest;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
 import org.csstudio.trends.databrowser2.preferences.ArchiveServerURL;
 import org.csstudio.trends.databrowser2.preferences.Preferences;
-import org.epics.pvmanager.ChannelHandler;
-import org.epics.pvmanager.DataSource;
+import org.diirt.datasource.ChannelHandler;
+import org.diirt.datasource.DataSource;
 
 /**
  * Provides FAChannelHandlers to connect to the live stream of the FA Archiver.

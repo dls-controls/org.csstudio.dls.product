@@ -8,7 +8,7 @@ import org.csstudio.opibuilder.widgets.edm.figures.EdmSymbolFigure;
 import org.csstudio.opibuilder.widgets.edm.model.EdmSymbolModel;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.draw2d.IFigure;
-import org.epics.vtype.AlarmSeverity;
+import org.diirt.vtype.AlarmSeverity;
 
 
 public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
@@ -54,10 +54,10 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
             public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
                 if(newValue == null) return false;
                 int selection = 0;
-                if(newValue instanceof org.epics.vtype.VNumber) {
+                if(newValue instanceof org.diirt.vtype.VNumber) {
                     // Is the PV valid, if not leave index as 0 (Always invalid)
-                    if(((org.epics.vtype.VNumber) newValue).getAlarmSeverity() != AlarmSeverity.INVALID) {
-                        selection = ((org.epics.vtype.VNumber) newValue).getValue().intValue();
+                    if(((org.diirt.vtype.VNumber) newValue).getAlarmSeverity() != AlarmSeverity.INVALID) {
+                        selection = ((org.diirt.vtype.VNumber) newValue).getValue().intValue();
                     }
                 } else {  // The value is probably set from a script
                     selection = (int) newValue;

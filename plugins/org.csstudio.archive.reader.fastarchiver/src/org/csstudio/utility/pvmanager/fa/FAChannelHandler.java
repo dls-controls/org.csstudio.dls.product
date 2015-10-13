@@ -11,10 +11,10 @@ import java.util.logging.Logger;
 import org.csstudio.archive.reader.fastarchiver.archive_requests.FALiveDataRequest;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
 import org.csstudio.archive.vtype.ArchiveVDisplayType;
-import org.epics.pvmanager.ChannelWriteCallback;
-import org.epics.pvmanager.DataSourceTypeAdapter;
-import org.epics.pvmanager.MultiplexedChannelHandler;
-import org.epics.pvmanager.ValueCache;
+import org.diirt.datasource.ChannelWriteCallback;
+import org.diirt.datasource.DataSourceTypeAdapter;
+import org.diirt.datasource.MultiplexedChannelHandler;
+import org.diirt.datasource.ValueCache;
 
 /**
  * Extends the multiplexedChannelHandler, using values from the FA Archiver

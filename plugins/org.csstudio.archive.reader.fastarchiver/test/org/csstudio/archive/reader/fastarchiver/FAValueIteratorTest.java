@@ -3,8 +3,8 @@ package org.csstudio.archive.reader.fastarchiver;
 import static org.junit.Assert.*;
 
 import org.csstudio.archive.vtype.ArchiveVNumber;
-import org.epics.util.time.Timestamp;
-import org.epics.vtype.AlarmSeverity;
+import org.diirt.util.time.Timestamp;
+import org.diirt.vtype.AlarmSeverity;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
 import org.csstudio.archive.vtype.ArchiveVNumber;
 import org.csstudio.archive.vtype.ArchiveVStatistics;
-import org.epics.util.time.Timestamp;
-import org.epics.vtype.AlarmSeverity;
+import org.diirt.util.time.Timestamp;
+import org.diirt.vtype.AlarmSeverity;
 
 /**
  * Class with common methods for communicating with the fast archiver and
