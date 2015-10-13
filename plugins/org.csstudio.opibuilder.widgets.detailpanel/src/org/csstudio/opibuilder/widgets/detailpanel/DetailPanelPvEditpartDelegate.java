@@ -29,7 +29,7 @@ import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.swt.graphics.Cursor;
-import org.epics.vtype.VType;
+import org.diirt.vtype.VType;
 
 // This class is hacked down from PVWidgetEditpartDelegate
 // All alarm sensitive handling has been removed.

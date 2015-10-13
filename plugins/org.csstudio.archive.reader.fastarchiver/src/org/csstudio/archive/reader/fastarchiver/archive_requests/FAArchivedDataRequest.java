@@ -11,7 +11,7 @@ import org.csstudio.archive.reader.ValueIterator;
 import org.csstudio.archive.reader.fastarchiver.FAValueIterator;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
 import org.csstudio.archive.vtype.ArchiveVDisplayType;
-import org.epics.util.time.Timestamp;
+import org.diirt.util.time.Timestamp;
 
 /**
  * Class to communicate with Fast Archiver about archived data requests.

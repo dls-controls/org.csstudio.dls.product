@@ -23,7 +23,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.graphics.RGB;
-import org.epics.vtype.VType;
+import org.diirt.vtype.VType;
 
 public class DetailPanelEditpart extends AbstractContainerEditpart implements IPVWidgetEditpart {
 
