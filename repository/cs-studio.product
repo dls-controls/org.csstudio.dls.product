@@ -76,8 +76,6 @@
    <configurations>
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="4" />
-      <plugin id="org.csstudio.utility.pvmanager" autoStart="true" startLevel="4" />
-      <plugin id="org.csstudio.utility.pvmanager.extra" autoStart="true" startLevel="4" />
    </configurations>
 
 </product>
