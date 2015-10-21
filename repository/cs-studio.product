@@ -66,7 +66,7 @@
       <feature id="org.csstudio.applications.opibuilder.feature"/>
       <feature id="org.csstudio.trends.databrowser2.feature"/>
       <feature id="org.csstudio.trends.databrowser2.opiwidget.feature"/>
-      <feature id="org.csstudio.applications.diag.feature"/>
+      <feature id="org.csstudio.applications.pvmanager.diag.feature" />
       <feature id="org.csstudio.utilities.feature"/>
       <feature id="org.csstudio.dls.feature"/>
       <feature id="org.csstudio.dls.product.feature"/>

@@ -30,14 +30,14 @@
   -->
   <properties>
     <!-- VERSIONS -->
-    <tycho.version>0.22.0</tycho.version>
-    <tycho-extras.version>0.22.0</tycho-extras.version>
-    <cs-studio.version>4.1</cs-studio.version>
+    <tycho.version>0.23.1</tycho.version>
+    <tycho-extras.version>0.23.1</tycho-extras.version>
+    <cs-studio.version>4.2</cs-studio.version>
     <cs-studio.central.url>http://download.controlsystemstudio.org/product/${cs-studio.version}</cs-studio.central.url>
     <cs-studio.update.url>http://download.controlsystemstudio.org/updates/${cs-studio.version}</cs-studio.update.url>
     <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository</orbit-site>
-    <eclipse-site>http://download.eclipse.org/releases/luna</eclipse-site>
-    <eclipse-update-site>http://download.eclipse.org/eclipse/updates/4.4</eclipse-update-site>
+    <eclipse-site>http://download.eclipse.org/releases/mars</eclipse-site>
+    <eclipse-update-site>http://download.eclipse.org/eclipse/updates/4.5</eclipse-update-site>
   </properties>
 
   <!--
@@ -119,7 +119,7 @@
       <repositories>
         <repository>
           <id>csstudio-composite</id>
-          <url>http://download.controlsystemstudio.org/updates/4.1</url>
+          <url>http://download.controlsystemstudio.org/updates/4.2</url>
           <layout>p2</layout>
         </repository>
       </repositories>
