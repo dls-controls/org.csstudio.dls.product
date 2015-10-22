@@ -5,11 +5,11 @@ import static org.junit.Assert.*;
 import org.csstudio.archive.reader.fastarchiver.archive_requests.FALiveDataRequest;
 import org.csstudio.archive.vtype.ArchiveVDisplayType;
 import org.csstudio.archive.vtype.ArchiveVNumber;
-import org.epics.pvmanager.ValueCache;
-import org.epics.pvmanager.ValueCacheImpl;
-import org.epics.util.time.Timestamp;
-import org.epics.vtype.AlarmSeverity;
-import org.epics.vtype.VType;
+import org.diirt.datasource.ValueCache;
+import org.diirt.datasource.ValueCacheImpl;
+import org.diirt.util.time.Timestamp;
+import org.diirt.vtype.AlarmSeverity;
+import org.diirt.vtype.VType;
 import org.junit.Before;
 import org.junit.Test;
 

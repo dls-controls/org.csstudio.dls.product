@@ -14,7 +14,7 @@ import org.csstudio.archive.reader.ValueIterator;
 import org.csstudio.archive.reader.fastarchiver.archive_requests.FAArchivedDataRequest;
 import org.csstudio.archive.reader.fastarchiver.archive_requests.FAInfoRequest;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
-import org.epics.util.time.Timestamp;
+import org.diirt.util.time.Timestamp;
 
 /**
  * Archive Reader to fetch data from the FA Archiver.

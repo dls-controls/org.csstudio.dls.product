@@ -2,8 +2,8 @@ package org.csstudio.utility.pvmanager.fa;
 
 import org.csstudio.archive.reader.fastarchiver.archive_requests.FALiveDataRequest;
 import org.csstudio.archive.vtype.ArchiveVDisplayType;
-import org.epics.pvmanager.DataSourceTypeAdapter;
-import org.epics.pvmanager.ValueCache;
+import org.diirt.datasource.DataSourceTypeAdapter;
+import org.diirt.datasource.ValueCache;
 
 /**
  * Matches and fills a cache with the data from the FA Archiver.

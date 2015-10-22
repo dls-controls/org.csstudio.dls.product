@@ -7,14 +7,14 @@ Bundle-Activator: org.csstudio.opibuilder.widgets.dawn.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.draw2d,
- org.epics.vtype;bundle-version="2.8.0",
  org.csstudio.opibuilder,
  org.csstudio.opibuilder.widgets;bundle-version="3.4.0",
  org.eclipse.gef;bundle-version="3.9.100",
  org.eclipse.ui.views;bundle-version="3.7.0",
  org.csstudio.ui.util,
- org.epics.util;bundle-version="0.3.2",
  org.csstudio.simplepv;bundle-version="1.0.0",
- org.eclipse.nebula.visualization.xygraph;bundle-version="1.0.0"
+ org.eclipse.nebula.visualization.xygraph;bundle-version="1.0.0",
+ org.diirt.util;bundle-version="3.0.1",
+ org.diirt.vtype;bundle-version="3.0.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy

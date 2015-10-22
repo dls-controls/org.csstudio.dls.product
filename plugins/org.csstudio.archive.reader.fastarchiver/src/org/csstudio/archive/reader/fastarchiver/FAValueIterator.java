@@ -2,7 +2,7 @@ package org.csstudio.archive.reader.fastarchiver;
 
 import org.csstudio.archive.reader.ValueIterator;
 import org.csstudio.archive.vtype.ArchiveVDisplayType;
-import org.epics.vtype.VType;
+import org.diirt.vtype.VType;
 
 /**
  * Used to return data from the Fast Archiver. Backed by an Array, uses VType
