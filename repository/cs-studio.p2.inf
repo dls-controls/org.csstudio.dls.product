@@ -11,6 +11,5 @@ instructions.install = \
   setProgramProperty(propName:osgi.instance.area.default,propValue:@user.home/.cs-studio);\
   setProgramProperty(propName:osgi.sharedConfiguration.area,propValue:file\:configuration);\
   setProgramProperty(propName:osgi.sharedConfiguration.area.readOnly,propValue:true);\
-  setProgramProperty(propName:osgi.locking,propValue:none);\
   setProgramProperty(propName:osgi.configuration.area,propValue:@user.home/.cs-studio-conf);\
   setProgramProperty(propName:osgi.configuration.cascaded,propValue:true);
