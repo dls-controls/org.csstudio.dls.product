@@ -137,7 +137,8 @@
                 <id>validate</id>
                 <phase>validate</phase>
                 <configuration>
-                  <includes>**\/*</includes>
+                  <includes>features/**/*,plugins/**/*,repository/*</includes>
+                  <excludes>**/target/**</excludes>
                   <configLocation>./build/cs-studio-jenkins-checkstyle</configLocation>
                   <encoding>UTF-8</encoding>
                   <consoleOutput>true</consoleOutput>
