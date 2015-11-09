@@ -1,6 +1,6 @@
 
-/* 
- * body 
+/*
+ * body
  */
 
 body {
@@ -10,8 +10,8 @@ body {
     margin: 0px;
 }
 
-/* 
- * header 
+/*
+ * header
  */
 
 .header {
@@ -26,11 +26,11 @@ body {
 }
 
 .header h5 {
-    color: #6A6A6A; 
+    color: #6A6A6A;
 	margin: 0px;
 }
 
-/* 
+/*
  * navigator
  */
 
@@ -38,7 +38,7 @@ body {
 	height: 25px;
     padding: 5px 0px 0px 30px;
     width: 100%;
-	background-image: url("./img/navigator.png")	
+	background-image: url("./img/navigator.png")
 }
 
 .navigator ul {
@@ -62,7 +62,7 @@ body {
 /*
  * footer
  */
- 
+
 .footer {
     padding: 10px 0px 0px 30px;
 	height: 20px;
@@ -71,7 +71,7 @@ body {
     width: 100%;
 	background-image: url("./img/footer.png")
 }
- 
+
 .footer p {
 	font-size: x-small;
 }
@@ -128,14 +128,14 @@ a:link {
 }
 
 a:visited {
-    text-decoration: underline; 
-}
-
-a:hover { 
     text-decoration: underline;
 }
 
-a:active { 
+a:hover {
+    text-decoration: underline;
+}
+
+a:active {
     text-decoration: underline;
 }
 
@@ -148,16 +148,16 @@ a.strong {
     font-weight: bold;
 }
 
-a.strong:hover { 
+a.strong:hover {
     color: #f58241;
     text-decoration: none;
 }
 
-a.strong:link { 
+a.strong:link {
     text-decoration: none;
 }
 
-a.strong:visited { 
+a.strong:visited {
     text-decoration: none;
 }
 
