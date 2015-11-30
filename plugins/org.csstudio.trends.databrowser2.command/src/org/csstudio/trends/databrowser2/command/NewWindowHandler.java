@@ -29,7 +29,7 @@ import org.eclipse.ui.WorkbenchException;
 public class NewWindowHandler extends AbstractHandler {
 
     public static final String PLOTFILE_PARAM = "plotfile";
-    public static final String PVNAME_PARAM = "pv";
+    public static final String PVNAMES_PARAM = "pvnames";
 
     private static final String PV_NAME_SEPARATORS = ", ";
 
@@ -55,7 +55,7 @@ public class NewWindowHandler extends AbstractHandler {
         IPath path = parsePlotfile(event.getParameter(PLOTFILE_PARAM));
         DataBrowserEditor editor = createEditor(path);
 
-        List<String> pvNames = parsePvNames(event.getParameter(PVNAME_PARAM));
+        List<String> pvNames = parsePvNames(event.getParameter(PVNAMES_PARAM));
         addNamedPVs(editor, pvNames);
 
         return null;
@@ -157,10 +157,10 @@ public class NewWindowHandler extends AbstractHandler {
      * Parse the 'pv' parameter. This is a comma separated
      * list of PV names. Trailing comma and whitespace are ignored.
      *
-     * @param pvNameParam Formatted PV names string
+     * @param pvNamesParam Formatted PV names string
      * @return List of PVNames, empty if none specified
      */
-    private List<String> parsePvNames(String pvNameParam) {
+    private List<String> parsePvNames(String pvNamesParam) {
         List<String> pvNames = new ArrayList<String>();
 
         if (pvNameParam != null) {

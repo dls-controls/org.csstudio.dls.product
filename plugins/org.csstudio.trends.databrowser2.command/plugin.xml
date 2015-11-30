@@ -10,7 +10,7 @@
             id="org.csstudio.trends.databrowser2.newWindow"
             name="Open databrowser in new window">
             <commandParameter id="plotfile" name="Plot File"/>
-            <commandParameter id="pv" name="PV Name" />
+            <commandParameter id="pvnames" name="PVName(s)" />
       </command>
    </extension>
 
