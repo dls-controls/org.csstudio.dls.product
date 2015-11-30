@@ -3,7 +3,7 @@ package org.csstudio.opibuilder.widgets.dawn.actions;
 import org.csstudio.opibuilder.actions.AbstractWidgetTargetAction;
 import org.csstudio.opibuilder.widgets.dawn.xygraph.DawnXYGraphEditPart;
 
-public abstract class AbstractXYGraphWidgetTargetAction extends AbstractWidgetTargetAction {
+public abstract class AbstractXYGraphTargetAction extends AbstractWidgetTargetAction {
 
     /**
      * Gets the widget models of all currently selected EditParts.

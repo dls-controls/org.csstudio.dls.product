@@ -13,7 +13,7 @@ import org.eclipse.jface.action.IAction;
  * @author Xihui Chen
  *
  */
-public class ClearXYGraphAction extends AbstractXYGraphWidgetTargetAction {
+public class ClearXYGraphAction extends AbstractXYGraphTargetAction {
 
     public void run(IAction action) {
         getSelectedXYGraph().clearGraph();

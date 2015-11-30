@@ -17,7 +17,7 @@ import org.eclipse.jface.action.IAction;
  * @author Xihui Chen
  *
  */
-public class ShowXYGraphToolbarAction extends AbstractXYGraphWidgetTargetAction {
+public class ShowXYGraphToolbarAction extends AbstractXYGraphTargetAction {
 
     public void run(IAction action) {
         Command command = new SetWidgetPropertyCommand(
