@@ -31,7 +31,7 @@ public class NewWindowHandler extends AbstractHandler {
     public static final String PLOTFILE_PARAM = "plotfile";
     public static final String PVNAMES_PARAM = "pvnames";
 
-    private static final String PV_NAME_SEPARATORS = ", ";
+    private static final String PV_NAME_SEPARATOR = ",";
 
     public final static String DATABROWSER_PERSPECTVE = "org.csstudio.trends.databrowser.Perspective";
 
@@ -163,8 +163,9 @@ public class NewWindowHandler extends AbstractHandler {
     private List<String> parsePvNames(String pvNamesParam) {
         List<String> pvNames = new ArrayList<String>();
 
-        if (pvNameParam != null) {
-            Collections.addAll(pvNames, StringUtils.split(pvNameParam, PV_NAME_SEPARATORS));
+        if (pvNamesParam != null) {
+            Collections.addAll(pvNames,
+                    StringUtils.split(pvNamesParam.replace(" ",  ""), PV_NAME_SEPARATOR));
         }
         return pvNames;
     }
