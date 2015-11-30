@@ -9,7 +9,9 @@
             defaultHandler="org.csstudio.trends.databrowser2.command.NewWindowHandler"
             id="org.csstudio.trends.databrowser2.newWindow"
             name="Open databrowser in new window">
-            <commandParameter id="plotfile" name="Plot File"/>
+            <!-- Plotfile to load (optional) -->
+            <commandParameter id="plotfile" name="PlotFile"/>
+            <!-- Comma separated list of PV names to add to the plotfile (optional) -->
             <commandParameter id="pvnames" name="PVName(s)" />
       </command>
    </extension>
