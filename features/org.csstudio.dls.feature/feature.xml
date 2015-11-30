@@ -18,6 +18,10 @@
       Eclipse Public License.
    </license>
 
+   <!-- This plugin is required by opibuilder but doesn't seem to be
+        included anywhere. When building with the Dawn p2 repository
+        enabled this plugin is no longer built into the final
+        product, so we work around this by including it here. -->
    <plugin
          id="com.sun.mail.javax.mail"
          download-size="0"
