@@ -8,6 +8,7 @@
 package org.csstudio.opibuilder.widgets.dawn.actions;
 
 import org.csstudio.opibuilder.commands.SetWidgetPropertyCommand;
+import org.csstudio.opibuilder.widgets.dawn.xygraph.DawnXYGraphModel;
 import org.csstudio.opibuilder.widgets.model.XYGraphModel;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.action.IAction;
@@ -20,9 +21,9 @@ import org.eclipse.jface.action.IAction;
 public class ShowXYGraphToolbarAction extends AbstractXYGraphTargetAction {
 
     public void run(IAction action) {
+        DawnXYGraphModel model =  getSelectedXYGraph().getWidgetModel();
         Command command = new SetWidgetPropertyCommand(
-                getSelectedXYGraph().getWidgetModel(), XYGraphModel.PROP_SHOW_TOOLBAR,
-                !getSelectedXYGraph().getWidgetModel().isShowToolbar());
+                model, XYGraphModel.PROP_SHOW_TOOLBAR, !model.isShowToolbar());
         execute(command);
     }
 }
