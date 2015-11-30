@@ -19,13 +19,10 @@ import org.eclipse.jface.action.IAction;
  */
 public class ShowXYGraphToolbarAction extends AbstractXYGraphWidgetTargetAction {
 
-
-
     public void run(IAction action) {
         Command command = new SetWidgetPropertyCommand(
                 getSelectedXYGraph().getWidgetModel(), XYGraphModel.PROP_SHOW_TOOLBAR,
                 !getSelectedXYGraph().getWidgetModel().isShowToolbar());
         execute(command);
-
     }
 }
