@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+     <command
+            categoryId="org.eclipse.ui.category.views"
+            description="Open databrowser window"
+            defaultHandler="org.csstudio.trends.databrowser2.command.NewWindowHandler"
+            id="org.csstudio.trends.databrowser2.newWindow"
+            name="Open databrowser in new window">
+            <commandParameter id="plotfile" name="plotfile" />
+      </command>
+   </extension>
+
+</plugin>
