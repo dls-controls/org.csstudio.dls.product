@@ -14,7 +14,7 @@ import org.eclipse.jface.action.IAction;
 
 
 /**Show/Hide XYGraph Toolbar
- * @author Xihui Chen
+ * @author Matthew Furseman
  *
  */
 public class ShowXYGraphToolbarAction extends AbstractXYGraphTargetAction {
