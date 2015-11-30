@@ -7,9 +7,7 @@
  ******************************************************************************/
 package org.csstudio.opibuilder.widgets.dawn.actions;
 
-import org.csstudio.opibuilder.actions.AbstractWidgetTargetAction;
 import org.csstudio.opibuilder.commands.SetWidgetPropertyCommand;
-import org.csstudio.opibuilder.widgets.dawn.xygraph.DawnXYGraphEditPart;
 import org.csstudio.opibuilder.widgets.model.XYGraphModel;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.action.IAction;
@@ -19,7 +17,7 @@ import org.eclipse.jface.action.IAction;
  * @author Xihui Chen
  *
  */
-public class ShowXYGraphToolbarAction extends AbstractWidgetTargetAction {
+public class ShowXYGraphToolbarAction extends AbstractXYGraphWidgetTargetAction {
 
 
 
@@ -29,14 +27,5 @@ public class ShowXYGraphToolbarAction extends AbstractWidgetTargetAction {
                 !getSelectedXYGraph().getWidgetModel().isShowToolbar());
         execute(command);
 
-    }
-
-    /**
-     * Gets the widget models of all currently selected EditParts.
-     *
-     * @return the currently selected DawnXYGraphEditPart
-     */
-    protected final DawnXYGraphEditPart getSelectedXYGraph() {
-        return (DawnXYGraphEditPart)selection.getFirstElement();
     }
 }
