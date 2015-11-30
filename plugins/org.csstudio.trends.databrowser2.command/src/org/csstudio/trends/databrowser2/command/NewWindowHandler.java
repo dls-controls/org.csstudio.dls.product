@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 
 import org.csstudio.opibuilder.util.ResourceUtil;
 import org.csstudio.trends.databrowser2.editor.DataBrowserEditor;
+import org.csstudio.trends.databrowser2.model.Model;
+import org.csstudio.trends.databrowser2.model.PVItem;
 import org.csstudio.utility.singlesource.PathEditorInput;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -23,6 +25,7 @@ import org.eclipse.ui.WorkbenchException;
 public class NewWindowHandler extends AbstractHandler {
 
     public static final String PLOTFILE_PARAM = "plotfile";
+    public static final String PVNAME_PARAM = "pv";
 
     public final static String DATABROWSER_PERSPECTVE = "org.csstudio.trends.databrowser.Perspective";
 
@@ -30,11 +33,19 @@ public class NewWindowHandler extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        IPath path = new Path(event.getParameter(PLOTFILE_PARAM));
-        path = ResourceUtil.workspacePathToSysPath(path);
-        if (!ResourceUtil.isExistingLocalFile(path)) {
-            LOGGER.warning("Databrowser plot file " + path + " does not exist.");
-            return null;
+        String plotfile = event.getParameter(PLOTFILE_PARAM);
+        IPath path = null;
+        if (plotfile != null) {
+            path = ResourceUtil.workspacePathToSysPath(new Path(plotfile));
+            if (!ResourceUtil.isExistingLocalFile(path)) {
+                LOGGER.warning("Databrowser plot file " + path + " does not exist.");
+            }
+        }
+
+        // TODO:this is a single PV name; allowing multiple PVs is expansion
+        String pvname = event.getParameter(PVNAME_PARAM);
+        if (pvname != null) {
+            LOGGER.info("Found PV: " + pvname);
         }
 
         IWorkbenchPage dbpage = null;
@@ -51,6 +62,7 @@ public class NewWindowHandler extends AbstractHandler {
                     break;
                 }
             }
+
             // Open a new window in the databrowser perspective.
             if (dbpage == null) {
                 final IWorkbenchWindow window = PlatformUI.getWorkbench().openWorkbenchWindow(DATABROWSER_PERSPECTVE, null);
@@ -61,13 +73,43 @@ public class NewWindowHandler extends AbstractHandler {
                 shell.setMinimized(false);
             shell.forceActive();
             shell.forceFocus();
-            final IEditorInput input = new PathEditorInput(path);
-            DataBrowserEditor.createInstance(input);
+
+            DataBrowserEditor editor = createEditor(path);
+
+            if (pvname != null) {
+                try {
+                    PVItem newPv = new PVItem(pvname, 0.0); // monitor the PV, don't scan it
+                    newPv.useDefaultArchiveDataSources();
+
+                    Model model = editor.getModel();
+                    // ensure an axis exists.
+                    // if no plt file is specified this is always required
+                    if (model.getAxisCount() == 0) {
+                        model.addAxis();
+                    }
+
+                    model.addItem(newPv);
+                } catch (Exception e) {
+                    LOGGER.log(Level.WARNING, "Failed to add PV to DataBrowser", e);
+                }
+            }
+
             shell.moveAbove(null);
         } catch (WorkbenchException e) {
             LOGGER.log(Level.WARNING, "Failed to create databrowser window", e);
         }
         return null;
+    }
+
+    private DataBrowserEditor createEditor(IPath path) {
+        DataBrowserEditor editor = null;
+        if (path != null) {
+            final IEditorInput input = new PathEditorInput(path);
+            editor = DataBrowserEditor.createInstance(input);
+        } else {
+            editor = DataBrowserEditor.createInstance();
+        }
+        return editor;
     }
 
 }

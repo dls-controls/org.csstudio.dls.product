@@ -9,7 +9,8 @@
             defaultHandler="org.csstudio.trends.databrowser2.command.NewWindowHandler"
             id="org.csstudio.trends.databrowser2.newWindow"
             name="Open databrowser in new window">
-            <commandParameter id="plotfile" name="plotfile" />
+            <commandParameter id="plotfile" name="Plot File"/>
+            <commandParameter id="pv" name="PV Name" />
       </command>
    </extension>
 
