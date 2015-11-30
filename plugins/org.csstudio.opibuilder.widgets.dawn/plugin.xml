@@ -12,5 +12,29 @@
             typeId="org.csstudio.opibuilder.widgets.dawn.xygraph">
       </widget>
    </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.csstudio.opibuilder.widgets.dawn.xygraph"
+            objectClass="org.csstudio.opibuilder.widgets.dawn.xygraph.DawnXYGraphEditPart">
+         <action
+               class="org.csstudio.opibuilder.widgets.dawn.actions.ShowXYGraphToolbarAction"
+               enablesFor="1"
+               id="org.csstudio.opibuilder.widgets.dawn.showToolbarAction"
+               label="Show/Hide Graph Toolbar"
+               menubarPath="xygraph"
+               tooltip="Show/Hide XY-Graph Toolbar">
+         </action>
+         <action
+               class="org.csstudio.opibuilder.widgets.dawn.actions.ClearXYGraphAction"
+               enablesFor="1"
+               id="org.csstudio.opibuilder.widgets.dawn.clearGraphAction"
+               label="Clear Graph"
+               menubarPath="xygraph"
+               tooltip="Clear Graph">
+         </action>
+      </objectContribution>
+   </extension>
 
 </plugin>
