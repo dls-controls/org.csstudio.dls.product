@@ -25,7 +25,7 @@ public class ClearXYGraphAction extends AbstractWidgetTargetAction {
     /**
      * Gets the widget models of all currently selected EditParts.
      *
-     * @return a list with all widget models that are currently selected
+     * @return the currently selected DawnXYGraphEditPart
      */
     protected final DawnXYGraphEditPart getSelectedXYGraph() {
         return (DawnXYGraphEditPart)selection.getFirstElement();
