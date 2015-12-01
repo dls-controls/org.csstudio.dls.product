@@ -14,9 +14,8 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.action.IAction;
 
 
-/**Show/Hide XYGraph Toolbar
- * @author Matthew Furseman
- *
+/**
+ * Show/Hide XYGraph Toolbar
  */
 public class ShowXYGraphToolbarAction extends AbstractXYGraphTargetAction {
 

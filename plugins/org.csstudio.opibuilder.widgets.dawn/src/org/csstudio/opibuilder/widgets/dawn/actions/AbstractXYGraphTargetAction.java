@@ -6,7 +6,7 @@ import org.csstudio.opibuilder.widgets.dawn.xygraph.DawnXYGraphEditPart;
 public abstract class AbstractXYGraphTargetAction extends AbstractWidgetTargetAction {
 
     /**
-     * Gets the widget models of all currently selected EditParts.
+     * Gets the widget model of the currently selected DawnXYGraphEditPart.
      *
      * @return the currently selected DawnXYGraphEditPart
      */

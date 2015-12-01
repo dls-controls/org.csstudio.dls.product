@@ -9,8 +9,8 @@ package org.csstudio.opibuilder.widgets.dawn.actions;
 
 import org.eclipse.jface.action.IAction;
 
-/**Clear XY Graph.
- *
+/**
+ * Clear XY Graph.
  */
 public class ClearXYGraphAction extends AbstractXYGraphTargetAction {
 
