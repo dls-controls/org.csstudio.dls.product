@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 import org.csstudio.archive.reader.ValueIterator;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
-import org.epics.util.time.TimeDuration;
-import org.epics.util.time.Timestamp;
+import org.diirt.util.time.TimeDuration;
+import org.diirt.util.time.Timestamp;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
