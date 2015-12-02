@@ -9,5 +9,5 @@
   </parent>
   <artifactId>org.diirt.datasource.fa.test</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>eclipse-plugin</packaging>
+  <packaging>eclipse-test-plugin</packaging>
 </project>
