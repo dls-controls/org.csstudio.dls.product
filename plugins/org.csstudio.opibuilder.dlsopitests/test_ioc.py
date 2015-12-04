@@ -28,9 +28,9 @@ BOOLEAN_VALUES = {'ZNAM': 'FALSE', 'ONAM': 'TRUE', 'initial_value': 0}
 STRINGS = ['one', 'two', 'three', 'four']
 
 
-def incremeant(pv, wrap):
+def increment(pv, wrap):
     """
-    Increaments the value in the given PV up to and including
+    Increments the value in the given PV up to and including
     the value of wrap. Incrementing the value of the PV past wrap
     will reset the value to zero.
     """
@@ -101,12 +101,12 @@ def build_typed_pvs():
 
 def build_interactive_sin():
     """
-    Setup an interactive sine wave that has controls attached to PVs.
-    Two output waves our generated, one which samples the sine funciton
+    Set up an interactive sine wave that has controls attached to PVs.
+    Two output waves our generated, one which samples the sine function
     at a fixed update rate, and the other which outputs a single cycle
     of a sine wave in a waveform PV.
 
-    This returns a function that is intended to be passed to Cothreads
+    This returns a function that is intended to be passed to Cothread's
     Spawn function to provide the updates of the travelling wave.
     """
 
