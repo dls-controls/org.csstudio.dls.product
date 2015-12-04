@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.ui.commands">
      <command
-            categoryId="org.eclipse.ui.category.views"
+            categoryId="org.eclipse.ui.category.opibuilder.commands"
             description="Open databrowser window"
             defaultHandler="org.csstudio.trends.databrowser2.command.NewWindowHandler"
             id="org.csstudio.trends.databrowser2.newWindow"
