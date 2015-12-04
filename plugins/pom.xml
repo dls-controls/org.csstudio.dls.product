@@ -18,5 +18,6 @@
     <module>org.csstudio.opibuilder.widgets.detailpanel</module>
     <module>org.csstudio.opibuilder.widgets.dawn</module>
     <module>org.csstudio.logbook.dls</module>
+    <module>org.csstudio.trends.databrowser2.command</module>
   </modules>
 </project>
