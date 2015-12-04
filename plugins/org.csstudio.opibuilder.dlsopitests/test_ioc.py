@@ -71,19 +71,19 @@ def build_typed_pvs():
     builder.aIn('AI:STATIC', **ANALOGUE_VALUES)
     dynamic_pvs.update({
         builder.aOut('AO:DYNAMIC', **ANALOGUE_VALUES):
-        lambda pv: incremeant(pv, 10)})
+        lambda pv: increment(pv, 10)})
 
     builder.longOut('LONGO:STATIC',**LONG_VALUES)
     builder.longIn('LONGI:STATIC',**LONG_VALUES)
     dynamic_pvs.update({
         builder.aOut('LONGO:DYNAMIC', **LONG_VALUES):
-        lambda pv: incremeant(pv, 10)})
+        lambda pv: increment(pv, 10)})
 
     builder.boolOut('BOOLO:STATIC', **BOOLEAN_VALUES)
     builder.boolIn('BOOLI:STATIC', **BOOLEAN_VALUES)
     dynamic_pvs.update({
         builder.boolOut('BOOLO:DYNAMIC', **BOOLEAN_VALUES):
-        lambda pv: incremeant(pv, 1)})
+        lambda pv: increment(pv, 1)})
 
     builder.stringOut('STRINGO:STATIC', initial_value=STRINGS[0])
     builder.stringIn('STRINGI:STATIC', initial_value=STRINGS[0])
@@ -95,7 +95,7 @@ def build_typed_pvs():
     enum_pv = builder.mbbIn('MBBI:STATIC', *STRINGS, initial_value=0)
     dynamic_pvs.update({
         builder.mbbOut('MBBO:DYNAMIC', *STRINGS, initial_value=0):
-        lambda pv: incremeant(pv, len(STRINGS) - 1)})
+        lambda pv: increment(pv, len(STRINGS) - 1)})
     return lambda: update_pvs(dynamic_pvs)
 
 
