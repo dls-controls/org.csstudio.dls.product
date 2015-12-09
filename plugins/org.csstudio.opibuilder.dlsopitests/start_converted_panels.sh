@@ -1,3 +1,5 @@
+#!/bin/bash
+
 LIMIT=70  # This roughly seems to require around 2GB memory
 
 # Check converter root is set
