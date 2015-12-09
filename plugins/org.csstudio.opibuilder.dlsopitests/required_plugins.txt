@@ -1,0 +1,15 @@
+com.sun.mail.javax.mail
+org.apache.felix.gogo.runtime
+org.apache.felix.gogo.shell
+org.csstudio.diag.pvmanager.probe
+org.csstudio.dls.product
+org.csstudio.logbook
+org.csstudio.logbook.dls
+org.csstudio.opibuilder
+org.csstudio.opibuilder.widgets.dawn
+org.csstudio.opibuilder.widgets.detailpanel
+org.csstudio.opibuilder.widgets.edm
+org.csstudio.opibuilder.widgets.symbol
+org.csstudio.swt.xygraph
+org.csstudio.trends.databrowser2
+org.diirt.datasource

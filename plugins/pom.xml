@@ -18,6 +18,7 @@
     <module>org.csstudio.opibuilder.widgets.detailpanel</module>
     <module>org.csstudio.opibuilder.widgets.dawn</module>
     <module>org.csstudio.logbook.dls</module>
+    <module>org.csstudio.trends.databrowser2.command</module>
     <module>org.csstudio.archive.reader.fastarchiver</module>
     <module>org.diirt.datasource.fa</module>
     <!-- <module>org.diirt.datasource.fa.test</module> currently breaks the build -->

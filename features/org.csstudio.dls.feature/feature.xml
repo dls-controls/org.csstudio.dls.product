@@ -65,6 +65,13 @@
          unpack="false"/>
 
    <plugin
+         id="org.csstudio.trends.databrowser2.command"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.csstudio.archive.reader.fastarchiver"
          download-size="0"
          install-size="0"

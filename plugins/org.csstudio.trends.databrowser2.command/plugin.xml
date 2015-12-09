@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+     <command
+            categoryId="org.eclipse.ui.category.opibuilder.commands"
+            description="Open databrowser window"
+            defaultHandler="org.csstudio.trends.databrowser2.command.NewWindowHandler"
+            id="org.csstudio.trends.databrowser2.newWindow"
+            name="Open databrowser in new window">
+            <!-- Plotfile to load (optional) -->
+            <commandParameter id="plotfile" name="PlotFile"/>
+            <!-- Comma separated list of PV names to add to the plotfile (optional) -->
+            <commandParameter id="pvnames" name="PVName(s)" />
+      </command>
+   </extension>
+
+</plugin>
