@@ -3,6 +3,9 @@
 <plugin>
    <extension
          point="org.eclipse.ui.commands">
+     <category
+            id="org.eclipse.ui.category.opibuilder.commands"
+            name="OPIbuilder commands"/>
      <command
             categoryId="org.eclipse.ui.category.opibuilder.commands"
             description="Open databrowser window"
