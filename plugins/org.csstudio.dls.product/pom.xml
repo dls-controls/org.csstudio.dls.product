@@ -26,7 +26,7 @@
           </execution>
         </executions>
         <configuration>
-          <executable>update-splash-screen.sh</executable>
+          <executable>./update-splash-screen.sh</executable>
         </configuration>
       </plugin>
     </plugins>
