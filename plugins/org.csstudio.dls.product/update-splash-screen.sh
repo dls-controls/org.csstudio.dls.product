@@ -7,7 +7,6 @@ OUTPUT_FILE=splash.bmp
 
 FONT_SIZE=14
 HEIGHT_OFFSET=14
-#FONT=Nimbus-Sans-Regular-Italic # Use 'convert -list font' for available fonts
 FONT=Nimbus-Sans-Bold
 
 version=$(cut -d "=" -f 2 <<< cat $DIR/about.mappings)
