@@ -15,5 +15,6 @@ convert $TEMPLATE_FILE \
     -pointsize $FONT_SIZE \
     -fill white -font $FONT \
     -annotate +0+"$HEIGHT_OFFSET" "$version" \
+    +gamma 0 +matte \
     splash.bmp
 
