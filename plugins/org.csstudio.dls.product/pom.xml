@@ -10,4 +10,25 @@
   <artifactId>org.csstudio.dls.product</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <version>1.4.0</version>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>update-splash-screen</id>
+            <phase>package</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>./update-splash-screen.sh</executable>
+        </configuration>
+      </plugin>
+    </plugins>
+    </build>
 </project>
