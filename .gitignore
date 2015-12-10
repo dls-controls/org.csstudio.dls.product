@@ -38,3 +38,6 @@ applications/plugins/org.csstudio.opibuilder.converter/converter.jar
 
 # Checkstyle output
 checkstyle-output.xml
+
+# Ignore the generated splash screen
+plugins/org.csstudio.dls.product/splash.bmp
