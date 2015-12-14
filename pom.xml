@@ -43,11 +43,13 @@
   <!--
     PLUGIN REPOSITORIES
   -->
-  <repositories>
+  <pluginRepositories>
     <pluginRepository>
       <id>tycho-snapshots</id>
       <url>https://repo.eclipse.org/content/repositories/tycho-snapshots/</url>
     </pluginRepository>
+  </pluginRepositories>
+  <repositories>
     <repository>
       <id>dawn</id>
       <url>http://opengda.org/DawnDiamond/master~e4/updates/snapshot/</url>
