@@ -38,6 +38,7 @@
     <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository</orbit-site>
     <eclipse-site>http://download.eclipse.org/releases/mars</eclipse-site>
     <eclipse-update-site>http://download.eclipse.org/eclipse/updates/4.5</eclipse-update-site>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <!--
