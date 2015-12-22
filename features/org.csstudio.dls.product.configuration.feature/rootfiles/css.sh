@@ -99,11 +99,11 @@ if [[ -n $opifile ]]; then
 fi
 
 
+# Echo subsequent commands for debugging.
+set -x
 if [[ -n $port ]]; then
-    echo exec $CSSTUDIO $data_args -pluginCustomization <( echo $pcf ) "$launch_opi_arg" "$launch_opi_escaped"
     exec $CSSTUDIO $data_args -pluginCustomization <( echo $pcf ) "$launch_opi_arg" "$launch_opi_escaped"
 else
-    echo exec $CSSTUDIO $data_args "$launch_opi_arg" "$launch_opi_escaped"
     exec $CSSTUDIO $data_args "$launch_opi_arg" "$launch_opi_escaped"
 fi
 
