@@ -60,7 +60,8 @@ data_args="-data $workspace"
 # Port
 if [[ -n $port ]]; then
     if [[ $port = "5064" ]] || [[ $port = "6064" ]]; then
-        pcf="org.csstudio.diirt.util.preferences/diirt.home=platform:/config/diirt_$port"
+        # This is in the format of eclipse preference files, in particular pluginCustomization.ini.
+        diirt_config="org.csstudio.diirt.util.preferences/diirt.home=platform:/config/diirt_$port"
     else
         echo "Only ports 5064 and 6064 are supported by this script."
         usage
@@ -102,7 +103,8 @@ fi
 # Echo subsequent commands for debugging.
 set -x
 if [[ -n $port ]]; then
-    exec $CSSTUDIO $data_args -pluginCustomization <( echo $pcf ) "$launch_opi_arg" "$launch_opi_escaped"
+    # Redirect contents of string for use as a configuration file.
+    exec $CSSTUDIO $data_args -pluginCustomization <( echo $diirt_config ) "$launch_opi_arg" "$launch_opi_escaped"
 else
     exec $CSSTUDIO $data_args "$launch_opi_arg" "$launch_opi_escaped"
 fi
