@@ -102,7 +102,9 @@ fi
 
 # Echo subsequent commands for debugging.
 set -x
-if [[ -n $port ]]; then
+# If we've successfully set the diirt_config string to change ports, we need additional
+# logic in the run command.
+if [[ -n $diirt_config ]]; then
     # Redirect contents of string for use as a configuration file.
     exec $CSSTUDIO $data_args -pluginCustomization <( echo $diirt_config ) "$launch_opi_arg" "$launch_opi_escaped"
 else
