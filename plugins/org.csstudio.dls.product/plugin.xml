@@ -91,13 +91,6 @@
       </project>
    </extension>
    <extension
-         point="org.eclipse.ui.intro">
-      <introProductBinding
-            introId="org.eclipse.ui.intro.universal"
-            productId="org.csstudio.dls.product.product">
-      </introProductBinding>
-   </extension>
-   <extension
          point="org.eclipse.ui.preferencePages">
       <page
             category="org.eclipse.ui.preferencePages.Workbench"
