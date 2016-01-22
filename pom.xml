@@ -30,8 +30,8 @@
   -->
   <properties>
     <!-- VERSIONS -->
-    <tycho.version>0.25.0-SNAPSHOT</tycho.version>
-    <tycho-extras.version>0.25.0-SNAPSHOT</tycho-extras.version>
+    <tycho.version>0.23.1</tycho.version>
+    <tycho-extras.version>0.23.1</tycho-extras.version>
     <cs-studio.version>4.2</cs-studio.version>
     <cs-studio.central.url>http://download.controlsystemstudio.org/product/${cs-studio.version}</cs-studio.central.url>
     <cs-studio.update.url>http://download.controlsystemstudio.org/updates/${cs-studio.version}</cs-studio.update.url>
@@ -45,10 +45,6 @@
     PLUGIN REPOSITORIES
   -->
   <repositories>
-    <pluginRepository>
-      <id>tycho-snapshots</id>
-      <url>https://repo.eclipse.org/content/repositories/tycho-snapshots/</url>
-    </pluginRepository>
     <repository>
       <id>dawn</id>
       <url>http://opengda.org/DawnDiamond/master~e4/updates/snapshot/</url>
