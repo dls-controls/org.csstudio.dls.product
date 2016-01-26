@@ -8,6 +8,7 @@ import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.util.ResourceUtil;
 import org.csstudio.opibuilder.widgets.edm.figures.EdmSymbolFigure;
 import org.csstudio.opibuilder.widgets.edm.model.EdmSymbolModel;
+import org.diirt.vtype.Alarm;
 import org.diirt.vtype.AlarmSeverity;
 import org.diirt.vtype.VEnum;
 import org.diirt.vtype.VNumber;
@@ -60,13 +61,17 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
             public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
                 if(newValue == null) return false;
                 int selection = 0;
-                if(newValue instanceof VNumber) {
-                    // Is the PV valid, if not leave index as 0 (Always invalid)
-                    if(((VNumber) newValue).getAlarmSeverity() != AlarmSeverity.INVALID) {
-                        selection = ((VNumber) newValue).getValue().intValue();
+                if(newValue instanceof Alarm) {
+                    // If PV value is not valid leave index as 0 (typically invalid)
+                    if(((Alarm) newValue).getAlarmSeverity() != AlarmSeverity.INVALID) {
+                        if (newValue instanceof VNumber) {
+                            selection = ((VNumber) newValue).getValue().intValue();
+                        } else if (newValue instanceof VEnum) {
+                            selection = ((VEnum) newValue).getIndex();
+                        } else {
+                            log.warning("VType " + newValue + " cannot be handled by EDM Symbol widget.");
+                        }
                     }
-                } else if (newValue instanceof VEnum) {
-                    selection = ((VEnum) newValue).getIndex();
                 } else {
                     log.warning("Object " + newValue + " cannot be handled by EDM Symbol widget.");
                 }
