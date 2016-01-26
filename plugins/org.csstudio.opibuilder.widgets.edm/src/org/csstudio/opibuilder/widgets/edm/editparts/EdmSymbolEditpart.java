@@ -6,9 +6,11 @@ import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.util.ResourceUtil;
 import org.csstudio.opibuilder.widgets.edm.figures.EdmSymbolFigure;
 import org.csstudio.opibuilder.widgets.edm.model.EdmSymbolModel;
+import org.diirt.vtype.AlarmSeverity;
+import org.diirt.vtype.VEnum;
+import org.diirt.vtype.VNumber;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.draw2d.IFigure;
-import org.diirt.vtype.AlarmSeverity;
 
 
 public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
@@ -54,11 +56,13 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
             public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
                 if(newValue == null) return false;
                 int selection = 0;
-                if(newValue instanceof org.diirt.vtype.VNumber) {
+                if(newValue instanceof VNumber) {
                     // Is the PV valid, if not leave index as 0 (Always invalid)
-                    if(((org.diirt.vtype.VNumber) newValue).getAlarmSeverity() != AlarmSeverity.INVALID) {
-                        selection = ((org.diirt.vtype.VNumber) newValue).getValue().intValue();
+                    if(((VNumber) newValue).getAlarmSeverity() != AlarmSeverity.INVALID) {
+                        selection = ((VNumber) newValue).getValue().intValue();
                     }
+                } else if (newValue instanceof VEnum) {
+                    selection = ((VEnum) newValue).getIndex();
                 } else {  // The value is probably set from a script
                     selection = (int) newValue;
                 }
