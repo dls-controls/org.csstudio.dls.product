@@ -73,7 +73,7 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
                         }
                     }
                 } else {
-                    log.warning("Object " + newValue + " cannot be handled by EDM Symbol widget.");
+                    log.warning("Object " + newValue.getClass() + " cannot be handled by EDM Symbol widget.");
                 }
                 EdmSymbolFigure edmFigure = (EdmSymbolFigure) figure;
                 edmFigure.setSubImageSelection(selection);
