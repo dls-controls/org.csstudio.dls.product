@@ -1,5 +1,7 @@
 package org.csstudio.opibuilder.widgets.edm.editparts;
 
+import java.util.logging.Logger;
+
 import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
 import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
@@ -14,6 +16,8 @@ import org.eclipse.draw2d.IFigure;
 
 
 public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
+
+    private static Logger log = Logger.getLogger(EdmSymbolEditpart.class.getName());
 
     @Override
     protected IFigure doCreateFigure() {
@@ -63,8 +67,8 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
                     }
                 } else if (newValue instanceof VEnum) {
                     selection = ((VEnum) newValue).getIndex();
-                } else {  // The value is probably set from a script
-                    selection = (int) newValue;
+                } else {
+                    log.warning("Object " + newValue + " cannot be handled by EDM Symbol widget.");
                 }
                 EdmSymbolFigure edmFigure = (EdmSymbolFigure) figure;
                 edmFigure.setSubImageSelection(selection);
