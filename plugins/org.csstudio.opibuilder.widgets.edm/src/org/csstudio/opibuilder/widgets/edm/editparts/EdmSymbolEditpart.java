@@ -23,7 +23,7 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
     protected IFigure doCreateFigure() {
         EdmSymbolModel model = (EdmSymbolModel) getModel();
         EdmSymbolFigure figure = new EdmSymbolFigure(model.getFilename());
-        figure.setSubImageSelection(/* TODO: Start with invalid value */ 0);
+        figure.setSubImageSelection(0);
         figure.setSubImageWidth(model.getSubImageWidth());
         return figure;
     }
