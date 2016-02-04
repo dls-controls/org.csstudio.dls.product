@@ -100,4 +100,23 @@
       </page>
    </extension>
 
+   <!-- Remove contributed views and perspectives by hiding them with this 'hack' -->
+   <extension
+         point="org.eclipse.ui.activities">
+      <activity id="org.csstudio.common.activity.disable" name="disable">
+      </activity>
+      <activityPatternBinding
+         activityId="org.csstudio.common.activity.disable"
+         pattern=".*/org.eclipse.team.ui.TeamSynchronizingPerspective">
+      </activityPatternBinding>
+      <activityPatternBinding
+         activityId="org.csstudio.common.activity.disable"
+         pattern=".*/org.eclipse.team.sync.views.SynchronizeView">
+      </activityPatternBinding>
+      <activityPatternBinding
+         activityId="org.csstudio.common.activity.disable"
+         pattern=".*/org.eclipse.team.ui.GenericHistoryView">
+      </activityPatternBinding>
+   </extension>
+
 </plugin>
