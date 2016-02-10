@@ -64,6 +64,7 @@
       <feature id="org.csstudio.core.ui.feature"/>
       <feature id="org.csstudio.applications.pvmanager.diag.feature" />
       <feature id="org.csstudio.applications.opibuilder.feature"/>
+      <feature id="org.csstudio.applications.opibuilder.edm.feature"/>
       <feature id="org.csstudio.trends.databrowser2.feature"/>
       <feature id="org.csstudio.trends.databrowser2.opiwidget.feature"/>
       <feature id="org.csstudio.core.diirt.feature"/>
