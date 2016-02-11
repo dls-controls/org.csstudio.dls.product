@@ -127,7 +127,7 @@
       <repositories>
         <repository>
           <id>csstudio-composite</id>
-          <url>http://download.controlsystemstudio.org/updates/${cs-studio.version}</url>
+          <url>${cs-studio.update.url}</url>
           <layout>p2</layout>
         </repository>
       </repositories>
