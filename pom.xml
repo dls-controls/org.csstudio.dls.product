@@ -32,6 +32,8 @@
     <!-- VERSIONS -->
     <tycho.version>0.23.1</tycho.version>
     <tycho-extras.version>0.23.1</tycho-extras.version>
+    <!-- Although this branch is tracking 4.3, we need to keep this version
+         at 4.2 because there is no 4.3 p2 repository yet.  -->
     <cs-studio.version>4.2</cs-studio.version>
     <cs-studio.central.url>http://download.controlsystemstudio.org/product/${cs-studio.version}</cs-studio.central.url>
     <cs-studio.update.url>http://download.controlsystemstudio.org/updates/${cs-studio.version}</cs-studio.update.url>
@@ -127,7 +129,7 @@
       <repositories>
         <repository>
           <id>csstudio-composite</id>
-          <url>http://download.controlsystemstudio.org/updates/4.2</url>
+          <url>${cs-studio.update.url}</url>
           <layout>p2</layout>
         </repository>
       </repositories>
