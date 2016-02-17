@@ -34,7 +34,7 @@ import org.osgi.framework.Version;
  * @author Xihui Chen
  *
  */
-public class IntensityGraphModel extends AbstractPVWidgetModel {
+public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
 
     public static final String Y_AXIS_ID = "y_axis";
 
@@ -198,7 +198,7 @@ public class IntensityGraphModel extends AbstractPVWidgetModel {
      */
     public static final String ID = "org.csstudio.opibuilder.widgets.intensityGraph"; //$NON-NLS-1$
 
-    public IntensityGraphModel() {
+    public DawnIntensityGraphModel() {
         setForegroundColor(new RGB(0,0,0));
         setSize(400, 240);
         setTooltip("$(pv_name)"); //$NON-NLS-1$
