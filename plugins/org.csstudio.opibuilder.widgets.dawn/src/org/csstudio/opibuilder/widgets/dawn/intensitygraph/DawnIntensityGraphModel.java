@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
-package org.csstudio.opibuilder.widgets.model;
+package org.csstudio.opibuilder.widgets.dawn.intensitygraph;
 
 import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
 import org.csstudio.opibuilder.properties.BooleanProperty;

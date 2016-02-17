@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
-package org.csstudio.opibuilder.widgets.editparts;
+package org.csstudio.opibuilder.widgets.dawn.intensitygraph;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
