@@ -229,7 +229,8 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
             @Override
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure figure) {
-                ((IntensityGraphFigure)figure).setColorMap((ColorMap)newValue);
+                ((IntensityGraphFigure)figure).setColorMap(
+                         new ColorMap(PredefinedColorMap.fromIndex((Integer)newValue), true, true));
                 return true;
             }
         };

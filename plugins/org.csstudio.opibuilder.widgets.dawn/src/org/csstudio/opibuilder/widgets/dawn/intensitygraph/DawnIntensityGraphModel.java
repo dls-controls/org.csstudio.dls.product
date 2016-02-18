@@ -23,6 +23,8 @@ import org.csstudio.opibuilder.util.MediaService;
 import org.csstudio.opibuilder.util.OPIColor;
 import org.csstudio.opibuilder.util.UpgradeUtil;
 import org.csstudio.ui.util.CustomMediaFactory;
+import org.eclipse.nebula.visualization.widgets.datadefinition.ColorMap;
+import org.eclipse.nebula.visualization.widgets.datadefinition.ColorMap.PredefinedColorMap;
 import org.eclipse.nebula.visualization.widgets.figures.IntensityGraphFigure.ColorDepth;
 import org.eclipse.swt.graphics.RGB;
 import org.osgi.framework.Version;
@@ -225,8 +227,8 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
         addProperty(new IntegerProperty(PROP_DATA_HEIGHT, "Data Height",
                 WidgetPropertyCategory.Behavior, 0),true);
 
-        addProperty(SingleSourceHelper.createColorMapProperty(PROP_COLOR_MAP, "Color Map",
-                WidgetPropertyCategory.Display, new ColorMap(PredefinedColorMap.JET, true, true)), true);
+        addProperty(new ComboProperty(PROP_COLOR_MAP, "Color Map",
+                WidgetPropertyCategory.Display, PredefinedColorMap.getStringValues(), 1));
 
         addProperty(new BooleanProperty(PROP_SHOW_RAMP, "Show Ramp",
                 WidgetPropertyCategory.Display, true),true);
@@ -430,7 +432,7 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
      * @return the color map
      */
     public ColorMap getColorMap(){
-        return (ColorMap) getCastedPropertyValue(PROP_COLOR_MAP);
+        return new ColorMap(PredefinedColorMap.fromIndex((Integer)getPropertyValue(PROP_COLOR_MAP)), true, true);
     }
 
     /**
