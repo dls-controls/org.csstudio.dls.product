@@ -9,8 +9,6 @@ package org.csstudio.opibuilder.widgets.dawn.intensitygraph;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Arrays;
-import java.util.List;
 
 import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
 import org.csstudio.opibuilder.editparts.ExecutionMode;
@@ -26,12 +24,9 @@ import org.csstudio.opibuilder.widgets.dawn.intensitygraph.DawnIntensityGraphMod
 import org.csstudio.simplepv.VTypeHelper;
 import org.csstudio.ui.util.CustomMediaFactory;
 import org.csstudio.ui.util.thread.UIBundlingThread;
-import org.diirt.util.array.ArrayDouble;
-import org.diirt.util.array.ArrayInt;
 import org.diirt.util.array.ListNumber;
 import org.diirt.vtype.VNumberArray;
 import org.diirt.vtype.VType;
-import org.diirt.vtype.ValueFactory;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.nebula.visualization.widgets.datadefinition.ColorMap;

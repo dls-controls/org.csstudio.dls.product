@@ -23,10 +23,7 @@ import org.csstudio.opibuilder.util.MediaService;
 import org.csstudio.opibuilder.util.OPIColor;
 import org.csstudio.opibuilder.util.UpgradeUtil;
 import org.csstudio.ui.util.CustomMediaFactory;
-import org.eclipse.nebula.visualization.widgets.datadefinition.ColorMap;
-import org.eclipse.nebula.visualization.widgets.datadefinition.ColorMap.PredefinedColorMap;
 import org.eclipse.nebula.visualization.widgets.figures.IntensityGraphFigure.ColorDepth;
-import org.eclipse.nebula.visualization.xygraph.util.SingleSourceHelper;
 import org.eclipse.swt.graphics.RGB;
 import org.osgi.framework.Version;
 
