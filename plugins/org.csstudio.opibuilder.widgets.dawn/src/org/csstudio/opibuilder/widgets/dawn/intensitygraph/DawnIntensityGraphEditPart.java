@@ -40,6 +40,7 @@ import org.eclipse.nebula.visualization.widgets.datadefinition.IPrimaryArrayWrap
 import org.eclipse.nebula.visualization.widgets.figures.IntensityGraphFigure;
 import org.eclipse.nebula.visualization.widgets.figures.IntensityGraphFigure.IProfileDataChangeLisenter;
 import org.eclipse.nebula.visualization.xygraph.figures.Axis;
+import org.eclipse.nebula.visualization.xygraph.figures.Grid;
 import org.eclipse.nebula.visualization.xygraph.linearscale.Range;
 
 /**The widget editpart of intensity graph widget.
@@ -596,6 +597,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
             axis.setMinorTicksVisible((Boolean)newValue);
             break;
         case VISIBLE:
+            axis.setGrid(new Grid(axis));
             axis.setVisible((Boolean)newValue);
             break;
         default:
