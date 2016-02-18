@@ -192,7 +192,7 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
     /**
      * The ID of this widget model.
      */
-    public static final String ID = "org.csstudio.opibuilder.widgets.intensityGraph"; //$NON-NLS-1$
+    public static final String ID = "org.csstudio.opibuilder.widgets.dawn.intensitygraph"; //$NON-NLS-1$
 
     public DawnIntensityGraphModel() {
         setForegroundColor(new RGB(0,0,0));
