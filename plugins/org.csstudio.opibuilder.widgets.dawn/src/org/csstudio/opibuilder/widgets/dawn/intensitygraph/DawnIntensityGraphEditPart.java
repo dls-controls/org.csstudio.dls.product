@@ -36,6 +36,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.nebula.visualization.widgets.datadefinition.ColorMap;
 import org.eclipse.nebula.visualization.widgets.datadefinition.ColorMap.PredefinedColorMap;
+import org.eclipse.nebula.visualization.widgets.datadefinition.IPrimaryArrayWrapper;
 import org.eclipse.nebula.visualization.widgets.figures.IntensityGraphFigure;
 import org.eclipse.nebula.visualization.widgets.figures.IntensityGraphFigure.IProfileDataChangeLisenter;
 import org.eclipse.nebula.visualization.xygraph.figures.Axis;
@@ -617,6 +618,21 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
             }
         }
 
+    }
+
+    public class ListNumberWrapper implements IPrimaryArrayWrapper {
+        private ListNumber listNumber;
+        public ListNumberWrapper(ListNumber listNumber) {
+            this.listNumber = listNumber;
+        }
+        @Override
+        public double get(int i) {
+            return listNumber.getDouble(i);
+        }
+        @Override
+        public int getSize() {
+            return listNumber.size();
+        }
     }
 
     @Override
