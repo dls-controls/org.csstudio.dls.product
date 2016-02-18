@@ -521,17 +521,10 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
             graph.setROIVisible(roiName, (Boolean) newValue);
             break;
         case XPV_VALUE:
-            graph.getROI(roiName).setROIDataBoundsX((int) VTypeHelper.getDouble((VType) newValue));
-            break;
         case YPV_VALUE:
-            graph.getROI(roiName).setROIDataBoundsY((int) VTypeHelper.getDouble((VType) newValue));
-            break;
         case WPV_VALUE:
-            graph.getROI(roiName).setROIDataBoundsW((int) VTypeHelper.getDouble((VType) newValue));
-            break;
         case HPV_VALUE:
-            graph.getROI(roiName).setROIDataBoundsH((int) VTypeHelper.getDouble((VType) newValue));
-            break;
+            throw new UnsupportedOperationException("Setting ROI dimensions is not supported.");
         default:
             break;
         }
