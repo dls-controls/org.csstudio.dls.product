@@ -171,10 +171,6 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
     public static final String PROP_VERTICAL_PROFILE_Y_PV_NAME = "vertical_profile_y_pv_name";//$NON-NLS-1$
     public static final String PROP_VERTICAL_PROFILE_Y_PV_VALUE = "vertial_profile_y_pv_value"; //$NON-NLS-1$
 
-    /** PV to which information about the pixel at the cursor location is written */
-    public static final String PROP_PIXEL_INFO_PV_NAME = "pixel_info_pv_name"; //$NON-NLS-1$
-    public static final String PROP_PIXEL_INFO_PV_VALUE = "pixel_info_pv_value"; //$NON-NLS-1$
-
     public static final String PROP_RGB_MODE = "rgb_mode"; //$NON-NLS-1$
 
     public static final String PROP_COLOR_DEPTH = "color_depth"; //$NON-NLS-1$
@@ -219,9 +215,6 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
 
         addPVProperty(new PVNameProperty(PROP_VERTICAL_PROFILE_Y_PV_NAME, "Vertical Profile Y PV",
                 WidgetPropertyCategory.Basic, ""), new PVValueProperty(PROP_VERTICAL_PROFILE_Y_PV_VALUE, null));
-
-        addPVProperty(new PVNameProperty(PROP_PIXEL_INFO_PV_NAME, "Pixel Info PV",
-                WidgetPropertyCategory.Basic, ""), new PVValueProperty(PROP_PIXEL_INFO_PV_VALUE, null));
 
         addProperty(new DoubleProperty(PROP_MIN, "Minimum",
                 WidgetPropertyCategory.Behavior, DEFAULT_MIN), true);
@@ -490,10 +483,6 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
 
     public String getVerticalProfileYPV(){
         return (String)getPropertyValue(PROP_VERTICAL_PROFILE_Y_PV_NAME);
-    }
-
-    public String getPixelInfoPV(){
-        return (String)getPropertyValue(PROP_PIXEL_INFO_PV_NAME);
     }
 
     public boolean isRGBMode(){

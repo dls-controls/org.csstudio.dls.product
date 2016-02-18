@@ -52,13 +52,6 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
 
     private IntensityGraphFigure graph;
 
-    /** VTable columns used to publish values for the pixel info PV */
-    @SuppressWarnings("nls")
-    final private static List<String> pixel_info_table_columns = Arrays.asList("X", "Y", "Value", "Selected");
-
-    /** VTable column types used to publish values for the pixel info PV */
-    final private static List<Class<?>> pixel_info_table_types = Arrays.<Class<?>>asList(double.class, double.class, double.class, int.class);
-
     @Override
     protected IFigure doCreateFigure() {
         DawnIntensityGraphModel model = getWidgetModel();
@@ -113,24 +106,6 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                             verticalXData[i] = yAxisRange.getUpper() - d*i;
                         }
                         setPVValue(DawnIntensityGraphModel.PROP_VERTICAL_PROFILE_X_PV_NAME, verticalXData);
-                    }
-                });
-            }
-
-            if (model.getPixelInfoPV().trim().length() > 0)
-            {   // Listen to pixel info, forward to PV
-                graph.addPixelInfoListener(new IPixelInfoListener()
-                {
-                    @Override
-                    public void pixelInfoChanged(final PixelInfo pixel_info, final boolean selected)
-                    {
-                        // TODO "Selected" column should be boolean, but there is no 'ArrayBoolean', and List<Boolean> also fails
-                        final List<Object> values = Arrays.<Object>asList(new ArrayDouble(pixel_info.xcoord),
-                                                                          new ArrayDouble(pixel_info.ycoord),
-                                                                          new ArrayDouble(pixel_info.value),
-                                                                          new ArrayInt(selected ? 1 : 0));
-                        final Object value = ValueFactory.newVTable(pixel_info_table_types, pixel_info_table_columns, values);
-                        setPVValue(DawnIntensityGraphModel.PROP_PIXEL_INFO_PV_NAME, value);
                     }
                 });
             }
