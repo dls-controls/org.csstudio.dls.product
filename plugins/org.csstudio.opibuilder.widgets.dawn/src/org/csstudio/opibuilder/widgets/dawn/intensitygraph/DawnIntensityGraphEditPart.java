@@ -57,6 +57,8 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         graph.setMax(model.getMaximum());
         graph.setDataWidth(model.getDataWidth());
         graph.setDataHeight(model.getDataHeight());
+        graph.setUnsigned(model.isUnsigned());
+        graph.setUnsignedBits(model.getUnsignedBits());
         graph.setColorMap(model.getColorMap());
         graph.setShowRamp(model.isShowRamp());
         graph.setCropLeft(model.getCropLeft());
@@ -123,8 +125,13 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         */
     private void updatePropSheet() {
         boolean rgbMode = getWidgetModel().isRGBMode();
+        boolean unsigned = getWidgetModel().isUnsigned();
         getWidgetModel().setPropertyVisible(
                 DawnIntensityGraphModel.PROP_COLOR_DEPTH, rgbMode);
+        getWidgetModel().setPropertyVisible(
+            DawnIntensityGraphModel.PROP_UNSIGNED, !rgbMode);
+        getWidgetModel().setPropertyVisible(
+            DawnIntensityGraphModel.PROP_UNSIGNED_BITS, !rgbMode && unsigned);
         getWidgetModel().setPropertyVisible(
                 DawnIntensityGraphModel.PROP_COLOR_MAP, !rgbMode);
         getWidgetModel().setPropertyVisible(
@@ -224,6 +231,16 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
             }
         };
         setPropertyChangeHandler(DawnIntensityGraphModel.PROP_DATA_HEIGHT, handler);
+
+        handler = new IWidgetPropertyChangeHandler(){
+            @Override
+            public boolean handleChange(Object oldValue, Object newValue,
+                    IFigure figure) {
+                ((IntensityGraphFigure)figure).setUnsignedBits((Integer)newValue);
+                return true;
+            }
+        };
+        setPropertyChangeHandler(DawnIntensityGraphModel.PROP_UNSIGNED_BITS, handler);
 
         handler = new IWidgetPropertyChangeHandler(){
             @Override
@@ -362,6 +379,13 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
             }
         });
 
+        getWidgetModel().getProperty(DawnIntensityGraphModel.PROP_UNSIGNED).addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                updatePropSheet();
+                ((IntensityGraphFigure)getFigure()).setUnsigned((Boolean)evt.getNewValue());
+            }
+        });
 
         handler = new IWidgetPropertyChangeHandler() {
 

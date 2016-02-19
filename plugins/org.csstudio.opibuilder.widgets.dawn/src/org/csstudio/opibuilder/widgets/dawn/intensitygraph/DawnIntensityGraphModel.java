@@ -174,6 +174,10 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
 
     public static final String PROP_COLOR_DEPTH = "color_depth"; //$NON-NLS-1$
 
+    public static final String PROP_UNSIGNED = "unsigned"; //$NON-NLS-1$
+
+    public static final String PROP_UNSIGNED_BITS = "unsigned_bits"; //$NON-NLS-1$
+
     public static final String PROP_SINGLE_LINE_PROFILING = "single_line_profiling"; //$NON-NLS-1$
 
     public static final String PROP_ROI_COLOR= "roi_color"; //$NON-NLS-1$
@@ -253,6 +257,12 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
 
         addProperty(new ComboProperty(PROP_COLOR_DEPTH, "Color Depth",
                 WidgetPropertyCategory.Behavior, ColorDepth.stringValues(), 0), true);
+
+        addProperty(new BooleanProperty(PROP_UNSIGNED, "Unsigned Data",
+                WidgetPropertyCategory.Behavior, false));
+
+        addProperty(new IntegerProperty(PROP_UNSIGNED_BITS, "Unsigned Length (bits)",
+                WidgetPropertyCategory.Behavior, 0));
 
         addProperty(new BooleanProperty(PROP_SINGLE_LINE_PROFILING, "Profile on Single Line",
                 WidgetPropertyCategory.Behavior, false),true);
@@ -413,6 +423,20 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
      */
     public Integer getDataHeight() {
         return (Integer) getCastedPropertyValue(PROP_DATA_HEIGHT);
+    }
+
+    /**
+     * @return if the data is unsigned
+     */
+    public boolean isUnsigned() {
+        return (Boolean) getCastedPropertyValue(PROP_UNSIGNED);
+    }
+
+    /**
+     * @return the number of unsigned bits
+     */
+    public int getUnsignedBits() {
+        return (Integer) getCastedPropertyValue(PROP_UNSIGNED_BITS);
     }
 
     /**
