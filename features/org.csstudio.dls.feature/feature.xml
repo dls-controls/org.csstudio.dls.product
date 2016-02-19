@@ -85,7 +85,7 @@
          version="0.0.0"
          unpack="false"/>
 
-     <plugin
+   <plugin
          id="org.diirt.datasource.fa"
          download-size="0"
          install-size="0"
