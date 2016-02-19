@@ -118,5 +118,69 @@
          pattern=".*/org.eclipse.team.ui.GenericHistoryView">
       </activityPatternBinding>
    </extension>
+   <!-- Add a common set of views and perspectives in the 'Window' menu -->
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+         targetID="org.csstudio.utility.product.CSStudioPerspective">
+         <perspectiveShortcut id="org.csstudio.utility.product.CSStudioPerspective"/>
+         <perspectiveShortcut id="org.csstudio.opibuilder.opieditor"/>
+         <perspectiveShortcut id="org.csstudio.opibuilder.OPIRuntime.perspective"/>
+         <perspectiveShortcut id="org.csstudio.trends.databrowser.Perspective"/>
+         <viewShortcut id="org.eclipse.ui.views.ResourceNavigator"/>
+         <viewShortcut id="org.eclipse.ui.console.ConsoleView"/>
+         <view
+            id = "org.csstudio.opibuilder.opiShellSummary"
+            relative="org.eclipse.ui.views.ResourceNavigator"
+            relationship="stack"
+            closeable="false"
+            minimized="true"/>
+      </perspectiveExtension>
+      <perspectiveExtension
+         targetID="org.csstudio.opibuilder.opieditor">
+         <perspectiveShortcut id="org.csstudio.utility.product.CSStudioPerspective"/>
+         <perspectiveShortcut id="org.csstudio.opibuilder.opieditor"/>
+         <perspectiveShortcut id="org.csstudio.opibuilder.OPIRuntime.perspective"/>
+         <perspectiveShortcut id="org.csstudio.trends.databrowser.Perspective"/>
+         <viewShortcut id="org.eclipse.ui.views.ResourceNavigator"/>
+         <viewShortcut id="org.eclipse.ui.console.ConsoleView"/>
+         <view
+            id = "org.csstudio.opibuilder.opiShellSummary"
+            relative="org.eclipse.ui.views.ResourceNavigator"
+            relationship="stack"
+            closeable="false"
+            minimized="true"/>
+      </perspectiveExtension>
+      <perspectiveExtension
+         targetID="org.csstudio.opibuilder.OPIRuntime.perspective">
+         <perspectiveShortcut id="org.csstudio.utility.product.CSStudioPerspective"/>
+         <perspectiveShortcut id="org.csstudio.opibuilder.opieditor"/>
+         <perspectiveShortcut id="org.csstudio.opibuilder.OPIRuntime.perspective"/>
+         <perspectiveShortcut id="org.csstudio.trends.databrowser.Perspective"/>
+         <viewShortcut id="org.eclipse.ui.views.ResourceNavigator"/>
+         <viewShortcut id="org.eclipse.ui.console.ConsoleView"/>
+         <view
+            id = "org.csstudio.opibuilder.opiShellSummary"
+            relative="org.eclipse.ui.views.ResourceNavigator"
+            relationship="stack"
+            closeable="false"
+            minimized="true"/>
+      </perspectiveExtension>
+      <perspectiveExtension
+         targetID="org.csstudio.trends.databrowser.Perspective">
+         <perspectiveShortcut id="org.csstudio.utility.product.CSStudioPerspective"/>
+         <perspectiveShortcut id="org.csstudio.opibuilder.opieditor"/>
+         <perspectiveShortcut id="org.csstudio.opibuilder.OPIRuntime.perspective"/>
+         <perspectiveShortcut id="org.csstudio.trends.databrowser.Perspective"/>
+         <viewShortcut id="org.eclipse.ui.views.ResourceNavigator"/>
+         <viewShortcut id="org.eclipse.ui.console.ConsoleView"/>
+         <view
+            id = "org.csstudio.opibuilder.opiShellSummary"
+            relative="org.eclipse.ui.views.ResourceNavigator"
+            relationship="stack"
+            closeable="false"
+            minimized="true"/>
+      </perspectiveExtension>
+   </extension>
 
 </plugin>
