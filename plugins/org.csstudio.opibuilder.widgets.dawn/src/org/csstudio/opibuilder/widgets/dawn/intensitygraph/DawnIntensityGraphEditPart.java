@@ -119,9 +119,6 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         return (DawnIntensityGraphModel)getModel();
     }
 
-        /**
-        * @param actionsFromPV
-        */
     private void updatePropSheet() {
         boolean rgbMode = getWidgetModel().isRGBMode();
         boolean unsigned = getWidgetModel().isUnsigned();

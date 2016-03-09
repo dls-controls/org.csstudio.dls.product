@@ -459,7 +459,7 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
     }
 
     /**
-     * @return the color map
+     * @return if the ramp is shown
      */
     public Boolean isShowRamp(){
         return (Boolean) getCastedPropertyValue(PROP_SHOW_RAMP);
