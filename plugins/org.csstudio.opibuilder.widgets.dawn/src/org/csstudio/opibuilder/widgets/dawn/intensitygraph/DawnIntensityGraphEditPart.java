@@ -38,14 +38,12 @@ import org.eclipse.nebula.visualization.xygraph.figures.Axis;
 import org.eclipse.nebula.visualization.xygraph.figures.Grid;
 import org.eclipse.nebula.visualization.xygraph.linearscale.Range;
 
-/**The widget editpart of intensity graph widget.
- *
+/**
+ * The widget editpart of intensity graph widget.
  */
 public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
 
-
     private boolean innerTrig;
-
     private IntensityGraphFigure graph;
 
     @Override
@@ -69,13 +67,13 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         graph.setSingleLineProfiling(model.isSingleLineProfiling());
         graph.setROIColor(model.getROIColor().getSWTColor());
         //init X-Axis
-        for(AxisProperty axisProperty : AxisProperty.values()){
+        for(AxisProperty axisProperty : AxisProperty.values()) {
             String propID = DawnIntensityGraphModel.makeAxisPropID(
                     DawnIntensityGraphModel.X_AXIS_ID, axisProperty.propIDPre);
             setAxisProperty(graph.getXAxis(), axisProperty, model.getPropertyValue(propID));
         }
         //init Y-Axis
-        for(AxisProperty axisProperty : AxisProperty.values()){
+        for(AxisProperty axisProperty : AxisProperty.values()) {
             String propID = DawnIntensityGraphModel.makeAxisPropID(
                     DawnIntensityGraphModel.Y_AXIS_ID, axisProperty.propIDPre);
             setAxisProperty(graph.getYAxis(), axisProperty, model.getPropertyValue(propID));
@@ -88,11 +86,11 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                     @Override
                     public void profileDataChanged(double[] xProfileData,
                              double[] yProfileData, Range xAxisRange, Range yAxisRange) {
-                            //horizontal
+                        //horizontal
                         setPVValue(DawnIntensityGraphModel.PROP_HORIZON_PROFILE_Y_PV_NAME, xProfileData);
                         double[] horizonXData = new double[xProfileData.length];
                         double d = (xAxisRange.getUpper() - xAxisRange.getLower())/(xProfileData.length-1);
-                        for(int i=0; i<xProfileData.length; i++){
+                        for(int i=0; i<xProfileData.length; i++) {
                             horizonXData[i] = xAxisRange.getLower() + d *i;
                         }
                         setPVValue(DawnIntensityGraphModel.PROP_HORIZON_PROFILE_X_PV_NAME, horizonXData);
@@ -100,7 +98,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                         setPVValue(DawnIntensityGraphModel.PROP_VERTICAL_PROFILE_Y_PV_NAME, yProfileData);
                         double[] verticalXData = new double[yProfileData.length];
                         d = (yAxisRange.getUpper() - yAxisRange.getLower())/(yProfileData.length-1);
-                        for(int i=0; i<yProfileData.length; i++){
+                        for(int i=0; i<yProfileData.length; i++) {
                             verticalXData[i] = yAxisRange.getUpper() - d*i;
                         }
                         setPVValue(DawnIntensityGraphModel.PROP_VERTICAL_PROFILE_X_PV_NAME, verticalXData);
@@ -110,7 +108,6 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         }
 
         updatePropSheet();
-
         return graph;
     }
 
@@ -132,7 +129,6 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                 DawnIntensityGraphModel.PROP_COLOR_MAP, !rgbMode);
         getWidgetModel().setPropertyVisible(
                 DawnIntensityGraphModel.PROP_SHOW_RAMP, !rgbMode);
-
     }
 
     @Override
@@ -141,26 +137,23 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         registerAxisPropertyChangeHandler();
         registerROIPropertyChangeHandlers();
         registerROIAmountChangeHandler();
+
         IWidgetPropertyChangeHandler handler = new IWidgetPropertyChangeHandler() {
             @Override
             public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
-                if(newValue == null)
+                if(newValue == null) {
                     return false;
+                }
                 VType value = (VType)newValue;
-
-                    if(value instanceof VNumberArray){
-                        setValue(((VNumberArray)value).getData());
-                        return false;
-                    }
-
+                if(value instanceof VNumberArray) {
+                    setValue(((VNumberArray)value).getData());
+                    return false;
+                }
                 ((IntensityGraphFigure)figure).setDataArray(VTypeHelper.getDoubleArray(value));
-
                 return false;
             }
         };
-
         setPropertyChangeHandler(AbstractPVWidgetModel.PROP_PVVALUE, handler);
-
 
         getWidgetModel().getProperty(DawnIntensityGraphModel.PROP_MIN).addPropertyChangeListener(
                 new PropertyChangeListener() {
@@ -170,7 +163,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                         figure.repaint();
                         innerUpdateGraphAreaSizeProperty();
                     }
-                });
+        });
 
         getWidgetModel().getProperty(DawnIntensityGraphModel.PROP_MAX).addPropertyChangeListener(
                 new PropertyChangeListener() {
@@ -180,7 +173,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                         figure.repaint();
                         innerUpdateGraphAreaSizeProperty();
                     }
-                });
+        });
 
         getWidgetModel().getProperty(DawnIntensityGraphModel.PROP_BORDER_STYLE).removeAllPropertyChangeListeners();
         getWidgetModel().getProperty(DawnIntensityGraphModel.PROP_BORDER_STYLE).addPropertyChangeListener(
@@ -193,7 +186,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                                 getWidgetModel().getName()));
                         innerUpdateGraphAreaSizeProperty();
                     }
-                });
+        });
 
         getWidgetModel().getProperty(DawnIntensityGraphModel.PROP_BORDER_WIDTH).removeAllPropertyChangeListeners();
         getWidgetModel().getProperty(DawnIntensityGraphModel.PROP_BORDER_WIDTH).addPropertyChangeListener(
@@ -206,9 +199,9 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                                 getWidgetModel().getName()));
                         innerUpdateGraphAreaSizeProperty();
                     }
-                });
+        });
 
-        handler = new IWidgetPropertyChangeHandler(){
+        handler = new IWidgetPropertyChangeHandler() {
             @Override
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure figure) {
@@ -218,7 +211,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         };
         setPropertyChangeHandler(DawnIntensityGraphModel.PROP_DATA_WIDTH, handler);
 
-        handler = new IWidgetPropertyChangeHandler(){
+        handler = new IWidgetPropertyChangeHandler() {
             @Override
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure figure) {
@@ -228,7 +221,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         };
         setPropertyChangeHandler(DawnIntensityGraphModel.PROP_DATA_HEIGHT, handler);
 
-        handler = new IWidgetPropertyChangeHandler(){
+        handler = new IWidgetPropertyChangeHandler() {
             @Override
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure figure) {
@@ -238,7 +231,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         };
         setPropertyChangeHandler(DawnIntensityGraphModel.PROP_UNSIGNED_BITS, handler);
 
-        handler = new IWidgetPropertyChangeHandler(){
+        handler = new IWidgetPropertyChangeHandler() {
             @Override
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure figure) {
@@ -249,7 +242,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         };
         setPropertyChangeHandler(DawnIntensityGraphModel.PROP_COLOR_MAP, handler);
 
-        handler = new IWidgetPropertyChangeHandler(){
+        handler = new IWidgetPropertyChangeHandler() {
             @Override
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure figure) {
@@ -259,7 +252,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         };
         setPropertyChangeHandler(DawnIntensityGraphModel.PROP_CROP_LEFT, handler);
 
-        handler = new IWidgetPropertyChangeHandler(){
+        handler = new IWidgetPropertyChangeHandler() {
             @Override
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure figure) {
@@ -269,7 +262,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         };
         setPropertyChangeHandler(DawnIntensityGraphModel.PROP_CROP_RIGHT, handler);
 
-        handler = new IWidgetPropertyChangeHandler(){
+        handler = new IWidgetPropertyChangeHandler() {
             @Override
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure figure) {
@@ -279,7 +272,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         };
         setPropertyChangeHandler(DawnIntensityGraphModel.PROP_CROP_TOP, handler);
 
-        handler = new IWidgetPropertyChangeHandler(){
+        handler = new IWidgetPropertyChangeHandler() {
             @Override
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure figure) {
@@ -288,8 +281,6 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
             }
         };
         setPropertyChangeHandler(DawnIntensityGraphModel.PROP_CROP_BOTTOM, handler);
-
-
 
         getWidgetModel().getProperty(DawnIntensityGraphModel.PROP_SHOW_RAMP).addPropertyChangeListener(
                 new PropertyChangeListener() {
@@ -308,7 +299,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                 new PropertyChangeListener() {
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
-                        if(!innerTrig){ // if it is not triggered from inner
+                        if(!innerTrig) { // if it is not triggered from inner
                             innerTrig = true;
                             Dimension d = ((IntensityGraphFigure)getFigure()).getGraphAreaInsets();
                             getWidgetModel().setPropertyValue(DawnIntensityGraphModel.PROP_GRAPH_AREA_WIDTH,
@@ -323,7 +314,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                 new PropertyChangeListener() {
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
-                        if(!innerTrig){
+                        if(!innerTrig) {
                             innerTrig = true;
                             Dimension d = ((IntensityGraphFigure)getFigure()).getGraphAreaInsets();
                             getWidgetModel().setPropertyValue(DawnIntensityGraphModel.PROP_WIDTH,
@@ -339,7 +330,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                 new PropertyChangeListener() {
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
-                        if(!innerTrig){
+                        if(!innerTrig) {
                             innerTrig = true;
                             Dimension d = ((IntensityGraphFigure)getFigure()).getGraphAreaInsets();
                             getWidgetModel().setPropertyValue(DawnIntensityGraphModel.PROP_GRAPH_AREA_HEIGHT,
@@ -354,7 +345,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                 new PropertyChangeListener() {
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
-                        if(!innerTrig){
+                        if(!innerTrig) {
                             innerTrig = true;
                             Dimension d = ((IntensityGraphFigure)getFigure()).getGraphAreaInsets();
                             getWidgetModel().setPropertyValue(DawnIntensityGraphModel.PROP_HEIGHT,
@@ -365,9 +356,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                     }
         });
 
-
         getWidgetModel().getProperty(DawnIntensityGraphModel.PROP_RGB_MODE).addPropertyChangeListener(new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 updatePropSheet();
@@ -384,7 +373,6 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         });
 
         handler = new IWidgetPropertyChangeHandler() {
-
             @Override
             public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
                 ((IntensityGraphFigure)getFigure()).setColorDepth(getWidgetModel().getColorDepth());
@@ -394,7 +382,6 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         setPropertyChangeHandler(DawnIntensityGraphModel.PROP_COLOR_DEPTH, handler);
 
         handler = new IWidgetPropertyChangeHandler() {
-
             @Override
             public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
                 ((IntensityGraphFigure)getFigure()).setSingleLineProfiling((Boolean)newValue);
@@ -405,7 +392,6 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
 
 
         handler = new IWidgetPropertyChangeHandler() {
-
             @Override
             public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
                 ((IntensityGraphFigure)getFigure()).setROIColor(((OPIColor)newValue).getSWTColor());
@@ -415,7 +401,7 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         setPropertyChangeHandler(DawnIntensityGraphModel.PROP_ROI_COLOR, handler);
     }
 
-    private synchronized void innerUpdateGraphAreaSizeProperty(){
+    private synchronized void innerUpdateGraphAreaSizeProperty() {
         Dimension d = ((IntensityGraphFigure)figure).getGraphAreaInsets();
         innerTrig = true;
         getWidgetModel().setPropertyValue(DawnIntensityGraphModel.PROP_GRAPH_AREA_WIDTH,
@@ -432,7 +418,6 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
 
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-
                 int currentCount = (Integer) evt.getOldValue();
                 int newCount = (Integer) evt.getNewValue();
                 if (newCount > currentCount) {
@@ -491,35 +476,32 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
 
         //init
         int currentCount = (Integer) getPropertyValue(DawnIntensityGraphModel.PROP_ROI_COUNT);
-        listener.propertyChange(new PropertyChangeEvent(countProperty, DawnIntensityGraphModel.PROP_ROI_COUNT, 0,
-                currentCount));
-        for(int i=0; i<currentCount; i++){
-            for(final ROIProperty roiProperty: ROIProperty.values()){
+        listener.propertyChange(new PropertyChangeEvent(
+                countProperty, DawnIntensityGraphModel.PROP_ROI_COUNT, 0, currentCount));
+        for(int i=0; i<currentCount; i++) {
+            for(final ROIProperty roiProperty: ROIProperty.values()) {
                 String propID = DawnIntensityGraphModel.makeROIPropID(roiProperty.propIDPre, i);
                 Object propertyValue = getPropertyValue(propID);
-                if(propertyValue !=null)
+                if(propertyValue !=null) {
                     setROIProperty(getROIName(i), roiProperty, propertyValue);
+                }
             }
         }
-
-
     }
 
-    private static String getROIName(int index){
+    private static String getROIName(int index) {
         return "ROI_" + index; //$NON-NLS-1$
     }
 
-    private void registerROIPropertyChangeHandlers(){
-        for(int i=0; i<DawnIntensityGraphModel.MAX_ROIS_AMOUNT; i++){
+    private void registerROIPropertyChangeHandlers() {
+        for(int i=0; i<DawnIntensityGraphModel.MAX_ROIS_AMOUNT; i++) {
             final String roiName = getROIName(i);
-            for(final ROIProperty roiProperty: ROIProperty.values()){
+            for(final ROIProperty roiProperty: ROIProperty.values()) {
                 String propID = DawnIntensityGraphModel.makeROIPropID(roiProperty.propIDPre, i);
-                if(i>=(Integer)getPropertyValue(DawnIntensityGraphModel.PROP_ROI_COUNT)){
+                if(i>=(Integer)getPropertyValue(DawnIntensityGraphModel.PROP_ROI_COUNT)) {
                     getWidgetModel().setPropertyVisible(propID, false);
                 }
-                setPropertyChangeHandler(propID,
-                        new IWidgetPropertyChangeHandler() {
-
+                setPropertyChangeHandler(propID, new IWidgetPropertyChangeHandler() {
                     @Override
                     public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
                         setROIProperty(roiName, roiProperty, newValue);
@@ -546,9 +528,9 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
             break;
         }
     }
-    private void registerAxisPropertyChangeHandler(){
-        for(String axisID : new String[]{DawnIntensityGraphModel.X_AXIS_ID, DawnIntensityGraphModel.Y_AXIS_ID}){
-            for(AxisProperty axisProperty : AxisProperty.values()){
+    private void registerAxisPropertyChangeHandler() {
+        for(String axisID : new String[] {DawnIntensityGraphModel.X_AXIS_ID, DawnIntensityGraphModel.Y_AXIS_ID}) {
+            for(AxisProperty axisProperty : AxisProperty.values()) {
                 final IWidgetPropertyChangeHandler handler =
                     new AxisPropertyChangeHandler(
                             axisID.equals(DawnIntensityGraphModel.X_AXIS_ID)?
@@ -564,21 +546,19 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
                                 public void propertyChange(PropertyChangeEvent evt) {
                                     handler.handleChange(evt.getOldValue(), evt.getNewValue(), getFigure());
                                     UIBundlingThread.getInstance().addRunnable(
-                                            getViewer().getControl().getDisplay(), new Runnable(){
-                                        @Override
-                                        public void run() {
-                                            getFigure().repaint();
-                                        }
+                                            getViewer().getControl().getDisplay(), new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                getFigure().repaint();
+                                            }
                                     });
-                            }
-                        });
-
+                                }
+                            });
             }
         }
-
     }
 
-    private void setAxisProperty(Axis axis, AxisProperty axisProperty, Object newValue){
+    private void setAxisProperty(Axis axis, AxisProperty axisProperty, Object newValue) {
         switch (axisProperty) {
         case TITLE:
             axis.setTitle((String)newValue);
@@ -621,14 +601,13 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         }
     }
 
-    public void setColorMap(String mapName){
-        for(PredefinedColorMap map : ColorMap.PredefinedColorMap.values()){
-            if(map.toString().equals(mapName)){
+    public void setColorMap(String mapName) {
+        for(PredefinedColorMap map : ColorMap.PredefinedColorMap.values()) {
+            if(map.toString().equals(mapName)) {
                 setPropertyValue(DawnIntensityGraphModel.PROP_COLOR_MAP, new ColorMap(map, true, true));
             break;
             }
         }
-
     }
 
     public class ListNumberWrapper implements IPrimaryArrayWrapper {
@@ -651,34 +630,31 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         return ((IntensityGraphFigure)getFigure()).getDataArray();
     }
 
-
     @Override
     public void setValue(Object value) {
-        if(value instanceof double[]){
+        if(value instanceof double[]) {
             ((IntensityGraphFigure)getFigure()).setDataArray((double[]) value);
         }else if(value instanceof ListNumber)
             ((IntensityGraphFigure)getFigure()).setDataArray(
                     new ListNumberWrapper((ListNumber)value));
-        else if(value instanceof short[]){
+        else if(value instanceof short[]) {
             ((IntensityGraphFigure)getFigure()).setDataArray((short[]) value);
-        }else if(value instanceof byte[]){
+        }else if(value instanceof byte[]) {
             ((IntensityGraphFigure)getFigure()).setDataArray((byte[]) value);
         }
-        else if(value instanceof float[]){
+        else if(value instanceof float[]) {
             ((IntensityGraphFigure)getFigure()).setDataArray((float[]) value);
         }
-        else if(value instanceof long[]){
+        else if(value instanceof long[]) {
             ((IntensityGraphFigure)getFigure()).setDataArray((long[]) value);
         }
-        else if(value instanceof int[]){
+        else if(value instanceof int[]) {
             ((IntensityGraphFigure)getFigure()).setDataArray((int[]) value);
         }
-
-        else
+        else {
             super.setValue(value);
+        }
     }
-
-
 
     @Override
     public void deactivate() {
@@ -703,5 +679,4 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
             return true;
         }
     }
-
 }

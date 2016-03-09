@@ -29,8 +29,8 @@ import org.eclipse.nebula.visualization.widgets.figures.IntensityGraphFigure.Col
 import org.eclipse.swt.graphics.RGB;
 import org.osgi.framework.Version;
 
-/**The model for intensity graph.
- *
+/**
+ * The model for intensity graph.
  */
 public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
 
@@ -40,7 +40,7 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
 
     public static final int MAX_ROIS_AMOUNT = 5;
 
-    public enum AxisProperty{
+    public enum AxisProperty {
         TITLE("axis_title", "Axis Title"), //$NON-NLS-1$
         TITLE_FONT("title_font", "Title Font"),//$NON-NLS-1$
         SCALE_FONT("scale_font", "Scale Font"),
@@ -65,7 +65,7 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
         }
     }
 
-    public enum ROIProperty{
+    public enum ROIProperty {
         TITLE("title", "Title"),//$NON-NLS-1$
         VISIBLE("visible", "Visible"),//$NON-NLS-1$
         XPV("x_pv", "X PV"),//$NON-NLS-1$
@@ -191,9 +191,8 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
 
     /** The default color of the axis color property. */
     private static final RGB DEFAULT_AXIS_COLOR = new RGB(0,0,0);
-    /**
-     * The ID of this widget model.
-     */
+    
+    /** The ID of this widget model. */
     public static final String ID = "org.csstudio.opibuilder.widgets.dawn.intensitygraph"; //$NON-NLS-1$
 
     public DawnIntensityGraphModel() {
@@ -279,7 +278,7 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
     @Override
     public void processVersionDifference(Version boyVersionOnFile) {
         super.processVersionDifference(boyVersionOnFile);
-        if(UpgradeUtil.VERSION_WITH_PVMANAGER.compareTo(boyVersionOnFile)>0){
+        if(UpgradeUtil.VERSION_WITH_PVMANAGER.compareTo(boyVersionOnFile)>0) {
             setPropertyValue(PROP_HORIZON_PROFILE_X_PV_NAME,
                     UpgradeUtil.convertUtilityPVNameToPM(
                             (String) getPropertyValue(PROP_HORIZON_PROFILE_X_PV_NAME)));
@@ -295,20 +294,20 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
         }
     }
 
-    public static String makeROIPropID(String propIDPre, int index){
+    public static String makeROIPropID(String propIDPre, int index) {
         return "roi_" +index + "_" + propIDPre; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
-    private void addROIProperties(){
-        for(int i=0; i<MAX_ROIS_AMOUNT; i++){
+    private void addROIProperties() {
+        for(int i=0; i<MAX_ROIS_AMOUNT; i++) {
             WidgetPropertyCategory category = new NameDefinedCategory("ROI " + i);
-            for(ROIProperty roiProperty : ROIProperty.values()){
+            for(ROIProperty roiProperty : ROIProperty.values()) {
                 addROIProperty(roiProperty, i, category);
             }
         }
     }
 
-    private void addROIProperty(ROIProperty roiProperty, int index, WidgetPropertyCategory category){
+    private void addROIProperty(ROIProperty roiProperty, int index, WidgetPropertyCategory category) {
         String propID = makeROIPropID(roiProperty.propIDPre, index);
         switch (roiProperty) {
         case TITLE:
@@ -338,12 +337,11 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
         }
     }
 
-
-    public static String makeAxisPropID(String axisID, String propIDPre){
+    public static String makeAxisPropID(String axisID, String propIDPre) {
         return axisID+ "_" + propIDPre; //$NON-NLS-1$
     }
 
-    private void addAxisProperties(){
+    private void addAxisProperties() {
         WidgetPropertyCategory xCategory = new NameDefinedCategory("X Axis");
         WidgetPropertyCategory yCategory = new NameDefinedCategory("Y Axis");
         for(AxisProperty axisProperty : AxisProperty.values())
@@ -353,7 +351,7 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
             addAxisProperty(Y_AXIS_ID, axisProperty, yCategory);
     }
 
-    private void addAxisProperty(String axisID, AxisProperty axisProperty, WidgetPropertyCategory category){
+    private void addAxisProperty(String axisID, AxisProperty axisProperty, WidgetPropertyCategory category) {
         String propID = makeAxisPropID(axisID, axisProperty.propIDPre);
 
         switch (axisProperty) {
@@ -389,12 +387,10 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
         }
     }
 
-
     @Override
     public String getTypeID() {
         return ID;
     }
-
 
     /**
      * @return the maximum value
@@ -454,73 +450,72 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
     /**
      * @return the color map
      */
-    public ColorMap getColorMap(){
+    public ColorMap getColorMap() {
         return new ColorMap(PredefinedColorMap.fromIndex((Integer)getPropertyValue(PROP_COLOR_MAP)), true, true);
     }
 
     /**
      * @return if the ramp is shown
      */
-    public Boolean isShowRamp(){
+    public Boolean isShowRamp() {
         return (Boolean) getCastedPropertyValue(PROP_SHOW_RAMP);
     }
 
     /**
      * @return the left crop part
      */
-    public int getCropLeft(){
+    public int getCropLeft() {
         return (Integer)getPropertyValue(PROP_CROP_LEFT);
     }
 
     /**
      * @return the right crop part
      */
-    public int getCropRight(){
+    public int getCropRight() {
         return (Integer)getPropertyValue(PROP_CROP_RIGHT);
     }
     /**
      * @return the top crop part
      */
-    public int getCropTOP(){
+    public int getCropTOP() {
         return (Integer)getPropertyValue(PROP_CROP_TOP);
     }
     /**
      * @return the bottom crop part
      */
-    public int getCropBottom(){
+    public int getCropBottom() {
         return (Integer)getPropertyValue(PROP_CROP_BOTTOM);
     }
 
-    public String getHorizonProfileXPV(){
+    public String getHorizonProfileXPV() {
         return (String)getPropertyValue(PROP_HORIZON_PROFILE_X_PV_NAME);
     }
 
-    public String getVerticalProfileXPV(){
+    public String getVerticalProfileXPV() {
         return (String)getPropertyValue(PROP_VERTICAL_PROFILE_X_PV_NAME);
     }
 
-    public String getHorizonProfileYPV(){
+    public String getHorizonProfileYPV() {
         return (String)getPropertyValue(PROP_HORIZON_PROFILE_Y_PV_NAME);
     }
 
-    public String getVerticalProfileYPV(){
+    public String getVerticalProfileYPV() {
         return (String)getPropertyValue(PROP_VERTICAL_PROFILE_Y_PV_NAME);
     }
 
-    public boolean isRGBMode(){
+    public boolean isRGBMode() {
         return (Boolean)getPropertyValue(PROP_RGB_MODE);
     }
 
-    public ColorDepth getColorDepth(){
+    public ColorDepth getColorDepth() {
         return ColorDepth.values()[(Integer)getPropertyValue(PROP_COLOR_DEPTH)];
     }
 
-    public OPIColor getROIColor(){
+    public OPIColor getROIColor() {
         return (OPIColor)getPropertyValue(PROP_ROI_COLOR);
     }
 
-    public boolean isSingleLineProfiling(){
+    public boolean isSingleLineProfiling() {
         return (Boolean)getPropertyValue(PROP_SINGLE_LINE_PROFILING);
     }
-
 }
