@@ -236,7 +236,8 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure figure) {
                 ((IntensityGraphFigure)figure).setColorMap(
-                         new ColorMap(PredefinedColorMap.fromIndex((Integer)newValue), true, true));
+                        // Offset the color map index as we've remove the first element
+                        new ColorMap(PredefinedColorMap.fromIndex((Integer)newValue + 1), true, true));
                 return true;
             }
         };

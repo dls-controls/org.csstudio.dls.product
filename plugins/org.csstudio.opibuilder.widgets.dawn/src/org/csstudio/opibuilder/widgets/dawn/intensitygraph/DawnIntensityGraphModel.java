@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.csstudio.opibuilder.widgets.dawn.intensitygraph;
 
+import java.util.Arrays;
+
 import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
 import org.csstudio.opibuilder.properties.BooleanProperty;
 import org.csstudio.opibuilder.properties.ColorProperty;
@@ -229,8 +231,11 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
         addProperty(new IntegerProperty(PROP_DATA_HEIGHT, "Data Height",
                 WidgetPropertyCategory.Behavior, 0),true);
 
+        String[] predefinedColorMaps = PredefinedColorMap.getStringValues();
+        // Remove the zeroth index from the list as 'none' is not a valid color map
         addProperty(new ComboProperty(PROP_COLOR_MAP, "Color Map",
-                WidgetPropertyCategory.Display, PredefinedColorMap.getStringValues(), 1));
+                WidgetPropertyCategory.Display, Arrays.copyOfRange(
+                        predefinedColorMaps, 1, predefinedColorMaps.length), 0));
 
         addProperty(new BooleanProperty(PROP_SHOW_RAMP, "Show Ramp",
                 WidgetPropertyCategory.Display, true),true);
@@ -451,7 +456,8 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
      * @return the color map
      */
     public ColorMap getColorMap() {
-        return new ColorMap(PredefinedColorMap.fromIndex((Integer)getPropertyValue(PROP_COLOR_MAP)), true, true);
+        // Offset the colour map index as we've removed the zeroth element
+        return new ColorMap(PredefinedColorMap.fromIndex((Integer)getPropertyValue(PROP_COLOR_MAP) + 1), true, true);
     }
 
     /**
