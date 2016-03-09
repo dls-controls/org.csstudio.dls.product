@@ -30,7 +30,6 @@ import org.eclipse.swt.graphics.RGB;
 import org.osgi.framework.Version;
 
 /**The model for intensity graph.
- * @author Xihui Chen
  *
  */
 public class DawnIntensityGraphModel extends AbstractPVWidgetModel {

@@ -39,7 +39,6 @@ import org.eclipse.nebula.visualization.xygraph.figures.Grid;
 import org.eclipse.nebula.visualization.xygraph.linearscale.Range;
 
 /**The widget editpart of intensity graph widget.
- * @author Xihui Chen
  *
  */
 public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
