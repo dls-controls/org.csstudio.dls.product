@@ -11,6 +11,14 @@
             name="Dawn XY Graph"
             typeId="org.csstudio.opibuilder.widgets.dawn.xygraph">
       </widget>
+      <widget
+            category="Monitors"
+            editpart_class="org.csstudio.opibuilder.widgets.dawn.intensitygraph.DawnIntensityGraphEditPart"
+            icon="icons/xy_graph_16.png"
+            model_class="org.csstudio.opibuilder.widgets.dawn.intensitygraph.DawnIntensityGraphModel"
+            name="Dawn Intensity Graph"
+            typeId="org.csstudio.opibuilder.widgets.dawn.intensitygraph">
+      </widget>
    </extension>
    <extension
          point="org.eclipse.ui.popupMenus">
