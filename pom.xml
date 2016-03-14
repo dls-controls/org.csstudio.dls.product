@@ -49,7 +49,7 @@
   <repositories>
     <repository>
       <id>dawn</id>
-      <url>http://opengda.org/DawnDiamond/master~e4/updates/snapshot/</url>
+      <url>http://opengda.org/DawnDiamond/master/updates/snapshot/</url>
       <layout>p2</layout>
     </repository>
   </repositories>
