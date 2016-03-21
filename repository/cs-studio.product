@@ -70,7 +70,6 @@
       <feature id="org.csstudio.core.diirt.feature"/>
       <feature id="org.csstudio.dls.feature"/>
       <feature id="org.csstudio.dls.product.feature"/>
-      <feature id="org.csstudio.dls.product.configuration.feature"/>
       <feature id="org.eclipse.help"/>
    </features>
 
