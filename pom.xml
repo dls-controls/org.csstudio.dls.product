@@ -166,6 +166,17 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>local-dev</id>
+      <properties>
+        <jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree>
+        <baselineMode>warn</baselineMode>
+      </properties>
+      <repositories>
+      </repositories>
+      <pluginRepositories>
+      </pluginRepositories>
+    </profile>
   </profiles>
 
   <!--
@@ -199,9 +210,6 @@
             <timestampProvider>jgit</timestampProvider>
             <jgit.ignore>
               pom.xml
-              plugins/org.csstudio.dls.product/.settings/*
-              plugins/org.csstudio.startup.intro/.settings/*
-              features/org.csstudio.dls.product.feature/.settings/*
               repository/.settings/*
               .gitignore
               *.target
