@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Unit tests for new window functionality
+Bundle-SymbolicName: org.csstudio.openfile.newwindow.test
+Bundle-Version: 0.0.1.qualifier
+Fragment-Host: org.csstudio.openfile.newwindow;bundle-version="0.0.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.junit

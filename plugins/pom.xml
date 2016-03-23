@@ -14,6 +14,8 @@
   <modules>
     <module>org.csstudio.dls.product</module>
     <module>org.csstudio.startup.intro</module>
+    <module>org.csstudio.openfile.newwindow</module>
+    <module>org.csstudio.openfile.newwindow.test</module>
     <module>org.csstudio.opibuilder.dlsopitests</module>
     <module>org.csstudio.opibuilder.widgets.edm</module>
     <module>org.csstudio.opibuilder.widgets.detailpanel</module>
