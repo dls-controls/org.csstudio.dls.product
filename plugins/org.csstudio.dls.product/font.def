@@ -1,9 +1,9 @@
-Header 1 = Arial-bold-18
-Header 2 = Arial-bold-14
-Header 3 = Arial-bold-12
-Default = Arial-regular-11
-Default Bold = Arial-bold-11
-Label Small = Arial-regular-10
-Fine Print = Arial-regular-9
+Header 1 = Liberation Sans-bold-18
+Header 2 = Liberation Sans-bold-14
+Header 3 = Liberation Sans-bold-12
+Default = Liberation Sans-regular-11
+Default Bold = Liberation Sans-bold-11
+Label Small = Liberation Sans-regular-10
+Fine Print = Liberation Sans-regular-9
 Monospace = Monospace-regular-10
 Monospace Bold = Monospace-bold-10
