@@ -34,15 +34,15 @@ public class PerspectiveHelper {
     }
 
     public void loadPerspective(String perspectiveFile) throws WindowManagementException {
+        Path perspectiveFilePath = Paths.get(perspectiveFile);
+        if (!Files.exists(perspectiveFilePath)) {
+            throw new WindowManagementException("Perspective file " + perspectiveFile + " not found.");
+        }
         FileUtils fu = new FileUtils();
         IEclipseContext context = PlatformUI.getWorkbench().getService(IEclipseContext.class);
         context.set(IFileUtils.class.getCanonicalName(), fu);
         PerspectiveLoader loader = ContextInjectionFactory.make(PerspectiveLoader.class, context);
-        Path perspectiveFilePath = Paths.get(perspectiveFile);
-        URI fileUri = fu.pathToEmfUri(Paths.get(perspectiveFile));
-        if (!Files.exists(perspectiveFilePath) || fileUri == null) {
-            throw new WindowManagementException("Perspective file " + perspectiveFile + " not found.");
-        }
+        URI fileUri = fu.pathToEmfUri(perspectiveFilePath);
         loader.loadPerspective(fileUri);
     }
 
