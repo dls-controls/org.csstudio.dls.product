@@ -39,8 +39,8 @@ public class WindowSpecParserTest {
         builder.append("<links>");
         for (String key : links.keySet()) {
             builder.append("<link>");
-            builder.append("<eclipsePath>" + key + "</eclipsePath>");
-            builder.append("<filePath>" + links.get(key) + "</filePath>");
+            builder.append("<filePath>" + key + "</filePath>");
+            builder.append("<eclipsePath>" + links.get(key) + "</eclipsePath>");
             builder.append("</link>");
         }
         builder.append("</links>");
