@@ -1,4 +1,4 @@
-package org.csstudio.openfile.beamlines;
+package org.csstudio.openfile.newwindow;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,9 +7,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.csstudio.openfile.newwindow.WindowSpec;
-import org.csstudio.openfile.newwindow.WindowSpecParser;
-import org.csstudio.openfile.newwindow.WindowManagementException;
 import org.junit.Before;
 import org.junit.Test;
 
