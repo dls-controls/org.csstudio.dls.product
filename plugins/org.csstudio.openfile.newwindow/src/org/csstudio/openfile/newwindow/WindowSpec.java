@@ -30,7 +30,8 @@ public class WindowSpec {
     }
 
     public Map<String, String> getLinks() {
-        return links;
+        // Return a copy to avoid exposing class internals.
+        return new HashMap<String, String>(links);
     }
 
 }
