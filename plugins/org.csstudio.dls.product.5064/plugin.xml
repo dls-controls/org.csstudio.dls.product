@@ -53,10 +53,6 @@
                name="aboutText"
                value="%aboutText">
          </property>
-         <property
-               name="applicationCSS"
-               value="platform:/plugin/org.csstudio.dls.product.5064/5064.css">
-         </property>
       </product>
    </extension>
 </plugin>
