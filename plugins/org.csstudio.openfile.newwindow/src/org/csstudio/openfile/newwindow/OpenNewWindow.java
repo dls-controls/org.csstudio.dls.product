@@ -19,7 +19,7 @@ public class OpenNewWindow implements IOpenDisplayAction {
         if (Files.exists(p)) {
             try (InputStream stream = Files.newInputStream(p)) {
                 WindowSpecParser parser = new WindowSpecParser(stream);
-                WindowSpec windowSpec = parser.get();
+                WindowSpec windowSpec = parser.parse();
                 if (!windowSpec.getLinks().isEmpty()) {
                     updateLinks(windowSpec.getLinks());
                 }

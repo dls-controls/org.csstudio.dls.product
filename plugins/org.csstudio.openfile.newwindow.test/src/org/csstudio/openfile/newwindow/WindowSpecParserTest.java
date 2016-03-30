@@ -4,75 +4,135 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class WindowSpecParserTest {
 
-    private WindowSpecParser simpleParser;
-    private WindowSpecParser linksParser;
     private String xmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-    private String emptyXmlString = xmlHeader + "<windowSpec></windowSpec>";
-    private String perspectiveId = "hello";
-    private String perspectiveFile = "/tmp/perspective_hello.xmi";
+    private String helloId = "hello";
+    private String helloFile = "/tmp/perspective_hello.xmi";
+    private String byeId = "bye";
+    private String byeFile = "/tmp/perspective_bye.xmi";
 
-    @Before
-    public void setUp() throws WindowManagementException {
-        Map<String, String> linksMap = new HashMap<>();
-        String simpleXml = createXml("hello", "/tmp/perspective_hello.xmi", linksMap);
-        InputStream simpleStream = new ByteArrayInputStream(simpleXml.getBytes());
-        simpleParser = new WindowSpecParser(simpleStream);
-        linksMap.put("/a/b", "/c/d");
-        String linksXml = createXml(perspectiveId, perspectiveFile, linksMap);
-        InputStream linksStream = new ByteArrayInputStream(linksXml.getBytes());
-        linksParser = new WindowSpecParser(linksStream);
-    }
-
-    private String createXml(String id, String file, Map<String, String> links) {
+    private String createXml(List<String> ids, List<String> files, List<Map<String, String>> linkMaps) {
         StringBuilder builder = new StringBuilder(xmlHeader);
         builder.append("<windowSpec>");
-        builder.append("<perspectiveId>" + id + "</perspectiveId>");
-        builder.append("<perspectiveFile>" + file + "</perspectiveFile>");
-        builder.append("<links>");
-        for (String key : links.keySet()) {
-            builder.append("<link>");
-            builder.append("<filePath>" + key + "</filePath>");
-            builder.append("<eclipsePath>" + links.get(key) + "</eclipsePath>");
-            builder.append("</link>");
+        for (String id : ids) {
+            builder.append("<perspectiveId>" + id + "</perspectiveId>");
         }
-        builder.append("</links>");
+        for (String file : files) {
+            builder.append("<perspectiveFile>" + file + "</perspectiveFile>");
+        }
+        for (Map<String, String> linkMap : linkMaps) {
+            builder.append("<links>");
+            for (String key : linkMap.keySet()) {
+                builder.append("<link>");
+                builder.append("<filePath>" + key + "</filePath>");
+                builder.append("<eclipsePath>" + linkMap.get(key) + "</eclipsePath>");
+                builder.append("</link>");
+            }
+            builder.append("</links>");
+        }
         builder.append("</windowSpec>");
         return builder.toString();
     }
 
+    private List<String> createStringList(String... strings) {
+        List<String> list = new ArrayList<>();
+        for (String string : strings) {
+            list.add(string);
+        }
+        return list;
+    }
+
+    private WindowSpecParser createParser(String xmlString) {
+        InputStream inputStream = new ByteArrayInputStream(xmlString.getBytes());
+        return new WindowSpecParser(inputStream);
+    }
+
     @Test(expected=WindowManagementException.class)
     public void emptyXmlThrowsException() throws WindowManagementException {
+        String emptyXmlString = createXml(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         InputStream is = new ByteArrayInputStream(emptyXmlString.getBytes());
-        new WindowSpecParser(is);
+        WindowSpecParser parser = new WindowSpecParser(is);
+
+        parser.parse();
+    }
+
+    @Test(expected=WindowManagementException.class)
+    public void xmlWithNoIdThrowsException() throws WindowManagementException {
+        List<String> noIds = new ArrayList<>();
+        List<String> oneFile = createStringList(helloFile);
+        String noIdXml = createXml(noIds, oneFile, new ArrayList<>());
+        WindowSpecParser parser = createParser(noIdXml);
+
+        parser.parse();
+    }
+
+    @Test(expected=WindowManagementException.class)
+    public void xmlWithNoFileThrowsException() throws WindowManagementException {
+        List<String> oneId = createStringList(helloId);
+        List<String> noFiles = new ArrayList<>();
+        String noFileXml = createXml(oneId, noFiles, new ArrayList<>());
+        WindowSpecParser parser = createParser(noFileXml);
+
+        parser.parse();
+    }
+
+    @Test(expected=WindowManagementException.class)
+    public void xmlWithTwoPerspectiveIdsThrowsException() throws WindowManagementException {
+        List<String> twoIds = createStringList(helloId, byeId);
+        List<String> oneFile = createStringList(helloFile);
+        String twoIdXml = createXml(twoIds, oneFile, new ArrayList<>());
+        WindowSpecParser parser = createParser(twoIdXml);
+
+        parser.parse();
+    }
+
+    @Test(expected=WindowManagementException.class)
+    public void xmlWithTwoPerspectiveFilesThrowsException() throws WindowManagementException {
+        List<String> twoIds = createStringList(helloId);
+        List<String> oneFile = createStringList(helloFile, byeFile);
+        String twoIdXml = createXml(twoIds, oneFile, new ArrayList<>());
+        WindowSpecParser parser = createParser(twoIdXml);
+
+        parser.parse();
     }
 
     @Test
     public void simpleXmlFetchesPerspectiveIdAndFile() throws WindowManagementException {
-        WindowSpec spec = simpleParser.get();
-        assertEquals(perspectiveId, spec.getPerspectiveId());
-        assertEquals(perspectiveFile, spec.getPerspectiveFile());
+        List<String> ids = createStringList(helloId);
+        List<String> files = createStringList(helloFile);
+        String simpleXmlString = createXml(ids, files, new ArrayList<>());
+        WindowSpecParser simpleParser = createParser(simpleXmlString);
+
+        WindowSpec spec = simpleParser.parse();
+
+        assertEquals(helloId, spec.getPerspectiveId());
+        assertEquals(helloFile, spec.getPerspectiveFile());
     }
 
     @Test
-    public void linksXmlFetchesPerspectiveId() throws WindowManagementException {
-        WindowSpec spec = linksParser.get();
-        assertEquals("hello", spec.getPerspectiveId());
-    }
+    public void linksXmlFetchesPerspectiveIdFileAndLinks() throws WindowManagementException {
+        List<String> ids = createStringList(helloId);
+        List<String> files = createStringList(helloFile);
+        Map<String, String> links = new HashMap<>();
+        links.put("/a/b", "/c/d");
+        List<Map<String, String>> linksMaps = new ArrayList<>();
+        linksMaps.add(links);
+        String linksXml = createXml(ids, files, linksMaps);
+        WindowSpecParser parser = createParser(linksXml);
 
-    @Test
-    public void linksXmlFetchesLinkData() throws WindowManagementException {
-        WindowSpec spec = linksParser.get();
-        Map<String, String> result = new HashMap<>();
-        result.put("/a/b", "/c/d");
-        assertEquals(result, spec.getLinks());
+        WindowSpec spec = parser.parse();
+
+        assertEquals(helloId, spec.getPerspectiveId());
+        assertEquals(helloFile, spec.getPerspectiveFile());
+        assertEquals(links, spec.getLinks());
     }
 
 }
