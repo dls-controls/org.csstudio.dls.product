@@ -1,5 +1,6 @@
 package org.csstudio.openfile.newwindow;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
@@ -57,6 +58,23 @@ public class WindowSpecParserTest {
     private WindowSpecParser createParser(String xmlString) {
         InputStream inputStream = new ByteArrayInputStream(xmlString.getBytes());
         return new WindowSpecParser(inputStream);
+    }
+
+    private List<Map<String, String>> createEmptyLinksMap() {
+        List<Map<String, String>> linksMaps = new ArrayList<>();
+        linksMaps.add(new HashMap<String, String>());
+        return linksMaps;
+    }
+
+    private List<Map<String, String>> createLinksMap(int numLinks) {
+
+        List<Map<String, String>> linksMaps = new ArrayList<>();
+        for (int i = 0; i < numLinks; i++) {
+            Map<String, String> links = new HashMap<>();
+            links.put("/a/b" + i, "/c/d" + i);
+            linksMaps.add(links);
+        }
+        return linksMaps;
     }
 
     @Test(expected=WindowManagementException.class)
@@ -123,18 +141,43 @@ public class WindowSpecParserTest {
     public void linksXmlFetchesPerspectiveIdFileAndLinks() throws WindowManagementException {
         List<String> ids = createStringList(helloId);
         List<String> files = createStringList(helloFile);
-        Map<String, String> links = new HashMap<>();
-        links.put("/a/b", "/c/d");
-        List<Map<String, String>> linksMaps = new ArrayList<>();
-        linksMaps.add(links);
-        String linksXml = createXml(ids, files, linksMaps);
-        WindowSpecParser parser = createParser(linksXml);
+        List<Map<String, String>> linksMap = createLinksMap(1);
+        String linksXml = createXml(ids, files, linksMap);
 
+        WindowSpecParser parser = createParser(linksXml);
         WindowSpec spec = parser.parse();
 
         assertEquals(helloId, spec.getPerspectiveId());
         assertEquals(helloFile, spec.getPerspectiveFile());
-        assertEquals(links, spec.getLinks());
+        assertEquals(linksMap.get(0), spec.getLinks());
     }
+
+    @Test
+    public void emptyLinksXmlFetchesPerspectiveIdFileAndLinks() throws WindowManagementException {
+        List<String> ids = createStringList(helloId);
+        List<String> files = createStringList(helloFile);
+        List<Map<String, String>> linksMap = createEmptyLinksMap();
+        String linksXml = createXml(ids, files, linksMap);
+
+        WindowSpecParser parser = createParser(linksXml);
+        WindowSpec spec = parser.parse();
+
+        assertEquals(helloId, spec.getPerspectiveId());
+        assertEquals(helloFile, spec.getPerspectiveFile());
+        assertTrue(spec.getLinks().isEmpty());
+    }
+
+    @Test(expected=WindowManagementException.class)
+    public void twolinksXmlRaisesException() throws WindowManagementException {
+        List<String> ids = createStringList(helloId);
+        List<String> files = createStringList(helloFile);
+        List<Map<String, String>> linksMap = createLinksMap(2);
+        String linksXml = createXml(ids, files, linksMap);
+
+        WindowSpecParser parser = createParser(linksXml);
+
+        parser.parse();
+    }
+
 
 }
