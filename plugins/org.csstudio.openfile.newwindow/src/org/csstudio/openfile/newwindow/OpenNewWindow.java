@@ -34,7 +34,7 @@ public class OpenNewWindow implements IOpenDisplayAction {
                 // in the specified perspective.  Otherwise, a new window should open in the
                 // specified perspective.
                 if (newlyStarted()) {
-                    windowOpener.changePerspective();
+                    windowOpener.changeActivePerspective();
                 } else {
                     windowOpener.openWindow();
                 }

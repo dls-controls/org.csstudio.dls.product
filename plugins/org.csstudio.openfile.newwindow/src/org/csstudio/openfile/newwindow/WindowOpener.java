@@ -23,12 +23,13 @@ public class WindowOpener {
         }
     }
 
-    public void changePerspective() {
+    public void changeActivePerspective() {
         IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
         IPerspectiveDescriptor descriptor = window.getWorkbench()
                 .getPerspectiveRegistry()
                 .findPerspectiveWithId(windowSpec.getPerspectiveId());
         window.getActivePage().setPerspective(descriptor);
+        window.getActivePage().resetPerspective();
     }
 
 }
