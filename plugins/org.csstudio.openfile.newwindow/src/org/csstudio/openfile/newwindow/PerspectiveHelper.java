@@ -10,8 +10,6 @@ import org.csstudio.perspectives.PerspectiveLoader;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.ui.IPerspectiveDescriptor;
-import org.eclipse.ui.IPerspectiveRegistry;
 import org.eclipse.ui.PlatformUI;
 
 public class PerspectiveHelper {
@@ -22,21 +20,10 @@ public class PerspectiveHelper {
         this.windowSpec = windowSpec;
     }
 
-    public void checkAndLoad() throws WindowManagementException {
-        if (!perspectiveExists(windowSpec.getPerspectiveId())) {
-            if (windowSpec.getPerspectiveFile() != null) {
-                loadPerspective(windowSpec.getPerspectiveFile());
-            }
-            if (!perspectiveExists(windowSpec.getPerspectiveId())) {
-                throw new WindowManagementException("Perspective neither found nor successfully loaded from " + windowSpec.getPerspectiveFile());
-            }
-        }
-    }
-
-    public void loadPerspective(String perspectiveFile) throws WindowManagementException {
-        Path perspectiveFilePath = Paths.get(perspectiveFile);
+    public void loadPerspective() throws WindowManagementException {
+        Path perspectiveFilePath = Paths.get(windowSpec.getPerspectiveFile());
         if (!Files.exists(perspectiveFilePath)) {
-            throw new WindowManagementException("Perspective file " + perspectiveFile + " not found.");
+            throw new WindowManagementException("Perspective file " + windowSpec.getPerspectiveFile() + " not found.");
         }
         FileUtils fu = new FileUtils();
         IEclipseContext context = PlatformUI.getWorkbench().getService(IEclipseContext.class);
@@ -44,17 +31,6 @@ public class PerspectiveHelper {
         PerspectiveLoader loader = ContextInjectionFactory.make(PerspectiveLoader.class, context);
         URI fileUri = fu.pathToEmfUri(perspectiveFilePath);
         loader.loadPerspective(fileUri);
-    }
-
-    public boolean perspectiveExists(String perspectiveId) {
-        IPerspectiveRegistry perspectiveRegistry = PlatformUI.getWorkbench().getPerspectiveRegistry();
-        for (IPerspectiveDescriptor perspective : perspectiveRegistry.getPerspectives()) {
-            System.out.println("Found perspective " + perspective.getId());
-            if (perspective.getId().equals(perspectiveId)) {
-                 return true;
-            }
-        }
-        return false;
     }
 
 }

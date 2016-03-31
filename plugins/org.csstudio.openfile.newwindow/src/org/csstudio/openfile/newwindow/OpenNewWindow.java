@@ -28,7 +28,7 @@ public class OpenNewWindow implements IOpenDisplayAction {
                     updateLinks(windowSpec.getLinks());
                 }
                 PerspectiveHelper perspectiveHelper = new PerspectiveHelper(windowSpec);
-                perspectiveHelper.loadPerspective(windowSpec.getPerspectiveFile());
+                perspectiveHelper.loadPerspective();
                 WindowOpener windowOpener = new WindowOpener(windowSpec);
                 // If CS-Studio is opening for the first time, the first window should open
                 // in the specified perspective.  Otherwise, a new window should open in the
