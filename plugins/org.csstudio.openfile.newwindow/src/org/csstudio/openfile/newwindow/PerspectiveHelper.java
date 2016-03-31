@@ -12,6 +12,11 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.ui.PlatformUI;
 
+/**
+ * Utility class to work with perspectives.
+ * @author hgs15624
+ *
+ */
 public class PerspectiveHelper {
 
     private WindowSpec windowSpec;
@@ -20,6 +25,10 @@ public class PerspectiveHelper {
         this.windowSpec = windowSpec;
     }
 
+    /**
+     * Load the perspective file specified in the WindowSpec object.
+     * @throws WindowManagementException if the file does not exist
+     */
     public void loadPerspective() throws WindowManagementException {
         Path perspectiveFilePath = Paths.get(windowSpec.getPerspectiveFile());
         if (!Files.exists(perspectiveFilePath)) {

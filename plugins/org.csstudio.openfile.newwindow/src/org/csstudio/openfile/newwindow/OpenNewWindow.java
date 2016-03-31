@@ -12,10 +12,19 @@ import java.util.logging.Level;
 
 import org.csstudio.openfile.IOpenDisplayAction;
 
+/**
+ * Use the contents of the XML file specified on the command line to manage
+ * opening of new Eclipse workbench windows in particular perspectives.
+ */
 public class OpenNewWindow implements IOpenDisplayAction {
 
     private static final int STARTUP_TIME_MILLIS = 15000;
 
+    /**
+     * Parse the specified XML file and act on its contents.
+     * @param path file to parse
+     * @param data extra data; ignored
+     */
     @Override
     public void openDisplay(String path, String data) {
         Plugin.getLogger().config("Opening " + path + " with data " + data);
@@ -36,7 +45,7 @@ public class OpenNewWindow implements IOpenDisplayAction {
                 if (newlyStarted()) {
                     windowOpener.changeActivePerspective();
                 } else {
-                    windowOpener.openWindow();
+                    windowOpener.openNewWindow();
                 }
             } catch (IOException | WindowManagementException e) {
                 Plugin.getLogger().log(Level.WARNING, "Failed to load window spec file", e);
@@ -46,6 +55,10 @@ public class OpenNewWindow implements IOpenDisplayAction {
         }
     }
 
+    /**
+     * Update the Eclipse links according to the contents of the map.
+     * @param links the map containing the required links: filesystem path -> eclipse path
+     */
     private void updateLinks(Map<String, String> links) {
         LinkUpdater linkUpdater = new LinkUpdater(links);
         try {

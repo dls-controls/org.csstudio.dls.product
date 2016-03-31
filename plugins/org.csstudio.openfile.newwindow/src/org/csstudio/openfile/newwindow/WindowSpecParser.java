@@ -16,6 +16,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * Parse the information from the .nws XML file into a WindowSpec object.
+ */
 public class WindowSpecParser {
 
     private static final String perspectiveIdTag = "perspectiveId";
@@ -31,6 +34,11 @@ public class WindowSpecParser {
         this.inputStream = inputStream;
     }
 
+    /**
+     * Parse the XML and interpret it to create a WindowSpec object.
+     * @return WindowSpec object
+     * @throws WindowManagementException if parsing fails
+     */
     public WindowSpec parse() throws WindowManagementException {
         WindowSpec spec = new WindowSpec();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -60,11 +68,26 @@ public class WindowSpecParser {
         return spec;
     }
 
+    /**
+     * Retrieve the text content from a single tag found as a descendant of element.
+     * Unless exactly one such tag is found, throw an exception.
+     * @param element to search from
+     * @param tagName name of tag to find
+     * @return text content of found tag
+     * @throws WindowManagementException unless precisely one element is found
+     */
     private String getSingleNamedChildText(Element element, String tagName) throws WindowManagementException {
         Element namedChild = getSingleMandatoryNamedChild(element, tagName);
         return namedChild.getFirstChild().getTextContent();
     }
 
+    /**
+     * Return the single sub-element with the specified name.
+     * @param element to search from
+     * @param tagName name of tag to find
+     * @return found element
+     * @throws WindowManagementException unless precisely one matching element is found
+     */
     private Element getSingleMandatoryNamedChild(Element element, String tagName) throws WindowManagementException {
         Optional<Element> maybeElement = getSingleOptionalNamedChild(element, tagName);
         if (!maybeElement.isPresent()) {
@@ -73,6 +96,13 @@ public class WindowSpecParser {
         return maybeElement.get();
     }
 
+    /**
+     * Return the single sub-element with the specified name if present.
+     * @param element to search from
+     * @param tagName name of tag to find
+     * @return optional containing element
+     * @throws WindowManagementException if more than one matching element is found
+     */
     private Optional<Element> getSingleOptionalNamedChild(Element element, String tagName) throws WindowManagementException {
         List<Element> namedElements = getNamedChildren(element, tagName);
         if (namedElements.size() > 1) {
@@ -84,6 +114,13 @@ public class WindowSpecParser {
             return Optional.of(namedElements.get(0));
     }
 
+    /**
+     * Return a list of all sub-elements matching the tag name.  As
+     * element.getElementsByTagName(), but only returns Element objects.
+     * @param element to search from
+     * @param tagName name of tag to find
+     * @return list of matching elements
+     */
     private List<Element> getNamedChildren(Element element, String tagName) {
         List<Element> elements = new ArrayList<>();
         NodeList nodes = element.getElementsByTagName(tagName);
