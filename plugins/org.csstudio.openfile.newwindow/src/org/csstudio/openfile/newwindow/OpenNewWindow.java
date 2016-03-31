@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.csstudio.openfile.IOpenDisplayAction;
+import org.eclipse.osgi.util.NLS;
 
 /**
  * Use the contents of the XML file specified on the command line to manage
@@ -27,7 +28,7 @@ public class OpenNewWindow implements IOpenDisplayAction {
      */
     @Override
     public void openDisplay(String path, String data) {
-        Plugin.getLogger().config("Opening " + path + " with data " + data);
+        Plugin.getLogger().config(NLS.bind(Messages.OpenNewWindow_openLog, path, data));
         Path p = Paths.get(path);
         if (Files.exists(p)) {
             try (InputStream stream = Files.newInputStream(p)) {
@@ -48,10 +49,10 @@ public class OpenNewWindow implements IOpenDisplayAction {
                     windowOpener.openNewWindow();
                 }
             } catch (IOException | WindowManagementException e) {
-                Plugin.getLogger().log(Level.WARNING, "Failed to load window spec file", e);
+                Plugin.getLogger().log(Level.WARNING, NLS.bind(Messages.OpenNewWindow_loadFailed, path), e);
             }
         } else {
-            Plugin.getLogger().info("Failed to load non-existent window spec file " + path);
+            Plugin.getLogger().info(NLS.bind(Messages.OpenNewWindow_fileNotFound, path));
         }
     }
 
@@ -64,7 +65,7 @@ public class OpenNewWindow implements IOpenDisplayAction {
         try {
             linkUpdater.update();
         } catch (InterruptedException e) {
-            Plugin.getLogger().log(Level.WARNING, "Failed to update links", e);
+            Plugin.getLogger().log(Level.WARNING, Messages.OpenNewWindow_failedUpdatingLinks, e);
         }
     }
 

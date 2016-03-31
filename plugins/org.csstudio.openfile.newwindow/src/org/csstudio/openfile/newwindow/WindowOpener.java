@@ -26,7 +26,7 @@ public class WindowOpener {
         try {
             PlatformUI.getWorkbench().openWorkbenchWindow(windowSpec.getPerspectiveId(), null);
         } catch (WorkbenchException e) {
-            Plugin.getLogger().log(Level.WARNING, "Failed to open new workbench window", e);
+            Plugin.getLogger().log(Level.WARNING, Messages.WindowOpener_openFailed, e);
         }
     }
 

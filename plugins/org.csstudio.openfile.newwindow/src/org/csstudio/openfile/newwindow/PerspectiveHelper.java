@@ -10,6 +10,7 @@ import org.csstudio.perspectives.PerspectiveLoader;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -32,7 +33,7 @@ public class PerspectiveHelper {
     public void loadPerspective() throws WindowManagementException {
         Path perspectiveFilePath = Paths.get(windowSpec.getPerspectiveFile());
         if (!Files.exists(perspectiveFilePath)) {
-            throw new WindowManagementException("Perspective file " + windowSpec.getPerspectiveFile() + " not found.");
+            throw new WindowManagementException(NLS.bind(Messages.PerspectiveHelper_fileNotFound, windowSpec.getPerspectiveFile()));
         }
         FileUtils fu = new FileUtils();
         IEclipseContext context = PlatformUI.getWorkbench().getService(IEclipseContext.class);

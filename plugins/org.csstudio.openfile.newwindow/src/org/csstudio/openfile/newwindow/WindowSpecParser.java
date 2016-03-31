@@ -10,6 +10,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.osgi.util.NLS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -91,7 +92,7 @@ public class WindowSpecParser {
     private Element getSingleMandatoryNamedChild(Element element, String tagName) throws WindowManagementException {
         Optional<Element> maybeElement = getSingleOptionalNamedChild(element, tagName);
         if (!maybeElement.isPresent()) {
-            throw new WindowManagementException("aa");
+            throw new WindowManagementException(NLS.bind(Messages.WindowSpecParser_noChildren, element.getTagName(), tagName));
         }
         return maybeElement.get();
     }
@@ -106,7 +107,7 @@ public class WindowSpecParser {
     private Optional<Element> getSingleOptionalNamedChild(Element element, String tagName) throws WindowManagementException {
         List<Element> namedElements = getNamedChildren(element, tagName);
         if (namedElements.size() > 1) {
-            throw new WindowManagementException("Expected exactly one child of " + element.getTagName() + " with name " + tagName);
+            throw new WindowManagementException(NLS.bind(Messages.WindowSpecParser_tooManyElements, element.getTagName(), tagName));
         }
         if (namedElements.size() == 0)
             return Optional.empty();
