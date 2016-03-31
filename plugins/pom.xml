@@ -12,7 +12,9 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-    <module>org.csstudio.dls.product</module>
+    <module>org.csstudio.dls.product.common</module>
+    <module>org.csstudio.dls.product.5064</module>
+    <module>org.csstudio.dls.product.6064</module>
     <module>org.csstudio.opibuilder.dlsopitests</module>
     <module>org.csstudio.opibuilder.widgets.edm</module>
     <module>org.csstudio.opibuilder.widgets.detailpanel</module>
