@@ -19,6 +19,10 @@ public class WindowSpecParserTest {
     private String byeId = "bye";
     private String byeFile = "/tmp/perspective_bye.xmi";
 
+    private final List<String> noIds = new ArrayList<>();
+    private final List<String> noFiles = new ArrayList<>();
+    private final List<Map<String, String>> noLinks = new ArrayList<>();
+
     private String createXml(List<String> ids, List<String> files, List<Map<String, String>> linkMaps) {
         StringBuilder builder = new StringBuilder(xmlHeader);
         builder.append("<windowSpec>");
@@ -57,7 +61,7 @@ public class WindowSpecParserTest {
 
     @Test(expected=WindowManagementException.class)
     public void emptyXmlThrowsException() throws WindowManagementException {
-        String emptyXmlString = createXml(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        String emptyXmlString = createXml(noIds, noFiles, noLinks);
         InputStream is = new ByteArrayInputStream(emptyXmlString.getBytes());
         WindowSpecParser parser = new WindowSpecParser(is);
 
@@ -66,9 +70,8 @@ public class WindowSpecParserTest {
 
     @Test(expected=WindowManagementException.class)
     public void xmlWithNoIdThrowsException() throws WindowManagementException {
-        List<String> noIds = new ArrayList<>();
         List<String> oneFile = createStringList(helloFile);
-        String noIdXml = createXml(noIds, oneFile, new ArrayList<>());
+        String noIdXml = createXml(noIds, oneFile, noLinks);
         WindowSpecParser parser = createParser(noIdXml);
 
         parser.parse();
@@ -77,8 +80,7 @@ public class WindowSpecParserTest {
     @Test(expected=WindowManagementException.class)
     public void xmlWithNoFileThrowsException() throws WindowManagementException {
         List<String> oneId = createStringList(helloId);
-        List<String> noFiles = new ArrayList<>();
-        String noFileXml = createXml(oneId, noFiles, new ArrayList<>());
+        String noFileXml = createXml(oneId, noFiles, noLinks);
         WindowSpecParser parser = createParser(noFileXml);
 
         parser.parse();
@@ -88,7 +90,7 @@ public class WindowSpecParserTest {
     public void xmlWithTwoPerspectiveIdsThrowsException() throws WindowManagementException {
         List<String> twoIds = createStringList(helloId, byeId);
         List<String> oneFile = createStringList(helloFile);
-        String twoIdXml = createXml(twoIds, oneFile, new ArrayList<>());
+        String twoIdXml = createXml(twoIds, oneFile, noLinks);
         WindowSpecParser parser = createParser(twoIdXml);
 
         parser.parse();
@@ -98,7 +100,7 @@ public class WindowSpecParserTest {
     public void xmlWithTwoPerspectiveFilesThrowsException() throws WindowManagementException {
         List<String> twoIds = createStringList(helloId);
         List<String> oneFile = createStringList(helloFile, byeFile);
-        String twoIdXml = createXml(twoIds, oneFile, new ArrayList<>());
+        String twoIdXml = createXml(twoIds, oneFile, noLinks);
         WindowSpecParser parser = createParser(twoIdXml);
 
         parser.parse();
@@ -108,7 +110,7 @@ public class WindowSpecParserTest {
     public void simpleXmlFetchesPerspectiveIdAndFile() throws WindowManagementException {
         List<String> ids = createStringList(helloId);
         List<String> files = createStringList(helloFile);
-        String simpleXmlString = createXml(ids, files, new ArrayList<>());
+        String simpleXmlString = createXml(ids, files, noLinks);
         WindowSpecParser simpleParser = createParser(simpleXmlString);
 
         WindowSpec spec = simpleParser.parse();
