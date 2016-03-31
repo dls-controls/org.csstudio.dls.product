@@ -96,7 +96,8 @@ if [[ -n $opifile ]]; then
     fi
     # CSS cannot accept . in a command-line argument (other than in the filename).
     # This replaces with the CSS escape mechanism [\46].
-    launch_opi_escaped=$(echo $launch_opi | perl -ne "s|\.(?!opi)|[\\\46]|g; print;")
+    # Accepted extensions: opi, nws
+    launch_opi_escaped=$(echo $launch_opi | perl -ne "s|\.(?!opi\|nws)|[\\\46]|g; print;")
 fi
 
 
