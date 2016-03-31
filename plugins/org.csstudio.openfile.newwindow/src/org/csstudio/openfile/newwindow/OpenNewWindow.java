@@ -41,6 +41,8 @@ public class OpenNewWindow implements IOpenDisplayAction {
             } catch (IOException | WindowManagementException e) {
                 Plugin.getLogger().log(Level.WARNING, "Failed to load window spec file", e);
             }
+        } else {
+            Plugin.getLogger().info("Failed to load non-existent window spec file " + path);
         }
     }
 
