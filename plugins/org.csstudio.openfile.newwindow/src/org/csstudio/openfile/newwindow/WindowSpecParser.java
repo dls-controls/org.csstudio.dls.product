@@ -21,12 +21,12 @@ import org.xml.sax.SAXException;
  */
 public class WindowSpecParser {
 
-    private static final String perspectiveIdTag = "perspectiveId";
-    private static final String perspectiveFileTag = "perspectiveFile";
-    private static final String linksTag = "links";
-    private static final String linkTag = "link";
-    private static final String eclipsePathTag = "eclipsePath";
-    private static final String filePathTag = "filePath";
+    private static final String PERSPECTIVE_ID_TAG = "perspectiveId";
+    private static final String PERSPECTIVE_FILE_TAG = "perspectiveFile";
+    private static final String LINKS_TAG = "links";
+    private static final String LINK_TAG = "link";
+    private static final String ECLIPSE_PATH_TAG = "eclipsePath";
+    private static final String FILE_PATH_TAG = "filePath";
 
     private InputStream inputStream = null;
 
@@ -47,18 +47,18 @@ public class WindowSpecParser {
             Document doc = db.parse(inputStream);
             Element root = doc.getDocumentElement();
 
-            String perspectiveId = getSingleNamedChildText(root, perspectiveIdTag);
+            String perspectiveId = getSingleNamedChildText(root, PERSPECTIVE_ID_TAG);
             spec.setPerspectiveId(perspectiveId);
 
-            String perspectiveFile = getSingleNamedChildText(root, perspectiveFileTag);
+            String perspectiveFile = getSingleNamedChildText(root, PERSPECTIVE_FILE_TAG);
             spec.setPerspectiveFile(perspectiveFile);
 
-            Optional<Element> linksElement = getSingleOptionalNamedChild(root, linksTag);
+            Optional<Element> linksElement = getSingleOptionalNamedChild(root, LINKS_TAG);
             if (linksElement.isPresent()) {
-                List<Element> links = getNamedChildren(linksElement.get(), linkTag);
+                List<Element> links = getNamedChildren(linksElement.get(), LINK_TAG);
                 for (Element link : links) {
-                    String filePath = getSingleNamedChildText(link, filePathTag);
-                    String eclipsePath = getSingleNamedChildText(link, eclipsePathTag);
+                    String filePath = getSingleNamedChildText(link, FILE_PATH_TAG);
+                    String eclipsePath = getSingleNamedChildText(link, ECLIPSE_PATH_TAG);
                     spec.addLink(filePath, eclipsePath);
                 }
             }
