@@ -319,6 +319,9 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             case AUTO_SCALE:
                 axis.setAutoScale((Boolean)newValue);
                 break;
+            case AUTO_SCALE_TIGHT:
+                axis.setAxisAutoscaleTight((Boolean)newValue);
+                break;
             case VISIBLE:
                 axis.setVisible((Boolean)newValue);
                 break;

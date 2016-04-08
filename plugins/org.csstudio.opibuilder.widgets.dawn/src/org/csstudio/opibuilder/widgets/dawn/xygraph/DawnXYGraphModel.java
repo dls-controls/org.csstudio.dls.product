@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 Oak Ridge National Laboratory.
  * All rights reserved. This program and the accompanying materials
+ * Copyright (c) 2010 Oak Ridge National Laboratory.
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
@@ -58,7 +58,8 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
         SHOW_GRID("show_grid", "Show Grid"),
         GRID_COLOR("grid_color", "Grid Color"),
         DASH_GRID("dash_grid_line", "Dash Grid Line"),
-        SCALE_FORMAT("scale_format", "Scale Format");
+        SCALE_FORMAT("scale_format", "Scale Format"),
+        AUTO_SCALE_TIGHT("auto_scale_tight", "Auto Scale Tight");
 
         public String propIDPre;
         public String description;
@@ -292,6 +293,9 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
             break;
         case AUTO_SCALE_THRESHOLD:
             addProperty(new DoubleProperty(propID, axisProperty.toString(), category,0,  0, 1));
+            break;
+        case AUTO_SCALE_TIGHT:
+            addProperty(new BooleanProperty(propID, axisProperty.toString(), category, false));
             break;
         case LOG:
             addProperty(new BooleanProperty(propID, axisProperty.toString(), category,false));
