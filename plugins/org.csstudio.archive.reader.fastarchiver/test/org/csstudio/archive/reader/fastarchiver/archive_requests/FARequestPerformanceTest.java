@@ -1,14 +1,16 @@
 package org.csstudio.archive.reader.fastarchiver.archive_requests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.time.Instant;
 
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
 import org.csstudio.archive.vtype.ArchiveVDisplayType;
 import org.diirt.util.time.TimeDuration;
-import org.diirt.util.time.Timestamp;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,12 +35,12 @@ public class FARequestPerformanceTest {
     public void testFetchData() throws IOException {
         // get double decimated data for the last 16 days
         int days = 16;
-        Timestamp end = Timestamp.now();
-        Timestamp start = end.minus(TimeDuration.ofHours(24 * days));
+        Instant end = Instant.now();
+        Instant start = end.minus(TimeDuration.ofHours(24 * days));
         int bpm = 4;
         String request = String.format("RDDM%dS%d.%09dES%d.%09dNATE\n", bpm,
-                start.getSec(), start.getNanoSec(), end.getSec(),
-                end.getNanoSec());
+                start.getEpochSecond(), start.getNano(), end.getEpochSecond(),
+                end.getNano());
         // get time before method call
         long before = System.nanoTime();
 

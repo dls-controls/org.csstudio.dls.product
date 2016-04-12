@@ -1,17 +1,19 @@
 package org.csstudio.archive.reader.fastarchiver.archive_requests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.Instant;
 import java.util.HashMap;
 
 import org.csstudio.archive.reader.ValueIterator;
 import org.csstudio.archive.reader.fastarchiver.archive_requests.FAArchivedDataRequest.Decimation;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
 import org.diirt.util.time.TimeDuration;
-import org.diirt.util.time.Timestamp;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -37,8 +39,8 @@ public class FAArchivedDataRequestTest {
     @Test
     public void testGetRawValues() throws FADataNotAvailableException,
             IOException {
-        Timestamp end = Timestamp.now().minus(TimeDuration.ofSeconds(5));
-        Timestamp start = end.minus(TimeDuration.ofSeconds(5));
+        Instant end = Instant.now().minus(TimeDuration.ofSeconds(5));
+        Instant start = end.minus(TimeDuration.ofSeconds(5));
         ValueIterator vi = faadr.getRawValues(pvName, start, end);
         assertNotNull(vi);
     }
@@ -46,8 +48,8 @@ public class FAArchivedDataRequestTest {
     @Test
     public void testGetOptimisedValues() throws IOException,
             FADataNotAvailableException {
-        Timestamp end = Timestamp.now();
-        Timestamp start = end.minus(TimeDuration.ofSeconds(10));
+        Instant end = Instant.now();
+        Instant start = end.minus(TimeDuration.ofSeconds(10));
         int count = 5000;
         ValueIterator vi = faadr.getOptimisedValues(pvName, start, end, count);
         assertNotNull(vi);
@@ -58,11 +60,11 @@ public class FAArchivedDataRequestTest {
             SecurityException, ClassNotFoundException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException {
 
-        Timestamp end = Timestamp.now();
-        Timestamp start = end.minus(TimeDuration.ofSeconds(5));
+        Instant end = Instant.now();
+        Instant start = end.minus(TimeDuration.ofSeconds(5));
         int count = 100000;
         Method calculateDecimation = setToAccess("calculateDecimation",
-                Timestamp.class, Timestamp.class, int.class);
+                Instant.class, Instant.class, int.class);
         Decimation result = (Decimation) calculateDecimation.invoke(faadr,
                 start, end, count);
 
@@ -81,10 +83,10 @@ public class FAArchivedDataRequestTest {
             IllegalArgumentException, NoSuchMethodException, SecurityException {
         // Test with different decimations and coordinates, all valid
         Method getValues = setToAccess("getValues", String.class,
-                Timestamp.class, Timestamp.class, int.class, Decimation.class);
+                Instant.class, Instant.class, int.class, Decimation.class);
 
-        Timestamp end = Timestamp.now().minus(TimeDuration.ofSeconds(5));
-        Timestamp start = end.minus(TimeDuration.ofSeconds(5));
+        Instant end = Instant.now().minus(TimeDuration.ofSeconds(5));
+        Instant start = end.minus(TimeDuration.ofSeconds(5));
 
         String request;
         ValueIterator valIt;
@@ -104,11 +106,11 @@ public class FAArchivedDataRequestTest {
             SecurityException, ClassNotFoundException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException {
         Method getValues = setToAccess("getValues", String.class,
-                Timestamp.class, Timestamp.class, int.class, Decimation.class);
+                Instant.class, Instant.class, int.class, Decimation.class);
 
         // standard, valid input
-        Timestamp end = Timestamp.now().minus(TimeDuration.ofSeconds(5));
-        Timestamp start = end.minus(TimeDuration.ofSeconds(5));
+        Instant end = Instant.now().minus(TimeDuration.ofSeconds(5));
+        Instant start = end.minus(TimeDuration.ofSeconds(5));
         int coordinate = 0;
         Decimation decimation = Decimation.DEC;
         String request;
@@ -124,7 +126,7 @@ public class FAArchivedDataRequestTest {
             SecurityException, ClassNotFoundException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException {
         Method getValues = setToAccess("getValues", String.class,
-                Timestamp.class, Timestamp.class, int.class, Decimation.class);
+                Instant.class, Instant.class, int.class, Decimation.class);
 
         // standard, valid input
         int coordinate = 0;
@@ -133,9 +135,9 @@ public class FAArchivedDataRequestTest {
         String request;
 
         // invalid input
-        Timestamp startTooLate = Timestamp.now().plus(
+        Instant startTooLate = Instant.now().plus(
                 TimeDuration.ofMinutes(1.0));
-        Timestamp endForStartTooLate = startTooLate.plus(TimeDuration
+        Instant endForStartTooLate = startTooLate.plus(TimeDuration
                 .ofMinutes(1.0));
         request = translate(startTooLate, endForStartTooLate, bpm, decimation);
         getValues.invoke(faadr, request, startTooLate, endForStartTooLate,
@@ -147,7 +149,7 @@ public class FAArchivedDataRequestTest {
             SecurityException, ClassNotFoundException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException {
         Method getValues = setToAccess("getValues", String.class,
-                Timestamp.class, Timestamp.class, int.class, Decimation.class);
+                Instant.class, Instant.class, int.class, Decimation.class);
 
         // standard, valid input
         int coordinate = 0;
@@ -155,9 +157,9 @@ public class FAArchivedDataRequestTest {
         Decimation decimation = Decimation.DEC;
 
         // invalid input
-        Timestamp endTooEarly = Timestamp.now().minus(
+        Instant endTooEarly = Instant.now().minus(
                 TimeDuration.ofHours(30 * 24));
-        Timestamp startForEndTooEarly = endTooEarly.minus(TimeDuration
+        Instant startForEndTooEarly = endTooEarly.minus(TimeDuration
                 .ofMinutes(1.0));
         request = translate(startForEndTooEarly, endTooEarly, bpm, decimation);
         getValues.invoke(faadr, request, startForEndTooEarly, endTooEarly,
@@ -170,7 +172,7 @@ public class FAArchivedDataRequestTest {
             SecurityException, ClassNotFoundException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException {
         Method getValues = setToAccess("getValues", String.class,
-                Timestamp.class, Timestamp.class, int.class, Decimation.class);
+                Instant.class, Instant.class, int.class, Decimation.class);
 
         // standard, valid input
         int coordinate = 0;
@@ -178,8 +180,8 @@ public class FAArchivedDataRequestTest {
         Decimation decimation = Decimation.DEC;
 
         // invalid input
-        Timestamp endBeforeStart = Timestamp.now();
-        Timestamp startAfterEnd = endBeforeStart.plus(TimeDuration
+        Instant endBeforeStart = Instant.now();
+        Instant startAfterEnd = endBeforeStart.plus(TimeDuration
                 .ofMinutes(1.0));
         request = translate(startAfterEnd, endBeforeStart, bpm, decimation);
         getValues.invoke(faadr, request, startAfterEnd, endBeforeStart,
@@ -193,11 +195,11 @@ public class FAArchivedDataRequestTest {
             IllegalArgumentException, InvocationTargetException {
 
         Method getValues = setToAccess("getValues", String.class,
-                Timestamp.class, Timestamp.class, int.class, Decimation.class);
+                Instant.class, Instant.class, int.class, Decimation.class);
 
         // standard, valid input
-        Timestamp end = Timestamp.now().minus(TimeDuration.ofSeconds(5));
-        Timestamp start = end.minus(TimeDuration.ofSeconds(5));
+        Instant end = Instant.now().minus(TimeDuration.ofSeconds(5));
+        Instant start = end.minus(TimeDuration.ofSeconds(5));
         int coordinate = 0;
         Decimation decimation = Decimation.DEC;
 
@@ -213,11 +215,11 @@ public class FAArchivedDataRequestTest {
             SecurityException, ClassNotFoundException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException {
         Method getValues = setToAccess("getValues", String.class,
-                Timestamp.class, Timestamp.class, int.class, Decimation.class);
+                Instant.class, Instant.class, int.class, Decimation.class);
 
         // standard, valid input
-        Timestamp end = Timestamp.now().minus(TimeDuration.ofSeconds(5));
-        Timestamp start = end.minus(TimeDuration.ofSeconds(5));
+        Instant end = Instant.now().minus(TimeDuration.ofSeconds(5));
+        Instant start = end.minus(TimeDuration.ofSeconds(5));
         int bpm = 4;
         Decimation decimation = Decimation.DEC;
         String request;
@@ -237,12 +239,12 @@ public class FAArchivedDataRequestTest {
             IllegalArgumentException, InvocationTargetException,
             NoSuchMethodException, SecurityException, ClassNotFoundException,
             IOException, FADataNotAvailableException {
-        Method translate = setToAccess("translate", Timestamp.class,
-                Timestamp.class, int.class, Decimation.class);
+        Method translate = setToAccess("translate", Instant.class,
+                Instant.class, int.class, Decimation.class);
         FARequest far = new FARequest(URL) {
         };
-        Timestamp end = Timestamp.now();
-        Timestamp start = end.minus(TimeDuration.ofMinutes(5));
+        Instant end = Instant.now();
+        Instant start = end.minus(TimeDuration.ofMinutes(5));
         // valid numbers for BPMS dependent on facility
         for (int bpm : new int[] { 4, 10, 55 }) {
             for (Decimation dec : Decimation.values()) {
@@ -307,13 +309,13 @@ public class FAArchivedDataRequestTest {
         return method;
     }
 
-    private String translate(Timestamp start, Timestamp end, int bpm,
+    private String translate(Instant start, Instant end, int bpm,
             Decimation decimation) throws NoSuchMethodException,
             SecurityException, ClassNotFoundException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException {
 
-        Method translate = setToAccess("translate", Timestamp.class,
-                Timestamp.class, int.class, Decimation.class);
+        Method translate = setToAccess("translate", Instant.class,
+                Instant.class, int.class, Decimation.class);
         return (String) translate.invoke(faadr, start, end, bpm, decimation);
     }
 

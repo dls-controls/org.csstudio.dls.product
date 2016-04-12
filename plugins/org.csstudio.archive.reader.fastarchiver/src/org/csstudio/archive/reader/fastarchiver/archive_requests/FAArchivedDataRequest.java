@@ -3,6 +3,8 @@ package org.csstudio.archive.reader.fastarchiver.archive_requests;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +13,6 @@ import org.csstudio.archive.reader.ValueIterator;
 import org.csstudio.archive.reader.fastarchiver.FAValueIterator;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
 import org.csstudio.archive.vtype.ArchiveVDisplayType;
-import org.diirt.util.time.Timestamp;
 
 /**
  * Class to communicate with Fast Archiver about archived data requests.
@@ -72,8 +73,8 @@ public class FAArchivedDataRequest extends FARequest {
      * @throws FADataNotAvailableException
      *             when data can not be retrieved from Archive
      */
-    public ValueIterator getRawValues(String name, Timestamp start,
-            Timestamp end) throws FADataNotAvailableException, IOException {
+    public ValueIterator getRawValues(String name, Instant start,
+            Instant end) throws FADataNotAvailableException, IOException {
         // create request string
         int bpm = bpmMapping.get(name)[0];
         int coordinate = bpmMapping.get(name)[1];
@@ -104,8 +105,8 @@ public class FAArchivedDataRequest extends FARequest {
      * @throws FADataNotAvailableException
      *             when data can not be retrieved from archive
      */
-    public ValueIterator getOptimisedValues(String name, Timestamp start,
-            Timestamp end, int count) throws IOException,
+    public ValueIterator getOptimisedValues(String name, Instant start,
+            Instant end, int count) throws IOException,
             FADataNotAvailableException {
 
         // create request string
@@ -162,8 +163,8 @@ public class FAArchivedDataRequest extends FARequest {
      * @throws FADataNotAvailableException
      *             when data can not be retrieved from Archive
      */
-    private ValueIterator getValues(String request, Timestamp start,
-            Timestamp end, int coordinate, Decimation decimation)
+    private ValueIterator getValues(String request, Instant start,
+            Instant end, int coordinate, Decimation decimation)
             throws FADataNotAvailableException, IOException {
 
         ByteBuffer bb = ByteBuffer.wrap(fetchData(request));
@@ -239,11 +240,11 @@ public class FAArchivedDataRequest extends FARequest {
      *            ValueIterator
      * @return a value of the enum Decimation
      */
-    private Decimation calculateDecimation(Timestamp start, Timestamp end,
+    private Decimation calculateDecimation(Instant start, Instant end,
             int count) {
         int maxNoOfSamples = count;
         // calculate total timeInterval requested
-        long seconds = (start.durationBetween(end)).getSec();
+        long seconds = Duration.between(start, end).getSeconds();
         if (seconds * sampleFrequency <= maxNoOfSamples)
             return Decimation.UNDEC;
         else if ((seconds * sampleFrequency) / firstDecimation <= maxNoOfSamples)
@@ -260,7 +261,7 @@ public class FAArchivedDataRequest extends FARequest {
      * Translates the given dates, BPM number and Decimation into a String for a
      * request to the Fast Archiver
      */
-    private static String translate(Timestamp start, Timestamp end, int bpm,
+    private static String translate(Instant start, Instant end, int bpm,
             Decimation dec) {
         // Needs format:
         // "R[decimation]M[number of BPM][start time in seconds from epoch]
@@ -276,8 +277,8 @@ public class FAArchivedDataRequest extends FARequest {
             decimation = "DD";
         }
         String request = String.format("R%sM%dS%d.%09dES%d.%09dNATE\n",
-                decimation, bpm, start.getSec(), start.getNanoSec(),
-                end.getSec(), end.getNanoSec());
+                decimation, bpm, start.getEpochSecond(), start.getNano(),
+                end.getEpochSecond(), end.getNano());
         return request;
     }
 

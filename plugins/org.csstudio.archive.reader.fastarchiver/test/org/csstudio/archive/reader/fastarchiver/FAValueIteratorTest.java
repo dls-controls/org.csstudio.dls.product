@@ -1,15 +1,19 @@
 package org.csstudio.archive.reader.fastarchiver;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.time.Instant;
 
 import org.csstudio.archive.vtype.ArchiveVNumber;
-import org.diirt.util.time.Timestamp;
 import org.diirt.vtype.AlarmSeverity;
 import org.junit.Before;
 import org.junit.Test;
 
 public class FAValueIteratorTest {
-    Timestamp now = Timestamp.now();
+    Instant now = Instant.now();
     int[] values = { 45, 6000, 9 };
     ArchiveVNumber[] nonEmptyInput;
     ArchiveVNumber[] emptyInput = new ArchiveVNumber[0];

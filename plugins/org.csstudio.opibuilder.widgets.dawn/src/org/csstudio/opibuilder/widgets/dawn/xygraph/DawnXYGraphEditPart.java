@@ -9,6 +9,7 @@ package org.csstudio.opibuilder.widgets.dawn.xygraph;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +19,15 @@ import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.util.ConsoleService;
 import org.csstudio.opibuilder.util.OPIColor;
 import org.csstudio.opibuilder.util.OPIFont;
-import org.csstudio.opibuilder.widgets.editparts.DropPVtoXYGraphEditPolicy;
 import org.csstudio.opibuilder.widgets.dawn.xygraph.DawnXYGraphModel.AxisProperty;
 import org.csstudio.opibuilder.widgets.dawn.xygraph.DawnXYGraphModel.TraceProperty;
+import org.csstudio.opibuilder.widgets.editparts.DropPVtoXYGraphEditPolicy;
 import org.csstudio.simplepv.IPV;
 import org.csstudio.simplepv.VTypeHelper;
+import org.csstudio.ui.util.CustomMediaFactory;
+import org.csstudio.ui.util.thread.UIBundlingThread;
+import org.diirt.vtype.VType;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.nebula.visualization.xygraph.dataprovider.CircularBufferDataProvider;
 import org.eclipse.nebula.visualization.xygraph.dataprovider.CircularBufferDataProvider.PlotMode;
 import org.eclipse.nebula.visualization.xygraph.dataprovider.CircularBufferDataProvider.UpdateMode;
@@ -33,11 +38,6 @@ import org.eclipse.nebula.visualization.xygraph.figures.Trace;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace.PointStyle;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace.TraceType;
 import org.eclipse.nebula.visualization.xygraph.figures.XYGraph;
-import org.csstudio.ui.util.CustomMediaFactory;
-import org.csstudio.ui.util.thread.UIBundlingThread;
-import org.eclipse.draw2d.IFigure;
-import org.diirt.util.time.Timestamp;
-import org.diirt.vtype.VType;
 
 /**The XYGraph editpart
  * @author Xihui Chen
@@ -129,6 +129,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
 
         //Title
         IWidgetPropertyChangeHandler handler = new IWidgetPropertyChangeHandler() {
+            @Override
             public boolean handleChange(final Object oldValue,
                     final Object newValue,
                     final IFigure refreshableFigure) {
@@ -141,6 +142,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
 
         //Title Font
         handler = new IWidgetPropertyChangeHandler() {
+            @Override
             public boolean handleChange(final Object oldValue,
                     final Object newValue,
                     final IFigure refreshableFigure) {
@@ -154,6 +156,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
 
         //Show plot area border
         handler = new IWidgetPropertyChangeHandler() {
+            @Override
             public boolean handleChange(final Object oldValue,
                     final Object newValue,
                     final IFigure refreshableFigure) {
@@ -166,6 +169,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
 
         //Plot area background color
         handler = new IWidgetPropertyChangeHandler() {
+            @Override
             public boolean handleChange(final Object oldValue,
                     final Object newValue,
                     final IFigure refreshableFigure) {
@@ -179,6 +183,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
 
         //Transparent
         handler = new IWidgetPropertyChangeHandler() {
+            @Override
             public boolean handleChange(final Object oldValue,
                     final Object newValue,
                     final IFigure refreshableFigure) {
@@ -192,6 +197,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
 
         //Show legend
         handler = new IWidgetPropertyChangeHandler() {
+            @Override
             public boolean handleChange(final Object oldValue,
                     final Object newValue,
                     final IFigure refreshableFigure) {
@@ -204,6 +210,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
 
         //Show Toolbar
         handler = new IWidgetPropertyChangeHandler() {
+            @Override
             public boolean handleChange(final Object oldValue,
                     final Object newValue,
                     final IFigure refreshableFigure) {
@@ -217,6 +224,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         //trigger pv value
         handler = new IWidgetPropertyChangeHandler() {
 
+            @Override
             public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
                 for(int i=0; i<getWidgetModel().getTracesAmount(); i++){
                     CircularBufferDataProvider dataProvider =
@@ -239,6 +247,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
     private void registerAxesAmountChangeHandler(){
         final IWidgetPropertyChangeHandler handler = new IWidgetPropertyChangeHandler(){
 
+            @Override
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure refreshableFigure) {
                 DawnXYGraphModel model = (DawnXYGraphModel)getModel();
@@ -269,6 +278,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         };
         getWidgetModel().getProperty(DawnXYGraphModel.PROP_AXIS_COUNT).
         addPropertyChangeListener(new PropertyChangeListener(){
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             handler.handleChange(evt.getOldValue(), evt.getNewValue(), getFigure());
         }
@@ -393,6 +403,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
     private void registerTraceAmountChangeHandler(){
         final IWidgetPropertyChangeHandler handler = new IWidgetPropertyChangeHandler(){
 
+            @Override
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure refreshableFigure) {
                 DawnXYGraphModel model = (DawnXYGraphModel)getModel();
@@ -426,6 +437,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         };
         getWidgetModel().getProperty(DawnXYGraphModel.PROP_TRACE_COUNT).
             addPropertyChangeListener(new PropertyChangeListener(){
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 handler.handleChange(evt.getOldValue(), evt.getNewValue(), getFigure());
             }
@@ -454,9 +466,11 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
                     //cannot use setPropertyChangeHandler because the PV value has to be buffered
                     //which means that it cannot be ignored.
                     getWidgetModel().getProperty(propID).addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
                         public void propertyChange(final PropertyChangeEvent evt) {
                             UIBundlingThread.getInstance().addRunnable(
                                     getViewer().getControl().getDisplay(), new Runnable() {
+                                @Override
                                 public void run() {
                                     if(isActive())
                                         handler.handleChange(
@@ -581,8 +595,8 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
     private void setYValue(Trace trace,
             CircularBufferDataProvider dataProvider, VType y_value) {
         if(VTypeHelper.getSize(y_value) == 1 && trace.getXAxis().isDateEnabled() && dataProvider.isChronological()){
-            Timestamp timestamp = VTypeHelper.getTimestamp(y_value);
-            long time = timestamp.getSec() * 1000 + timestamp.getNanoSec()/1000000;
+            Instant timestamp = VTypeHelper.getTimestamp(y_value);
+            long time = timestamp.toEpochMilli();
             dataProvider.setCurrentYData(VTypeHelper.getDouble(y_value), time);
         }else{
             if(VTypeHelper.getSize(y_value) > 1){
@@ -599,6 +613,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             this.axisIndex = axisIndex;
             this.axisProperty = axisProperty;
         }
+        @Override
         public boolean handleChange(Object oldValue, Object newValue,
                 IFigure refreshableFigure) {
             Axis axis = axisList.get(axisIndex);
@@ -618,6 +633,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             this.xPVPropID = xPVPropID;
             this.yPVPropID = yPVPropID;
         }
+        @Override
         public boolean handleChange(Object oldValue, Object newValue,
                 IFigure refreshableFigure) {
             Trace trace = traceList.get(traceIndex);

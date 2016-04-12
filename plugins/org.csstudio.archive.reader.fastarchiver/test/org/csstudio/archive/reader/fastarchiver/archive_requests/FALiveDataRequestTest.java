@@ -1,12 +1,15 @@
 package org.csstudio.archive.reader.fastarchiver.archive_requests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
 import org.csstudio.archive.vtype.ArchiveVDisplayType;
-import org.diirt.util.time.Timestamp;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,9 +101,9 @@ public class FALiveDataRequestTest {
         }
 
         // compare timestamps
-        Timestamp lastTimeBeforeGap = newValuesBeforeGap[newValuesBeforeGap.length-1].getTimestamp();
-        Timestamp firstTimeAfterGap = newValuesAfterGap[0].getTimestamp();
-        assertTrue(lastTimeBeforeGap.durationBetween(firstTimeAfterGap).toNanosLong() < 1000000000);
+        Instant lastTimeBeforeGap = newValuesBeforeGap[newValuesBeforeGap.length-1].getTimestamp();
+        Instant firstTimeAfterGap = newValuesAfterGap[0].getTimestamp();
+        assertTrue(Duration.between(lastTimeBeforeGap, firstTimeAfterGap).toNanos() < 1000000000);
 
     }
 
