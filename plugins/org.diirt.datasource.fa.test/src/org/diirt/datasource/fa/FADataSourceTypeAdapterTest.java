@@ -1,13 +1,17 @@
 package org.diirt.datasource.fa;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.time.Instant;
 
 import org.csstudio.archive.reader.fastarchiver.archive_requests.FALiveDataRequest;
 import org.csstudio.archive.vtype.ArchiveVDisplayType;
 import org.csstudio.archive.vtype.ArchiveVNumber;
 import org.diirt.datasource.ValueCache;
 import org.diirt.datasource.ValueCacheImpl;
-import org.diirt.util.time.Timestamp;
 import org.diirt.vtype.AlarmSeverity;
 import org.diirt.vtype.VType;
 import org.junit.Before;
@@ -56,7 +60,7 @@ public class FADataSourceTypeAdapterTest {
     @Test
     public void testUpdateCacheOfValidType() {
         ValueCache<ArchiveVDisplayType> cache = new ValueCacheImpl<ArchiveVDisplayType>(ArchiveVDisplayType.class);
-        ArchiveVNumber newValue = new ArchiveVNumber(Timestamp.now(), AlarmSeverity.NONE, "status", null, 5);
+        ArchiveVNumber newValue = new ArchiveVNumber(Instant.now(), AlarmSeverity.NONE, "status", null, 5);
         assertTrue(faDSAdapType.updateCache(cache, connection, newValue));
         assertEquals(cache.readValue(), newValue);
     }
@@ -64,7 +68,7 @@ public class FADataSourceTypeAdapterTest {
     @Test
     public void testUpdateCacheOfInvalidType() {
         ValueCache<Exception> cache = new ValueCacheImpl<Exception>(Exception.class);
-        ArchiveVNumber newValue = new ArchiveVNumber(Timestamp.now(), AlarmSeverity.NONE, "status", null, 5);
+        ArchiveVNumber newValue = new ArchiveVNumber(Instant.now(), AlarmSeverity.NONE, "status", null, 5);
         assertFalse(faDSAdapType.updateCache(cache, connection, newValue));
         assertNull(cache.readValue());
     }
