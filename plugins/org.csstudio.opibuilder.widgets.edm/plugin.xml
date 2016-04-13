@@ -19,7 +19,6 @@
             icon="icon/symbol.png"
             model_class="org.csstudio.opibuilder.widgets.edm.model.EdmSymbolModel"
             name="Edm Symbol Widget"
-            onlineHelpHtml="html/firststeps/imagebooleansymbolwidget.html"
             typeId="org.csstudio.opibuilder.widgets.edm.symbolwidget">
       </widget>
    </extension>
