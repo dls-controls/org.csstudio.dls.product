@@ -13,7 +13,7 @@ Arguments to run an opi file:
     [-s] launch opi as standalone window
 
 Note: If you specify an opi file to launch and there is an existing instance of
-CS-Studio running, then the workspace and port arguments are ignored.
+CS-Studio running, then the workspace argument is ignored.
     "
 }
 
@@ -23,7 +23,7 @@ CSSTUDIO=$CSS_DIR/cs-studio
 
 # Default values.
 opishell=false
-workspace=~/.cs-studio
+port=5064
 
 while getopts "w:p:o:m:sl:" o; do
     case ${o} in
@@ -46,7 +46,7 @@ while getopts "w:p:o:m:sl:" o; do
             links=${OPTARG}
             ;;
         *)
-            echo "problem with the args"
+            echo "Unexpected argument ${OPTARG}"
             usage
             exit 1
             ;;
@@ -54,20 +54,28 @@ while getopts "w:p:o:m:sl:" o; do
 done
 
 
-# Workspace
-data_args="-data $workspace"
-
 # Port
 if [[ -n $port ]]; then
-    if [[ $port = "5064" ]] || [[ $port = "6064" ]]; then
-        # This is in the format of eclipse preference files, in particular pluginCustomization.ini.
-        diirt_config="org.csstudio.diirt.util.preferences/diirt.home=platform:/config/diirt_$port"
+    if [[ $port = "5064" ]]; then
+        # default product; default arguments
+        port_args="-name cs-studio"
+    elif [[ $port = "6064" ]]; then
+        port_args="-product org.csstudio.dls.product.6064.product -name cs-studio-6064"
     else
         echo "Only ports 5064 and 6064 are supported by this script."
         usage
         exit 1
     fi
 fi
+
+
+# Workspace
+if [[ -n $workspace ]]; then
+    data_args="-data $workspace"
+else
+    data_args="-data $HOME/.cs-studio-$port"
+fi
+
 
 # OPI file and related options.
 if [[ -n $macros ]] || [[ -n $links ]]; then
@@ -102,12 +110,4 @@ fi
 
 # Echo subsequent commands for debugging.
 set -x
-# If we've successfully set the diirt_config string to change ports, we need additional
-# logic in the run command.
-if [[ -n $diirt_config ]]; then
-    # Redirect contents of string for use as a configuration file.
-    exec $CSSTUDIO $data_args -pluginCustomization <( echo $diirt_config ) "$launch_opi_arg" "$launch_opi_escaped"
-else
-    exec $CSSTUDIO $data_args "$launch_opi_arg" "$launch_opi_escaped"
-fi
-
+exec $CSSTUDIO $port_args $data_args "$launch_opi_arg" "$launch_opi_escaped"
