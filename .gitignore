@@ -20,9 +20,10 @@ log/*.log
 # Generated jython classes
 *$py.class
 
-# ignore the .settings folder
-# should it be changed to all */.settings/* ?
+# ignore Eclipse hidden files
 .settings/
+.project
+.classpath
 *.prefs
 
 # Ignore Tycho/Maven build directories #
