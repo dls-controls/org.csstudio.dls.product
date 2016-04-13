@@ -7,7 +7,6 @@
     <artifactId>product</artifactId>
     <version>BUILD-VERSION</version>
   </parent>
-  <groupId>org.csstudio</groupId>
   <artifactId>products-csstudio-plugins</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
