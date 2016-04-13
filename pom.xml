@@ -235,23 +235,6 @@
           <artifactId>target-platform-configuration</artifactId>
           <version>${tycho.version}</version>
           <configuration>
-            <dependency-resolution>
-              <extraRequirements>
-                <!-- Extra Target Dependencies are added here -->
-              </extraRequirements>
-              <!-- Default behavior is to resolve ALL dependencies. -->
-              <!--<optionalDependencies>ignore</optionalDependencies>-->
-            </dependency-resolution>
-
-            <filters>
-              <!-- This is how features/plugins can be ignored. -->
-              <!--<filter>
-                <type>eclipse-plugin</type>
-                <id>artifactId</id>
-                <removeAll />
-              </filter>-->
-            </filters>
-
             <environments>
               <environment>
                 <os>linux</os>
