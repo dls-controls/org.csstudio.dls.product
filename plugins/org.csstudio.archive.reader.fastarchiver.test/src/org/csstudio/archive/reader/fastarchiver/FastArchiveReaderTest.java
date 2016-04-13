@@ -1,7 +1,10 @@
 package org.csstudio.archive.reader.fastarchiver;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import java.time.Instant;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,7 +13,6 @@ import org.csstudio.archive.reader.UnknownChannelException;
 import org.csstudio.archive.reader.ValueIterator;
 import org.csstudio.archive.reader.fastarchiver.archive_requests.FAInfoRequest;
 import org.diirt.util.time.TimeDuration;
-import org.diirt.util.time.Timestamp;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -100,8 +102,8 @@ public class FastArchiveReaderTest {
 
     @Test
     public void testGetRawValues() throws UnknownChannelException, Exception {
-        Timestamp end = Timestamp.now().minus(TimeDuration.ofSeconds(5));
-        Timestamp start = end.minus(TimeDuration.ofSeconds(5));
+        Instant end = Instant.now().minus(TimeDuration.ofSeconds(5));
+        Instant start = end.minus(TimeDuration.ofSeconds(5));
         ValueIterator vi = faReader.getRawValues(1, pvName, start, end);
         assertNotNull(vi);
     }
@@ -109,8 +111,8 @@ public class FastArchiveReaderTest {
     @Test
     public void testGetOptimisedValues() throws UnknownChannelException,
             Exception {
-        Timestamp end = Timestamp.now().minus(TimeDuration.ofSeconds(5));
-        Timestamp start = end.minus(TimeDuration.ofSeconds(5));
+        Instant end = Instant.now().minus(TimeDuration.ofSeconds(5));
+        Instant start = end.minus(TimeDuration.ofSeconds(5));
         int count = 1000000;
         ValueIterator vi = faReader.getOptimizedValues(1, pvName, start, end,
                 count);

@@ -1,6 +1,7 @@
 package org.csstudio.archive.reader.fastarchiver;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,6 @@ import org.csstudio.archive.reader.ValueIterator;
 import org.csstudio.archive.reader.fastarchiver.archive_requests.FAArchivedDataRequest;
 import org.csstudio.archive.reader.fastarchiver.archive_requests.FAInfoRequest;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
-import org.diirt.util.time.Timestamp;
 
 /**
  * Archive Reader to fetch data from the FA Archiver.
@@ -123,8 +123,7 @@ public class FastArchiveReader implements ArchiveReader {
      * @throws FADataNotAvailableException
      */
     @Override
-    public ValueIterator getRawValues(int key, String name, Timestamp start,
-            Timestamp end) throws IOException, FADataNotAvailableException {
+    public ValueIterator getRawValues(int key, String name, Instant start, Instant end) throws IOException, FADataNotAvailableException {
         FAArchivedDataRequest faDataRequest = new FAArchivedDataRequest(url,
                 mapping);
         return faDataRequest.getRawValues(name, start, end);
@@ -138,7 +137,7 @@ public class FastArchiveReader implements ArchiveReader {
      */
     @Override
     public ValueIterator getOptimizedValues(int key, String name,
-            Timestamp start, Timestamp end, int count) throws IOException,
+            Instant start, Instant end, int count) throws IOException,
             FADataNotAvailableException {
         FAArchivedDataRequest faDataRequest = new FAArchivedDataRequest(url,
                 mapping);

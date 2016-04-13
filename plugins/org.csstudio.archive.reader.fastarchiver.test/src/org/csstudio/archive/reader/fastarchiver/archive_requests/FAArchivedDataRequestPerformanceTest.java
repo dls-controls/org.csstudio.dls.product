@@ -1,39 +1,40 @@
 package org.csstudio.archive.reader.fastarchiver.archive_requests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 
 import org.csstudio.archive.reader.ValueIterator;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
-import org.diirt.util.time.TimeDuration;
-import org.diirt.util.time.Timestamp;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class FAArchivedDataRequestPerformanceTest {
-    private TimeDuration[] timeIntervals = new TimeDuration[] {
-            TimeDuration.ofSeconds(10), TimeDuration.ofSeconds(20),
-            TimeDuration.ofSeconds(30), TimeDuration.ofSeconds(40),
-            TimeDuration.ofSeconds(50), TimeDuration.ofSeconds(60),
-            TimeDuration.ofSeconds(90), TimeDuration.ofSeconds(120),
-            TimeDuration.ofSeconds(300), TimeDuration.ofSeconds(900),
-            TimeDuration.ofSeconds(1800), TimeDuration.ofSeconds(3600),
-            TimeDuration.ofSeconds(10800), TimeDuration.ofSeconds(21600),
-            TimeDuration.ofSeconds(43200), TimeDuration.ofSeconds(86400),
-            TimeDuration.ofSeconds(259200), TimeDuration.ofSeconds(518400),
-            TimeDuration.ofSeconds(1036800), TimeDuration.ofSeconds(1382400) };
+    private Duration[] timeIntervals = new Duration[] {
+            Duration.ofSeconds(10), Duration.ofSeconds(20),
+            Duration.ofSeconds(30), Duration.ofSeconds(40),
+            Duration.ofSeconds(50), Duration.ofSeconds(60),
+            Duration.ofSeconds(90), Duration.ofSeconds(120),
+            Duration.ofSeconds(300), Duration.ofSeconds(900),
+            Duration.ofSeconds(1800), Duration.ofSeconds(3600),
+            Duration.ofSeconds(10800), Duration.ofSeconds(21600),
+            Duration.ofSeconds(43200), Duration.ofSeconds(86400),
+            Duration.ofSeconds(259200), Duration.ofSeconds(518400),
+            Duration.ofSeconds(1036800), Duration.ofSeconds(1382400) };
 
-    private TimeDuration[] timeIntervalsRaw = new TimeDuration[] {
-            TimeDuration.ofSeconds(10), TimeDuration.ofSeconds(20),
-            TimeDuration.ofSeconds(30), TimeDuration.ofSeconds(40),
-            TimeDuration.ofSeconds(50), TimeDuration.ofSeconds(60),
-            TimeDuration.ofSeconds(90), TimeDuration.ofSeconds(120),
-            TimeDuration.ofSeconds(300), TimeDuration.ofSeconds(900),
-            TimeDuration.ofSeconds(1800)};
+    private Duration[] timeIntervalsRaw = new Duration[] {
+            Duration.ofSeconds(10), Duration.ofSeconds(20),
+            Duration.ofSeconds(30), Duration.ofSeconds(40),
+            Duration.ofSeconds(50), Duration.ofSeconds(60),
+            Duration.ofSeconds(90), Duration.ofSeconds(120),
+            Duration.ofSeconds(300), Duration.ofSeconds(900),
+            Duration.ofSeconds(1800)};
 
     private static final String URL = "fads://fa-archiver:8888"; // specific to DLS
     private static String name;
@@ -58,12 +59,12 @@ public class FAArchivedDataRequestPerformanceTest {
 
     @Test
     public void testGetOptimisedValues() {
-        Timestamp end;
-        Timestamp start;
+        Instant end;
+        Instant start;
         int count = 8000;
 
-        for (TimeDuration timeInterval: timeIntervals){
-            end = Timestamp.now();
+        for (Duration timeInterval: timeIntervals){
+            end = Instant.now();
             start = end.minus(timeInterval);
 
             ValueIterator result = null;
@@ -81,7 +82,7 @@ public class FAArchivedDataRequestPerformanceTest {
 
             System.out
                     .printf("'getOptimisedValues' with count = %d, time interval %d, takes %d nanoseconds\n",
-                            count, timeInterval.getSec(), after - before);
+                            count, timeInterval.getSeconds(), after - before);
             assertNotNull("Did not return data", result);
         }
 
@@ -89,11 +90,11 @@ public class FAArchivedDataRequestPerformanceTest {
 
     @Test
     public void testGetRawValues() {
-        Timestamp start;
-        Timestamp end;
+        Instant start;
+        Instant end;
 
-        for (TimeDuration timeInterval : timeIntervalsRaw) {
-            end = Timestamp.now();
+        for (Duration timeInterval : timeIntervalsRaw) {
+            end = Instant.now();
             start = end.minus(timeInterval);
 
             ValueIterator result = null;
@@ -109,7 +110,7 @@ public class FAArchivedDataRequestPerformanceTest {
                 return;
             }
 
-            System.out.printf("for time interval %d 'getRawValues' takes %d nanoseconds\n", timeInterval.getSec(), after
+            System.out.printf("for time interval %d 'getRawValues' takes %d nanoseconds\n", timeInterval.getSeconds(), after
                     - before);
             assertNotNull("Did not return data", result);
         }

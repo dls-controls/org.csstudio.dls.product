@@ -1,18 +1,20 @@
 package org.csstudio.archive.reader.fastarchiver.archive_requests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
-import java.util.Date;
+import java.time.Instant;
 
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
 import org.csstudio.archive.vtype.ArchiveVNumber;
 import org.csstudio.archive.vtype.ArchiveVStatistics;
 import org.diirt.util.time.TimeDuration;
-import org.diirt.util.time.Timestamp;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -59,11 +61,11 @@ public class FARequestTest {
 
     @Test
     public void testFetchDataValidRequest() throws IOException {
-        Timestamp end = Timestamp.now().minus(TimeDuration.ofSeconds(5));
-        Timestamp start = end.minus(TimeDuration.ofSeconds(5));
+        Instant end = Instant.now().minus(TimeDuration.ofSeconds(5));
+        Instant start = end.minus(TimeDuration.ofSeconds(5));
         int bpm = 4;
         String validRequest = String.format("RFM%dS%dES%dNATE\n", bpm,
-                start.getSec(), end.getSec());
+                start.getEpochSecond(), end.getEpochSecond());
         byte[] reply = far.fetchData(validRequest);
         assertEquals("Valid data reply always starts with a 0 byte", 0,
                 reply[0]);
@@ -78,7 +80,7 @@ public class FARequestTest {
         data.position(0);
         ArchiveVNumber[] result;
         try {
-            result = (ArchiveVNumber[]) FARequest.decodeDataUndec(data,
+            result = FARequest.decodeDataUndec(data,
                     values.length, blockSize, offset, 0);
             for (int i = 0; i < values.length; i++) {
                 assertEquals(values[i] / 1000.0, result[i].getValue());
@@ -123,7 +125,7 @@ public class FARequestTest {
         data.position(0);
         ArchiveVStatistics[] result;
         try {
-            result = (ArchiveVStatistics[]) FARequest.decodeDataDec(data,
+            result = FARequest.decodeDataDec(data,
                     values.length, blockSize, offset, 0, 0);
         } catch (FADataNotAvailableException e) {
             fail("Should only throw an FADataNotAvailableException when coordinate is not 0 or 1");
@@ -185,7 +187,7 @@ public class FARequestTest {
         data.position(0);
         ArchiveVStatistics[] result;
         try {
-            result = (ArchiveVStatistics[]) FARequest.decodeDataUndecToDec(
+            result = FARequest.decodeDataUndecToDec(
                     data, values.length, blockSize, offset, 0, decimation);
         } catch (FADataNotAvailableException e) {
             fail("Should only throw an FADataNotAvailableException when coordinate is not 0 or 1");
@@ -239,7 +241,7 @@ public class FARequestTest {
         data.position(0);
         ArchiveVStatistics[] result;
         try {
-            result = (ArchiveVStatistics[]) FARequest.decodeDataDecToDec(data,
+            result = FARequest.decodeDataDecToDec(data,
                     values.length, blockSize, offset, 0, 2, 4);
         } catch (FADataNotAvailableException e) {
             fail("Should only throw an FADataNotAvailableException when coordinate is not 0 or 1");
@@ -297,14 +299,14 @@ public class FARequestTest {
     public void testTimestampFromMicros() throws NoSuchMethodException,
             SecurityException, ClassNotFoundException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException {
-        final Timestamp now = Timestamp.of(new Date());
-        int nanoSec = now.getNanoSec();
-        long sec = now.getSec();
+        final Instant now = Instant.now();
+        int nanoSec = now.getNano();
+        long sec = now.getEpochSecond();
         long time = sec * 1000000 + nanoSec / 1000;
         // (long timeInMicroS)
         Method timestampFromMicros = setToAccess("timeStampFromMicroS",
                 long.class);
-        Timestamp result = (Timestamp) timestampFromMicros.invoke(far, time);
+        Instant result = (Instant) timestampFromMicros.invoke(far, time);
         assertEquals(now, result);
     }
 
@@ -320,7 +322,7 @@ public class FARequestTest {
         byte[] data = new byte[length];
         ByteBuffer bb = ByteBuffer.wrap(data);
         bb.position(0);
-        long time = Timestamp.now().getSec();
+        long time = Instant.now().getEpochSecond();
         int duration = 6500000;
         if (offset != 0) {
             bb.putLong(time);
@@ -356,7 +358,7 @@ public class FARequestTest {
         byte[] data = new byte[length];
         ByteBuffer bb = ByteBuffer.wrap(data);
         bb.position(0);
-        long time = Timestamp.now().getSec();
+        long time = Instant.now().getEpochSecond();
         int duration = 6500000;
         if (offset != 0) {
             bb.putLong(time);
