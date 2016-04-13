@@ -273,17 +273,6 @@
       </plugin>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-compiler-plugin</artifactId>
-        <version>${tycho.version}</version>
-        <configuration>
-          <!--
-            Without this argument I get an error in the plugin 'org.csstudio.rap.core'
-          -->
-          <compilerArgument>-err:-forbidden</compilerArgument>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-packaging-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
@@ -308,23 +297,6 @@
           <!--UI tests. -->
           <!--useUIHarness>true</useUIHarness> <useUIThread>false</useUIThread -->
         </configuration>
-      </plugin>
-      <!-- Used for collecting tests results before sending them to Sonar. -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.5.3.201107060350</version>
-        <configuration>
-          <includes>*</includes>
-          <destFile>${project.basedir}/../target/jacoco.exec</destFile>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
