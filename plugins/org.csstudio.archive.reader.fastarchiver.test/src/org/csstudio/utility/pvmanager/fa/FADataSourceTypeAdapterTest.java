@@ -1,4 +1,4 @@
-package org.diirt.datasource.fa;
+package org.csstudio.utility.pvmanager.fa;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -21,7 +21,6 @@ public class FADataSourceTypeAdapterTest {
     private FADataSourceTypeAdapter faDSAdapType;
     private static String URL = "fads://fa-archiver:8888";
     private FALiveDataRequest connection;
-
     @Before
     public void setUp() throws Exception {
         faDSAdapType = new FADataSourceTypeAdapter();
@@ -72,5 +71,7 @@ public class FADataSourceTypeAdapterTest {
         assertFalse(faDSAdapType.updateCache(cache, connection, newValue));
         assertNull(cache.readValue());
     }
+
+
 
 }

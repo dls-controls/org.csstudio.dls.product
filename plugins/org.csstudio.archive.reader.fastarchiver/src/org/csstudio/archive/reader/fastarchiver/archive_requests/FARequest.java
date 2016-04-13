@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +15,6 @@ import java.util.regex.Pattern;
 import org.csstudio.archive.reader.fastarchiver.exceptions.FADataNotAvailableException;
 import org.csstudio.archive.vtype.ArchiveVNumber;
 import org.csstudio.archive.vtype.ArchiveVStatistics;
-import org.diirt.util.time.Timestamp;
 import org.diirt.vtype.AlarmSeverity;
 
 /**
@@ -128,17 +128,17 @@ public abstract class FARequest {
             throw new FADataNotAvailableException(
                     "Coordinate mapped to name is invalid");
 
-        ArchiveVNumber[] values = new ArchiveVNumber[(int) sampleCount];
+        ArchiveVNumber[] values = new ArchiveVNumber[sampleCount];
 
         int value;
         double timestamp; // in microseconds
         double duration;
-        Timestamp ts;
+        Instant instant;
         double timeInterval = 0.0;
 
         if (offset != 0) {
-            timestamp = (double) bb.getLong();
-            duration = (double) bb.getInt();
+            timestamp = bb.getLong();
+            duration = bb.getInt();
             timeInterval = duration / blockSize;
             timestamp += offset * timeInterval;
         } else {
@@ -147,8 +147,8 @@ public abstract class FARequest {
         }
         for (int indexValues = 0; indexValues < sampleCount; indexValues += 1) {
             if ((indexValues + offset) % blockSize == 0) {
-                timestamp = (double) bb.getLong();
-                duration = (double) bb.getInt();
+                timestamp = bb.getLong();
+                duration = bb.getInt();
                 timeInterval = duration / blockSize;
             }
             if (coordinate == 0) {
@@ -160,8 +160,8 @@ public abstract class FARequest {
             }
 
             double valueDouble = value / 1000.0; // micrometers
-            ts = timeStampFromMicroS((long) timestamp);
-            values[indexValues] = new ArchiveVNumber(ts, AlarmSeverity.NONE,
+            instant = timeStampFromMicroS((long) timestamp);
+            values[indexValues] = new ArchiveVNumber(instant, AlarmSeverity.NONE,
                     "status", null, valueDouble);
             timestamp += timeInterval;
         }
@@ -197,17 +197,17 @@ public abstract class FARequest {
             throw new FADataNotAvailableException(
                     "Coordinate mapped to name is invalid");
 
-        ArchiveVStatistics[] values = new ArchiveVStatistics[(int) sampleCount];
+        ArchiveVStatistics[] values = new ArchiveVStatistics[sampleCount];
 
         double mean, min, max, std;
         double timestamp; // in microseconds
         double duration;
-        Timestamp ts;
+        Instant instant;
         double timeInterval = 0.0;
 
         if (offset != 0) {
-            timestamp = (double) bb.getLong();
-            duration = (double) bb.getInt();
+            timestamp = bb.getLong();
+            duration = bb.getInt();
             timeInterval = duration / blockSize;
             timestamp += offset * timeInterval;
         } else {
@@ -218,9 +218,9 @@ public abstract class FARequest {
         for (int indexValues = 0; indexValues < sampleCount; indexValues += 1) {
             // when to read in timeStamps and durations
             if ((indexValues + offset) % blockSize == 0) {
-                timestamp = (double) bb.getLong();
+                timestamp = bb.getLong();
 
-                duration = (double) bb.getInt();
+                duration = bb.getInt();
                 timeInterval = duration / blockSize;
             }
             if (coordinate == 0) {
@@ -243,8 +243,8 @@ public abstract class FARequest {
                 std = bb.getInt() / 1000.0;
             }
 
-            ts = timeStampFromMicroS((long) timestamp);
-            values[indexValues] = new ArchiveVStatistics(ts,
+            instant = timeStampFromMicroS((long) timestamp);
+            values[indexValues] = new ArchiveVStatistics(instant,
                     AlarmSeverity.NONE, "status", null, mean, min, max, std,
                     count);
             timestamp += timeInterval;
@@ -292,8 +292,8 @@ public abstract class FARequest {
         double timeInterval = 0.0;
 
         if (offset != 0) {
-            timestamp = (double) bb.getLong();
-            duration = (double) bb.getInt();
+            timestamp = bb.getLong();
+            duration = bb.getInt();
             timeInterval = duration / blockSize;
             timestamp += offset * timeInterval;
         } else {
@@ -302,8 +302,8 @@ public abstract class FARequest {
         }
         for (int valuesIndex = 0; valuesIndex < sampleCount; valuesIndex += 1) {
             if ((valuesIndex + offset) % blockSize == 0) {
-                timestamp = (double) bb.getLong();
-                duration = (double) bb.getInt();
+                timestamp = bb.getLong();
+                duration = bb.getInt();
                 timeInterval = duration / blockSize;
             }
             if (coordinate == 0) {
@@ -429,12 +429,12 @@ public abstract class FARequest {
         double mean, min, max, std;
         double timestamp; // in microseconds
         double duration;
-        Timestamp ts;
+        Instant instant;
         double timeInterval = 0.0;
 
         if (offset != 0) {
-            timestamp = (double) bb.getLong();
-            duration = (double) bb.getInt();
+            timestamp = bb.getLong();
+            duration = bb.getInt();
             timeInterval = duration / blockSize;
             timestamp += offset * timeInterval;
         } else {
@@ -445,9 +445,9 @@ public abstract class FARequest {
         for (int indexValues = 0; indexValues < sampleCount; indexValues++) {
             // when to read in timeStamps and durations
             if ((indexValues + offset) % blockSize == 0) {
-                timestamp = (double) bb.getLong();
+                timestamp = bb.getLong();
 
-                duration = (double) bb.getInt();
+                duration = bb.getInt();
                 timeInterval = duration / blockSize;
             }
             if (coordinate == 0) {
@@ -502,8 +502,8 @@ public abstract class FARequest {
                 meanDec = meanDec/extraDecimation;
                 stdDec = Math.sqrt(stdDec);
                 timestamp = (startTime + times[i])/2;
-                ts = timeStampFromMicroS((long) timestamp);
-                values[indexValues] =  new ArchiveVStatistics(ts,
+                instant = timeStampFromMicroS((long) timestamp);
+                values[indexValues] =  new ArchiveVStatistics(instant,
                         AlarmSeverity.NONE, "status", null, meanDec, minDec, maxDec, stdDec,
                         extraDecimation*originalDecimation);
                 indexValues++;
@@ -523,8 +523,8 @@ public abstract class FARequest {
             meanDec = meanDec/leftoverSamples;
             stdDec = Math.sqrt(stdDec);
             timestamp = (startTime + times[times.length - 1])/2;
-            ts = timeStampFromMicroS((long) timestamp);
-            values[indexValues] =  new ArchiveVStatistics(ts,
+            instant = timeStampFromMicroS((long) timestamp);
+            values[indexValues] =  new ArchiveVStatistics(instant,
                     AlarmSeverity.NONE, "status", null, meanDec, minDec, maxDec, stdDec,
                     extraDecimation);
         }
@@ -539,10 +539,10 @@ public abstract class FARequest {
      *            time in microseconds from epoch
      * @return corresponding Timestamp
      */
-    private static Timestamp timeStampFromMicroS(long timeInMicroS) {
+    private static Instant timeStampFromMicroS(long timeInMicroS) {
         long seconds = timeInMicroS / 1000000;
         int nanoseconds = (int) (timeInMicroS % 1000000) * 1000;
-        return Timestamp.of(seconds, nanoseconds);
+        return Instant.ofEpochSecond(seconds, nanoseconds);
     }
 
 }

@@ -17,6 +17,7 @@
    <license url="http://www.eclipse.org/legal/epl-v10.html">
       Eclipse Public License.
    </license>
+
    <plugin
          id="org.csstudio.dls.product.common"
          download-size="0"
@@ -39,7 +40,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.csstudio.startup.intro"
+         id="org.csstudio.openfile.newwindow"
          download-size="0"
          install-size="0"
          version="0.0.0"
