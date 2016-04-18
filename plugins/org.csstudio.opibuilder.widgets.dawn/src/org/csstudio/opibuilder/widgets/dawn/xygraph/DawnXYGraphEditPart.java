@@ -490,9 +490,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         case BUFFER_SIZE:
             dataProvider.setBufferSize((Integer)newValue);
             break;
-//        case CHRONOLOGICAL:
-            //dataProvider.setChronological((Boolean)newValue);
-//            break;
         //case CLEAR_TRACE:
         //    if((Boolean)newValue)
         //        dataProvider.clearTrace();
