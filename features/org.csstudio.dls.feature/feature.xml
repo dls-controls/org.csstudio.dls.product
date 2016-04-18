@@ -3,8 +3,7 @@
       id="org.csstudio.dls.feature"
       label="DLS plugins"
       version="0.0.1.qualifier"
-      provider-name="CS-Studio Collaboration &lt;cs-studio-core@lists.sourceforge.net&gt;"
-      plugin="org.csstudio.dls.product">
+      provider-name="CS-Studio Collaboration &lt;cs-studio-core@lists.sourceforge.net&gt;">
 
    <description url="http://controlsystemstudio.github.io/">
       CS-Studio Product.

@@ -3,8 +3,7 @@
       id="org.csstudio.dls.product.feature"
       label="DLS CS-Studio Product"
       version="0.0.1.qualifier"
-      provider-name="Will Rogers &lt;will.rogers@diamond.ac.uk&gt;"
-      plugin="org.csstudio.dls.product">
+      provider-name="Will Rogers &lt;will.rogers@diamond.ac.uk&gt;">
 
    <description url="http://controlsystemstudio.github.io/">
       CS-Studio Product.
