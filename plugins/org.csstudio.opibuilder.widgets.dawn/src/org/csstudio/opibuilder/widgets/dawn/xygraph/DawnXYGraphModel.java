@@ -40,7 +40,6 @@ import org.osgi.framework.Version;
 public class DawnXYGraphModel extends AbstractPVWidgetModel {
 
 
-
     public enum AxisProperty{
         Y_AXIS("y_axis", "Y Axis"),
         VISIBLE("visible", "Visible"),
@@ -80,8 +79,6 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
         PLOTMODE("plot_mode", "Plot Mode"),
         BUFFER_SIZE("buffer_size", "Buffer Size"),
         UPDATE_DELAY("update_delay", "Update Delay"),
-        //TRIGGER_VALUE("trigger_value", "Trigger Value"),
-        //CLEAR_TRACE("clear_trace", "Clear Plot History"),
         XPV("x_pv", "X PV"),
         YPV("y_pv", "Y PV"),
         XPV_VALUE("x_pv_value", "X PV Value"),
@@ -357,9 +354,6 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
         case CONCATENATE_DATA:
             addProperty(new BooleanProperty(propID, traceProperty.toString(), category, true));
             break;
-        //case CLEAR_TRACE:
-        //    addProperty(new BooleanProperty(propID, traceProperty.toString(), category, false));
-        //    break;
         case LINE_WIDTH:
             addProperty(new IntegerProperty(propID, traceProperty.toString(), category, 1, 1, 100));
             break;
@@ -382,9 +376,6 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
             addProperty(new ComboProperty(propID, traceProperty.toString(), category, TraceType.stringValues(),
                     0));
             break;
-    //    case TRIGGER_VALUE:
-    //        addProperty(new DoubleProperty(propID, traceProperty.toString(), category, 0));
-    //        break;
         case UPDATE_DELAY:
             addProperty(new IntegerProperty(propID, traceProperty.toString(), category, 100, 0, 655350));
             break;

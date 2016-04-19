@@ -283,7 +283,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             handler.handleChange(evt.getOldValue(), evt.getNewValue(), getFigure());
         }
     });
-        //setPropertyChangeHandler(DawnXYGraphModel.PROP_AXES_AMOUNT, handler);
     }
 
 
@@ -446,7 +445,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             }
         });
 
-        //setPropertyChangeHandler(DawnXYGraphModel.PROP_TRACES_AMOUNT, handler);
     }
 
 
@@ -504,10 +502,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         case BUFFER_SIZE:
             dataProvider.setBufferSize((Integer)newValue);
             break;
-        //case CLEAR_TRACE:
-        //    if((Boolean)newValue)
-        //        dataProvider.clearTrace();
-        //    break;
         case LINE_WIDTH:
             trace.setLineWidth((Integer)newValue);
             break;
@@ -532,9 +526,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         case CONCATENATE_DATA:
             dataProvider.setConcatenate_data((Boolean)newValue);
             break;
-    //    case TRIGGER_VALUE:
-            //dataProvider.triggerUpdate();
-    //        break;
         case UPDATE_DELAY:
             dataProvider.setUpdateDelay((Integer)newValue);
             break;
