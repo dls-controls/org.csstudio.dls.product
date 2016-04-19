@@ -397,8 +397,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
                     }
                 }
                 break;
-            default:
-                break;
             }
     }
 
@@ -557,6 +555,9 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             }else
                 setXValue(dataProvider, (VType) newValue);
             break;
+        case YPV:
+            // nothing to do
+            break;
         case YPV_VALUE:
             if(newValue == null || !(newValue instanceof VType))
                 break;
@@ -570,8 +571,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             break;
         case VISIBLE:
             trace.setVisible((Boolean)newValue);
-            break;
-        default:
             break;
         }
     }

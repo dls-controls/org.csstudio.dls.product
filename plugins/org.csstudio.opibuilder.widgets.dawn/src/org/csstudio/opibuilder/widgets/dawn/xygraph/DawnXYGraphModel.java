@@ -320,8 +320,6 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
         case SCALE_FORMAT:
             addProperty(new StringProperty(propID, axisProperty.toString(), category, "")); //$NON-NLS-1$
             break;
-        default:
-            break;
         }
     }
 
@@ -402,6 +400,7 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
             addProperty(new BooleanProperty(propID, traceProperty.toString(), category, true));
             break;
         default:
+            // XPV_VALUE and YPV_VALUE are handled as part of XPV and YPV cases
             break;
         }
 
