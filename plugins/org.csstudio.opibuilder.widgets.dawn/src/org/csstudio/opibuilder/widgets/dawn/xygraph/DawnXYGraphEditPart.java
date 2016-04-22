@@ -31,7 +31,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.nebula.visualization.xygraph.dataprovider.CircularBufferDataProvider;
 import org.eclipse.nebula.visualization.xygraph.dataprovider.CircularBufferDataProvider.PlotMode;
 import org.eclipse.nebula.visualization.xygraph.dataprovider.CircularBufferDataProvider.UpdateMode;
-import org.eclipse.nebula.visualization.xygraph.dataprovider.IDataProvider;
 import org.eclipse.nebula.visualization.xygraph.figures.Axis;
 import org.eclipse.nebula.visualization.xygraph.figures.Grid;
 import org.eclipse.nebula.visualization.xygraph.figures.ToolbarArmedXYGraph;
@@ -229,8 +228,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             @Override
             public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
                 for(int i=0; i<getWidgetModel().getTracesAmount(); i++){
-                    CircularBufferDataProvider dataProvider =
-                        (CircularBufferDataProvider)traceList.get(i).getDataProvider();
+                     XYGraphDataProvider dataProvider = getDataProvider(traceList.get(i));
                   if( dataProvider.getUpdateMode() == UpdateMode.TRIGGER){
                       dataProvider.triggerUpdate();
                   }
@@ -365,24 +363,21 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
                     axis.setDateEnabled(false);
                     axis.setAutoFormat(true);
                     for (Trace t : traceList) {
-                        IDataProvider dp = t.getDataProvider();
-                        ((XYGraphDataProvider) dp).setXAxisUsingDate(false);
+                        getDataProvider(t).setXAxisUsingDate(false);
                     }
                     break;
                 }else if((Integer)newValue == 8){
                     axis.setDateEnabled(true);
                     axis.setAutoFormat(true);
                     for (Trace t : traceList) {
-                        IDataProvider dp = t.getDataProvider();
-                        ((XYGraphDataProvider) dp).setXAxisUsingDate(true);
+                        getDataProvider(t).setXAxisUsingDate(true);
                     }
                 }else {
                     String format = DawnXYGraphModel.TIME_FORMAT_ARRAY[(Integer)newValue];
                     axis.setDateEnabled(true);
                     axis.setFormatPattern(format);
                     for (Trace t : traceList) {
-                        IDataProvider dp = t.getDataProvider();
-                        ((XYGraphDataProvider) dp).setXAxisUsingDate(true);
+                        getDataProvider(t).setXAxisUsingDate(true);
                     }
                 }
                 break;
@@ -506,7 +501,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
     }
 
     private void setTraceProperty(Trace trace, TraceProperty traceProperty, Object newValue, String xPVPropID, String yPVPropID){
-        CircularBufferDataProvider dataProvider = (CircularBufferDataProvider)trace.getDataProvider();
+        XYGraphDataProvider dataProvider = getDataProvider(trace);
         switch (traceProperty) {
         case ANTI_ALIAS:
             trace.setAntiAliasing((Boolean)newValue);
@@ -661,12 +656,12 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
      */
     public void clearGraph(){
         for(int i=0; i<getWidgetModel().getTracesAmount(); i++){
-            ((CircularBufferDataProvider)traceList.get(i).getDataProvider()).clearTrace();
+            getDataProvider(traceList.get(i)).clearTrace();
         }
     }
 
     public double[] getXBuffer(int i){
-        CircularBufferDataProvider dataProvider = (CircularBufferDataProvider)traceList.get(i).getDataProvider();
+        XYGraphDataProvider dataProvider = getDataProvider(traceList.get(i));
         double[] XBuffer = new double[dataProvider.getSize()];
         for (int j = 0; j < dataProvider.getSize(); j++) {
             XBuffer[j] = dataProvider.getSample(j).getXValue();
@@ -675,11 +670,15 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
     }
 
     public double[] getYBuffer(int i){
-        CircularBufferDataProvider dataProvider = (CircularBufferDataProvider)traceList.get(i).getDataProvider();
+        XYGraphDataProvider dataProvider = getDataProvider(traceList.get(i));
         double[] YBuffer = new double[dataProvider.getSize()];
         for (int j = 0; j < dataProvider.getSize(); j++) {
             YBuffer[j] = dataProvider.getSample(j).getYValue();
         }
         return YBuffer;
+    }
+
+    private XYGraphDataProvider getDataProvider(Trace trace) {
+        return (XYGraphDataProvider) trace.getDataProvider();
     }
 }
