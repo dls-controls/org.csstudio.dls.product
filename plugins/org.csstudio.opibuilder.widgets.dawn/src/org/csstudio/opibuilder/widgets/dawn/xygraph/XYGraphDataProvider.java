@@ -6,12 +6,12 @@ import org.eclipse.nebula.visualization.xygraph.dataprovider.ISample;
 import org.eclipse.nebula.visualization.xygraph.dataprovider.Sample;
 import org.eclipse.nebula.visualization.xygraph.linearscale.Range;
 
-public class XygraphDataProvider extends CircularBufferDataProvider
+public class XYGraphDataProvider extends CircularBufferDataProvider
         implements IDataProvider {
 
     private boolean xAxisUsingDate;
 
-    public XygraphDataProvider(boolean chronological, boolean xAxisUsingDate) {
+    public XYGraphDataProvider(boolean chronological, boolean xAxisUsingDate) {
         super(chronological);
         this.xAxisUsingDate = xAxisUsingDate;
     }
