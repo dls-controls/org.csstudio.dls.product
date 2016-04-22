@@ -20,7 +20,7 @@ public class XYGraphDataProvider extends CircularBufferDataProvider
         this.xAxisUsingDate = xAxisUsingDate;
     }
 
-    public boolean plotXIndex() {
+    private boolean plotXIndex() {
         return chronological && !xAxisUsingDate;
     }
 
