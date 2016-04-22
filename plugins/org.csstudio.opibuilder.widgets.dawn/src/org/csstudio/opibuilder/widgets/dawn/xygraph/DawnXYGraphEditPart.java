@@ -104,7 +104,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         //init all traces
         for(int i=0; i<DawnXYGraphModel.MAX_TRACES_AMOUNT; i++){
             traceList.add(new Trace("", xyGraph.primaryXAxis, xyGraph.primaryYAxis,
-                    new XygraphDataProvider(false, xyGraph.primaryXAxis.isDateEnabled())));
+                    new XYGraphDataProvider(false, xyGraph.primaryXAxis.isDateEnabled())));
 
             if(i<model.getTracesAmount())
                     xyGraph.addTrace(traceList.get(i));
@@ -366,7 +366,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
                     axis.setAutoFormat(true);
                     for (Trace t : traceList) {
                         IDataProvider dp = t.getDataProvider();
-                        ((XygraphDataProvider) dp).setXAxisUsingDate(false);
+                        ((XYGraphDataProvider) dp).setXAxisUsingDate(false);
                     }
                     break;
                 }else if((Integer)newValue == 8){
@@ -374,7 +374,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
                     axis.setAutoFormat(true);
                     for (Trace t : traceList) {
                         IDataProvider dp = t.getDataProvider();
-                        ((XygraphDataProvider) dp).setXAxisUsingDate(true);
+                        ((XYGraphDataProvider) dp).setXAxisUsingDate(true);
                     }
                 }else {
                     String format = DawnXYGraphModel.TIME_FORMAT_ARRAY[(Integer)newValue];
@@ -382,7 +382,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
                     axis.setFormatPattern(format);
                     for (Trace t : traceList) {
                         IDataProvider dp = t.getDataProvider();
-                        ((XygraphDataProvider) dp).setXAxisUsingDate(true);
+                        ((XYGraphDataProvider) dp).setXAxisUsingDate(true);
                     }
                 }
                 break;
