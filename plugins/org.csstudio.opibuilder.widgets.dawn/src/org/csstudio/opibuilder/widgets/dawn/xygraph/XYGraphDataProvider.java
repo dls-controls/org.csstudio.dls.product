@@ -47,9 +47,4 @@ public class XYGraphDataProvider extends CircularBufferDataProvider
         return xRange;
     }
 
-    @Override
-    public void setChronological(boolean chronological) {
-        super.setChronological(chronological);
-    }
-
 }
