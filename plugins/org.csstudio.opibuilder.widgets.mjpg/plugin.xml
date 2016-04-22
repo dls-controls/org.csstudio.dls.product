@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.csstudio.opibuilder.widget">
+            <widget
+            category="Monitors"
+            editpart_class="org.csstudio.opibuilder.widgets.mjpg.MjpgEditPart"
+            icon="icons/xy_graph_16.png"
+            model_class="org.csstudio.opibuilder.widgets.mjpg.MjpgModel"
+            name="MJPG "
+            typeId="org.csstudio.opibuilder.widgets.mjpg">
+      </widget>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.csstudio.opibuilder.views"
+            name="BOY">
+      </category>
+      <view
+            allowMultiple="true"
+            category="org.csstudio.opibuilder.views"
+            class="org.csstudio.opibuilder.widgets.mjpg.MjpgView"
+            fastViewWidthRatio="0.3"
+            icon="icons/xy_graph_16.png"
+            id="org.csstudio.opibuilder.mjpgview"
+            name="MJPG View">
+      </view>
+   </extension>
+
+</plugin>

@@ -20,6 +20,7 @@
     <module>org.csstudio.opibuilder.widgets.edm</module>
     <module>org.csstudio.opibuilder.widgets.detailpanel</module>
     <module>org.csstudio.opibuilder.widgets.dawn</module>
+    <module>org.csstudio.opibuilder.widgets.mjpg</module>
     <module>org.csstudio.logbook.dls</module>
     <module>org.csstudio.trends.databrowser2.command</module>
     <module>org.csstudio.archive.reader.fastarchiver</module>
