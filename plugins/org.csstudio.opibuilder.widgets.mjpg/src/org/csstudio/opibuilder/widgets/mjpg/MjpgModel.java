@@ -55,7 +55,6 @@ public class MjpgModel extends AbstractPVWidgetModel {
         setForegroundColor(new RGB(0,0,0));
         setSize(400, 240);
         setTooltip("$(mjpg_url)"); //$NON-NLS-1$
-        setPropertyValue(PROP_BORDER_ALARMSENSITIVE, false);
         setScaleOptions(true, true, true);
     }
 
