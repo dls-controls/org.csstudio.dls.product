@@ -63,7 +63,7 @@ public class MjpgModel extends AbstractPVWidgetModel {
     protected void configureProperties() {
 
         addProperty(new StringProperty(PROP_MJPG_URL, "MJPG URL",
-                WidgetPropertyCategory.Display, ""), true);
+                WidgetPropertyCategory.Display, ""), false);
 
         addProperty(new StringProperty(PROP_TITLE, "Title",
                 WidgetPropertyCategory.Display, ""), true);
