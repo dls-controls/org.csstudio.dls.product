@@ -44,6 +44,8 @@ public class MjpgModel extends AbstractPVWidgetModel {
 
     public static final String PROP_SHOW_TOOLBAR = "show_toolbar";
 
+    public static final String PROP_KEEP_ASPECT_RATIO = "keep_aspect_ratio"; //$NON-NLS-1$
+
     /**
      * The ID of this widget model.
      */
@@ -74,6 +76,9 @@ public class MjpgModel extends AbstractPVWidgetModel {
                 WidgetPropertyCategory.Display, true),true);
 
         addProperty(new BooleanProperty(PROP_SHOW_TOOLBAR, "Show Toolbar",
+                WidgetPropertyCategory.Display, true),true);
+
+        addProperty(new BooleanProperty(PROP_KEEP_ASPECT_RATIO, "Keep Aspect Ratio",
                 WidgetPropertyCategory.Display, true),true);
 
     }
@@ -117,6 +122,9 @@ public class MjpgModel extends AbstractPVWidgetModel {
 
     public boolean isShowToolbar() {
         return (Boolean)getPropertyValue(PROP_SHOW_TOOLBAR);
+
+    public boolean isKeepAspectRatio() {
+        return (Boolean) getCastedPropertyValue(PROP_KEEP_ASPECT_RATIO);
     }
 
 }

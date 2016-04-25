@@ -38,6 +38,7 @@ public class MjpgEditPart extends AbstractPVWidgetEditPart {;
         figure.setTitle(model.getTitle());
         figure.setShowRamp(model.isShowRamp());
         figure.setShowToolbar(model.isShowToolbar());
+        figure.setKeepAspectRatio(model.isKeepAspectRatio());
 
         return figure;
     }
@@ -80,6 +81,10 @@ public class MjpgEditPart extends AbstractPVWidgetEditPart {;
 
         getWidgetModel().getProperty(MjpgModel.PROP_SHOW_TOOLBAR).addPropertyChangeListener(
                 event -> ((MjpgFigure)getFigure()).setShowToolbar((Boolean)event.getNewValue())
+        );
+
+        getWidgetModel().getProperty(MjpgModel.PROP_KEEP_ASPECT_RATIO).addPropertyChangeListener(
+                event -> ((MjpgFigure)getFigure()).setKeepAspectRatio((Boolean)event.getNewValue())
         );
     }
 

@@ -108,6 +108,10 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
         this.urlString = mjpgUrl;
     }
 
+    public void setKeepAspectRatio(boolean keep) {
+        system.setKeepAspect(keep);
+    }
+
     public void connect(int colorMapIndex) throws MalformedURLException {
         URL url = new URL(urlString);
         String colorMap = Palettes.getCurrent().getPalettes().get(colorMapIndex);
