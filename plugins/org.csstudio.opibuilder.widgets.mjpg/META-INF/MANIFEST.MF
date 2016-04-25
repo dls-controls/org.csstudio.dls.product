@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Dawn Widgets
+Bundle-Name: Dawn MJPG widget
 Bundle-SymbolicName: org.csstudio.opibuilder.widgets.mjpg;singleton:=true
 Bundle-Version: 0.0.1.qualifier
 Bundle-Activator: org.csstudio.opibuilder.widgets.mjpg.Activator
