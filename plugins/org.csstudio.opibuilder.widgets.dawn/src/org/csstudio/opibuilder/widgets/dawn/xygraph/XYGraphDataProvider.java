@@ -17,6 +17,10 @@ public class XYGraphDataProvider extends CircularBufferDataProvider
         return chronological && !xAxisDateEnabled;
     }
 
+    /**
+     * If plotting xIndex substitute the sample index for x-value, otherwise
+     * return the indexed sample with its stored x-value
+     */
     @Override
     public ISample getSample(int index) {
         ISample sample = super.getSample(index);
@@ -29,6 +33,11 @@ public class XYGraphDataProvider extends CircularBufferDataProvider
         return sample;
     }
 
+    /**
+     * If plotting xIndex return {0, n-1} otherwise calculate x-range as for
+     * @see org.eclipse.nebula.visualization.xygraph.dataprovider.CircularBufferDataProvider
+     *
+     */
     @Override
     public synchronized Range getXDataMinMax() {
         Range xRange;
