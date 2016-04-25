@@ -21,7 +21,6 @@ import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.axis.IAxis;
 import org.eclipse.dawnsci.plotting.api.histogram.IPaletteService;
-import org.eclipse.dawnsci.plotting.api.tool.IToolPageSystem;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.swt.SWT;
@@ -42,9 +41,7 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
     protected IRemoteDataset set;
     protected String urlString;
     protected Composite widgetComp;
-    protected Composite toolComp;
     protected ActionBarWrapper wrapper;
-    protected GridData toolCompData;
     protected boolean grayScale;
     protected boolean autoscaled = false;
 
@@ -84,12 +81,6 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
         // Recommended by Matt Gerring
         system.getPlotComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-        // Toolbar composite
-        toolComp = new Composite(widgetComp, SWT.NONE);
-        toolComp.setLayout(new GridLayout(1, false));
-        toolCompData = new GridData(SWT.FILL, SWT.FILL, true, true);
-        toolComp.setLayoutData(toolCompData);
-
         return widgetComp;
     }
 
@@ -99,14 +90,6 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
 
     public void setShowToolbar(boolean show) {
         wrapper.setVisible(show);
-        toolCompData.exclude = !show;
-        widgetComp.layout();
-    }
-
-    public void setToolsInView(boolean toolsInView) {
-        Composite newComp = toolsInView ? null : toolComp;
-        system.getAdapter(IToolPageSystem.class).setToolComposite(newComp);
-        toolCompData.exclude = toolsInView;
         widgetComp.layout();
     }
 
@@ -173,7 +156,6 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
 
     @Override
     public void dispose() {
-        toolComp.dispose();
         wrapper.dispose();
 
         if (set != null) {
