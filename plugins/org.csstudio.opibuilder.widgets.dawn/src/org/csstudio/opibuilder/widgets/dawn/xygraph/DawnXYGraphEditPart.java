@@ -103,7 +103,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         //init all traces
         for(int i=0; i<DawnXYGraphModel.MAX_TRACES_AMOUNT; i++){
             traceList.add(new Trace("", xyGraph.primaryXAxis, xyGraph.primaryYAxis,
-                    new XYGraphDataProvider(false, xyGraph.primaryXAxis.isDateEnabled())));
+                    new XYGraphDataProvider(false)));
 
             if(i<model.getTracesAmount())
                     xyGraph.addTrace(traceList.get(i));
@@ -362,23 +362,14 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
                 if((Integer)newValue == 0){
                     axis.setDateEnabled(false);
                     axis.setAutoFormat(true);
-                    for (Trace t : traceList) {
-                        getDataProvider(t).setXAxisUsingDate(false);
-                    }
                     break;
                 }else if((Integer)newValue == 8){
                     axis.setDateEnabled(true);
                     axis.setAutoFormat(true);
-                    for (Trace t : traceList) {
-                        getDataProvider(t).setXAxisUsingDate(true);
-                    }
                 }else {
                     String format = DawnXYGraphModel.TIME_FORMAT_ARRAY[(Integer)newValue];
                     axis.setDateEnabled(true);
                     axis.setFormatPattern(format);
-                    for (Trace t : traceList) {
-                        getDataProvider(t).setXAxisUsingDate(true);
-                    }
                 }
                 break;
             case SCALE_FONT:
