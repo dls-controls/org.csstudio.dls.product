@@ -9,19 +9,12 @@ import org.eclipse.nebula.visualization.xygraph.linearscale.Range;
 public class XYGraphDataProvider extends CircularBufferDataProvider
         implements IDataProvider {
 
-    private boolean xAxisUsingDate;
-
-    public XYGraphDataProvider(boolean chronological, boolean xAxisUsingDate) {
+    public XYGraphDataProvider(boolean chronological) {
         super(chronological);
-        this.xAxisUsingDate = xAxisUsingDate;
-    }
-
-    public void setXAxisUsingDate(boolean xAxisUsingDate) {
-        this.xAxisUsingDate = xAxisUsingDate;
     }
 
     private boolean plotXIndex() {
-        return chronological && !xAxisUsingDate;
+        return chronological && !xAxisDateEnabled;
     }
 
     @Override
