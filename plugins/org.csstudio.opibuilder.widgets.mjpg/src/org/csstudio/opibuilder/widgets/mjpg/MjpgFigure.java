@@ -83,6 +83,7 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
         system.createPlotPart(widgetComp, "XY Example", wrapper, PlotType.IMAGE, new EmptyWorkbenchPart<Composite>(system));
         // Recommended by Matt Gerring
         system.getPlotComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
         // Toolbar composite
         toolComp = new Composite(widgetComp, SWT.NONE);
         toolComp.setLayout(new GridLayout(1, false));
@@ -99,7 +100,7 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
 
     public void setShowToolbar(boolean show) {
         wrapper.setVisible(show);
-        toolCompData.exclude = true;
+        toolCompData.exclude = !show;
         widgetComp.layout();
     }
 
