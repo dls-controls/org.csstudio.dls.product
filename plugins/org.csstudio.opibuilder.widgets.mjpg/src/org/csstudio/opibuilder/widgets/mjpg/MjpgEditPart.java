@@ -37,6 +37,7 @@ public class MjpgEditPart extends AbstractPVWidgetEditPart {;
         }
         figure.setTitle(model.getTitle());
         figure.setShowRamp(model.isShowRamp());
+        figure.setShowToolbar(model.isShowToolbar());
 
         return figure;
     }
@@ -77,6 +78,9 @@ public class MjpgEditPart extends AbstractPVWidgetEditPart {;
                 event -> ((MjpgFigure)getFigure()).setShowRamp((Boolean)event.getNewValue())
         );
 
+        getWidgetModel().getProperty(MjpgModel.PROP_SHOW_TOOLBAR).addPropertyChangeListener(
+                event -> ((MjpgFigure)getFigure()).setShowToolbar((Boolean)event.getNewValue())
+        );
     }
 
     @Override

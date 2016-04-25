@@ -79,7 +79,6 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
         widgetComp.layout();
         // Neither IActionBars nor IWorkbenchPart required.
         wrapper = ActionBarWrapper.createActionBars(widgetComp, null);
-        wrapper.setVisible(false);
 
         system.createPlotPart(widgetComp, "XY Example", wrapper, PlotType.IMAGE, new EmptyWorkbenchPart<Composite>(system));
         // Recommended by Matt Gerring
@@ -88,7 +87,6 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
         toolComp = new Composite(widgetComp, SWT.NONE);
         toolComp.setLayout(new GridLayout(1, false));
         toolCompData = new GridData(SWT.FILL, SWT.FILL, true, true);
-        toolCompData.exclude = true;
         toolComp.setLayoutData(toolCompData);
         system.getAdapter(IToolPageSystem.class).setToolComposite(toolComp);
 

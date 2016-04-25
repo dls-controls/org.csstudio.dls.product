@@ -42,6 +42,8 @@ public class MjpgModel extends AbstractPVWidgetModel {
 
     public static final String PROP_COLOR_DEPTH = "color_depth"; //$NON-NLS-1$
 
+    public static final String PROP_SHOW_TOOLBAR = "show_toolbar";
+
     /**
      * The ID of this widget model.
      */
@@ -69,6 +71,9 @@ public class MjpgModel extends AbstractPVWidgetModel {
                 WidgetPropertyCategory.Display, availablePalettes, 0), true);
 
         addProperty(new BooleanProperty(PROP_SHOW_RAMP, "Show Ramp",
+                WidgetPropertyCategory.Display, true),true);
+
+        addProperty(new BooleanProperty(PROP_SHOW_TOOLBAR, "Show Toolbar",
                 WidgetPropertyCategory.Display, true),true);
 
     }
@@ -108,6 +113,10 @@ public class MjpgModel extends AbstractPVWidgetModel {
      */
     public Boolean isShowRamp(){
         return (Boolean) getCastedPropertyValue(PROP_SHOW_RAMP);
+    }
+
+    public boolean isShowToolbar() {
+        return (Boolean)getPropertyValue(PROP_SHOW_TOOLBAR);
     }
 
 }
