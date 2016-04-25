@@ -589,6 +589,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             long time = timestamp.toEpochMilli();
             dataProvider.setCurrentYData(VTypeHelper.getDouble(y_value), time);
         }else{
+            dataProvider.setXAxisDateEnabled(false);
             if(VTypeHelper.getSize(y_value) > 1){
                 dataProvider.setCurrentYDataArray(VTypeHelper.getDoubleArray(y_value));
             }else
