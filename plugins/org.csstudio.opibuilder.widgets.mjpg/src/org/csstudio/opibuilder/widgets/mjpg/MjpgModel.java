@@ -46,10 +46,13 @@ public class MjpgModel extends AbstractPVWidgetModel {
 
     public static final String PROP_KEEP_ASPECT_RATIO = "keep_aspect_ratio"; //$NON-NLS-1$
 
+    public static final String PROP_TOOLS_IN_VIEW = "tools_in_view"; //$NON-NLS-1$
+
     /**
      * The ID of this widget model.
      */
     public static final String ID = "org.csstudio.opibuilder.widgets.mjpg"; //$NON-NLS-1$
+
 
     public MjpgModel() {
         setForegroundColor(new RGB(0,0,0));
@@ -78,6 +81,9 @@ public class MjpgModel extends AbstractPVWidgetModel {
                 WidgetPropertyCategory.Display, true),true);
 
         addProperty(new BooleanProperty(PROP_KEEP_ASPECT_RATIO, "Keep Aspect Ratio",
+                WidgetPropertyCategory.Display, true),true);
+
+        addProperty(new BooleanProperty(PROP_TOOLS_IN_VIEW, "Show Tools In View",
                 WidgetPropertyCategory.Display, true),true);
 
     }
@@ -127,4 +133,7 @@ public class MjpgModel extends AbstractPVWidgetModel {
         return (Boolean) getCastedPropertyValue(PROP_KEEP_ASPECT_RATIO);
     }
 
+    public boolean isToolsInView() {
+        return (Boolean) getCastedPropertyValue(PROP_TOOLS_IN_VIEW);
+    }
 }

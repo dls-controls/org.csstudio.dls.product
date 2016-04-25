@@ -89,7 +89,6 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
         toolComp.setLayout(new GridLayout(1, false));
         toolCompData = new GridData(SWT.FILL, SWT.FILL, true, true);
         toolComp.setLayoutData(toolCompData);
-        system.getAdapter(IToolPageSystem.class).setToolComposite(toolComp);
 
         return widgetComp;
     }
@@ -101,6 +100,13 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
     public void setShowToolbar(boolean show) {
         wrapper.setVisible(show);
         toolCompData.exclude = !show;
+        widgetComp.layout();
+    }
+
+    public void setToolsInView(boolean toolsInView) {
+        Composite newComp = toolsInView ? null : toolComp;
+        system.getAdapter(IToolPageSystem.class).setToolComposite(newComp);
+        toolCompData.exclude = toolsInView;
         widgetComp.layout();
     }
 

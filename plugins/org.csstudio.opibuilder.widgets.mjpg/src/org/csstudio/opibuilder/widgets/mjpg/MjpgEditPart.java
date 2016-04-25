@@ -38,6 +38,8 @@ public class MjpgEditPart extends AbstractPVWidgetEditPart {;
         figure.setTitle(model.getTitle());
         figure.setShowRamp(model.isShowRamp());
         figure.setShowToolbar(model.isShowToolbar());
+        model.setPropertyVisible(MjpgModel.PROP_TOOLS_IN_VIEW, model.isShowToolbar());
+        figure.setToolsInView(model.isToolsInView());
         figure.setKeepAspectRatio(model.isKeepAspectRatio());
 
         return figure;
@@ -80,11 +82,18 @@ public class MjpgEditPart extends AbstractPVWidgetEditPart {;
         );
 
         getWidgetModel().getProperty(MjpgModel.PROP_SHOW_TOOLBAR).addPropertyChangeListener(
-                event -> ((MjpgFigure)getFigure()).setShowToolbar((Boolean)event.getNewValue())
+                event -> {
+                    ((MjpgFigure)getFigure()).setShowToolbar((Boolean)event.getNewValue());
+                    ((MjpgModel) getModel()).setPropertyVisible(MjpgModel.PROP_TOOLS_IN_VIEW, (Boolean) event.getNewValue());
+                }
         );
 
         getWidgetModel().getProperty(MjpgModel.PROP_KEEP_ASPECT_RATIO).addPropertyChangeListener(
                 event -> ((MjpgFigure)getFigure()).setKeepAspectRatio((Boolean)event.getNewValue())
+        );
+
+        getWidgetModel().getProperty(MjpgModel.PROP_TOOLS_IN_VIEW).addPropertyChangeListener(
+                event -> ((MjpgFigure)getFigure()).setToolsInView((Boolean)event.getNewValue())
         );
     }
 
