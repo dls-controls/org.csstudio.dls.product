@@ -67,10 +67,10 @@
       <feature id="org.csstudio.applications.opibuilder.edm.feature"/>
       <feature id="org.csstudio.trends.databrowser2.feature"/>
       <feature id="org.csstudio.trends.databrowser2.opiwidget.feature"/>
-      <feature id="org.csstudio.archive.reader.appliance.feature"/>
       <feature id="org.csstudio.core.diirt.feature"/>
       <feature id="org.csstudio.perspectives.feature"/>
       <feature id="org.csstudio.dls.feature"/>
+      <feature id="org.csstudio.dls.mjpg.feature"/>
       <feature id="org.csstudio.dls.product.feature"/>
       <feature id="org.eclipse.help"/>
    </features>
