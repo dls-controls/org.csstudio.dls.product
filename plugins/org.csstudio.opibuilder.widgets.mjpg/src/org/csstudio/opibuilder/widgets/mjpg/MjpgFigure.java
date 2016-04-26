@@ -52,10 +52,8 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
         try {
             dataService = Services.getCurrent().getRemoteDatasetService();
             final IPlottingService pservice = Services.getCurrent().getPlottingService();
-            System.out.println("The plotting servivce " + service);
             this.system = pservice.createPlottingSystem();
-            System.out.println("The plotting system: " + this.system);
-             paletteService = Services.getCurrent().getPaletteService();
+            paletteService = Services.getCurrent().getPaletteService();
         } catch (Exception ne) {
             ne.printStackTrace(); // Or your favourite logging.
         }
@@ -116,9 +114,7 @@ public class MjpgFigure extends AbstractSWTWidgetFigure<Composite> implements ID
                 set.connect();
             }
             ITrace trace = system.createPlot2D((IDataset)set, null, new NullProgressMonitor());
-            System.out.println("The trace is " + trace);
-             imageTrace = (IImageTrace) trace;
-            System.out.println(imageTrace.getPaletteName());
+            imageTrace = (IImageTrace) trace;
 
             if (grayScale) {
                 imageTrace.setPalette(colorMap);
