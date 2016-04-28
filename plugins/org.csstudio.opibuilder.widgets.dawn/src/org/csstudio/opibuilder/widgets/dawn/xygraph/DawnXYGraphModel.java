@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 Oak Ridge National Laboratory.
  * All rights reserved. This program and the accompanying materials
+ * Copyright (c) 2010 Oak Ridge National Laboratory.
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
@@ -40,7 +40,6 @@ import org.osgi.framework.Version;
 public class DawnXYGraphModel extends AbstractPVWidgetModel {
 
 
-
     public enum AxisProperty{
         Y_AXIS("y_axis", "Y Axis"),
         VISIBLE("visible", "Visible"),
@@ -58,7 +57,8 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
         SHOW_GRID("show_grid", "Show Grid"),
         GRID_COLOR("grid_color", "Grid Color"),
         DASH_GRID("dash_grid_line", "Dash Grid Line"),
-        SCALE_FORMAT("scale_format", "Scale Format");
+        SCALE_FORMAT("scale_format", "Scale Format"),
+        AUTO_SCALE_TIGHT("auto_scale_tight", "Auto Scale Tight");
 
         public String propIDPre;
         public String description;
@@ -79,13 +79,10 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
         PLOTMODE("plot_mode", "Plot Mode"),
         BUFFER_SIZE("buffer_size", "Buffer Size"),
         UPDATE_DELAY("update_delay", "Update Delay"),
-        //TRIGGER_VALUE("trigger_value", "Trigger Value"),
-        //CLEAR_TRACE("clear_trace", "Clear Plot History"),
         XPV("x_pv", "X PV"),
         YPV("y_pv", "Y PV"),
         XPV_VALUE("x_pv_value", "X PV Value"),
         YPV_VALUE("y_pv_value", "Y PV Value"),
-        //CHRONOLOGICAL("chronological", "Chronological"),
         TRACE_COLOR("trace_color","Trace Color"),
         XAXIS_INDEX("x_axis_index", "X Axis Index"),
         YAXIS_INDEX("y_axis_index", "Y Axis Index"),
@@ -293,6 +290,9 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
         case AUTO_SCALE_THRESHOLD:
             addProperty(new DoubleProperty(propID, axisProperty.toString(), category,0,  0, 1));
             break;
+        case AUTO_SCALE_TIGHT:
+            addProperty(new BooleanProperty(propID, axisProperty.toString(), category, false));
+            break;
         case LOG:
             addProperty(new BooleanProperty(propID, axisProperty.toString(), category,false));
             break;
@@ -320,8 +320,6 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
         case SCALE_FORMAT:
             addProperty(new StringProperty(propID, axisProperty.toString(), category, "")); //$NON-NLS-1$
             break;
-        default:
-            break;
         }
     }
 
@@ -345,7 +343,6 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
                     "$(" + makeTracePropID(TraceProperty.YPV.propIDPre, traceIndex) + ")"));
             break;
         case ANTI_ALIAS:
-//        case CHRONOLOGICAL:
             addProperty(new BooleanProperty(propID, traceProperty.toString(), category, true));
             break;
         case BUFFER_SIZE:
@@ -355,9 +352,6 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
         case CONCATENATE_DATA:
             addProperty(new BooleanProperty(propID, traceProperty.toString(), category, true));
             break;
-        //case CLEAR_TRACE:
-        //    addProperty(new BooleanProperty(propID, traceProperty.toString(), category, false));
-        //    break;
         case LINE_WIDTH:
             addProperty(new IntegerProperty(propID, traceProperty.toString(), category, 1, 1, 100));
             break;
@@ -380,9 +374,6 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
             addProperty(new ComboProperty(propID, traceProperty.toString(), category, TraceType.stringValues(),
                     0));
             break;
-    //    case TRIGGER_VALUE:
-    //        addProperty(new DoubleProperty(propID, traceProperty.toString(), category, 0));
-    //        break;
         case UPDATE_DELAY:
             addProperty(new IntegerProperty(propID, traceProperty.toString(), category, 100, 0, 655350));
             break;
@@ -409,6 +400,7 @@ public class DawnXYGraphModel extends AbstractPVWidgetModel {
             addProperty(new BooleanProperty(propID, traceProperty.toString(), category, true));
             break;
         default:
+            // XPV_VALUE and YPV_VALUE are handled as part of XPV and YPV cases
             break;
         }
 
