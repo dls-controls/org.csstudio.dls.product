@@ -103,7 +103,8 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         //init all traces
         for(int i=0; i<DawnXYGraphModel.MAX_TRACES_AMOUNT; i++){
             traceList.add(new Trace("", xyGraph.primaryXAxis, xyGraph.primaryYAxis,
-                    new  CircularBufferDataProvider(false)));
+                    new XYGraphDataProvider(false)));
+
             if(i<model.getTracesAmount())
                     xyGraph.addTrace(traceList.get(i));
             String xPVPropID = DawnXYGraphModel.makeTracePropID(
@@ -219,8 +220,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
 
             public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
                 for(int i=0; i<getWidgetModel().getTracesAmount(); i++){
-                    CircularBufferDataProvider dataProvider =
-                        (CircularBufferDataProvider)traceList.get(i).getDataProvider();
+                     XYGraphDataProvider dataProvider = getDataProvider(traceList.get(i));
                   if( dataProvider.getUpdateMode() == UpdateMode.TRIGGER){
                       dataProvider.triggerUpdate();
                   }
@@ -273,7 +273,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             handler.handleChange(evt.getOldValue(), evt.getNewValue(), getFigure());
         }
     });
-        //setPropertyChangeHandler(DawnXYGraphModel.PROP_AXES_AMOUNT, handler);
     }
 
 
@@ -308,6 +307,9 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             switch (axisProperty) {
             case AUTO_SCALE:
                 axis.setAutoScale((Boolean)newValue);
+                break;
+            case AUTO_SCALE_TIGHT:
+                axis.setAxisAutoscaleTight((Boolean)newValue);
                 break;
             case VISIBLE:
                 axis.setVisible((Boolean)newValue);
@@ -385,8 +387,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
                     }
                 }
                 break;
-            default:
-                break;
             }
     }
 
@@ -431,7 +431,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             }
         });
 
-        //setPropertyChangeHandler(DawnXYGraphModel.PROP_TRACES_AMOUNT, handler);
     }
 
 
@@ -479,7 +478,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
     }
 
     private void setTraceProperty(Trace trace, TraceProperty traceProperty, Object newValue, String xPVPropID, String yPVPropID){
-        CircularBufferDataProvider dataProvider = (CircularBufferDataProvider)trace.getDataProvider();
+        XYGraphDataProvider dataProvider = getDataProvider(trace);
         switch (traceProperty) {
         case ANTI_ALIAS:
             trace.setAntiAliasing((Boolean)newValue);
@@ -487,13 +486,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         case BUFFER_SIZE:
             dataProvider.setBufferSize((Integer)newValue);
             break;
-//        case CHRONOLOGICAL:
-            //dataProvider.setChronological((Boolean)newValue);
-//            break;
-        //case CLEAR_TRACE:
-        //    if((Boolean)newValue)
-        //        dataProvider.clearTrace();
-        //    break;
         case LINE_WIDTH:
             trace.setLineWidth((Integer)newValue);
             break;
@@ -518,9 +510,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         case CONCATENATE_DATA:
             dataProvider.setConcatenate_data((Boolean)newValue);
             break;
-    //    case TRIGGER_VALUE:
-            //dataProvider.triggerUpdate();
-    //        break;
         case UPDATE_DELAY:
             dataProvider.setUpdateDelay((Integer)newValue);
             break;
@@ -552,6 +541,9 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             }else
                 setXValue(dataProvider, (VType) newValue);
             break;
+        case YPV:
+            // nothing to do
+            break;
         case YPV_VALUE:
             if(newValue == null || !(newValue instanceof VType))
                 break;
@@ -565,8 +557,6 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             break;
         case VISIBLE:
             trace.setVisible((Boolean)newValue);
-            break;
-        default:
             break;
         }
     }
@@ -585,6 +575,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             long time = timestamp.getSec() * 1000 + timestamp.getNanoSec()/1000000;
             dataProvider.setCurrentYData(VTypeHelper.getDouble(y_value), time);
         }else{
+            dataProvider.setXAxisDateEnabled(false);
             if(VTypeHelper.getSize(y_value) > 1){
                 dataProvider.setCurrentYDataArray(VTypeHelper.getDoubleArray(y_value));
             }else
@@ -641,12 +632,12 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
      */
     public void clearGraph(){
         for(int i=0; i<getWidgetModel().getTracesAmount(); i++){
-            ((CircularBufferDataProvider)traceList.get(i).getDataProvider()).clearTrace();
+            getDataProvider(traceList.get(i)).clearTrace();
         }
     }
 
     public double[] getXBuffer(int i){
-        CircularBufferDataProvider dataProvider = (CircularBufferDataProvider)traceList.get(i).getDataProvider();
+        XYGraphDataProvider dataProvider = getDataProvider(traceList.get(i));
         double[] XBuffer = new double[dataProvider.getSize()];
         for (int j = 0; j < dataProvider.getSize(); j++) {
             XBuffer[j] = dataProvider.getSample(j).getXValue();
@@ -655,11 +646,15 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
     }
 
     public double[] getYBuffer(int i){
-        CircularBufferDataProvider dataProvider = (CircularBufferDataProvider)traceList.get(i).getDataProvider();
+        XYGraphDataProvider dataProvider = getDataProvider(traceList.get(i));
         double[] YBuffer = new double[dataProvider.getSize()];
         for (int j = 0; j < dataProvider.getSize(); j++) {
             YBuffer[j] = dataProvider.getSample(j).getYValue();
         }
         return YBuffer;
+    }
+
+    private XYGraphDataProvider getDataProvider(Trace trace) {
+        return (XYGraphDataProvider) trace.getDataProvider();
     }
 }
