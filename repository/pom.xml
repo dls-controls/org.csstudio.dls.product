@@ -16,7 +16,9 @@
 
   <groupId>org.csstudio</groupId>
   <artifactId>repository</artifactId>
-  <version>4.2.0-SNAPSHOT</version>
+  <!-- The parent version is the fixed string BUILD-VERSION.  This needs to be overridden for where Tycho uses
+       it in the build. -->
+  <version>4.2.0.rc1</version>
   <packaging>eclipse-repository</packaging>
 
   <build>
