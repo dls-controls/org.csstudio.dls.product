@@ -47,7 +47,7 @@
   <repositories>
     <repository>
       <id>dawn</id>
-      <url>http://opengda.org/DawnDiamond/master/updates/snapshot/</url>
+      <url>http://opengda.org/DawnDiamond/2.1/updates/release/</url>
       <layout>p2</layout>
     </repository>
   </repositories>
