@@ -34,7 +34,25 @@
               <rootFolder>cs-studio</rootFolder>
               <archiveFileName>cs-studio-${project.version}</archiveFileName>
             </product>
-          </products>
+          <product>
+            <id>alarm-config</id>
+            <rootFolder>alarm-config</rootFolder>
+            <archiveFileName>alarm-config-${project.version}</archiveFileName>
+            <attachId>alarm-config</attachId>
+          </product>
+          <product>
+            <id>alarm-server</id>
+            <rootFolder>alarm-server</rootFolder>
+            <archiveFileName>alarm-server-${project.version}</archiveFileName>
+            <attachId>alarm-server</attachId>
+          </product>
+          <product>
+            <id>alarm-notifier</id>
+            <rootFolder>alarm-notifier</rootFolder>
+            <archiveFileName>alarm-notifier-${project.version}</archiveFileName>
+            <attachId>alarm-notifier</attachId>
+          </product>
+        </products>
         </configuration>
         <executions>
           <execution>

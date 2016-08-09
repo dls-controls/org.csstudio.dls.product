@@ -72,6 +72,8 @@
       <feature id="org.csstudio.perspectives.feature"/>
       <feature id="org.csstudio.dls.feature"/>
       <feature id="org.csstudio.dls.product.feature"/>
+      <feature id="org.csstudio.alarm.beast.tools.feature" />
+      <feature id="org.csstudio.alarm.beast.ui.feature" />
       <feature id="org.eclipse.help"/>
    </features>
 
