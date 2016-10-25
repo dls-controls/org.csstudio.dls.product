@@ -24,7 +24,7 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
     protected IFigure doCreateFigure() {
         EdmSymbolModel model = (EdmSymbolModel) getModel();
         EdmSymbolFigure figure = new EdmSymbolFigure(model.getFilename());
-        figure.setSubImageSelection(0);
+        figure.setSubImageSelection(model.getImageIndex());
         figure.setSubImageWidth(model.getSubImageWidth());
         return figure;
     }
@@ -60,27 +60,13 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
         handler = new IWidgetPropertyChangeHandler() {
             public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
                 if(newValue == null) return false;
-                int selection = 0;
-                if(newValue instanceof Alarm) {
-                    // If PV value is not valid leave index as 0 (typically invalid)
-                    if(((Alarm) newValue).getAlarmSeverity() != AlarmSeverity.INVALID) {
-                        if (newValue instanceof VNumber) {
-                            selection = ((VNumber) newValue).getValue().intValue();
-                        } else if (newValue instanceof VEnum) {
-                            selection = ((VEnum) newValue).getIndex();
-                        } else {
-                            log.warning("VType " + newValue + " cannot be handled by EDM Symbol widget.");
-                        }
-                    }
-                } else {
-                    log.warning("Object " + newValue.getClass() + " cannot be handled by EDM Symbol widget.");
-                }
+                int selection = (int) newValue;
                 EdmSymbolFigure edmFigure = (EdmSymbolFigure) figure;
                 edmFigure.setSubImageSelection(selection);
                 return false;
             }
         };
-        setPropertyChangeHandler(AbstractPVWidgetModel.PROP_PVVALUE, handler);
+        setPropertyChangeHandler(EdmSymbolModel.PROP_IMAGE_INDEX, handler);
     }
 
 }
