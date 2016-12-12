@@ -137,20 +137,22 @@ public class NewWindowHandler extends AbstractHandler {
 
     /**
      * Parse the 'plotfile' parameter.
-     * Workspace paths are converted into absolute system paths.
+     * These should be workspace paths.
      *
      * @param plotfileParam Path to plotfile
-     * @return Processed path or NULL if file does not exist
+     * @return workspace IPath or null if file does not exist
      */
     private IPath parsePlotfile(String plotfileParam) {
-        IPath path = null;
+        IPath plotPath = null;
         if (plotfileParam != null) {
-            path = ResourceUtil.workspacePathToSysPath(new Path(plotfileParam));
-            if (!ResourceUtil.isExistingLocalFile(path)) {
+            IPath path = new Path(plotfileParam);
+            if (ResourceUtil.isExistingWorkspaceFile(path)) {
+                plotPath = path;
+            } else {
                 LOGGER.log(Level.WARNING, "Databrowser plot file " + path + " does not exist.");
             }
         }
-        return path;
+        return plotPath;
     }
 
     /**
