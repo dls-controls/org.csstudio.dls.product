@@ -15,6 +15,11 @@ import org.csstudio.utility.singlesource.PathEditorInput;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Shell;
@@ -146,6 +151,8 @@ public class NewWindowHandler extends AbstractHandler {
         IPath plotPath = null;
         if (plotfileParam != null) {
             IPath path = new Path(plotfileParam);
+            // Ensure the file is found even if externally added to the workspace.
+            refreshWorkspace();
             if (ResourceUtil.isExistingWorkspaceFile(path)) {
                 plotPath = path;
             } else {
@@ -190,6 +197,20 @@ public class NewWindowHandler extends AbstractHandler {
             editor = DataBrowserEditor.createInstance();
         }
         return editor;
+    }
+
+    /**
+     * Attempt to refresh the Eclipse workspace.  If it fails, log
+     * an error.
+     */
+    private void refreshWorkspace() {
+        try {
+            IWorkspace workspace = ResourcesPlugin.getWorkspace();
+            IWorkspaceRoot root = workspace.getRoot();
+            root.refreshLocal(IResource.DEPTH_INFINITE, null);
+        } catch (CoreException e) {
+            LOGGER.log(Level.WARNING, "Workspace refresh failed unexpectedly.");
+        }
     }
 
 }
