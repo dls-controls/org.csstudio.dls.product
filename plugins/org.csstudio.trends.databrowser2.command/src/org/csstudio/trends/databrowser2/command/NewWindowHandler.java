@@ -151,12 +151,16 @@ public class NewWindowHandler extends AbstractHandler {
         IPath plotPath = null;
         if (plotfileParam != null) {
             IPath path = new Path(plotfileParam);
-            // Ensure the file is found even if externally added to the workspace.
-            refreshWorkspace();
             if (ResourceUtil.isExistingWorkspaceFile(path)) {
                 plotPath = path;
             } else {
-                LOGGER.log(Level.WARNING, "Databrowser plot file " + path + " does not exist.");
+                // Try refreshing in case the file has been externally added to the workspace.
+                refreshWorkspace();
+                if (ResourceUtil.isExistingWorkspaceFile(path)) {
+                    plotPath = path;
+                } else {
+                    LOGGER.log(Level.WARNING, "Databrowser plot file " + path + " does not exist.");
+                }
             }
         }
         return plotPath;
