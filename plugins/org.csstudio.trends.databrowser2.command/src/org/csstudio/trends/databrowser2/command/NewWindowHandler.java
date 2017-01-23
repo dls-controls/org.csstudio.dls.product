@@ -15,6 +15,11 @@ import org.csstudio.utility.singlesource.PathEditorInput;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Shell;
@@ -137,20 +142,28 @@ public class NewWindowHandler extends AbstractHandler {
 
     /**
      * Parse the 'plotfile' parameter.
-     * Workspace paths are converted into absolute system paths.
+     * These should be workspace paths.
      *
      * @param plotfileParam Path to plotfile
-     * @return Processed path or NULL if file does not exist
+     * @return workspace IPath or null if file does not exist
      */
     private IPath parsePlotfile(String plotfileParam) {
-        IPath path = null;
+        IPath plotPath = null;
         if (plotfileParam != null) {
-            path = ResourceUtil.workspacePathToSysPath(new Path(plotfileParam));
-            if (!ResourceUtil.isExistingLocalFile(path)) {
-                LOGGER.log(Level.WARNING, "Databrowser plot file " + path + " does not exist.");
+            IPath path = new Path(plotfileParam);
+            if (ResourceUtil.isExistingWorkspaceFile(path)) {
+                plotPath = path;
+            } else {
+                // Try refreshing in case the file has been externally added to the workspace.
+                refreshWorkspace();
+                if (ResourceUtil.isExistingWorkspaceFile(path)) {
+                    plotPath = path;
+                } else {
+                    LOGGER.log(Level.WARNING, "Databrowser plot file " + path + " does not exist.");
+                }
             }
         }
-        return path;
+        return plotPath;
     }
 
     /**
@@ -188,6 +201,20 @@ public class NewWindowHandler extends AbstractHandler {
             editor = DataBrowserEditor.createInstance();
         }
         return editor;
+    }
+
+    /**
+     * Attempt to refresh the Eclipse workspace.  If it fails, log
+     * an error.
+     */
+    private void refreshWorkspace() {
+        try {
+            IWorkspace workspace = ResourcesPlugin.getWorkspace();
+            IWorkspaceRoot root = workspace.getRoot();
+            root.refreshLocal(IResource.DEPTH_INFINITE, null);
+        } catch (CoreException e) {
+            LOGGER.log(Level.WARNING, "Workspace refresh failed unexpectedly.");
+        }
     }
 
 }
