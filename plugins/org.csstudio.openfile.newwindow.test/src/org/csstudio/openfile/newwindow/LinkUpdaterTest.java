@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.csstudio.openfile.newwindow.LinkUpdater;
 import org.junit.Before;
 import org.junit.Test;
 
