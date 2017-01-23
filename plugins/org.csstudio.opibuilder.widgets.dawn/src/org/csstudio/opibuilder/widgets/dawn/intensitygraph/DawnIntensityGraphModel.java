@@ -193,7 +193,7 @@ public class DawnIntensityGraphModel extends AbstractPVWidgetModel {
 
     /** The default color of the axis color property. */
     private static final RGB DEFAULT_AXIS_COLOR = new RGB(0,0,0);
-    
+
     /** The ID of this widget model. */
     public static final String ID = "org.csstudio.opibuilder.widgets.dawn.intensitygraph"; //$NON-NLS-1$
 
