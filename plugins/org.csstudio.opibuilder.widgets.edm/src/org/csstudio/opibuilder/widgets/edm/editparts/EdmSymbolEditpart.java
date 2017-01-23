@@ -3,15 +3,10 @@ package org.csstudio.opibuilder.widgets.edm.editparts;
 import java.util.logging.Logger;
 
 import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
-import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.util.ResourceUtil;
 import org.csstudio.opibuilder.widgets.edm.figures.EdmSymbolFigure;
 import org.csstudio.opibuilder.widgets.edm.model.EdmSymbolModel;
-import org.diirt.vtype.Alarm;
-import org.diirt.vtype.AlarmSeverity;
-import org.diirt.vtype.VEnum;
-import org.diirt.vtype.VNumber;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.draw2d.IFigure;
 
