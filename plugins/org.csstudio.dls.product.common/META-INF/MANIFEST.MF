@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Eclipse-BundleShape: dir
 Bundle-ManifestVersion: 2
-Bundle-Name: DLS CS-Studio Product
+Bundle-Name: DLS CS-Studio Product: common resources
 Bundle-SymbolicName: org.csstudio.dls.product.common;singleton:=true
 Bundle-Version: 0.0.1.qualifier
 Require-Bundle: org.eclipse.ui,
