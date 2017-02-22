@@ -1,7 +1,5 @@
 package org.csstudio.logbook.dls.views;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
@@ -223,19 +221,6 @@ public class LogbookView extends ViewPart {
     }
 
     private void handleException(Shell shell, Exception e) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
-        String[] stack = sw.toString().split("\r\n|\r|\n");
-
-        // Shorten to 8 lines
-        String stackTrace = "";
-        final int maxLines = 8;
-        for(int i=0; i<maxLines && i<stack.length; i++) {
-            stackTrace += stack[i] + "\n";
-        }
-
-//        MessageDialog.openError(shell, "Error", e.getLocalizedMessage() + "\n\n" + stackTrace);
         MessageDialog.openError(shell, "Error", e.getLocalizedMessage());
         e.printStackTrace();
     }

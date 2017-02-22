@@ -1,7 +1,5 @@
 package org.csstudio.opibuilder.widgets.edm.editparts;
 
-import java.util.logging.Logger;
-
 import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.util.ResourceUtil;
@@ -12,8 +10,6 @@ import org.eclipse.draw2d.IFigure;
 
 
 public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
-
-    private static Logger log = Logger.getLogger(EdmSymbolEditpart.class.getName());
 
     @Override
     protected IFigure doCreateFigure() {
