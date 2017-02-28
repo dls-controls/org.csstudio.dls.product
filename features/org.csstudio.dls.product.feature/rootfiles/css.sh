@@ -102,10 +102,11 @@ if [[ -n $opifile ]]; then
     if [[ -n "${links}" ]]; then
         launch_opi="$launch_opi -share_link $links"
     fi
-    # CSS cannot accept . in a command-line argument (other than in the filename).
-    # This replaces with the CSS escape mechanism [\46].
+    # CSS cannot accept : or . (other than in the filename) in a command-line argument.
+    # This replaces with the CSS escape mechanism [\<ascii-code>].
     # Accepted extensions: opi, nws
     launch_opi_escaped=$(echo $launch_opi | perl -ne "s|\.(?!opi\|nws)|[\\\46]|g; print;")
+    launch_opi_escaped=$(echo $launch_opi_escaped | perl -ne "s|:|[\\\58]|g; print;")
 fi
 
 
