@@ -106,6 +106,8 @@ if [[ -n $opifile ]]; then
     echo $macros
     if [[ -n $macros ]]; then
         macros_escaped=$(escape $macros)
+    else
+        macros_escaped=""
     fi
 
     launch_opi_arg=--launcher.openFile
