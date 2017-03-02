@@ -26,7 +26,7 @@ CSSTUDIO=$CSS_DIR/cs-studio
 opishell=false
 port=5064
 
-while getopts "w:p:o:m:sl:" o; do
+while getopts "w:p:o:x:m:sl:" o; do
     case ${o} in
         w)
             workspace=${OPTARG}
@@ -44,7 +44,7 @@ while getopts "w:p:o:m:sl:" o; do
             opishell=true
             ;;
         x)
-            xmi_path=${OPTARG}
+            xmifile=${OPTARG}
             ;;
         l)
             links=${OPTARG}
@@ -81,8 +81,8 @@ else
 fi
 
 # Perspective
-if [[ -n $xmi ]]; then
-    xmi_args="-workbench_xmi $xmi_file"
+if [[ -n $xmifile ]]; then
+    xmi_args="-workbench_xmi $xmifile"
 else
     xmi_args=""
 fi
