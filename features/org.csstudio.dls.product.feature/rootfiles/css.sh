@@ -9,6 +9,7 @@ General arguments:
 Arguments to run an opi file:
     [-o <opifile>] [Eclipse path; links required]
     [-l <links>]
+    [-x <xmi file>]
     [-m <macros>] in the form a=b,c=d
     [-s] launch opi as standalone window
 
@@ -41,6 +42,9 @@ while getopts "w:p:o:m:sl:" o; do
             ;;
         s)
             opishell=true
+            ;;
+        x)
+            xmi_path=${OPTARG}
             ;;
         l)
             links=${OPTARG}
@@ -76,6 +80,12 @@ else
     data_args="-data $HOME/.cs-studio-$port"
 fi
 
+# Perspective
+if [[ -n $xmi ]]; then
+    xmi_args="-workbench_xmi $xmi_file"
+else
+    xmi_args=""
+fi
 
 # OPI file and related options.
 if [[ -n $macros ]] || [[ -n $links ]]; then
@@ -111,4 +121,4 @@ fi
 
 # Echo subsequent commands for debugging.
 set -x
-exec $CSSTUDIO $port_args $data_args "$launch_opi_arg" "$launch_opi_escaped"
+exec $CSSTUDIO $port_args $data_args $xmi_args "$launch_opi_arg" "$launch_opi_escaped"
