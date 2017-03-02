@@ -17,6 +17,12 @@ CS-Studio running, then the workspace argument is ignored.
     "
 }
 
+function escape() {
+    # CSS cannot accept : or . (other than in the filename) in a command-line argument.
+    # This replaces with the CSS escape mechanism [\<ascii-code>].
+    echo $(echo $1 | perl -ne "s|:|[\\\58]|g; print" | perl -ne "s|\.|[\\\46]|g; print;")
+}
+
 # This script is intended to be installed alongside the cs-studio binary.
 CSS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CSSTUDIO=$CSS_DIR/cs-studio
@@ -87,6 +93,7 @@ if [[ -n $macros ]] || [[ -n $links ]]; then
 fi
 
 if [[ -n $opifile ]]; then
+
     # Opening in a standalone window is just a special macro.
     if [[ $opishell = true ]]; then
         if [[ -n $macros ]]; then
@@ -96,19 +103,22 @@ if [[ -n $opifile ]]; then
         fi
     fi
 
+    echo $macros
+    if [[ -n $macros ]]; then
+        macros_escaped=$(escape $macros)
+    fi
+
     launch_opi_arg=--launcher.openFile
-    launch_opi="$opifile $macros"
+    launch_opi="$opifile $macros_escaped"
+
     echo $links
     if [[ -n "${links}" ]]; then
-        launch_opi="$launch_opi -share_link $links"
+        links_escaped=$(escape $links)
+        launch_opi="$launch_opi -share_link $links_escaped"
     fi
-    # CSS cannot accept . in a command-line argument (other than in the filename).
-    # This replaces with the CSS escape mechanism [\46].
-    # Accepted extensions: opi, nws
-    launch_opi_escaped=$(echo $launch_opi | perl -ne "s|\.(?!opi\|nws)|[\\\46]|g; print;")
 fi
 
 
 # Echo subsequent commands for debugging.
 set -x
-exec $CSSTUDIO $port_args $data_args "$launch_opi_arg" "$launch_opi_escaped"
+exec $CSSTUDIO $port_args $data_args "$launch_opi_arg" "$launch_opi"
