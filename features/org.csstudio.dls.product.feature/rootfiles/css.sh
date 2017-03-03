@@ -34,8 +34,8 @@ CSSTUDIO=$CSS_DIR/cs-studio
 opishell=false
 port=5064
 
-while getopts "w:p:o:m:sl:" o; do
-    case ${o} in
+while getopts "w:p:o:m:sl:" opt; do
+    case $opt in
         w)
             workspace=${OPTARG}
             ;;
