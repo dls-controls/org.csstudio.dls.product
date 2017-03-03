@@ -8,12 +8,16 @@ General arguments:
     [-p <port>] (only 5064 or 6064 supported)
 Arguments to run an opi file:
     [-o <opifile>] [Eclipse path; links required]
-    [-l <links>]
-    [-m <macros>] in the form a=b,c=d
+    [-l <links>] in the form path1=eclipse_path1,path2=eclipse_path2,...
+    [-m <macros>] in the form key1=value1,key2=value2,...
     [-s] launch opi as standalone window
 
-Note: If you specify an opi file to launch and there is an existing instance of
-CS-Studio running, then the workspace argument is ignored.
+Notes:
+ - If you specify an opi file to launch and there is an existing instance of CS-Studio
+ running, then the workspace argument is ignored.
+ - You can specify simply macros as part of the opifile argument [-o '<opifile> <macros>']
+ but these will not work with the -s flag and may cause an error as restricted
+ characters will not be escaped correctly.
     "
 }
 
