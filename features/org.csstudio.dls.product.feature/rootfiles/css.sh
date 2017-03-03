@@ -96,34 +96,23 @@ if [[ -n $macros ]] || [[ -n $links ]]; then
 fi
 
 if [[ -n $opifile ]]; then
-
-    # Opening in a standalone window is just a special macro.
-    if [[ $opishell = true ]]; then
-        if [[ -n $macros ]]; then
-            macros="${macros},Position=NEW_SHELL"
-        else
-            macros="Position=NEW_SHELL"
-        fi
-    fi
-
-    echo $macros
-    if [[ -n $macros ]]; then
-        macros_escaped=$(escape $macros)
-    else
-        macros_escaped=""
-    fi
-
-    launch_opi_arg=--launcher.openFile
-    launch_opi="$opifile $macros_escaped"
-
-    echo $links
-    if [[ -n "${links}" ]]; then
-        links_escaped=$(escape $links)
-        launch_opi="$launch_opi -share_link $links_escaped"
-    fi
+    launch_opi_cmd=--launcher.openFile
 fi
 
+# Opening in a standalone window is just a special macro.
+if [[ $opishell = true ]]; then
+    if [[ -n $macros ]]; then
+        macros="$macros,Position=NEW_SHELL"
+    else
+        macros="Position=NEW_SHELL"
+    fi
+fi
+macros_escaped=$(escape "$macros")
+
+if [[ -n $links ]]; then
+    links_escaped="-share_link $(escape "$links")"
+fi
 
 # Echo subsequent commands for debugging.
 set -x
-exec $CSSTUDIO $port_args $data_args "$launch_opi_arg" "$launch_opi"
+exec $CSSTUDIO $port_args $data_args $launch_opi_cmd "$opifile $macros_escaped $links_escaped"
