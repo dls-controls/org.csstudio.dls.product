@@ -18,8 +18,11 @@ CS-Studio running, then the workspace argument is ignored.
 }
 
 function escape() {
-    # CSS cannot accept : or . (other than in the filename) in a command-line argument.
-    # This replaces with the CSS escape mechanism [\<ascii-code>].
+    # CSS cannot accept : or . in LINKS or MACROS when passed on the command
+    # line. The affected characters must be replaced using the CSS escape
+    # mechanism of [\<ascii-code>].
+    # The backslash is double escaped as string is parsed twice before being
+    # executed.
     echo $(echo $1 | perl -ne "s|:|[\\\58]|g; print" | perl -ne "s|\.|[\\\46]|g; print;")
 }
 
