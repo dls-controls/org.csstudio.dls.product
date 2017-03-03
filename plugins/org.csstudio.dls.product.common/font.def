@@ -1,9 +1,9 @@
 Header 1 = Liberation Sans-bold-24
 Header 2 = Liberation Sans-bold-19
 Header 3 = Liberation Sans-bold-16
-Default = Liberation Sans-regular-15
-Default Bold = Liberation Sans-bold-15
+Default = Liberation Sans-regular-14
+Default Bold = Liberation Sans-bold-14
 Label Small = Liberation Sans-regular-12
 Fine Print = Liberation Sans-regular-11
-Monospace = Monospace-regular-15
-Monospace Bold = Monospace-bold-15
+Monospace = Monospace-regular-14
+Monospace Bold = Monospace-bold-14
