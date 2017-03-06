@@ -8,13 +8,26 @@ General arguments:
     [-p <port>] (only 5064 or 6064 supported)
 Arguments to run an opi file:
     [-o <opifile>] [Eclipse path; links required]
-    [-l <links>]
-    [-m <macros>] in the form a=b,c=d
+    [-l <links>] in the form path1=eclipse_path1,path2=eclipse_path2,...
+    [-m <macros>] in the form key1=value1,key2=value2,...
     [-s] launch opi as standalone window
 
-Note: If you specify an opi file to launch and there is an existing instance of
-CS-Studio running, then the workspace argument is ignored.
+Notes:
+ - If you specify an opi file to launch and there is an existing instance of CS-Studio
+ running, then the workspace argument is ignored.
+ - You can specify simply macros as part of the opifile argument [-o '<opifile> <macros>']
+ but these will not work with the -s flag and may cause an error as restricted
+ characters will not be escaped correctly.
     "
+}
+
+function escape() {
+    # CSS cannot accept : or . in LINKS or MACROS when passed on the command
+    # line. The affected characters must be replaced using the CSS escape
+    # mechanism of [\<ascii-code>].
+    # The backslash is double escaped as string is parsed twice before being
+    # executed.
+    echo $(echo $1 | perl -ne "s|:|[\\\58]|g; print" | perl -ne "s|\.|[\\\46]|g; print;")
 }
 
 # This script is intended to be installed alongside the cs-studio binary.
@@ -25,8 +38,8 @@ CSSTUDIO=$CSS_DIR/cs-studio
 opishell=false
 port=5064
 
-while getopts "w:p:o:m:sl:" o; do
-    case ${o} in
+while getopts "w:p:o:m:sl:" opt; do
+    case $opt in
         w)
             workspace=${OPTARG}
             ;;
@@ -87,28 +100,23 @@ if [[ -n $macros ]] || [[ -n $links ]]; then
 fi
 
 if [[ -n $opifile ]]; then
-    # Opening in a standalone window is just a special macro.
-    if [[ $opishell = true ]]; then
-        if [[ -n $macros ]]; then
-            macros="${macros},Position=NEW_SHELL"
-        else
-            macros="Position=NEW_SHELL"
-        fi
-    fi
-
-    launch_opi_arg=--launcher.openFile
-    launch_opi="$opifile $macros"
-    echo $links
-    if [[ -n "${links}" ]]; then
-        launch_opi="$launch_opi -share_link $links"
-    fi
-    # CSS cannot accept . in a command-line argument (other than in the filename).
-    # This replaces with the CSS escape mechanism [\46].
-    # Accepted extensions: opi, nws
-    launch_opi_escaped=$(echo $launch_opi | perl -ne "s|\.(?!opi\|nws)|[\\\46]|g; print;")
+    launch_opi_cmd=--launcher.openFile
 fi
 
+# Opening in a standalone window is just a special macro.
+if [[ $opishell = true ]]; then
+    if [[ -n $macros ]]; then
+        macros="$macros,Position=NEW_SHELL"
+    else
+        macros="Position=NEW_SHELL"
+    fi
+fi
+macros_escaped=$(escape "$macros")
+
+if [[ -n $links ]]; then
+    links_escaped="-share_link $(escape "$links")"
+fi
 
 # Echo subsequent commands for debugging.
 set -x
-exec $CSSTUDIO $port_args $data_args "$launch_opi_arg" "$launch_opi_escaped"
+exec $CSSTUDIO $port_args $data_args $launch_opi_cmd "$opifile $macros_escaped $links_escaped"
