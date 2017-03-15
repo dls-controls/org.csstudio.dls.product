@@ -19,7 +19,7 @@ import org.eclipse.osgi.util.NLS;
  */
 public class OpenNewWindow implements IOpenDisplayAction {
 
-    private static final int STARTUP_TIME_MILLIS = 15000;
+    private static final int STARTUP_TIME_MILLIS = 30000;
 
     /**
      * Parse the specified XML file and act on its contents.
