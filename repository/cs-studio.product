@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="CS-Studio" uid="cs-studio" id="org.csstudio.dls.product.5064.product" application="org.csstudio.dls.product.application" version="4.4.0.snapshot" useFeatures="true" includeLaunchers="true">
+<product name="CS-Studio" uid="cs-studio" id="org.csstudio.dls.product.product" application="org.csstudio.dls.product.application" version="4.4.0.snapshot" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/org.csstudio.dls.product/icons/cs-studio-about.png"/>
@@ -27,7 +27,7 @@
    <windowImages i16="/org.csstudio.dls.product/icons/css16.png" i32="/org.csstudio.dls.product/icons/css32.png" i48="/org.csstudio.dls.product/icons/css48.png" i64="/org.csstudio.dls.product/icons/css64.png" i128="/org.csstudio.dls.product/icons/css128.png"/>
 
    <splash
-      location="org.csstudio.dls.product.5064"
+      location="org.csstudio.dls.product"
       startupProgressRect="5,222,470,15"
       startupMessageRect="7,200,466,20"
       startupForegroundColor="FFFFFF" />
