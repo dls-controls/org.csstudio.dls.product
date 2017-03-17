@@ -12,8 +12,8 @@
   <packaging>pom</packaging>
   <modules>
     <module>org.csstudio.dls.product.common</module>
-    <module>org.csstudio.dls.product.5064</module>
-    <module>org.csstudio.dls.product.6064</module>
+    <module>org.csstudio.dls.product</module>
+    <module>org.csstudio.dls.product.dev</module>
     <module>org.csstudio.openfile.newwindow</module>
     <module>org.csstudio.openfile.newwindow.test</module>
     <module>org.csstudio.opibuilder.dlsopitests</module>
