@@ -70,7 +70,6 @@ while getopts "w:p:o:x:m:sl:" opt; do
     esac
 done
 
-
 # Port
 if [[ -n $port ]]; then
     if [[ $port = "5064" ]]; then
@@ -78,6 +77,7 @@ if [[ -n $port ]]; then
         port_args="-name cs-studio"
     elif [[ $port = "6064" ]]; then
         port_args="-product org.csstudio.dls.product.dev.product -name cs-studio-dev"
+        workspace_suffix="-dev"
     else
         echo "Only ports 5064 and 6064 are supported by this script."
         usage
@@ -85,12 +85,11 @@ if [[ -n $port ]]; then
     fi
 fi
 
-
 # Workspace
 if [[ -n $workspace ]]; then
     data_args="-data $workspace"
 else
-    data_args="-data $HOME/.cs-studio-$port"
+    data_args="-data $HOME/cs-studio/workspace$workspace_suffix"
 fi
 
 # Perspective
