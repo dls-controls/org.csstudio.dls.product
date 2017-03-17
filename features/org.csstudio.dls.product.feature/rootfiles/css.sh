@@ -90,7 +90,7 @@ fi
 if [[ -n $workspace ]]; then
     data_args="-data $workspace"
 else
-    data_args="-data $HOME/.cs-studio-$port"
+    data_args="-data $HOME/cs-studio/workspace-$port"
 fi
 
 # Perspective
