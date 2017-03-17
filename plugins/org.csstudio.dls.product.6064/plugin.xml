@@ -55,7 +55,7 @@
          </property>
          <property
                name="applicationCSS"
-               value="platform:/plugin/org.csstudio.dls.product.6064/6064.css">
+               value="platform:/plugin/org.csstudio.dls.product.dev/dev_instance.css">
          </property>
       </product>
    </extension>
