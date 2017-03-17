@@ -16,10 +16,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="org.csstudio.dls.product.application"
-            name="cs-studio-6064">
+            name="cs-studio-dev">
          <property
                name="appName"
-               value="cs-studio-6064">
+               value="cs-studio-dev">
          </property>
          <property
                name="introBrandingImage"
