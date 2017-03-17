@@ -77,7 +77,7 @@ if [[ -n $port ]]; then
         # default product; default arguments
         port_args="-name cs-studio"
     elif [[ $port = "6064" ]]; then
-        port_args="-product org.csstudio.dls.product.6064.product -name cs-studio-6064"
+        port_args="-product org.csstudio.dls.product.dev.product -name cs-studio-dev"
     else
         echo "Only ports 5064 and 6064 are supported by this script."
         usage
