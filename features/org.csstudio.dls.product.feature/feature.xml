@@ -25,14 +25,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.csstudio.dls.product.5064"
+         id="org.csstudio.dls.product"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.csstudio.dls.product.6064"
+         id="org.csstudio.dls.product.dev"
          download-size="0"
          install-size="0"
          version="0.0.0"
