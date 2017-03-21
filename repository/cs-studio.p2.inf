@@ -8,7 +8,7 @@ instructions.configure=\
   
 # See https://bugs.eclipse.org/bugs/show_bug.cgi?id=231557
 instructions.install = \
-  setProgramProperty(propName:osgi.instance.area.default,propValue:@user.home/.cs-studio);\
+  setProgramProperty(propName:osgi.instance.area.default,propValue:@user.home/cs-studio/workspace);\
   setProgramProperty(propName:osgi.sharedConfiguration.area,propValue:file\:configuration);\
   setProgramProperty(propName:osgi.sharedConfiguration.area.readOnly,propValue:true);\
   setProgramProperty(propName:osgi.configuration.area,propValue:@user.home/.cs-studio-conf);\
