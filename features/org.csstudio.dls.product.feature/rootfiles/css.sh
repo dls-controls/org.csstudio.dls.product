@@ -108,8 +108,9 @@ if [[ -n $macros ]] || [[ -n $links ]]; then
     fi
 fi
 
-if [[ -n $opifile ]]; then
-    launch_opi_cmd=--launcher.openFile
+# If no file specified, open a new databrowser window.
+if [[ -z $opifile ]]; then
+    opifile="$CSS_DIR/configuration/databrowser.nws"
 fi
 
 # Opening in a standalone window is just a special macro.
@@ -128,4 +129,4 @@ fi
 
 # Echo subsequent commands for debugging.
 set -x
-exec $CSSTUDIO $port_args $data_args $xmi_args $launch_opi_cmd "$opifile $macros_escaped $links_escaped"
+exec $CSSTUDIO $port_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
