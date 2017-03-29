@@ -1,5 +1,7 @@
 #!/bin/bash
 # Wrapper script for CS-Studio.
+# Create a directory for personal files and link to it from CSS/ project in CS-Studio.
+# Ensure that a maximum of two instances (cs-studio and cs-studio-dev) are running at any time.
 
 function usage() {
     echo "Usage: $0 [args]
@@ -89,7 +91,7 @@ fi
 if [[ -n $workspace ]]; then
     data_args="-data $workspace"
 else
-    data_args="-data $HOME/cs-studio/workspace$workspace_suffix"
+    data_args="-data $HOME/cs-studio/workspaces/$(hostname -s)$workspace_suffix"
 fi
 
 # Perspective
