@@ -127,6 +127,10 @@ if [[ -n $links ]]; then
     links_escaped="-share_link $(escape "$links")"
 fi
 
+# Create the local location shared between all workspaces.
+PERSONAL_LOCATION=$HOME/cs-studio/$USER
+mkdir -p $PERSONAL_LOCATION
+
 # Echo subsequent commands for debugging.
 set -x
-exec $CSSTUDIO $port_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
+exec $CSSTUDIO -share_link $PERSONAL_LOCATION=/CSS/$USER $port_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
