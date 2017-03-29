@@ -96,15 +96,6 @@ public class WindowSpecParserTest {
     }
 
     @Test(expected=WindowManagementException.class)
-    public void xmlWithNoFileThrowsException() throws WindowManagementException {
-        List<String> oneId = createStringList(helloId);
-        String noFileXml = createXml(oneId, noFiles, noLinks);
-        WindowSpecParser parser = createParser(noFileXml);
-
-        parser.parse();
-    }
-
-    @Test(expected=WindowManagementException.class)
     public void xmlWithTwoPerspectiveIdsThrowsException() throws WindowManagementException {
         List<String> twoIds = createStringList(helloId, byeId);
         List<String> oneFile = createStringList(helloFile);
@@ -122,6 +113,15 @@ public class WindowSpecParserTest {
         WindowSpecParser parser = createParser(twoIdXml);
 
         parser.parse();
+    }
+
+    public void xmlWithNoFileCreatesWindowSpec() throws WindowManagementException {
+        List<String> oneId = createStringList(helloId);
+        String noFileXml = createXml(oneId, noFiles, noLinks);
+        WindowSpecParser parser = createParser(noFileXml);
+
+        WindowSpec spec = parser.parse();
+        assertEquals(helloId, spec.getPerspectiveId());
     }
 
     @Test
