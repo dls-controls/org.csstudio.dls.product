@@ -5,8 +5,17 @@ import java.util.Map;
 
 public class WindowSpec {
 
+    /**
+     * Eclipse ID of perspective.  May not be null.
+     */
     private String perspectiveId;
-    private String perspectiveFile;
+    /**
+     * Full filesystem path to perspective XMI file.  May be null.
+     */
+    private String perspectiveFile = null;
+    /**
+     * Map of Eclipse links.  May be empty.
+     */
     private Map<String, String> links = new HashMap<>();
 
     public String getPerspectiveId() {

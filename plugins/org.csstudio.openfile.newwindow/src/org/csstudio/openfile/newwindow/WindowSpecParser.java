@@ -51,8 +51,11 @@ public class WindowSpecParser {
             String perspectiveId = getSingleNamedChildText(root, PERSPECTIVE_ID_TAG);
             spec.setPerspectiveId(perspectiveId);
 
-            String perspectiveFile = getSingleNamedChildText(root, PERSPECTIVE_FILE_TAG);
-            spec.setPerspectiveFile(perspectiveFile);
+            Optional<Element> perspectiveFileElement = getSingleOptionalNamedChild(root, PERSPECTIVE_FILE_TAG);
+            if (perspectiveFileElement.isPresent()) {
+                String perspectiveFile = perspectiveFileElement.get().getTextContent();
+                spec.setPerspectiveFile(perspectiveFile);
+            }
 
             Optional<Element> linksElement = getSingleOptionalNamedChild(root, LINKS_TAG);
             if (linksElement.isPresent()) {
