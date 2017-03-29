@@ -1,5 +1,7 @@
 #!/bin/bash
 # Wrapper script for CS-Studio.
+# Create a directory for personal files and link to it from CSS/ project in CS-Studio.
+# Ensure that a maximum of two instances (cs-studio and cs-studio-dev) are running at any time.
 
 function usage() {
     echo "Usage: $0 [args]
@@ -89,7 +91,7 @@ fi
 if [[ -n $workspace ]]; then
     data_args="-data $workspace"
 else
-    data_args="-data $HOME/cs-studio/workspace$workspace_suffix"
+    data_args="-data $HOME/cs-studio/workspaces/$(hostname -s)$workspace_suffix"
 fi
 
 # Perspective
@@ -127,6 +129,11 @@ if [[ -n $links ]]; then
     links_escaped="-share_link $(escape "$links")"
 fi
 
+# Create the local location shared between all workspaces.
+personal_location=$HOME/cs-studio/$USER
+mkdir -p $personal_location
+local_links_args="-share_link $personal_location=/CSS/$USER"
+
 # Echo subsequent commands for debugging.
 set -x
-exec $CSSTUDIO $port_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
+exec $CSSTUDIO $local_links_args $port_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
