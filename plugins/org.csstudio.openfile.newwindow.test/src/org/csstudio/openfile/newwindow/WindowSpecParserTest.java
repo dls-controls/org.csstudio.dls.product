@@ -133,7 +133,7 @@ public class WindowSpecParserTest {
 
         WindowSpec spec = simpleParser.parse();
 
-
+        assertEquals(helloId, spec.getPerspectiveId());
         assertEquals(helloFile, spec.getPerspectiveFile());
     }
 
