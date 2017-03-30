@@ -2,9 +2,9 @@ com.sun.mail.javax.mail
 org.apache.felix.gogo.runtime
 org.apache.felix.gogo.shell
 org.csstudio.diag.pvmanager.probe
-org.csstudio.dls.product.5064
+org.csstudio.dls.product
 org.csstudio.dls.product.common
-org.csstudio.dls.product.6064
+org.csstudio.dls.product.dev
 org.csstudio.logbook
 org.csstudio.logbook.dls
 org.csstudio.opibuilder
