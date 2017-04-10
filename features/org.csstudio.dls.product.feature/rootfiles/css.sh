@@ -7,7 +7,8 @@ function usage() {
     echo "Usage: $0 [args]
 General arguments:
     [-w <workspace>]
-    [-p <port>] (only 5064 or 6064 supported)
+    [-d] run the 'dev' instance of CS-Studio.  This allows running on a different
+         port or on a different machine via SSH.
 Arguments to run an opi file:
     [-o <opifile>] [Eclipse path; links required]
     [-l <links>] in the form path1=eclipse_path1,path2=eclipse_path2,...
@@ -39,15 +40,16 @@ CSSTUDIO=$CSS_DIR/cs-studio
 
 # Default values.
 opishell=false
+dev=false
 port=5064
 
-while getopts "w:p:o:x:m:sl:" opt; do
+while getopts "w:do:x:m:sl:" opt; do
     case $opt in
         w)
             workspace=${OPTARG}
             ;;
-        p)
-            port=${OPTARG}
+        d)
+            dev=true
             ;;
         o)
             opifile=${OPTARG}
@@ -73,18 +75,9 @@ while getopts "w:p:o:x:m:sl:" opt; do
 done
 
 # Port
-if [[ -n $port ]]; then
-    if [[ $port = "5064" ]]; then
-        # default product; default arguments
-        port_args="-name cs-studio"
-    elif [[ $port = "6064" ]]; then
-        port_args="-product org.csstudio.dls.product.dev.product -name cs-studio-dev"
-        workspace_suffix="-dev"
-    else
-        echo "Only ports 5064 and 6064 are supported by this script."
-        usage
-        exit 1
-    fi
+if [[ "$dev" == true ]]; then
+    dev_args="-product org.csstudio.dls.product.dev.product -name cs-studio-dev"
+    workspace_suffix="-dev"
 fi
 
 # Workspace
@@ -136,4 +129,4 @@ local_links_args="-share_link $personal_location=/CSS/$USER"
 
 # Echo subsequent commands for debugging.
 set -x
-exec $CSSTUDIO $local_links_args $port_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
+exec $CSSTUDIO $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
