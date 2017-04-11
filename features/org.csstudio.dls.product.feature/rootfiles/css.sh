@@ -7,6 +7,7 @@ function usage() {
     echo "Usage: $0 [args]
 General arguments:
     [-w <workspace>]
+    [-p <port>] (this option is IGNORED)
     [-d] run the 'dev' instance of CS-Studio.  This allows running on a different
          port or on a different machine via SSH.
 Arguments to run an opi file:
@@ -43,13 +44,17 @@ opishell=false
 dev=false
 port=5064
 
-while getopts "w:do:x:m:sl:" opt; do
+while getopts "w:p:do:x:m:sl:" opt; do
     case $opt in
         w)
             workspace=${OPTARG}
             ;;
         d)
             dev=true
+            ;;
+        p)
+            port=${OPTARG}
+            echo ">> PORT argument ($port) ignored <<"
             ;;
         o)
             opifile=${OPTARG}
@@ -74,7 +79,7 @@ while getopts "w:do:x:m:sl:" opt; do
     esac
 done
 
-# Port
+# Product
 if [[ "$dev" == true ]]; then
     dev_args="-product org.csstudio.dls.product.dev.product -name cs-studio-dev"
     workspace_suffix="-dev"
