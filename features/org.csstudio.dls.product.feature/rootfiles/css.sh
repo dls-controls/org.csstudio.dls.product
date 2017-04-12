@@ -80,7 +80,9 @@ while getopts "w:p:do:x:m:sl:" opt; do
 done
 
 # Product
-if [[ "$dev" == true ]]; then
+if [[ "$dev" == false ]]; then
+    dev_args="-name cs-studio"
+else
     dev_args="-product org.csstudio.dls.product.dev.product -name cs-studio-dev"
     workspace_suffix="-dev"
 fi
