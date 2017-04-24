@@ -35,6 +35,28 @@ function escape() {
     echo $(echo $1 | perl -ne "s|:|[\\\58]|g; print" | perl -ne "s|\.|[\\\46]|g; print;")
 }
 
+declare -A epics_env_vars
+DIIRT_PREFS_PLUGIN=org.csstudio.diirt.util.core.preferences
+epics_env_vars=( # Map of EPICS env variable to cs-studio preferences
+    ["EPICS_CA_ADDR_LIST"]="diirt.ca.addr.list"
+    ["EPICS_CA_AUTO_ADDR_LIST"]="diirt.ca.auto.addr.list"
+    ["EPICS_CA_BEACON_PERIOD"]="diirt.ca.beacon.period"
+    ["EPICS_CA_CONN_TMO"]="diirt.ca.connection.timeout"
+    ["EPICS_CA_SERVER_PORT"]="diirt.ca.server.port"
+    ["EPICS_CA_REPEATER_PORT"]="diirt.ca.repeater.port"
+    ["EPICS_CA_MAX_ARRAY_BYTES"]="diirt.ca.max.array.size")
+
+function set_epics_env() {
+    # Extract EPICS environment variables and pass to CS-Studio as a set
+    # of custom configuration values
+    for key in "${!epics_env_vars[@]}"; do
+        # eval to extract named variable
+        eval env_value=\"\$"$key"\"
+        [ ${env_value:+unset} ] &&
+            echo "$DIIRT_PREFS_PLUGIN/${epics_env_vars[$key]}=$env_value" >> $1
+    done
+}
+
 # This script is intended to be installed alongside the cs-studio binary.
 CSS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CSSTUDIO=$CSS_DIR/cs-studio
@@ -110,6 +132,12 @@ if [[ -n $macros ]] || [[ -n $links ]]; then
     fi
 fi
 
+# EPICS environment variables: if not defined in the calling environment the default args will be used
+tmpfile=$(mktemp --tmpdir cs-studio.custom-config.XXXXXX)
+trap 'echo "Cleanup custom CA config"; rm -f -- "$tmpfile"' INT TERM HUP EXIT
+set_epics_env $tmpfile
+plugin_preferences="-pluginCustomization $tmpfile"
+
 # If no file specified, open a new databrowser window.
 if [[ -z $opifile ]]; then
     opifile="$CSS_DIR/configuration/databrowser.nws"
@@ -136,4 +164,4 @@ local_links_args="-share_link $personal_location=/CSS/$USER"
 
 # Echo subsequent commands for debugging.
 set -x
-exec $CSSTUDIO $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
+$CSSTUDIO $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
