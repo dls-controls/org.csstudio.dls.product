@@ -43,7 +43,7 @@
          </property>
          <property
                name="preferenceCustomization"
-               value="plugin_customization.ini">
+               value="platform:/plugin/org.csstudio.dls.product.common/plugin_customization.ini">
          </property>
          <property
                name="aboutImage"
