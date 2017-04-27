@@ -8,6 +8,9 @@ function usage() {
 General arguments:
     [-w <workspace>]
     [-p <port>] (this option is IGNORED)
+    [-c] clear cached EPICS configuration. This enables EPICS environment variables
+         to be set in an existing workspace
+             (see https://github.com/ControlSystemStudio/cs-studio/issues/2196)
     [-d] run the 'dev' instance of CS-Studio.  This allows running on a different
          port or on a different machine via SSH.
 Arguments to run an opi file:
@@ -62,11 +65,12 @@ CSS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CSSTUDIO=$CSS_DIR/cs-studio
 
 # Default values.
-opishell=false
+clear_diirt_config=false
 dev=false
+opishell=false
 port=5064
 
-while getopts "w:p:do:x:m:sl:" opt; do
+while getopts "w:p:do:x:m:sl:c" opt; do
     case $opt in
         w)
             workspace=${OPTARG}
@@ -86,6 +90,9 @@ while getopts "w:p:do:x:m:sl:" opt; do
             ;;
         s)
             opishell=true
+            ;;
+        c)
+            clear_diirt_config=true
             ;;
         x)
             xmifile=${OPTARG}
@@ -110,10 +117,15 @@ else
 fi
 
 # Workspace
-if [[ -n $workspace ]]; then
-    data_args="-data $workspace"
-else
-    data_args="-data $HOME/cs-studio/workspaces/$(hostname -s)$workspace_suffix"
+if [[ -z $workspace ]]; then
+    workspace="$HOME/cs-studio/workspaces/$(hostname -s)$workspace_suffix"
+fi
+data_args="-data $workspace"
+
+# EPICS/DIIRT config cleanup
+if [[ $clear_diirt_config == true ]]; then
+    echo "Deleting cached EPICS preferences"
+    rm "$workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/$DIIRT_PREFS_PLUGIN.prefs"
 fi
 
 # Perspective
