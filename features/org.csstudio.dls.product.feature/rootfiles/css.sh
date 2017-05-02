@@ -8,6 +8,9 @@ function usage() {
 General arguments:
     [-w <workspace>]
     [-p <port>] (this option is IGNORED)
+    [-c] clear cached EPICS configuration. This enables EPICS environment variables
+         to be set in an existing workspace
+             (see https://github.com/ControlSystemStudio/cs-studio/issues/2196)
     [-d] run the 'dev' instance of CS-Studio.  This allows running on a different
          port or on a different machine via SSH.
 Arguments to run an opi file:
@@ -35,16 +38,39 @@ function escape() {
     echo $(echo $1 | perl -ne "s|:|[\\\58]|g; print" | perl -ne "s|\.|[\\\46]|g; print;")
 }
 
+declare -A epics_env_vars
+DIIRT_PREFS_PLUGIN=org.csstudio.diirt.util.core.preferences
+epics_env_vars=( # Map of EPICS env variable to cs-studio preferences
+    ["EPICS_CA_ADDR_LIST"]="diirt.ca.addr.list"
+    ["EPICS_CA_AUTO_ADDR_LIST"]="diirt.ca.auto.addr.list"
+    ["EPICS_CA_BEACON_PERIOD"]="diirt.ca.beacon.period"
+    ["EPICS_CA_CONN_TMO"]="diirt.ca.connection.timeout"
+    ["EPICS_CA_SERVER_PORT"]="diirt.ca.server.port"
+    ["EPICS_CA_REPEATER_PORT"]="diirt.ca.repeater.port"
+    ["EPICS_CA_MAX_ARRAY_BYTES"]="diirt.ca.max.array.size")
+
+function set_epics_env() {
+    # Extract EPICS environment variables and pass to CS-Studio as a set
+    # of custom configuration values
+    for key in "${!epics_env_vars[@]}"; do
+        # eval to extract named variable
+        eval env_value=\"\$"$key"\"
+        [ ${env_value:+unset} ] &&
+            echo "$DIIRT_PREFS_PLUGIN/${epics_env_vars[$key]}=$env_value" >> $1
+    done
+}
+
 # This script is intended to be installed alongside the cs-studio binary.
 CSS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CSSTUDIO=$CSS_DIR/cs-studio
 
 # Default values.
-opishell=false
+clear_diirt_config=false
 dev=false
+opishell=false
 port=5064
 
-while getopts "w:p:do:x:m:sl:" opt; do
+while getopts "w:p:do:x:m:sl:c" opt; do
     case $opt in
         w)
             workspace=${OPTARG}
@@ -64,6 +90,9 @@ while getopts "w:p:do:x:m:sl:" opt; do
             ;;
         s)
             opishell=true
+            ;;
+        c)
+            clear_diirt_config=true
             ;;
         x)
             xmifile=${OPTARG}
@@ -88,10 +117,15 @@ else
 fi
 
 # Workspace
-if [[ -n $workspace ]]; then
-    data_args="-data $workspace"
-else
-    data_args="-data $HOME/cs-studio/workspaces/$(hostname -s)$workspace_suffix"
+if [[ -z $workspace ]]; then
+    workspace="$HOME/cs-studio/workspaces/$(hostname -s)$workspace_suffix"
+fi
+data_args="-data $workspace"
+
+# EPICS/DIIRT config cleanup
+if [[ $clear_diirt_config == true ]]; then
+    echo "Deleting cached EPICS preferences"
+    rm "$workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/$DIIRT_PREFS_PLUGIN.prefs"
 fi
 
 # Perspective
@@ -109,6 +143,12 @@ if [[ -n $macros ]] || [[ -n $links ]]; then
         exit 1
     fi
 fi
+
+# EPICS environment variables: if not defined in the calling environment the default args will be used
+tmpfile=$(mktemp --tmpdir cs-studio.custom-config.XXXXXX)
+trap 'echo "Cleanup custom CA config"; rm -f -- "$tmpfile"' INT TERM HUP EXIT
+set_epics_env $tmpfile
+plugin_preferences="-pluginCustomization $tmpfile"
 
 # If no file specified, open a new databrowser window.
 if [[ -z $opifile ]]; then
@@ -136,4 +176,4 @@ local_links_args="-share_link $personal_location=/CSS/$USER"
 
 # Echo subsequent commands for debugging.
 set -x
-exec $CSSTUDIO $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
+$CSSTUDIO $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
