@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CS-Studio Tray Icon
-Bundle-SymbolicName: org.csstudio.trayicon
+Bundle-SymbolicName: org.csstudio.trayicon;singleton:=true
 Bundle-Version: 0.0.1.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.swt,
