@@ -1,5 +1,7 @@
 package org.csstudio.trayicon;
 
+import java.io.IOException;
+
 import org.csstudio.startup.application.OpenDocumentEventProcessor;
 import org.csstudio.utility.product.ApplicationWorkbenchAdvisor;
 import org.eclipse.core.runtime.Platform;
@@ -22,6 +24,13 @@ public class TrayApplicationWorkbenchAdvisor extends ApplicationWorkbenchAdvisor
     public static final String REMEMBER_DECISION = "Remember my decision?";
     public static final String DIALOG_TITLE = "Minimize to System Tray?";
     public static final String DIALOG_QUESTION = "This is the last CS-Studio window.  Should CS-Studio minimize to the System Tray or exit?";
+
+    // This requires internal understanding.  Since we have changed the labels on the dialog,
+    // MessageButtonWithDialog does not assign standard return codes.  This is fixed in Oxygen
+    // but for now we need to know what is going to be returned.
+    private static final int BUTTON1_ID = 256;
+    private static final int BUTTON2_ID = 257;
+    private static final int DIALOG_CLOSED = -1;
 
     public TrayApplicationWorkbenchAdvisor(OpenDocumentEventProcessor openDocProcessor) {
         super(openDocProcessor);
@@ -46,10 +55,19 @@ public class TrayApplicationWorkbenchAdvisor extends ApplicationWorkbenchAdvisor
         int response = dialog.getReturnCode();
         System.out.println("The response is " + response);
         if (dialog.getToggleState()) {
-            if (response == IDialogConstants.YES_ID) {
+            if (response == BUTTON1_ID) {
                 store.setValue(TrayIconPreferencePage.MINIMIZE_TO_TRAY, "always");
-            } else {
+            } else if (response == BUTTON2_ID) {
+                System.out.println("The store value is " + store.getString(TrayIconPreferencePage.MINIMIZE_TO_TRAY));
+                System.out.print("Setting store to never");
                 store.setValue(TrayIconPreferencePage.MINIMIZE_TO_TRAY, "never");
+                System.out.println("The store value is " + store.getString(TrayIconPreferencePage.MINIMIZE_TO_TRAY));
+            }
+            try {
+                store.save();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
         return response;
@@ -66,7 +84,10 @@ public class TrayApplicationWorkbenchAdvisor extends ApplicationWorkbenchAdvisor
         } else {
             if (minPref.equals(MessageDialogWithToggle.PROMPT)) {
                 int response = prompt();
-                if (!(response == IDialogConstants.YES_ID)) {
+                if (response == IDialogConstants.CANCEL_ID || response == DIALOG_CLOSED) {
+                    return false;
+                }
+                if (response == BUTTON2_ID) {
                     return super.preShutdown();
                 }
             }
