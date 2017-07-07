@@ -23,8 +23,10 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
     // This requires internal understanding.  Since we have changed the labels on the dialog,
     // MessageButtonWithDialog does not assign standard return codes.  This is fixed in Oxygen
     // but for now we need to know what is going to be returned.
-    private static final int BUTTON1_ID = 256;
-    private static final int BUTTON2_ID = 257;
+    public static final String[] BUTTON_LABELS = {"Minimize", "Exit Now", "Cancel"};
+    private static final int MINIMIZE_BUTTON_ID = 256;
+    private static final int EXIT_BUTTON_ID = 257;
+    private static final int CANCEL_BUTTON_ID = IDialogConstants.CANCEL_ID;
     private static final int DIALOG_CLOSED = -1;
 
     private TrayIcon trayIcon;
@@ -38,16 +40,15 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
     public int prompt() {
         Shell parent = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         ScopedPreferenceStore store = new ScopedPreferenceStore(InstanceScope.INSTANCE, TrayIconPreferencePage.ID);
-        String[] labels = {"Minimize", "Exit Now", "Cancel"};
         MessageDialogWithToggle dialog = new MessageDialogWithToggle(parent, DIALOG_TITLE, null, DIALOG_QUESTION,
-                MessageDialog.QUESTION, labels, 2, REMEMBER_DECISION, false);
+                MessageDialog.QUESTION, BUTTON_LABELS, 2, REMEMBER_DECISION, false);
         dialog.open();
         int response = dialog.getReturnCode();
         if (dialog.getToggleState()) {
-            if (response == BUTTON1_ID) {
-                store.setValue(TrayIconPreferencePage.MINIMIZE_TO_TRAY, "always");
-            } else if (response == BUTTON2_ID) {
-                store.setValue(TrayIconPreferencePage.MINIMIZE_TO_TRAY, "never");
+            if (response == MINIMIZE_BUTTON_ID) {
+                store.setValue(TrayIconPreferencePage.MINIMIZE_TO_TRAY, MessageDialogWithToggle.ALWAYS);
+            } else if (response == EXIT_BUTTON_ID) {
+                store.setValue(TrayIconPreferencePage.MINIMIZE_TO_TRAY, MessageDialogWithToggle.NEVER);
             }
             try {
                 store.save();
@@ -72,10 +73,10 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
             } else {
                 if (minPref.equals(MessageDialogWithToggle.PROMPT)) {
                     int response = prompt();
-                    if (response == IDialogConstants.CANCEL_ID || response == DIALOG_CLOSED) {
+                    if (response == CANCEL_BUTTON_ID || response == DIALOG_CLOSED) {
                         return false;
                     }
-                    if (response == BUTTON2_ID) {
+                    if (response == EXIT_BUTTON_ID) {
                         return super.preWindowShellClose();
                     }
                 }
