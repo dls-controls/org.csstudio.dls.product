@@ -80,7 +80,7 @@ public class TrayApplicationWorkbenchAdvisor extends ApplicationWorkbenchAdvisor
                 TrayIconPreferencePage.MINIMIZE_TO_TRAY, null, null);
         System.out.println(minPref);
         if (trayIcon.isMinimized() || minPref.equals(MessageDialogWithToggle.NEVER)) {
-        	return super.preShutdown();
+            return super.preShutdown();
         } else {
             if (minPref.equals(MessageDialogWithToggle.PROMPT)) {
                 int response = prompt();

@@ -16,34 +16,34 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 public class TrayIcon {
-	
-	public static String TOOLTIP = "CS-Studio";
-	public static String IMAGE = "icons/css.ico";
+
+    public static String TOOLTIP = "CS-Studio";
+    public static String IMAGE = "icons/css.ico";
     private TrayItem item;
     final private Image image = Activator.getImageDescriptor(IMAGE).createImage();
-    private Menu menu; 
+    private Menu menu;
     private MenuItem open;
     private MenuItem exit;
     IWorkbenchWindow w;
 
-	private boolean minimized;
-	
-	private void dispose() {
+    private boolean minimized;
+
+    private void dispose() {
         item.dispose();
         open.dispose();
         exit.dispose();
         menu.dispose();
-	}
-	
-	public void raiseWindow(Shell shell) {
+    }
+
+    public void raiseWindow(Shell shell) {
         shell.setVisible(true);
         shell.setActive();
         shell.setFocus();
         shell.setMinimized(false);
-	}
-	
-	public void minimize() {
-		item = new TrayItem(Display.getCurrent().getSystemTray(), SWT.NONE);
+    }
+
+    public void minimize() {
+        item = new TrayItem(Display.getCurrent().getSystemTray(), SWT.NONE);
         item.setImage(image);
         item.setToolTipText(TOOLTIP);
         // There should be exactly one workbench window when this is being called.
@@ -66,7 +66,7 @@ public class TrayIcon {
         open.setText("Open");
         open.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event event) {
-            	unminimize();
+                unminimize();
             }
         });
         item.addListener(SWT.MenuDetect, new Listener() {
@@ -77,21 +77,21 @@ public class TrayIcon {
 
         exit.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event event) {
-            	dispose();
+                dispose();
                 PlatformUI.getWorkbench().close();
             }
         });
         minimized = true;
-	}
+    }
 
-	public boolean isMinimized() {
-		return minimized;
-	}
+    public boolean isMinimized() {
+        return minimized;
+    }
 
-	public void unminimize() {
+    public void unminimize() {
         raiseWindow(w.getShell());
         dispose();
         minimized = false;
-	}
+    }
 
 }

@@ -16,7 +16,7 @@ public class TrayWorkbench extends Workbench implements WorkbenchExtPoint {
      * @param parameters the parameters that may give hints on how to create the advisor
      * @return a new advisor instance
      */
-	@Override
+    @Override
     protected WorkbenchAdvisor createWorkbenchAdvisor(final Map<String, Object> parameters) {
         final OpenDocumentEventProcessor openDocProcessor =
                   (OpenDocumentEventProcessor) parameters.get(

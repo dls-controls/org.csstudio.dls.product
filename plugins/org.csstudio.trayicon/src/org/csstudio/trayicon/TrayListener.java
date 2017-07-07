@@ -10,28 +10,28 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
 public class TrayListener implements EventHandler {
-	
-	private TrayIcon trayIcon;
+
+    private TrayIcon trayIcon;
 
     @Inject
     private IEventBroker broker;
 
     @PostConstruct
     public void lazyLoadInContributorPerspective() {
-    	// Subscribe to any part (Editor or View) being activated.
+        // Subscribe to any part (Editor or View) being activated.
         broker.subscribe(UIEvents.UILifeCycle.ACTIVATE, this);
     }
 
     @Override
     public void handleEvent(Event event) {
-    	// When an event is received, maximise the window.
-    	if (trayIcon != null && trayIcon.isMinimized()) {
-    		trayIcon.unminimize();
-    	}
+        // When an event is received, maximise the window.
+        if (trayIcon != null && trayIcon.isMinimized()) {
+            trayIcon.unminimize();
+        }
     }
 
-	public void setTrayIcon(TrayIcon trayIcon) {
-		this.trayIcon = trayIcon;
-	}
+    public void setTrayIcon(TrayIcon trayIcon) {
+        this.trayIcon = trayIcon;
+    }
 
 }
