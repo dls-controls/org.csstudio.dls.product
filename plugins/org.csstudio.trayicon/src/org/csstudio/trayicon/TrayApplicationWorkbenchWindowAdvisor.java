@@ -53,8 +53,7 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
             try {
                 store.save();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Plugin.getLogger().warning("Failed to save preference: " + e.getMessage());
             }
         }
         return response;
