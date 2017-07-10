@@ -2,6 +2,7 @@ package org.csstudio.trayicon;
 
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.swt.widgets.Composite;
@@ -13,6 +14,7 @@ public class TrayIconPreferencePage extends FieldEditorPreferencePage implements
 
     public static final String ID = "org.csstudio.trayicon.preferences";
     public static final String MINIMIZE_TO_TRAY = "minimize_to_tray";
+    public static final String START_MINIMIZED = "start_minimized";
     private ScopedPreferenceStore store;
 
     @Override
@@ -27,6 +29,9 @@ public class TrayIconPreferencePage extends FieldEditorPreferencePage implements
                                 {"Prompt", MessageDialogWithToggle.PROMPT}},
                 parent, true);
         addField(perspectiveEditor);
+        BooleanFieldEditor startMinimizedEditor = new BooleanFieldEditor(START_MINIMIZED,
+                "Start CS-Studio minimized?", BooleanFieldEditor.DEFAULT, parent);
+        addField(startMinimizedEditor);
     }
 
     @Override

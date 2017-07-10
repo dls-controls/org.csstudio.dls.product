@@ -2,6 +2,8 @@ package org.csstudio.trayicon;
 
 import org.csstudio.startup.application.OpenDocumentEventProcessor;
 import org.csstudio.utility.product.ApplicationWorkbenchAdvisor;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.ui.PlatformUI;
@@ -29,6 +31,10 @@ public class TrayApplicationWorkbenchAdvisor extends ApplicationWorkbenchAdvisor
         // Initialise a perspective saver.
         TrayListener trayListener = ContextInjectionFactory.make(TrayListener.class, context);
         trayListener.setTrayIcon(trayIcon);
+        IPreferencesService prefsService = Platform.getPreferencesService();
+        if (prefsService.getBoolean(TrayIconPreferencePage.ID, TrayIconPreferencePage.START_MINIMIZED, false, null)) {
+            trayIcon.minimize();
+        }
     }
 
 }
