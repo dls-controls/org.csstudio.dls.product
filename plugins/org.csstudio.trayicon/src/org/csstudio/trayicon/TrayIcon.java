@@ -19,17 +19,17 @@ public class TrayIcon {
 
     public static String TOOLTIP = "CS-Studio";
     public static String IMAGE = "icons/css.ico";
-    private TrayItem item;
+    private TrayItem trayItem;
     final private Image image = Activator.getImageDescriptor(IMAGE).createImage();
     private Menu menu;
     private MenuItem open;
     private MenuItem exit;
-    IWorkbenchWindow w;
+    private IWorkbenchWindow window;
 
     private boolean minimized;
 
     private void dispose() {
-        item.dispose();
+        trayItem.dispose();
         open.dispose();
         exit.dispose();
         menu.dispose();
@@ -43,39 +43,43 @@ public class TrayIcon {
     }
 
     public void minimize() {
-        item = new TrayItem(Display.getCurrent().getSystemTray(), SWT.NONE);
-        item.setImage(image);
-        item.setToolTipText(TOOLTIP);
+        trayItem = new TrayItem(Display.getCurrent().getSystemTray(), SWT.NONE);
+        trayItem.setImage(image);
+        trayItem.setToolTipText(TOOLTIP);
         // There should be exactly one workbench window when this is being called.
-        w = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-            w.getShell().setVisible(false);
-        item.addSelectionListener(new SelectionAdapter() {
+        window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+        window.getShell().setVisible(false);
+        trayItem.addSelectionListener(new SelectionAdapter() {
+            @Override
             public void widgetSelected(SelectionEvent e) {
-                raiseWindow(w.getShell());
-                item.dispose();
+                raiseWindow(window.getShell());
+                trayItem.dispose();
                 minimized = false;
             }
         });
-        // Create a Menu
-        menu = new Menu(w.getShell(), SWT.POP_UP);
-        // Create the exit menu item.
-        exit = new MenuItem(menu, SWT.PUSH);
-        exit.setText("Exit");
-        // Create the open menu item.
-        open = new MenuItem(menu, SWT.PUSH);
-        open.setText("Open");
-        open.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event event) {
-                unminimize();
-            }
-        });
-        item.addListener(SWT.MenuDetect, new Listener() {
+        trayItem.addListener(SWT.MenuDetect, new Listener() {
+            @Override
             public void handleEvent(Event event) {
                 menu.setVisible(true);
             }
         });
+        // Create a Menu
+        menu = new Menu(window.getShell(), SWT.POP_UP);
+        // Create the open menu item.
+        open = new MenuItem(menu, SWT.PUSH);
+        open.setText("Open Window");
+        open.addListener(SWT.Selection, new Listener() {
+            @Override
+            public void handleEvent(Event event) {
+                unminimize();
+            }
+        });
 
+        // Create the exit menu item.
+        exit = new MenuItem(menu, SWT.PUSH);
+        exit.setText("Exit CS-Studio");
         exit.addListener(SWT.Selection, new Listener() {
+            @Override
             public void handleEvent(Event event) {
                 dispose();
                 PlatformUI.getWorkbench().close();
@@ -89,7 +93,7 @@ public class TrayIcon {
     }
 
     public void unminimize() {
-        raiseWindow(w.getShell());
+        raiseWindow(window.getShell());
         dispose();
         minimized = false;
     }

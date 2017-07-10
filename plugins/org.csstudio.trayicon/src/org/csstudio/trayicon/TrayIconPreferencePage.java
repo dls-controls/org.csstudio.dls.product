@@ -21,14 +21,14 @@ public class TrayIconPreferencePage extends FieldEditorPreferencePage implements
     protected void createFieldEditors() {
         final Composite parent = getFieldEditorParent();
 
-        RadioGroupFieldEditor perspectiveEditor = new RadioGroupFieldEditor(
+        RadioGroupFieldEditor minimizeOnCloseEditor = new RadioGroupFieldEditor(
                 MINIMIZE_TO_TRAY,
                 "Minimize to system tray when closing last window?", 3,
                 new String[][] {{"Always", MessageDialogWithToggle.ALWAYS},
                                 {"Never", MessageDialogWithToggle.NEVER},
                                 {"Prompt", MessageDialogWithToggle.PROMPT}},
                 parent, true);
-        addField(perspectiveEditor);
+        addField(minimizeOnCloseEditor);
         BooleanFieldEditor startMinimizedEditor = new BooleanFieldEditor(START_MINIMIZED,
                 "Start CS-Studio minimized?", BooleanFieldEditor.DEFAULT, parent);
         addField(startMinimizedEditor);
@@ -38,7 +38,6 @@ public class TrayIconPreferencePage extends FieldEditorPreferencePage implements
     public void init(IWorkbench workbench) {
         store = new ScopedPreferenceStore(InstanceScope.INSTANCE, ID);
         setPreferenceStore(store);
-        setDescription("Desco");
-}
+    }
 
 }
