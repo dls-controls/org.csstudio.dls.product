@@ -2,8 +2,6 @@ package org.csstudio.openfile.newwindow;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,7 +17,8 @@ import org.eclipse.osgi.util.NLS;
  */
 public class OpenNewWindow implements IOpenDisplayAction {
 
-    private static final int STARTUP_TIME_MILLIS = 60000;
+    private static boolean firstRun = true;
+    private static final String LAUNCH_FILE_PROPERTY = "launch_file";
 
     /**
      * Parse the specified XML file and act on its contents.
@@ -72,16 +71,23 @@ public class OpenNewWindow implements IOpenDisplayAction {
     }
 
     /**
-     * Return whether this is a new instance of CS-Studio.
-     *
-     * This is a hack.  It checks if the JVM is more than STARTUP_TIME_MILLIS old.
-     * If (for example) CS-Studio prompts for a workspace, this check could easily
-     * return the wrong answer.
+     * Return whether this command was run as part of CS-Studio launching for the first time.
      * @return whether CS-Studio has just started
      */
     private boolean newlyStarted() {
-        RuntimeMXBean runtimeBean = ManagementFactory.getRuntimeMXBean();
-        return runtimeBean.getUptime() < STARTUP_TIME_MILLIS;
+        if (firstRun) {
+            // This is very awkward.  We rely on the launch script passing this property.
+            String launchFile = System.getProperty(LAUNCH_FILE_PROPERTY);
+            // We are only trying to catch the first run of CS-Studio, and only then if the
+            // launched file has a .nws extension.  If the first run of CS-Studio was not
+            // a .nws file, we won't get the property and this will always return false.
+            // If it was, set firstRun to false so that this returns true only once.
+            if (launchFile != null && launchFile.endsWith(Plugin.EXT)) {
+                firstRun = false;
+                return true;
+            }
+        }
+        return false;
     }
 
 }
