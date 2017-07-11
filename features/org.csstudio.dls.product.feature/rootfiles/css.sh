@@ -81,14 +81,14 @@ while getopts "w:do:p:n:x:m:sl:c" opt; do
             ;;
         o)
             runfile=${OPTARG}
-            opifile=true
+            is_opifile=true
             ;;
         p)
             runfile=${OPTARG}
             ;;
         n)
             runfile=${OPTARG}
-            nwsfile=true
+            is_nwsfile=true
             ;;
         m)
             macros=${OPTARG}
@@ -142,7 +142,7 @@ fi
 
 # OPI file and related options.
 if [[ -n $macros ]] || [[ -n $links ]]; then
-    if [[ -z $runfile ]] || [[ -z $opifile]]; then
+    if [[ -z $runfile ]] || [[ -z $is_opifile ]]; then
         echo "Macros and links arguments require an opi file argument."
         usage
         exit 1
@@ -158,7 +158,7 @@ plugin_preferences="-pluginCustomization $tmpfile"
 # If no file specified, open a new databrowser window.
 if [[ -z $runfile ]]; then
     runfile="$CSS_DIR/configuration/databrowser.nws"
-    nwsfile=true
+    is_nwsfile=true
 fi
 
 # Opening in a standalone window is just a special macro.
@@ -183,7 +183,7 @@ local_links_args="-share_link $personal_location=/CSS/$USER"
 # Make it possible to detect whether this launch was a .nws file.
 # This applies only for the initial launch, which is where we may
 # need this information.
-if [[ $nwsfile = true ]]; then
+if [[ $is_nwsfile = true ]]; then
     vm_args="-vmargs -Dnws_file"
 fi
 
