@@ -81,6 +81,7 @@ while getopts "w:do:p:n:x:m:sl:c" opt; do
             ;;
         o)
             runfile=${OPTARG}
+            opifile=true
             ;;
         p)
             runfile=${OPTARG}
@@ -141,7 +142,7 @@ fi
 
 # OPI file and related options.
 if [[ -n $macros ]] || [[ -n $links ]]; then
-    if [[ -z $runfile ]]; then
+    if [[ -z $runfile ]] || [[ -z $opifile]]; then
         echo "Macros and links arguments require an opi file argument."
         usage
         exit 1
