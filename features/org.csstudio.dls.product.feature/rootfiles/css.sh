@@ -157,6 +157,7 @@ plugin_preferences="-pluginCustomization $tmpfile"
 # If no file specified, open a new databrowser window.
 if [[ -z $runfile ]]; then
     runfile="$CSS_DIR/configuration/databrowser.nws"
+    nwsfile=true
 fi
 
 # Opening in a standalone window is just a special macro.
@@ -181,7 +182,7 @@ local_links_args="-share_link $personal_location=/CSS/$USER"
 # Make it possible to detect whether this launch was a .nws file.
 # This applies only for the initial launch, which is where we may
 # need this information.
-if [[ $nwsfile ]]; then
+if [[ $nwsfile = true ]]; then
     vm_args="-vmargs -Dnws_file"
 fi
 
