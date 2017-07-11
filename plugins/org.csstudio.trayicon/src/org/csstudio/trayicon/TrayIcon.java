@@ -17,8 +17,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class TrayIcon {
 
-    public static String TOOLTIP = "CS-Studio";
-    public static String IMAGE = "icons/css.ico";
+    public static final String IMAGE = "icons/css.ico";
     private TrayItem trayItem;
     final private Image image = Activator.getImageDescriptor(IMAGE).createImage();
     private Menu menu;
@@ -45,7 +44,7 @@ public class TrayIcon {
     public void minimize() {
         trayItem = new TrayItem(Display.getCurrent().getSystemTray(), SWT.NONE);
         trayItem.setImage(image);
-        trayItem.setToolTipText(TOOLTIP);
+        trayItem.setToolTipText(Messages.TrayIcon_tooltip);
         // There should be exactly one workbench window when this is being called.
         window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
         window.getShell().setVisible(false);
@@ -67,7 +66,7 @@ public class TrayIcon {
         menu = new Menu(window.getShell(), SWT.POP_UP);
         // Create the open menu item.
         open = new MenuItem(menu, SWT.PUSH);
-        open.setText("Open Window");
+        open.setText(Messages.TrayIcon_open);
         open.addListener(SWT.Selection, new Listener() {
             @Override
             public void handleEvent(Event event) {
@@ -77,7 +76,7 @@ public class TrayIcon {
 
         // Create the exit menu item.
         exit = new MenuItem(menu, SWT.PUSH);
-        exit.setText("Exit CS-Studio");
+        exit.setText(Messages.TrayIcon_exit);
         exit.addListener(SWT.Selection, new Listener() {
             @Override
             public void handleEvent(Event event) {

@@ -23,14 +23,14 @@ public class TrayIconPreferencePage extends FieldEditorPreferencePage implements
 
         RadioGroupFieldEditor minimizeOnCloseEditor = new RadioGroupFieldEditor(
                 MINIMIZE_TO_TRAY,
-                "Minimize to system tray when closing last window?", 3,
-                new String[][] {{"Always", MessageDialogWithToggle.ALWAYS},
-                                {"Never", MessageDialogWithToggle.NEVER},
-                                {"Prompt", MessageDialogWithToggle.PROMPT}},
+                Messages.TrayPreferences_minimize, 3,
+                new String[][] {{Messages.TrayPreferences_always, MessageDialogWithToggle.ALWAYS},
+                                {Messages.TrayPreferences_never, MessageDialogWithToggle.NEVER},
+                                {Messages.TrayPreferences_prompt, MessageDialogWithToggle.PROMPT}},
                 parent, true);
         addField(minimizeOnCloseEditor);
         BooleanFieldEditor startMinimizedEditor = new BooleanFieldEditor(START_MINIMIZED,
-                "Start CS-Studio minimized?", BooleanFieldEditor.DEFAULT, parent);
+                Messages.TrayPreferences_startMinimized, BooleanFieldEditor.DEFAULT, parent);
         addField(startMinimizedEditor);
     }
 

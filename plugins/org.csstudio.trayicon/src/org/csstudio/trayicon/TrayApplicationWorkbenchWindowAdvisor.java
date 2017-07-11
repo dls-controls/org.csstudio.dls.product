@@ -16,14 +16,13 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchWindowAdvisor {
 
-    public static final String REMEMBER_DECISION = "Remember my decision";
-    public static final String DIALOG_TITLE = "Minimize to System Tray?";
-    public static final String DIALOG_QUESTION = "This is the last CS-Studio window.  Should CS-Studio minimize to the System Tray or exit?";
-
     // This requires internal understanding.  Since we have changed the labels on the dialog,
     // MessageButtonWithDialog does not assign standard return codes.  This is fixed in Oxygen
     // but for now we need to know what is going to be returned.
-    public static final String[] BUTTON_LABELS = {"Minimize", "Exit Now", "Cancel"};
+    public static final String[] BUTTON_LABELS = {
+            Messages.TrayDialog_minimize,
+            Messages.TrayDialog_exit,
+            Messages.TrayDialog_cancel};
     private static final int MINIMIZE_BUTTON_ID = 256;
     private static final int EXIT_BUTTON_ID = 257;
     private static final int CANCEL_BUTTON_ID = IDialogConstants.CANCEL_ID;
@@ -40,8 +39,9 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
     public int prompt() {
         Shell parent = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         ScopedPreferenceStore store = new ScopedPreferenceStore(InstanceScope.INSTANCE, TrayIconPreferencePage.ID);
-        MessageDialogWithToggle dialog = new MessageDialogWithToggle(parent, DIALOG_TITLE, null, DIALOG_QUESTION,
-                MessageDialog.QUESTION, BUTTON_LABELS, 2, REMEMBER_DECISION, false);
+        MessageDialogWithToggle dialog = new MessageDialogWithToggle(parent, Messages.TrayDialog_title, null,
+                Messages.TrayDialog_question, MessageDialog.QUESTION,
+                BUTTON_LABELS, 2, Messages.TrayDialog_rememberDecision, false);
         dialog.open();
         int response = dialog.getReturnCode();
         if (dialog.getToggleState()) {
@@ -53,7 +53,7 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
             try {
                 store.save();
             } catch (IOException e) {
-                Plugin.getLogger().warning("Failed to save preference: " + e.getMessage());
+                Plugin.getLogger().warning(Messages.TrayPreferences_saveFailed + e.getMessage());
             }
         }
         return response;
