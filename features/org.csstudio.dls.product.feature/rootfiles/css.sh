@@ -174,6 +174,10 @@ personal_location=$HOME/cs-studio/$USER
 mkdir -p $personal_location
 local_links_args="-share_link $personal_location=/CSS/$USER"
 
+# Give Java code direct access to the file that was opened via a VM property
+LAUNCH_FILE_PROPERTY="launch_file"
+vm_args="-vmargs -Dlaunch_file=$opifile"
+
 # Echo subsequent commands for debugging.
 set -x
-$CSSTUDIO $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
+$CSSTUDIO $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped" $vm_args
