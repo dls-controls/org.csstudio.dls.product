@@ -12,12 +12,13 @@ General arguments:
              (see https://github.com/ControlSystemStudio/cs-studio/issues/2196)
     [-d] run the 'dev' instance of CS-Studio.  This allows running on a different
          port or on a different machine via SSH.
-Arguments to run an opi file:
+Arguments to run specific file types:
     [-o <opifile>] [Eclipse path; links required]
     [-p <plotfile>] databrowser plotfile
     [-n <nwsfile>] DLS-specific nws file
-    [-l <links>] in the form path1=eclipse_path1,path2=eclipse_path2,...
     [-x <xmi file>]
+Additional arguments that may be specified when launching an opi file:
+    [-l <links>] in the form path1=eclipse_path1,path2=eclipse_path2,...
     [-m <macros>] in the form key1=value1,key2=value2,...
     [-s] launch opi as standalone window
 
