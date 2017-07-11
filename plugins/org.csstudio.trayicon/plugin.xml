@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="org.eclipse.ui.preferencePages.Workbench"
+            category="org.csstudio.platform.ui.css.platform"
             class="org.csstudio.trayicon.TrayIconPreferencePage"
             id="org.csstudio.trayicon.preferences"
             name="Minimize to Tray">
