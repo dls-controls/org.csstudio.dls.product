@@ -18,7 +18,7 @@ import org.eclipse.osgi.util.NLS;
 public class OpenNewWindow implements IOpenDisplayAction {
 
     private static boolean firstRun = true;
-    private static final String LAUNCH_FILE_PROPERTY = "launch_file";
+    private static final String NWS_FILE_PROPERTY = "nws_file";
 
     /**
      * Parse the specified XML file and act on its contents.
@@ -77,12 +77,14 @@ public class OpenNewWindow implements IOpenDisplayAction {
     private boolean newlyStarted() {
         if (firstRun) {
             // This is very awkward.  We rely on the launch script passing this property.
-            String launchFile = System.getProperty(LAUNCH_FILE_PROPERTY);
+            // The value doesn't change for subsequent launches, but what we need is the
+            // value for the initial launch.
+            String launchFile = System.getProperty(NWS_FILE_PROPERTY);
             // We are only trying to catch the first run of CS-Studio, and only then if the
             // launched file has a .nws extension.  If the first run of CS-Studio was not
             // a .nws file, we won't get the property and this will always return false.
             // If it was, set firstRun to false so that this returns true only once.
-            if (launchFile != null && launchFile.endsWith(Plugin.EXT)) {
+            if (launchFile != null) {
                 firstRun = false;
                 return true;
             }
