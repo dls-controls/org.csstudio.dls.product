@@ -7,7 +7,6 @@ function usage() {
     echo "Usage: $0 [args]
 General arguments:
     [-w <workspace>]
-    [-p <port>] (this option is IGNORED)
     [-c] clear cached EPICS configuration. This enables EPICS environment variables
          to be set in an existing workspace
              (see https://github.com/ControlSystemStudio/cs-studio/issues/2196)
@@ -15,6 +14,8 @@ General arguments:
          port or on a different machine via SSH.
 Arguments to run an opi file:
     [-o <opifile>] [Eclipse path; links required]
+    [-p <plotfile>] databrowser plotfile
+    [-n <nwsfile>] DLS-specific nws file
     [-l <links>] in the form path1=eclipse_path1,path2=eclipse_path2,...
     [-x <xmi file>]
     [-m <macros>] in the form key1=value1,key2=value2,...
@@ -70,7 +71,7 @@ dev=false
 opishell=false
 port=5064
 
-while getopts "w:p:do:x:m:sl:c" opt; do
+while getopts "w:do:p:n:x:m:sl:c" opt; do
     case $opt in
         w)
             workspace=${OPTARG}
@@ -78,12 +79,16 @@ while getopts "w:p:do:x:m:sl:c" opt; do
         d)
             dev=true
             ;;
-        p)
-            port=${OPTARG}
-            echo ">> PORT argument ($port) ignored <<"
-            ;;
         o)
-            opifile=${OPTARG}
+            runfile=${OPTARG}
+            is_opifile=true
+            ;;
+        p)
+            runfile=${OPTARG}
+            ;;
+        n)
+            runfile=${OPTARG}
+            is_nwsfile=true
             ;;
         m)
             macros=${OPTARG}
@@ -137,7 +142,7 @@ fi
 
 # OPI file and related options.
 if [[ -n $macros ]] || [[ -n $links ]]; then
-    if [[ -z $opifile ]]; then
+    if [[ -z $runfile ]] || [[ -z $is_opifile ]]; then
         echo "Macros and links arguments require an opi file argument."
         usage
         exit 1
@@ -151,8 +156,9 @@ set_epics_env $tmpfile
 plugin_preferences="-pluginCustomization $tmpfile"
 
 # If no file specified, open a new databrowser window.
-if [[ -z $opifile ]]; then
-    opifile="$CSS_DIR/configuration/databrowser.nws"
+if [[ -z $runfile ]]; then
+    runfile="$CSS_DIR/configuration/databrowser.nws"
+    is_nwsfile=true
 fi
 
 # Opening in a standalone window is just a special macro.
@@ -174,6 +180,13 @@ personal_location=$HOME/cs-studio/$USER
 mkdir -p $personal_location
 local_links_args="-share_link $personal_location=/CSS/$USER"
 
+# Make it possible to detect whether this launch was a .nws file.
+# This applies only for the initial launch, which is where we may
+# need this information.
+if [[ $is_nwsfile = true ]]; then
+    vm_args="-vmargs -Dnws_file"
+fi
+
 # Echo subsequent commands for debugging.
 set -x
-$CSSTUDIO $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$opifile $macros_escaped $links_escaped"
+$CSSTUDIO $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$runfile $macros_escaped $links_escaped" $vm_args
