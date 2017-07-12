@@ -38,7 +38,7 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
 
     public int prompt() {
         Shell parent = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        ScopedPreferenceStore store = new ScopedPreferenceStore(InstanceScope.INSTANCE, TrayIconPreferencePage.ID);
+        ScopedPreferenceStore store = new ScopedPreferenceStore(InstanceScope.INSTANCE, Plugin.ID);
         MessageDialogWithToggle dialog = new MessageDialogWithToggle(parent, Messages.TrayDialog_title, null,
                 Messages.TrayDialog_question, MessageDialog.QUESTION,
                 BUTTON_LABELS, 2, Messages.TrayDialog_rememberDecision, false);
@@ -65,8 +65,7 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
             return super.preWindowShellClose();
         } else {
             IPreferencesService prefs = Platform.getPreferencesService();
-            String minPref = prefs.getString(TrayIconPreferencePage.ID,
-                    TrayIconPreferencePage.MINIMIZE_TO_TRAY, null, null);
+            String minPref = prefs.getString(Plugin.ID, TrayIconPreferencePage.MINIMIZE_TO_TRAY, null, null);
             if (trayIcon.isMinimized() || minPref.equals(MessageDialogWithToggle.NEVER)) {
                 return super.preWindowShellClose();
             } else {

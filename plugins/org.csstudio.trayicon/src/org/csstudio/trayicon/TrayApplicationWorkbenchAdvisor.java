@@ -32,7 +32,7 @@ public class TrayApplicationWorkbenchAdvisor extends ApplicationWorkbenchAdvisor
         TrayListener trayListener = ContextInjectionFactory.make(TrayListener.class, context);
         trayListener.setTrayIcon(trayIcon);
         IPreferencesService prefsService = Platform.getPreferencesService();
-        if (prefsService.getBoolean(TrayIconPreferencePage.ID, TrayIconPreferencePage.START_MINIMIZED, false, null)) {
+        if (prefsService.getBoolean(Plugin.ID, TrayIconPreferencePage.START_MINIMIZED, false, null)) {
             trayIcon.minimize();
         }
     }

@@ -12,7 +12,6 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 public class TrayIconPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
-    public static final String ID = "org.csstudio.trayicon.preferences";
     public static final String MINIMIZE_TO_TRAY = "minimize_to_tray";
     public static final String START_MINIMIZED = "start_minimized";
     private ScopedPreferenceStore store;
@@ -36,7 +35,7 @@ public class TrayIconPreferencePage extends FieldEditorPreferencePage implements
 
     @Override
     public void init(IWorkbench workbench) {
-        store = new ScopedPreferenceStore(InstanceScope.INSTANCE, ID);
+        store = new ScopedPreferenceStore(InstanceScope.INSTANCE, Plugin.ID);
         setPreferenceStore(store);
     }
 

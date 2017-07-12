@@ -6,7 +6,7 @@
       <page
             category="org.csstudio.platform.ui.css.platform"
             class="org.csstudio.trayicon.TrayIconPreferencePage"
-            id="org.csstudio.trayicon.preferences"
+            id="org.csstudio.trayicon"
             name="Minimize to Tray">
       </page>
    </extension>
