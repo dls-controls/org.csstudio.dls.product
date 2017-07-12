@@ -39,6 +39,7 @@ public class TrayIcon {
         shell.setActive();
         shell.setFocus();
         shell.setMinimized(false);
+        shell.layout();
     }
 
     public void minimize() {
