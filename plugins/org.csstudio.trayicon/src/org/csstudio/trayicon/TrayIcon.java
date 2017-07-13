@@ -17,24 +17,24 @@ import org.eclipse.ui.PlatformUI;
 
 public class TrayIcon {
 
-    public static final String IMAGE = "icons/css.ico";
+    private static final String IMAGE_FILE = "icons/css.ico";
+    private static final Image IMAGE = Activator.getImageDescriptor(IMAGE_FILE).createImage();
     private TrayItem trayItem;
-    final private Image image = Activator.getImageDescriptor(IMAGE).createImage();
     private Menu menu;
-    private MenuItem open;
-    private MenuItem exit;
+    private MenuItem openMenuItem;
+    private MenuItem exitMenuItem;
     private IWorkbenchWindow window;
 
     private boolean minimized;
 
-    private void dispose() {
+    private void removeFromTray() {
         trayItem.dispose();
-        open.dispose();
-        exit.dispose();
+        openMenuItem.dispose();
+        exitMenuItem.dispose();
         menu.dispose();
     }
 
-    public void raiseWindow(Shell shell) {
+    private void raiseWindow(Shell shell) {
         shell.setVisible(true);
         shell.setActive();
         shell.setFocus();
@@ -44,7 +44,7 @@ public class TrayIcon {
 
     public void minimize() {
         trayItem = new TrayItem(Display.getCurrent().getSystemTray(), SWT.NONE);
-        trayItem.setImage(image);
+        trayItem.setImage(IMAGE);
         trayItem.setToolTipText(Messages.TrayIcon_tooltip);
         // There should be exactly one workbench window when this is being called.
         window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -66,9 +66,9 @@ public class TrayIcon {
         // Create a Menu
         menu = new Menu(window.getShell(), SWT.POP_UP);
         // Create the open menu item.
-        open = new MenuItem(menu, SWT.PUSH);
-        open.setText(Messages.TrayIcon_open);
-        open.addListener(SWT.Selection, new Listener() {
+        openMenuItem = new MenuItem(menu, SWT.PUSH);
+        openMenuItem.setText(Messages.TrayIcon_open);
+        openMenuItem.addListener(SWT.Selection, new Listener() {
             @Override
             public void handleEvent(Event event) {
                 unminimize();
@@ -76,12 +76,12 @@ public class TrayIcon {
         });
 
         // Create the exit menu item.
-        exit = new MenuItem(menu, SWT.PUSH);
-        exit.setText(Messages.TrayIcon_exit);
-        exit.addListener(SWT.Selection, new Listener() {
+        exitMenuItem = new MenuItem(menu, SWT.PUSH);
+        exitMenuItem.setText(Messages.TrayIcon_exit);
+        exitMenuItem.addListener(SWT.Selection, new Listener() {
             @Override
             public void handleEvent(Event event) {
-                dispose();
+                removeFromTray();
                 PlatformUI.getWorkbench().close();
             }
         });
@@ -94,7 +94,7 @@ public class TrayIcon {
 
     public void unminimize() {
         raiseWindow(window.getShell());
-        dispose();
+        removeFromTray();
         minimized = false;
     }
 
