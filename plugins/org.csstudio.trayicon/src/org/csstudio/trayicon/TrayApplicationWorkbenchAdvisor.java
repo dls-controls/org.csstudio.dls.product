@@ -14,7 +14,6 @@ public class TrayApplicationWorkbenchAdvisor extends ApplicationWorkbenchAdvisor
 
     private TrayIcon trayIcon;
 
-
     public TrayApplicationWorkbenchAdvisor(OpenDocumentEventProcessor openDocProcessor) {
         super(openDocProcessor);
         trayIcon = new TrayIcon();

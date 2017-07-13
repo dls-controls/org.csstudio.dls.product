@@ -16,9 +16,9 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchWindowAdvisor {
 
-    // This requires internal understanding.  Since we have changed the labels on the dialog,
-    // MessageButtonWithDialog does not assign standard return codes.  This is fixed in Oxygen
-    // but for now we need to know what is going to be returned.
+    // This requires internal understanding. Since we have changed the labels on
+    // the dialog, MessageButtonWithDialog does not assign standard return codes.
+    // This is fixed in Oxygen but for now we need to know what is going to be returned.
     public static final String[] BUTTON_LABELS = {
             Messages.TrayDialog_minimize,
             Messages.TrayDialog_exit,
@@ -30,20 +30,27 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
 
     private TrayIcon trayIcon;
 
-    public TrayApplicationWorkbenchWindowAdvisor(
-            IWorkbenchWindowConfigurer configurer, TrayIcon trayIcon) {
+    public TrayApplicationWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer, TrayIcon trayIcon) {
         super(configurer);
         this.trayIcon = trayIcon;
     }
 
+    /**
+     * Prompt the user for selection of minimize on exit behaviour.
+     *
+     * @return xx_BUTTON_ID of clicked button or DIALOG_CLOSED
+     */
     public int prompt() {
         Shell parent = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         ScopedPreferenceStore store = new ScopedPreferenceStore(InstanceScope.INSTANCE, Plugin.ID);
         MessageDialogWithToggle dialog = new MessageDialogWithToggle(parent, Messages.TrayDialog_title, null,
-                Messages.TrayDialog_question, MessageDialog.QUESTION,
-                BUTTON_LABELS, 2, Messages.TrayDialog_rememberDecision, false);
+                Messages.TrayDialog_question, MessageDialog.QUESTION, BUTTON_LABELS, 2,
+                Messages.TrayDialog_rememberDecision, false);
         dialog.open();
+
         int response = dialog.getReturnCode();
+
+        // Store the decision if checkbox selected on the form
         if (dialog.getToggleState()) {
             if (response == MINIMIZE_BUTTON_ID) {
                 store.setValue(TrayIconPreferencePage.MINIMIZE_TO_TRAY, MessageDialogWithToggle.ALWAYS);
