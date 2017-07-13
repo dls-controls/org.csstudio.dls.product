@@ -1,5 +1,7 @@
 package org.csstudio.trayicon;
 
+import java.util.logging.Level;
+
 import org.csstudio.utility.product.Activator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -20,18 +22,41 @@ public class TrayIcon {
     private static final String IMAGE_FILE = "icons/css.ico";
     private static final Image IMAGE = Activator.getImageDescriptor(IMAGE_FILE).createImage();
     private TrayItem trayItem;
-    private Menu menu;
-    private MenuItem openMenuItem;
-    private MenuItem exitMenuItem;
     private IWorkbenchWindow window;
 
     private boolean minimized;
+    public boolean isMinimized() {
+        return minimized;
+    }
 
+    /**
+     * Minimize the application to a tray icon. - left-click will reopen the
+     * window - right-click popup menu to open or exit.
+     */
+    public void minimize() {
+        // There should be exactly one workbench window when this is being
+        // called.
+        window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+        window.getShell().setVisible(false);
+
+        trayItem = createTrayItem();
+        minimized = true;
+    }
+
+    /**
+     * Restore application window from the toolbar.
+     */
+    public void unminimize() {
+        raiseWindow(window.getShell());
+        removeFromTray();
+        minimized = false;
+    }
+
+    /**
+     * Cleanup the trayItem
+     */
     private void removeFromTray() {
         trayItem.dispose();
-        openMenuItem.dispose();
-        exitMenuItem.dispose();
-        menu.dispose();
     }
 
     private void raiseWindow(Shell shell) {
@@ -42,31 +67,46 @@ public class TrayIcon {
         shell.layout();
     }
 
-    public void minimize() {
-        trayItem = new TrayItem(Display.getCurrent().getSystemTray(), SWT.NONE);
-        trayItem.setImage(IMAGE);
-        trayItem.setToolTipText(Messages.TrayIcon_tooltip);
-        // There should be exactly one workbench window when this is being called.
-        window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-        window.getShell().setVisible(false);
-        trayItem.addSelectionListener(new SelectionAdapter() {
+    /**
+     * Create a Tray widget for CS-Studio with wrapped popup menu
+     */
+    private TrayItem createTrayItem() {
+
+        Menu menu = createPopupMenu();
+
+        TrayItem item = new TrayItem(Display.getCurrent().getSystemTray(), SWT.NONE);
+        item.setImage(IMAGE);
+        item.setToolTipText(Messages.TrayIcon_tooltip);
+        item.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                raiseWindow(window.getShell());
-                trayItem.dispose();
-                minimized = false;
+                unminimize();
             }
         });
-        trayItem.addListener(SWT.MenuDetect, new Listener() {
+        item.addListener(SWT.MenuDetect, new Listener() {
             @Override
             public void handleEvent(Event event) {
                 menu.setVisible(true);
             }
         });
+        // Clean-up the popup menu when the trayItem is disposed. The child
+        // menuItems are disposed when their menu is disposed.
+        item.addListener(SWT.Dispose, new Listener() {
+            @Override
+            public void handleEvent(Event event) {
+                menu.dispose();
+            }
+        });
+
+        return item;
+    }
+
+    private Menu createPopupMenu() {
         // Create a Menu
-        menu = new Menu(window.getShell(), SWT.POP_UP);
+        Menu popupMenu = new Menu(window.getShell(), SWT.POP_UP);
+
         // Create the open menu item.
-        openMenuItem = new MenuItem(menu, SWT.PUSH);
+        MenuItem openMenuItem = new MenuItem(popupMenu, SWT.PUSH);
         openMenuItem.setText(Messages.TrayIcon_open);
         openMenuItem.addListener(SWT.Selection, new Listener() {
             @Override
@@ -76,7 +116,7 @@ public class TrayIcon {
         });
 
         // Create the exit menu item.
-        exitMenuItem = new MenuItem(menu, SWT.PUSH);
+        MenuItem exitMenuItem = new MenuItem(popupMenu, SWT.PUSH);
         exitMenuItem.setText(Messages.TrayIcon_exit);
         exitMenuItem.addListener(SWT.Selection, new Listener() {
             @Override
@@ -85,17 +125,8 @@ public class TrayIcon {
                 PlatformUI.getWorkbench().close();
             }
         });
-        minimized = true;
-    }
 
-    public boolean isMinimized() {
-        return minimized;
-    }
-
-    public void unminimize() {
-        raiseWindow(window.getShell());
-        removeFromTray();
-        minimized = false;
+        return popupMenu;
     }
 
 }
