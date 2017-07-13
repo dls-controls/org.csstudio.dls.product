@@ -10,8 +10,8 @@ import org.eclipse.ui.application.WorkbenchAdvisor;
 public class TrayWorkbench extends Workbench implements WorkbenchExtPoint {
 
     /**
-     * Creates a workbench advisor to be used by the created workbench. This methods allows
-     * to provide your own advisor and keep the rest of the logic intact.
+     * Creates a workbench advisor that allows minimising the application
+     * to the system tray when closing the last workbench window.
      *
      * @param parameters the parameters that may give hints on how to create the advisor
      * @return a new advisor instance
