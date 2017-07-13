@@ -21,6 +21,7 @@ public class TrayIcon {
 
     private static final String IMAGE_FILE = "icons/css.ico";
     private static final Image IMAGE = Activator.getImageDescriptor(IMAGE_FILE).createImage();
+    private static final String MINIMIZE_WARNING = "Multiple windows ({0}) exist while attempting to minimize to tray: aborting";
     private TrayItem trayItem;
     private IWorkbenchWindow window;
 
@@ -32,8 +33,18 @@ public class TrayIcon {
     /**
      * Minimize the application to a tray icon. - left-click will reopen the
      * window - right-click popup menu to open or exit.
+     *
+     * If multiple workbench windows are open this will abort. This is necessary
+     * to handle starting minimized when multiple windows were open when
+     * application was shutdown.
      */
     public void minimize() {
+        int numWindows = PlatformUI.getWorkbench().getWorkbenchWindowCount();
+        if (numWindows > 1) {
+            Plugin.getLogger().log(Level.WARNING, MINIMIZE_WARNING, numWindows);
+            return;
+        }
+
         // There should be exactly one workbench window when this is being
         // called.
         window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
