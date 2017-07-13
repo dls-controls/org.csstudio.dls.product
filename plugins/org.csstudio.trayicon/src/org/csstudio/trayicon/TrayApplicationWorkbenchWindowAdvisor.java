@@ -59,29 +59,38 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
         return response;
     }
 
+    /**
+     * If this is the last shell prompt handle minimize to tray option. If the
+     * 'never' preference isn't set, prompt the user for an action.
+     *
+     * @see org.eclipse.ui.application.WorkbenchWindowAdvisor#preWindowShellClose
+     */
     @Override
     public boolean preWindowShellClose() {
         if (PlatformUI.getWorkbench().getWorkbenchWindowCount() > 1) {
             return super.preWindowShellClose();
-        } else {
-            IPreferencesService prefs = Platform.getPreferencesService();
-            String minPref = prefs.getString(Plugin.ID, TrayIconPreferencePage.MINIMIZE_TO_TRAY, null, null);
-            if (trayIcon.isMinimized() || minPref.equals(MessageDialogWithToggle.NEVER)) {
+        }
+
+        IPreferencesService prefs = Platform.getPreferencesService();
+        String minPref = prefs.getString(Plugin.ID, TrayIconPreferencePage.MINIMIZE_TO_TRAY, null, null);
+        if (trayIcon.isMinimized() || minPref.equals(MessageDialogWithToggle.NEVER)) {
+            return super.preWindowShellClose();
+        }
+
+        if (minPref.equals(MessageDialogWithToggle.PROMPT)) {
+            switch (prompt()) {
+            case MINIMIZE_BUTTON_ID:
+                break;
+            case EXIT_BUTTON_ID:
                 return super.preWindowShellClose();
-            } else {
-                if (minPref.equals(MessageDialogWithToggle.PROMPT)) {
-                    int response = prompt();
-                    if (response == CANCEL_BUTTON_ID || response == DIALOG_CLOSED) {
-                        return false;
-                    }
-                    if (response == EXIT_BUTTON_ID) {
-                        return super.preWindowShellClose();
-                    }
-                }
-                trayIcon.minimize();
+            case CANCEL_BUTTON_ID:
+            case DIALOG_CLOSED:
+            default:
                 return false;
             }
         }
+        trayIcon.minimize();
+        return false;
     }
 
 }
