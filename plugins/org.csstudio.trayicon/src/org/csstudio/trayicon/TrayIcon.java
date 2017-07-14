@@ -1,12 +1,11 @@
 package org.csstudio.trayicon;
 
-import java.util.logging.Level;
-
 import org.csstudio.utility.product.Activator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -21,9 +20,8 @@ public class TrayIcon {
 
     private static final String IMAGE_FILE = "icons/css.ico";
     private static final Image IMAGE = Activator.getImageDescriptor(IMAGE_FILE).createImage();
-    private static final String MINIMIZE_WARNING = "Multiple windows ({0}) exist while attempting to minimize to tray: aborting";
     private TrayItem trayItem;
-    private IWorkbenchWindow window;
+    private IWorkbenchWindow[] windows;
 
     private boolean minimized;
     public boolean isMinimized() {
@@ -31,34 +29,28 @@ public class TrayIcon {
     }
 
     /**
-     * Minimize the application to a tray icon. - left-click will reopen the
-     * window - right-click popup menu to open or exit.
+     * Minimize the application to a tray icon.
+     *  - left-click will reopen the window(s)
+     *  - right-click popup menu to open or exit.
      *
-     * If multiple workbench windows are open this will abort. This is necessary
-     * to handle starting minimized when multiple windows were open when
-     * application was shutdown.
      */
     public void minimize() {
-        int numWindows = PlatformUI.getWorkbench().getWorkbenchWindowCount();
-        if (numWindows > 1) {
-            Plugin.getLogger().log(Level.WARNING, MINIMIZE_WARNING, numWindows);
-            return;
+        windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+        for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) {
+            window.getShell().setVisible(false);
         }
-
-        // There should be exactly one workbench window when this is being
-        // called.
-        window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-        window.getShell().setVisible(false);
 
         trayItem = createTrayItem();
         minimized = true;
     }
 
     /**
-     * Restore application window from the toolbar.
+     * Restore application window(s) from the toolbar.
      */
     public void unminimize() {
-        raiseWindow(window.getShell());
+        for (IWorkbenchWindow window : windows) {
+            raiseWindow(window.getShell());
+        }
         removeFromTray();
         minimized = false;
     }
@@ -114,7 +106,7 @@ public class TrayIcon {
 
     private Menu createPopupMenu() {
         // Create a Menu
-        Menu popupMenu = new Menu(window.getShell(), SWT.POP_UP);
+        Menu popupMenu = new Menu(windows[0].getShell(), SWT.POP_UP);
 
         // Create the open menu item.
         MenuItem openMenuItem = new MenuItem(popupMenu, SWT.PUSH);
