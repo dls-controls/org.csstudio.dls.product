@@ -36,7 +36,7 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
     }
 
     /**
-     * Prompt the user for selection of minimize on exit behaviour.
+     * Prompt the user for selection of minimise on exit behaviour.
      *
      * @return xx_BUTTON_ID of clicked button or DIALOG_CLOSED
      */
@@ -88,49 +88,31 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
     public boolean preWindowShellClose() {
 
         boolean closeWindow;
+        int userAction = DIALOG_CLOSED;
 
-        // If there are multiple workbench windows open or the application is already minimised,
-        // bypass the minimise to tray functionality and continue
-        if (PlatformUI.getWorkbench().getWorkbenchWindowCount() > 1 || trayIcon.isMinimized()) {
+        IPreferencesService prefs = Platform.getPreferencesService();
+        String minPref = prefs.getString(Plugin.ID, TrayIconPreferencePage.MINIMIZE_TO_TRAY, null, null);
+
+        if (minPref.equals(MessageDialogWithToggle.PROMPT)) {
+            userAction = promptForAction();
+        }
+
+        if (PlatformUI.getWorkbench().getWorkbenchWindowCount() > 1 ||  // multiple windows
+                trayIcon.isMinimized() ||  // already minimised
+                minPref.equals(MessageDialogWithToggle.NEVER) ||  // NEVER minimise
+                userAction == EXIT_BUTTON_ID) {  // user action: exit
+            // allow to continue
             closeWindow = super.preWindowShellClose();
-        } else {
-            IPreferencesService prefs = Platform.getPreferencesService();
-            String minPref = prefs.getString(Plugin.ID, TrayIconPreferencePage.MINIMIZE_TO_TRAY, null, null);
-
-            switch (minPref) {
-            case MessageDialogWithToggle.NEVER:
-                // never minimise, so continue with close
-                closeWindow = super.preWindowShellClose();
-                break;
-            case MessageDialogWithToggle.ALWAYS:
-                // always minimise so minimise the window and prevent close
-                trayIcon.minimize();
-                closeWindow = false;
-                break;
-            case MessageDialogWithToggle.PROMPT:
-                // respond to user action
-                switch (promptForAction()) {
-                case MINIMIZE_BUTTON_ID:
-                    // minimise the window and prevent close
-                    trayIcon.minimize();
-                    closeWindow = false;
-                    break;
-                case EXIT_BUTTON_ID:
-                    // continue with close
-                    closeWindow =  super.preWindowShellClose();
-                    break;
-                case CANCEL_BUTTON_ID:
-                case DIALOG_CLOSED:
-                default:
-                    // abort close
-                    closeWindow = false;
-                    break;
-                }
-                break; // preference switch
-            default:
-                closeWindow = false;
-                break;
-            }
+        }
+        else if (minPref.equals(MessageDialogWithToggle.ALWAYS) ||  // ALWAYS minimise
+                userAction == MINIMIZE_BUTTON_ID) {  // user action: minimise
+            // minimise the window and block application exit
+            trayIcon.minimize();
+            closeWindow = false;
+        }
+        else {  // user_action is CANCEL_BUTTON_ID or DIALOG_CLOSED
+            // block application exit
+            closeWindow = false;
         }
 
         return closeWindow;
