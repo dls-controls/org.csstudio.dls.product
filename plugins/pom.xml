@@ -21,6 +21,7 @@
     <module>org.csstudio.opibuilder.widgets.dawn</module>
     <module>org.csstudio.logbook.dls</module>
     <module>org.csstudio.trends.databrowser2.command</module>
+    <module>org.csstudio.trayicon</module>
     <module>org.csstudio.archive.reader.fastarchiver</module>
     <module>org.diirt.datasource.fa</module>
     <!-- These plugins break the build - see http://jira.diamond.ac.uk/browse/CSS-265
