@@ -89,18 +89,18 @@ public class TrayApplicationWorkbenchWindowAdvisor extends ApplicationWorkbenchW
 
         boolean closeWindow;
         int userAction = DIALOG_CLOSED;
-        int numWorkspaces = PlatformUI.getWorkbench().getWorkbenchWindowCount();
+        int numWindows = PlatformUI.getWorkbench().getWorkbenchWindowCount();
 
         IPreferencesService prefs = Platform.getPreferencesService();
         String minPref = prefs.getString(
                 Plugin.ID, TrayIconPreferencePage.MINIMIZE_TO_TRAY, null, null);
 
         if (minPref.equals(MessageDialogWithToggle.PROMPT) &&
-                numWorkspaces == 1) {  // no prompt if multiple windows
+                numWindows == 1) {  // no prompt if multiple windows
             userAction = promptForAction();
         }
 
-        if (numWorkspaces > 1 ||
+        if (numWindows > 1 ||
                 trayIcon.isMinimized() ||
                 minPref.equals(MessageDialogWithToggle.NEVER) ||
                 userAction == EXIT_BUTTON_ID) {  // user action: exit
