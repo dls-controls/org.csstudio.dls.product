@@ -34,6 +34,7 @@
     <tycho-extras.version>${tycho.version}</tycho-extras.version>
     <cs-studio.version>4.5</cs-studio.version>
     <diirt.version>3.1.6</diirt.version>
+    <diirt.download.root>http://diirt.download.controlsystemstudio.org</diirt.download.root>
     <cs-studio.central.url>http://download.controlsystemstudio.org/product/${cs-studio.version}</cs-studio.central.url>
     <cs-studio.update.url>http://download.controlsystemstudio.org/updates/${cs-studio.version}</cs-studio.update.url>
     <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository</orbit-site>
@@ -63,7 +64,22 @@
 
   <!-- if a local repository is specified then enable the repository for build. -->
   <profiles>
-    <profile>
+      <profile>
+        <id>diirt-site</id>
+        <activation>
+          <property>
+            <name>!diirt-disabled</name>
+          </property>
+        </activation>
+        <repositories>
+          <repository>
+            <id>diirt</id>
+            <url>${diirt.download.root}/diirt/${diirt.version}</url>
+            <layout>p2</layout>
+          </repository>
+        </repositories>
+      </profile>
+      <profile>
       <id>csstudio-local-repo-enable</id>
       <activation>
         <file>
