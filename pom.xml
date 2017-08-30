@@ -52,6 +52,11 @@
       <url>http://opengda.org/DawnDiamond/2.2/updates/release/</url>
       <layout>p2</layout>
     </repository>
+      <repository>
+      <id>diirt</id>
+      <url>http://diirt.download.controlsystemstudio.org/diirt/${diirt.version}</url>
+      <layout>p2</layout>
+    </repository>
   </repositories>
   <!--
     P2 REPOSITORIES
