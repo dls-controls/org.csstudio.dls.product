@@ -1,5 +1,7 @@
 package org.csstudio.opibuilder.widgets.edm.editparts;
 
+import java.util.List;
+
 import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
 import org.csstudio.opibuilder.editparts.ExecutionMode;
 import org.csstudio.opibuilder.model.AbstractWidgetModel;
@@ -8,10 +10,13 @@ import org.csstudio.opibuilder.widgets.edm.figures.MenuMuxFigure;
 import org.csstudio.opibuilder.widgets.edm.model.MenuMuxModel;
 import org.csstudio.opibuilder.widgets.edm.model.MenuMuxModel.MuxProperty;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Display;
 
 /**The editpart of a muxMenu.
  *
