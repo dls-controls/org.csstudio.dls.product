@@ -62,7 +62,7 @@
       <feature id="org.csstudio.core.base.feature"/>
       <feature id="org.csstudio.core.platform.feature"/>
       <feature id="org.csstudio.core.utility.feature"/>
-      <feature id="org.csstudio.trayicon.feature"/>
+      <feature id="org.csstudio.core.trayicon.feature"/>
       <feature id="org.csstudio.core.ui.feature"/>
       <feature id="org.csstudio.applications.pvmanager.diag.feature" />
       <feature id="org.csstudio.applications.opibuilder.feature"/>
