@@ -6,8 +6,6 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "org.csstudio.openfile.newwindow.messages"; //$NON-NLS-1$
 
-    public static String FileUtils_selectFile;
-
     public static String OpenNewWindow_openLog;
     public static String OpenNewWindow_loadFailed;
     public static String OpenNewWindow_fileNotFound;
@@ -15,7 +13,7 @@ public class Messages extends NLS {
     public static String PerspectiveHelper_fileNotFound;
     public static String WindowOpener_openFailed;
     public static String WindowSpecParser_tooManyElements;
-    public static String WindowSpecParser_noChildren;
+    public static String WindowSpecParser_noChild;
 
     static {
         // initialize resource bundle

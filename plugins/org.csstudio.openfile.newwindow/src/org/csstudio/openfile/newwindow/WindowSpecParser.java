@@ -95,7 +95,7 @@ public class WindowSpecParser {
     private Element getSingleMandatoryNamedChild(Element element, String tagName) throws WindowManagementException {
         Optional<Element> maybeElement = getSingleOptionalNamedChild(element, tagName);
         if (!maybeElement.isPresent()) {
-            throw new WindowManagementException(NLS.bind(Messages.WindowSpecParser_noChildren, element.getTagName(), tagName));
+            throw new WindowManagementException(NLS.bind(Messages.WindowSpecParser_noChild, element.getTagName(), tagName));
         }
         return maybeElement.get();
     }
