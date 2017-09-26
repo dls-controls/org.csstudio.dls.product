@@ -49,7 +49,7 @@
   <repositories>
     <repository>
       <id>dawn</id>
-      <url>http://opengda.org/DawnDiamond/2.2/updates/release/</url>
+      <url>https://alfred.diamond.ac.uk/DawnDiamond/2.2/updates/release/</url>
       <layout>p2</layout>
     </repository>
       <repository>
