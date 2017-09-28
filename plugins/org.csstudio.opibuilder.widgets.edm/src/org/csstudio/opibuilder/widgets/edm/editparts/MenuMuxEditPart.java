@@ -11,6 +11,7 @@ import org.csstudio.opibuilder.widgets.edm.model.MenuMuxModel;
 import org.csstudio.opibuilder.widgets.edm.model.MenuMuxModel.MuxProperty;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -25,6 +26,7 @@ import org.eclipse.swt.widgets.Display;
  */
 public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
 
+    private int oldSelectedIndex;
     private Combo combo;
     private SelectionListener comboSelectionListener;
 
@@ -88,6 +90,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
                 try {
                     int selectedIndex = Integer.parseInt(initialState);
                     combo.select(selectedIndex);
+                    oldSelectedIndex = selectedIndex;
                 }
                 catch (NumberFormatException ex) {
                     System.err.println("Invalid initial state: " + initialState);
@@ -97,6 +100,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
             {
                 // Default selection is the first element
                 combo.select(0);
+                oldSelectedIndex = 0;
             }
             // force a selection change event to set the associated loc:// pv
             comboSelectionListener.widgetSelected(null);
@@ -108,20 +112,39 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
 
         @Override
         public void widgetSelected(SelectionEvent e) {
-            /// On selected change put the selected PV name to the associated local pv (e.g. $d)
-            MenuMuxModel model = getWidgetModel();
+            /// Only react if the selection was accomplished by clicking on an item
+            /// See https://github.com/ControlSystemStudio/cs-studio/issues/2276
+            /// for equivalent change to ComboBox widget.
+            if (e == null)
+                return;
 
-            int selectedIdx = combo.getSelectionIndex();
-            // Write the index to the control PV.
-            setPVValue(MenuMuxModel.PROP_PVNAME, selectedIdx);
+            if (e.stateMask == SWT.BUTTON1) {
+                /// On selected change put the selected PV name to the associated local pv (e.g. $d)
+                MenuMuxModel model = getWidgetModel();
 
-            for (int set_index = 0; set_index < model.getNumSets(); set_index++) {
-                List<String> values = model.getValues(set_index);
+                int selectedIdx = combo.getSelectionIndex();
+                // Write the index to the control PV.
+                setPVValue(MenuMuxModel.PROP_PVNAME, selectedIdx);
+                // cache the selection to manage scroll-wheel use
+                oldSelectedIndex = selectedIdx;
 
-                if (selectedIdx < values.size()) {
-                    String value = values.get(selectedIdx);
-                    setPVValue(MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, set_index), value);
+                for (int set_index = 0; set_index < model.getNumSets(); set_index++) {
+                    List<String> values = model.getValues(set_index);
+
+                    if (selectedIdx < values.size()) {
+                        String value = values.get(selectedIdx);
+                        setPVValue(MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, set_index), value);
+                    }
                 }
+            }
+            else {
+                // Ignore selections from mouse wheel (stateMask == 0).
+                // Unfortunately this also ignores selections via keyboard.
+
+                // Restore current value to UI.
+                combo.select(oldSelectedIndex);
+                // block further process of this selection event
+                e.doit = false;
             }
         }
     }
@@ -206,12 +229,18 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
      */
     @Override
     public void setValue(Object value) {
-        if(value instanceof String)
+        if(value instanceof String) {
             combo.setText((String) value);
-        else if (value instanceof Number)
-            combo.select(((Number)value).intValue());
-        else
+            oldSelectedIndex = combo.getSelectionIndex();
+        }
+        else if (value instanceof Number) {
+            int selectedIndex = ((Number)value).intValue();
+            combo.select(selectedIndex);
+            oldSelectedIndex = selectedIndex;
+        }
+        else {
             super.setValue(value);
+        }
     }
 
 }
