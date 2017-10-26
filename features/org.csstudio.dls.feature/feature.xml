@@ -28,6 +28,15 @@
          version="0.0.0"
          unpack="false"/>
 
+   <!-- It seems this plugin is also required despite the same bundles it
+        provides being provided by com.sun.mail.javax.mail.  -->
+   <plugin
+         id="javax.mail"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
    <plugin
          id="org.csstudio.logbook.dls"
          download-size="0"
