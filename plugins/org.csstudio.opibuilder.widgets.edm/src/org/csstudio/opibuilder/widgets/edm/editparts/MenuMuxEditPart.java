@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
 import org.csstudio.opibuilder.editparts.ExecutionMode;
+import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
 import org.csstudio.opibuilder.model.AbstractWidgetModel;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.widgets.edm.figures.MenuMuxFigure;
@@ -54,6 +55,8 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
         combo.addSelectionListener(comboSelectionListener);
 
         updateCombo(model.getItems());
+
+        markAsControlPV(AbstractPVWidgetModel.PROP_PVNAME, AbstractPVWidgetModel.PROP_PVVALUE);
 
         return comboFigure;
     }
