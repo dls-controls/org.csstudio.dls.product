@@ -15,7 +15,9 @@ import org.csstudio.opibuilder.widgets.edm.model.MenuMuxModel;
 import org.csstudio.opibuilder.widgets.edm.model.MenuMuxModel.MuxProperty;
 import org.csstudio.simplepv.IPV;
 import org.csstudio.simplepv.IPVListener;
+import org.csstudio.simplepv.VTypeHelper;
 import org.csstudio.ui.util.thread.UIBundlingThread;
+import org.diirt.vtype.VType;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.SWT;
@@ -24,6 +26,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 
 /**The editpart of a muxMenu.
  *
@@ -115,7 +118,6 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
 
         comboSelectionListener = new MuxMenuSelectionListener();
         combo.addSelectionListener(comboSelectionListener);
-
         updateCombo(model.getItems());
 
         // Do NOT mark the PVName as a controlPV; this leads to a race condition between the
@@ -242,6 +244,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
         return writable;
     }
 
+
     private class MuxMenuSelectionListener extends SelectionAdapter {
         /// Selection change handler for the MenuMux Combobox
 
@@ -253,25 +256,15 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
             if (e == null)
                 return;
 
-
-            if (e.stateMask == SWT.BUTTON1) {
+            if (e.stateMask == SWT.BUTTON1 || e.data != null) {
                 /// On selected change put the selected PV name to the associated local pv (e.g. $d)
-                MenuMuxModel model = getWidgetModel();
-
                 int selectedIdx = combo.getSelectionIndex();
                 // Write the index to the control PV.
                 setPVValue(MenuMuxModel.PROP_PVNAME, selectedIdx);
                 // cache the selection to manage scroll-wheel use
                 oldSelectedIndex = selectedIdx;
 
-                for (int set_index = 0; set_index < model.getNumSets(); set_index++) {
-                    List<String> values = model.getValues(set_index);
-
-                    if (selectedIdx < values.size()) {
-                        String value = values.get(selectedIdx);
-                        setPVValue(MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, set_index), value);
-                    }
-                }
+                updateTargetPVs(selectedIdx);
             }
             else {
                 // Ignore selections from mouse wheel (stateMask == 0).
@@ -281,6 +274,25 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
                 combo.select(oldSelectedIndex);
                 // block further process of this selection event
                 e.doit = false;
+            }
+        }
+    }
+
+    /**
+     * Trigger updates of all target PVs to the correct
+     * element of their value list
+     *
+     * @param selectedIdx
+     */
+    private void updateTargetPVs(final int selectedIdx) {
+        MenuMuxModel model = getWidgetModel();
+
+        for (int setIndex = 0; setIndex < model.getNumSets(); setIndex++) {
+            List<String> values = model.getValues(setIndex);
+            if (selectedIdx < values.size()) {
+                String value = values.get(selectedIdx);
+                String propId = MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, setIndex);
+                setPVValue(propId, value);
             }
         }
     }
@@ -345,6 +357,23 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
         setPropertyChangeHandler(AbstractWidgetModel.PROP_BORDER_STYLE, handle);
         setPropertyChangeHandler(AbstractWidgetModel.PROP_BORDER_WIDTH, handle);
         setPropertyChangeHandler(MenuMuxModel.PROP_FONT, handle);
+
+        // PV_Value
+        IWidgetPropertyChangeHandler pvhandler = new IWidgetPropertyChangeHandler() {
+            @Override
+            public boolean handleChange(final Object oldValue,
+                    final Object newValue, final IFigure refreshableFigure) {
+                if(newValue != null){
+                    Number val = VTypeHelper.getNumber((VType)newValue);
+                    if (val != null) {
+                        setValue(val);
+                    }
+                }
+
+                return true;
+            }
+        };
+        setPropertyChangeHandler(MenuMuxModel.PROP_PVVALUE, pvhandler);
     }
 
     private void autoSizeWidget(MenuMuxFigure comboFigure) {
@@ -364,7 +393,8 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
      * {@inheritDoc}
      */
     @Override
-    public void setValue(Object value) {
+    public void setValue(final Object value) {
+        int cache = oldSelectedIndex;
         if(value instanceof String) {
             combo.setText((String) value);
             oldSelectedIndex = combo.getSelectionIndex();
@@ -375,7 +405,14 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
             oldSelectedIndex = selectedIndex;
         }
         else {
+            // this raises an exception
             super.setValue(value);
+        }
+
+        if (cache != oldSelectedIndex) {
+            Event evt = new Event();
+            evt.data = this; // pass some non-null data to trigger update
+            combo.notifyListeners(SWT.Selection, evt);
         }
     }
 
