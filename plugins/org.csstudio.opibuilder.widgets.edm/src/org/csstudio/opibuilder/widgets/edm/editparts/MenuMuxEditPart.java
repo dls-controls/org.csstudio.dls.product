@@ -1,15 +1,21 @@
 package org.csstudio.opibuilder.widgets.edm.editparts;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
 import org.csstudio.opibuilder.editparts.ExecutionMode;
-import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
+import org.csstudio.opibuilder.editparts.PVWidgetEditpartDelegate;
 import org.csstudio.opibuilder.model.AbstractWidgetModel;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.widgets.edm.figures.MenuMuxFigure;
 import org.csstudio.opibuilder.widgets.edm.model.MenuMuxModel;
 import org.csstudio.opibuilder.widgets.edm.model.MenuMuxModel.MuxProperty;
+import org.csstudio.simplepv.IPV;
+import org.csstudio.simplepv.IPVListener;
+import org.csstudio.ui.util.thread.UIBundlingThread;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.SWT;
@@ -30,6 +36,62 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
     private int oldSelectedIndex;
     private Combo combo;
     private SelectionListener comboSelectionListener;
+    private volatile AtomicBoolean lastWriteAccess;
+    private Map<IPV, IPVListener> targetPVsListenerMap = new HashMap<IPV, IPVListener>();
+
+
+    private final class WidgetPVListener extends IPVListener.Stub{
+
+        @Override
+        public void connectionChanged(IPV pv) {
+            if(!pv.isConnected())
+                lastWriteAccess = null;
+            updateControlEnabling();
+        }
+
+        @Override
+        public void writePermissionChanged(IPV pv) {
+            updateControlEnabling();
+        }
+    }
+
+    /**
+     * Update the control widget enabling based on the writable
+     * status of all attached PVs
+     *
+     * Control is disabled if ANY of the PVs (target + control) are
+     * not writable. This ensures you cannot get into an inconsistent
+     * state where some attached PVs update and other don't.
+     */
+    private void updateControlEnabling() {
+
+        boolean allWritable = allPVsWritable();
+
+        if(lastWriteAccess == null || lastWriteAccess.get() != allWritable){
+            if(lastWriteAccess == null)
+                lastWriteAccess= new AtomicBoolean();
+
+            lastWriteAccess.set(allWritable);
+
+            if(lastWriteAccess.get()){
+                UIBundlingThread.getInstance().addRunnable(
+                        getViewer().getControl().getDisplay(),new Runnable(){
+                    @Override
+                    public void run() {
+                        setControlEnabled(true);
+                    }
+                });
+            } else {
+                UIBundlingThread.getInstance().addRunnable(
+                        getViewer().getControl().getDisplay(),new Runnable(){
+                    @Override
+                    public void run() {
+                        setControlEnabled(false);
+                    }
+                });
+            }
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -56,7 +118,9 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
 
         updateCombo(model.getItems());
 
-        markAsControlPV(AbstractPVWidgetModel.PROP_PVNAME, AbstractPVWidgetModel.PROP_PVVALUE);
+        // Do NOT mark the PVName as a controlPV; this leads to a race condition between the
+        // 'all PVs writable' implemented in this class and the WidgetPVListener in the
+        // PVWidgetEditpartDelegate.
 
         return comboFigure;
     }
@@ -78,11 +142,50 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
     }
 
     @Override
+    protected void doActivate() {
+        super.doActivate();
+
+        createListeners();
+    }
+
+    /**
+     * Create listeners on the target and control PVs responding
+     * to connection and writePermission changes
+     */
+    private void createListeners() {
+
+        if(getExecutionMode() == ExecutionMode.RUN_MODE){
+            MenuMuxModel model = getWidgetModel();
+            WidgetPVListener pvListener;
+
+            IPV pv = delegate.getPV();
+            if (pv != null) {
+                pvListener = new WidgetPVListener();
+                pv.addListener(pvListener);
+                targetPVsListenerMap.put(pv, pvListener);
+            }
+
+            for (int setIndex = 0; setIndex < model.getNumSets(); setIndex++) {
+                String propId = MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, setIndex);
+                pvListener = new WidgetPVListener();
+
+                pv = delegate.getPV(propId);
+                pv.addListener(pvListener);
+                // local cache to clean on deactivation
+                targetPVsListenerMap.put(pv, pvListener);
+            }
+        }
+    }
+
+    @Override
     protected void doDeActivate() {
         super.doDeActivate();
 
-        if(comboSelectionListener !=null)
+        if(comboSelectionListener !=null) {
             combo.removeSelectionListener(comboSelectionListener);
+        }
+
+        targetPVsListenerMap.clear();
     }
 
     private void setInitialSelection() {
@@ -110,6 +213,35 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
         }
     }
 
+
+    /** Check the writable status of ALL PVs associated with this widget:
+     *          pvName
+     *          targetN [N=0,..,model.MAX_SETS]
+     *
+     * @return TRUE if all pvs are writable, false otherwise
+     */
+    private boolean allPVsWritable() {
+        boolean writable = true;
+
+        IPV pv = getPV();
+        if (pv != null && !pv.isWriteAllowed()) {
+            writable = false;
+        }
+        else {
+            MenuMuxModel model = getWidgetModel();
+            PVWidgetEditpartDelegate delegate = getPVWidgetEditpartDelegate();
+            for (int setIndex = 0; setIndex < model.getNumSets(); setIndex++) {
+                pv = delegate.getPV(MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, setIndex));
+
+                if (pv != null && !pv.isWriteAllowed()) {
+                    writable = false;
+                    break;
+                }
+            }
+        }
+        return writable;
+    }
+
     private class MuxMenuSelectionListener extends SelectionAdapter {
         /// Selection change handler for the MenuMux Combobox
 
@@ -120,6 +252,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
             /// for equivalent change to ComboBox widget.
             if (e == null)
                 return;
+
 
             if (e.stateMask == SWT.BUTTON1) {
                 /// On selected change put the selected PV name to the associated local pv (e.g. $d)
