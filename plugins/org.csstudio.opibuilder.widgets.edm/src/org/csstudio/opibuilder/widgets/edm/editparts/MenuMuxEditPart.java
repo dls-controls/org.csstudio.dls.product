@@ -169,12 +169,13 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
 
             for (int setIndex = 0; setIndex < model.getNumSets(); setIndex++) {
                 String propId = MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, setIndex);
-                pvListener = new WidgetPVListener();
 
                 pv = delegate.getPV(propId);
-                pv.addListener(pvListener);
-                // local cache to clean on deactivation
-                targetPVsListenerMap.put(pv, pvListener);
+                if (pv != null) {
+                    pvListener = new WidgetPVListener();
+                    pv.addListener(pvListener);
+                    targetPVsListenerMap.put(pv, pvListener);
+                }
             }
         }
     }
