@@ -155,28 +155,23 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
      * to connection and writePermission changes
      */
     private void createListeners() {
-
         if(getExecutionMode() == ExecutionMode.RUN_MODE){
             MenuMuxModel model = getWidgetModel();
-            WidgetPVListener pvListener;
-
-            IPV pv = delegate.getPV();
-            if (pv != null) {
-                pvListener = new WidgetPVListener();
-                pv.addListener(pvListener);
-                targetPVsListenerMap.put(pv, pvListener);
-            }
-
+            // control PV
+            addListener(delegate.getPV());
+            // target PVs
             for (int setIndex = 0; setIndex < model.getNumSets(); setIndex++) {
                 String propId = MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, setIndex);
-
-                pv = delegate.getPV(propId);
-                if (pv != null) {
-                    pvListener = new WidgetPVListener();
-                    pv.addListener(pvListener);
-                    targetPVsListenerMap.put(pv, pvListener);
-                }
+                addListener(delegate.getPV(propId));
             }
+        }
+    }
+
+    private void addListener(IPV pv) {
+        if (pv != null) {
+            WidgetPVListener pvListener = new WidgetPVListener();
+            pv.addListener(pvListener);
+            targetPVsListenerMap.put(pv, pvListener);
         }
     }
 
