@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
 import org.csstudio.opibuilder.editparts.ExecutionMode;
@@ -41,6 +43,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
     private SelectionListener comboSelectionListener;
     private volatile AtomicBoolean lastWriteAccess;
     private Map<IPV, IPVListener> targetPVsListenerMap = new HashMap<IPV, IPVListener>();
+    private static final Logger LOGGER = Logger.getLogger(MenuMuxEditPart.class.getName());
 
 
     private final class WidgetPVListener extends IPVListener.Stub{
@@ -103,14 +106,14 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
     protected IFigure doCreateFigure() {
         final MenuMuxModel model = getWidgetModel();
         if (model == null) {
-            System.err.println("NULL model");
+            LOGGER.log(Level.SEVERE, "NULL model");
         }
 
         MenuMuxFigure comboFigure = new MenuMuxFigure(this);
 
         combo = comboFigure.getSWTWidget();
         if (combo == null) {
-            System.err.println("NULL COMBO");
+            LOGGER.log(Level.SEVERE, "NULL swt widget");
         }
 
         if(comboSelectionListener !=null)
@@ -197,7 +200,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
                     oldSelectedIndex = selectedIndex;
                 }
                 catch (NumberFormatException ex) {
-                    System.err.println("Invalid initial state: " + initialState);
+                    LOGGER.log(Level.WARNING, "Invalid initial state: " + initialState, ex);
                 }
             }
             else
@@ -255,12 +258,17 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
             if (e.stateMask == SWT.BUTTON1 || e.data != null) {
                 /// On selected change put the selected PV name to the associated local pv (e.g. $d)
                 int selectedIdx = combo.getSelectionIndex();
-                // Write the index to the control PV.
-                setPVValue(MenuMuxModel.PROP_PVNAME, selectedIdx);
-                // cache the selection to manage scroll-wheel use
                 oldSelectedIndex = selectedIdx;
 
-                updateTargetPVs(selectedIdx);
+                if (selectedIdx > -1) {
+                    // Write the index to the control PV.
+                    setPVValue(MenuMuxModel.PROP_PVNAME, selectedIdx);
+                    // cache the selection to manage scroll-wheel use
+                    updateTargetPVs(selectedIdx);
+                }
+                else {
+                    LOGGER.log(Level.WARNING, "Target PVs not updated: no item selected");
+                }
             }
             else {
                 // Ignore selections from mouse wheel (stateMask == 0).
@@ -281,6 +289,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
      * @param selectedIdx
      */
     private void updateTargetPVs(final int selectedIdx) {
+
         MenuMuxModel model = getWidgetModel();
 
         for (int setIndex = 0; setIndex < model.getNumSets(); setIndex++) {
@@ -299,7 +308,7 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
     private void updateCombo(List<String> items) {
 
         if (items == null) {
-            System.err.println("NULL ITEMS");
+            LOGGER.log(Level.SEVERE, "NULL combo items");
         }
         else if(getExecutionMode() == ExecutionMode.RUN_MODE) {
             combo.removeAll();
@@ -392,13 +401,30 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
     public void setValue(final Object value) {
         int cache = oldSelectedIndex;
         if(value instanceof String) {
-            combo.setText((String) value);
+            //TODO: is this code block required?
+            LOGGER.log(Level.INFO, "Updating menumux via String path " + getPVName());
+
+            combo.setText((String) value);  // ignores value not in value list
             oldSelectedIndex = combo.getSelectionIndex();
+
+            if (combo.getText() != value) {
+                LOGGER.log(Level.WARNING, "Unrecognised value set on control PV: " + getPVName() + " (" + value + ")");
+                combo.deselectAll();
+                oldSelectedIndex = -1;
+            }
         }
         else if (value instanceof Number) {
             int selectedIndex = ((Number)value).intValue();
-            combo.select(selectedIndex);
+            combo.select(selectedIndex);  // ignores out-of-range indices
             oldSelectedIndex = selectedIndex;
+
+            // verify the combobox selected index matches the expected
+            // value: if not it means the selection set in the PV is invalid
+            if (oldSelectedIndex != combo.getSelectionIndex()) {
+                LOGGER.log(Level.WARNING, "Unrecognised value set on control PV: " + getPVName() + " (" + value + ")");
+                combo.deselectAll();
+                oldSelectedIndex = -1;
+            }
         }
         else {
             // this raises an exception
