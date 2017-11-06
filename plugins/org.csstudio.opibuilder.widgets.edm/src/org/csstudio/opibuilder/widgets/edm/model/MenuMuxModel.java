@@ -7,8 +7,8 @@ import org.csstudio.opibuilder.properties.IntegerProperty;
 import org.csstudio.opibuilder.properties.NameDefinedCategory;
 import org.csstudio.opibuilder.properties.PVNameProperty;
 import org.csstudio.opibuilder.properties.PVValueProperty;
-import org.csstudio.opibuilder.properties.StringProperty;
 import org.csstudio.opibuilder.properties.StringListProperty;
+import org.csstudio.opibuilder.properties.StringProperty;
 import org.csstudio.opibuilder.properties.WidgetPropertyCategory;
 import org.csstudio.opibuilder.widgets.model.ComboModel;
 import org.eclipse.swt.graphics.RGB;
@@ -60,7 +60,7 @@ public class MenuMuxModel extends ComboModel {
                 PROP_ITEMS, "Items", WidgetPropertyCategory.Misc, new ArrayList<String>()));
 
         addProperty(new IntegerProperty(
-                PROP_NUM_SETS, "Number of value sets", WidgetPropertyCategory.Misc, 1, 1, MAX_SETS));
+                PROP_NUM_SETS, "Number of value sets", WidgetPropertyCategory.Misc, 1, 0, MAX_SETS));
 
         addProperty(new StringProperty(
                 PROP_INITIAL_STATE, "Initial State", WidgetPropertyCategory.Misc, ""));
