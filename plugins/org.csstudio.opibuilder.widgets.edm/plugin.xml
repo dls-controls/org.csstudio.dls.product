@@ -4,10 +4,10 @@
    <extension
          point="org.csstudio.opibuilder.widget">
       <widget
-            category="Monitors"
+            category="Controls"
             description="Edm style MenuMux widget"
             editpart_class="org.csstudio.opibuilder.widgets.edm.editparts.MenuMuxEditPart"
-            icon="icon/symbol.png"
+            icon="icon/mmux.gif"
             model_class="org.csstudio.opibuilder.widgets.edm.model.MenuMuxModel"
             name="MenuMux Widget"
             typeId="org.csstudio.opibuilder.widgets.edm.menumux">
