@@ -294,11 +294,21 @@ public final class MenuMuxEditPart extends AbstractPVWidgetEditPart {
 
         for (int setIndex = 0; setIndex < model.getNumSets(); setIndex++) {
             List<String> values = model.getValues(setIndex);
+            String propId = MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, setIndex);
             if (selectedIdx < values.size()) {
                 String value = values.get(selectedIdx);
-                String propId = MenuMuxModel.makePropId(MuxProperty.TARGET.propIDPre, setIndex);
                 setPVValue(propId, value);
             }
+            else {
+                IPV pv = delegate.getPV(propId);
+                if (pv != null) {
+                    // only log a warning if there's a PV defined for this set
+                    LOGGER.log(Level.WARNING, String.format(
+                            "Target PV %s (%d) not updated: no value for selected index %d",
+                            pv.getName(), setIndex, selectedIdx));
+                }
+            }
+
         }
     }
 
