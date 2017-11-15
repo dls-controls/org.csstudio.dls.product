@@ -9,6 +9,7 @@ package org.csstudio.opibuilder.widgets.edm.figures;
 
 
 import org.csstudio.opibuilder.editparts.AbstractBaseEditPart;
+import org.csstudio.opibuilder.model.AbstractWidgetModel;
 import org.csstudio.opibuilder.widgets.figures.AbstractSWTWidgetFigure;
 import org.csstudio.ui.util.CustomMediaFactory;
 import org.eclipse.draw2d.Graphics;
@@ -52,7 +53,7 @@ public class MenuMuxFigure extends AbstractSWTWidgetFigure<Combo> {
 
     @Override
     protected Combo createSWTWidget(Composite parent, int style) {
-        combo= new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
+        combo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
         return combo;
     }
 
@@ -76,6 +77,18 @@ public class MenuMuxFigure extends AbstractSWTWidgetFigure<Combo> {
             graphics.setForegroundColor(DARK_GRAY_COLOR);
             graphics.drawRectangle(new Rectangle(clientArea.getLocation(),
                     clientArea.getSize().shrink(1, 1)));
+        }
+    }
+
+    @Override
+    public void setEnabled(boolean value) {
+        super.setEnabled(value);
+        if (value) {
+            setForegroundColor(
+                    editPart.getWidgetModel().getSWTColorFromColorProperty(
+                            AbstractWidgetModel.PROP_COLOR_FOREGROUND));
+        } else {
+            setForegroundColor(DARK_GRAY_COLOR);
         }
     }
 
