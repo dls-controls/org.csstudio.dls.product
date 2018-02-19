@@ -86,11 +86,14 @@
          <perspectiveShortcut id="org.csstudio.trends.databrowser.Perspective"/>
          <viewShortcut id="org.eclipse.ui.views.ResourceNavigator"/>
          <viewShortcut id="org.eclipse.ui.console.ConsoleView"/>
+         <!-- When opening OPIRuntime perspective we don't want unnecessary
+              clutter, so this view is not set as visible. -->
          <view
             id = "org.csstudio.opibuilder.opiShellSummary"
             relative="org.eclipse.ui.views.ResourceNavigator"
             relationship="stack"
             closeable="false"
+            visible="false"
             minimized="true"/>
       </perspectiveExtension>
       <perspectiveExtension
