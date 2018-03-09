@@ -190,4 +190,4 @@ fi
 
 # Echo subsequent commands for debugging.
 set -x
-$CSSTUDIO $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$runfile $macros_escaped $links_escaped" $vm_args
+$CSSTUDIO --launcher.appendVmargs $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$runfile $macros_escaped $links_escaped" $vm_args
