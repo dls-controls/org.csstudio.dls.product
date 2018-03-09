@@ -72,19 +72,6 @@ dev=false
 opishell=false
 port=5064
 
-# Default values for VM arguments
-# Despite being able to specify these in the product, providing any
-# command line arguments overrides all options set there, so we have
-# to set them all here.
-vm_args="-vmargs " \
-    "-Xmx3072m " \
-    "-Xms256m " \
-    "-Dosgi.requiredJavaVersion=1.8 " \
-    "-Dorg.osgi.framework.bundle.parent=ext " \
-    "-Dosgi.framework.extensions=org.eclipse.fx.osgi " \
-    "-Dosgi.checkConfiguration=true " \
-    "-Dorg.osgi.framework.system.packages.extra=sun.misc "
-
 while getopts "w:do:p:n:x:m:sl:c" opt; do
     case $opt in
         w)
@@ -198,7 +185,7 @@ local_links_args="-share_link $personal_location=/CSS/$USER"
 # This applies only for the initial launch, which is where we may
 # need this information.
 if [[ $is_nwsfile = true ]]; then
-    vm_args="${vm_args} -Dnws_file"
+    vm_args="-vmargs -Dnws_file"
 fi
 
 # Echo subsequent commands for debugging.
