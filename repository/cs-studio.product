@@ -16,6 +16,13 @@
    <launcherArgs>
       <programArgs>--launcher.GTK_version 2
       </programArgs>
+      <vmArgs>-Xmx3072m
+-Xms256m
+-Dosgi.requiredJavaVersion=1.8
+-Dorg.osgi.framework.bundle.parent=ext
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Dosgi.checkConfiguration=true
+-Dorg.osgi.framework.system.packages.extra=sun.misc</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
