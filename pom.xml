@@ -38,8 +38,8 @@
     <cs-studio.central.url>http://download.controlsystemstudio.org/product/${cs-studio.version}</cs-studio.central.url>
     <cs-studio.update.url>http://download.controlsystemstudio.org/updates/${cs-studio.version}</cs-studio.update.url>
     <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository</orbit-site>
-    <eclipse-site>http://download.eclipse.org/releases/neon</eclipse-site>
-    <eclipse-update-site>http://download.eclipse.org/eclipse/updates/4.6</eclipse-update-site>
+    <eclipse-site>http://download.eclipse.org/releases/oxygen</eclipse-site>
+    <eclipse-update-site>http://download.eclipse.org/eclipse/updates/4.7</eclipse-update-site>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
