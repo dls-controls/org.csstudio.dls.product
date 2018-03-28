@@ -188,6 +188,11 @@ if [[ $is_nwsfile = true ]]; then
     vm_args="-vmargs -Dnws_file"
 fi
 
+# Eclipse arguments:
+# * ensure arguments are appended to those in a .ini file
+# * clear workspace configuration before launching
+eclipse_args="--launcher.appendVmargs -clearPersistedState"
+
 # Echo subsequent commands for debugging.
 set -x
-$CSSTUDIO --launcher.appendVmargs $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$runfile $macros_escaped $links_escaped" $vm_args
+$CSSTUDIO $eclipse_args $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$runfile $macros_escaped $links_escaped" $vm_args
