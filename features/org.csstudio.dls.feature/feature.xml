@@ -37,14 +37,6 @@
          version="0.0.0"
          unpack="false"/>
 
-   <!-- Required, but not listed, by org.epics.pvAccessJava -->
-   <plugin
-         id="org.epics.caj"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
    <plugin
          id="org.csstudio.logbook.dls"
          download-size="0"
