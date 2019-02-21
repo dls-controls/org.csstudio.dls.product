@@ -4,7 +4,7 @@ Bundle-Name: Unit tests for new window functionality
 Bundle-SymbolicName: org.csstudio.archive.reader.fastarchiver.test
 Bundle-Version: 0.0.1.qualifier
 Fragment-Host: org.csstudio.archive.reader.fastarchiver;bundle-version="0.0.1"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.junit
 Export-Package: org.csstudio.archive.reader.fastarchiver,
  org.csstudio.archive.reader.fastarchiver.archive_requests

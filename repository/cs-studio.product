@@ -14,14 +14,14 @@
    </configIni>
 
    <launcherArgs>
-      <programArgs>--launcher.GTK_version 2
-      </programArgs>
+      <programArgs></programArgs>
       <vmArgs>-Xmx3072m
 -Xms256m
--Dosgi.requiredJavaVersion=1.8
+-Dosgi.requiredJavaVersion=11
 -Dorg.osgi.framework.bundle.parent=ext
 -Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Dosgi.checkConfiguration=true
+-Djavax.xml.bind.context.factory=com.sun.xml.bind.v2.ContextFactory
 -Dorg.osgi.framework.system.packages.extra=sun.misc</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
@@ -78,6 +78,10 @@
       <feature id="org.csstudio.dls.feature"/>
       <feature id="org.csstudio.dls.product.feature"/>
       <feature id="org.eclipse.help"/>
+      <!-- new -->
+      <feature id="org.eclipse.fx.runtime.min.feature"/>
+      <feature id="openjfx.standard.feature"/>
+      <feature id="org.eclipse.e4.rcp"/>
    </features>
 
    <configurations>
