@@ -144,7 +144,7 @@
         </repository>
         <repository>
           <id>efx</id>
-          <url>http://download.eclipse.org/efxclipse/runtime-nightly/site</url>
+          <url>http://download.eclipse.org/efxclipse/runtime-released/3.4.3/site</url>
           <layout>p2</layout>
         </repository>
         <repository>
