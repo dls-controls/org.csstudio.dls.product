@@ -82,6 +82,7 @@
       <feature id="org.eclipse.fx.runtime.min.feature"/>
       <feature id="openjfx.standard.feature"/>
       <feature id="org.eclipse.e4.rcp"/>
+      <feature id="org.csstudio.phoebus.integration.feature"/>
    </features>
 
    <configurations>
