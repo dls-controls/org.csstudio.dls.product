@@ -78,7 +78,7 @@
       <feature id="org.csstudio.dls.feature"/>
       <feature id="org.csstudio.dls.product.feature"/>
       <feature id="org.eclipse.help"/>
-      <!-- new -->
+      <!-- required for the JDK11 build -->
       <feature id="org.eclipse.fx.runtime.min.feature"/>
       <feature id="openjfx.standard.feature"/>
       <feature id="org.eclipse.e4.rcp"/>
