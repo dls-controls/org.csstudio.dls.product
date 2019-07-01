@@ -50,8 +50,7 @@
   <repositories>
     <repository>
       <id>dawn</id>
-      <!-- Temporary measure while internal p2 repos are down. -->
-      <url>file:/dls_sw/dasc/static_pages/DawnDiamond/2.2/updates/release/</url>
+      <url>https://alfred.diamond.ac.uk/DawnDiamond/2.2/updates/release/</url>
       <layout>p2</layout>
     </repository>
       <repository>
