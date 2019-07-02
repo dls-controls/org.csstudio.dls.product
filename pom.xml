@@ -74,22 +74,22 @@
 
   <!-- if a local repository is specified then enable the repository for build. -->
   <profiles>
-      <profile>
-        <id>diirt-site</id>
-        <activation>
-          <property>
-            <name>!diirt-disabled</name>
-          </property>
-        </activation>
-        <repositories>
-          <repository>
-            <id>diirt</id>
-            <url>${diirt.download.root}/diirt/${diirt.version}</url>
-            <layout>p2</layout>
-          </repository>
-        </repositories>
-      </profile>
-      <profile>
+    <profile>
+      <id>diirt-site</id>
+      <activation>
+        <property>
+          <name>!diirt-disabled</name>
+        </property>
+      </activation>
+      <repositories>
+        <repository>
+          <id>diirt</id>
+          <url>${diirt.download.root}/diirt/${diirt.version}</url>
+          <layout>p2</layout>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
       <id>csstudio-local-repo-enable</id>
       <activation>
         <file>
