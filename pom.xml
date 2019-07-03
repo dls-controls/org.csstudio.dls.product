@@ -49,6 +49,31 @@
   -->
   <repositories>
     <repository>
+      <id>eclipse</id>
+      <url>${eclipse-site}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>eclipse-updates</id>
+      <url>${eclipse-update-site}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>orbit</id>
+      <url>${orbit-site}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>openjfx</id>
+      <url>${openjfx-site}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>efx</id>
+      <url>http://download.eclipse.org/efxclipse/runtime-released/3.5.0/site</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
       <id>dawn</id>
       <url>https://alfred.diamond.ac.uk/DawnDiamond/2.2/updates/release/</url>
       <layout>p2</layout>
@@ -56,15 +81,6 @@
       <repository>
       <id>diirt</id>
       <url>http://diirt.download.controlsystemstudio.org/diirt/${diirt.version}</url>
-      <layout>p2</layout>
-    </repository>
-    <repository>
-      <id>openjfx</id>
-      <url>${openjfx-site}</url>
-    </repository>
-    <repository>
-      <id>efx</id>
-      <url>http://download.eclipse.org/efxclipse/runtime-released/3.5.0/site</url>
       <layout>p2</layout>
     </repository>
   </repositories>
@@ -90,21 +106,6 @@
       </repositories>
     </profile>
     <profile>
-      <id>csstudio-local-repo-enable</id>
-      <activation>
-        <file>
-          <exists>${csstudio.local.repo}/artifacts.jar</exists>
-        </file>
-      </activation>
-      <repositories>
-        <repository>
-          <id>csstudio-local-repo</id>
-          <url>file:${csstudio.local.repo}</url>
-          <layout>p2</layout>
-        </repository>
-      </repositories>
-    </profile>
-    <profile>
       <id>csstudio-composite-repo-enable</id>
       <activation>
         <property>
@@ -115,41 +116,6 @@
         <repository>
           <id>csstudio-composite-repo</id>
           <url>file:${csstudio.composite.repo}</url>
-          <layout>p2</layout>
-        </repository>
-      </repositories>
-    </profile>
-    <profile>
-      <id>eclipse-sites</id>
-      <activation>
-        <property>
-          <name>!eclipse</name>
-        </property>
-      </activation>
-      <repositories>
-        <repository>
-          <id>eclipse</id>
-          <url>${eclipse-site}</url>
-          <layout>p2</layout>
-        </repository>
-        <repository>
-          <id>eclipse-updates</id>
-          <url>${eclipse-update-site}</url>
-          <layout>p2</layout>
-        </repository>
-        <repository>
-          <id>orbit</id>
-          <url>${orbit-site}</url>
-          <layout>p2</layout>
-        </repository>
-        <repository>
-          <id>efx</id>
-          <url>http://download.eclipse.org/efxclipse/runtime-released/3.5.0/site</url>
-          <layout>p2</layout>
-        </repository>
-        <repository>
-          <id>openjfx</id>
-          <url>${openjfx-site}</url>
           <layout>p2</layout>
         </repository>
       </repositories>
