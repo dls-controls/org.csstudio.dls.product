@@ -171,9 +171,13 @@ if [[ $opishell = true ]]; then
     fi
 fi
 macros_escaped=$(escape "$macros")
+if [[ ! -z "$macros_escaped" ]]; then
+    runfile="$runfile $macros_escaped"
+fi
 
 if [[ -n $links ]]; then
     links_escaped="-share_link $(escape "$links")"
+    runfile="$runfile $links_escaped"
 fi
 
 # Create the local location shared between all workspaces.
@@ -195,4 +199,4 @@ eclipse_args="--launcher.appendVmargs -clearPersistedState"
 
 # Echo subsequent commands for debugging.
 set -x
-$CSSTUDIO $eclipse_args $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$runfile $macros_escaped $links_escaped" $vm_args
+$CSSTUDIO $eclipse_args $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$runfile" $vm_args
