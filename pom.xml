@@ -30,7 +30,7 @@
   -->
   <properties>
     <!-- VERSIONS -->
-    <tycho.version>1.6.0</tycho.version>
+    <tycho.version>1.7.0</tycho.version>
     <tycho-extras.version>${tycho.version}</tycho-extras.version>
     <cs-studio.version>4.6</cs-studio.version>
     <diirt.version>3.1.7</diirt.version>
