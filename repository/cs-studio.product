@@ -4,7 +4,7 @@
 <product name="CS-Studio" uid="cs-studio" id="org.csstudio.dls.product.product" application="org.csstudio.dls.product.application" version="4.6.0.snapshot" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
-      <image path="/org.csstudio.dls.product/icons/cs-studio-about.png"/>
+      <image path="/org.csstudio.dls.product.common/icons/cs-studio-about.png"/>
       <text>
          %aboutText
       </text>
@@ -26,7 +26,7 @@
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages i16="/org.csstudio.dls.product/icons/css16.png" i32="/org.csstudio.dls.product/icons/css32.png" i48="/org.csstudio.dls.product/icons/css48.png" i64="/org.csstudio.dls.product/icons/css64.png" i128="/org.csstudio.dls.product/icons/css128.png"/>
+   <windowImages i16="/org.csstudio.dls.product.common/icons/css16.png" i32="/org.csstudio.dls.product.common/icons/css32.png" i48="/org.csstudio.dls.product.common/icons/css48.png" i64="/org.csstudio.dls.product.common/icons/css64.png" i128="/org.csstudio.dls.product.common/icons/css128.png" i256="/org.csstudio.dls.product.common/icons/css256.png"/>
 
    <splash
       location="org.csstudio.dls.product"
@@ -36,7 +36,7 @@
    <launcher name="cs-studio">
       <solaris/>
       <win useIco="true">
-         <ico path="/org.csstudio.dls.product/icons/css.ico"/>
+         <ico path="../plugins/org.csstudio.dls.product.common/icons/css.ico"/>
          <bmp/>
       </win>
    </launcher>
