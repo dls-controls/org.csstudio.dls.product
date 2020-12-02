@@ -200,7 +200,7 @@ eclipse_args="--launcher.appendVmargs -clearPersistedState"
 # Use java 11. We may want to revisit how this is installed.
 # Note: for some reason module load overwrites BASH_SOURCE, so we
 # need to do this after any use of that variable.
-module load java/11
+module load controls-java/11-0-9
 
 # Echo subsequent commands for debugging.
 set -x
