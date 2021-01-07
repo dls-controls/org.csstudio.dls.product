@@ -30,8 +30,8 @@
     <diirt.download.root>http://diirt.download.controlsystemstudio.org</diirt.download.root>
     <cs-studio.update.url>http://download.controlsystemstudio.org/updates/${cs-studio.version}</cs-studio.update.url>
     <eclipse-site>http://download.eclipse.org/releases/latest</eclipse-site>
-    <eclipse-update-site>http://download.eclipse.org/eclipse/updates/4.18milestones/S-4.18RC1-202011251800/</eclipse-update-site>
-    <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/S20201124213957/repository</orbit-site>
+    <eclipse-update-site>http://download.eclipse.org/eclipse/updates/4.18/R-4.18-202012021800/</eclipse-update-site>
+    <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20201130205003/repository</orbit-site>
     <openjfx-site>http://downloads.efxclipse.bestsolution.at/p2-repos/openjfx-11/repository</openjfx-site>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
