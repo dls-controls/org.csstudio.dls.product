@@ -20,7 +20,7 @@
             class="org.csstudio.utility.product.WorkspacePrompt">
       </workspace>
       <workbench
-            class="org.csstudio.utility.product.Workbench">
+            class="org.csstudio.trayicon.TrayWorkbench">
       </workbench>
       <project
             class="org.csstudio.startup.module.defaults.DefaultProject">
