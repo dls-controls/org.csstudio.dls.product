@@ -32,6 +32,8 @@ import org.eclipse.nebula.visualization.xygraph.dataprovider.CircularBufferDataP
 import org.eclipse.nebula.visualization.xygraph.dataprovider.CircularBufferDataProvider.PlotMode;
 import org.eclipse.nebula.visualization.xygraph.dataprovider.CircularBufferDataProvider.UpdateMode;
 import org.eclipse.nebula.visualization.xygraph.figures.Axis;
+import org.eclipse.nebula.visualization.xygraph.figures.DAxesFactory;
+import org.eclipse.nebula.visualization.xygraph.figures.DAxis;
 import org.eclipse.nebula.visualization.xygraph.figures.Grid;
 import org.eclipse.nebula.visualization.xygraph.figures.ToolbarArmedXYGraph;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace;
@@ -64,8 +66,8 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
     @Override
     protected IFigure doCreateFigure() {
         final DawnXYGraphModel model = getWidgetModel();
-        ToolbarArmedXYGraph xyGraphFigure = new ToolbarArmedXYGraph();
-        XYGraph xyGraph = xyGraphFigure.getXYGraph();
+        XYGraph xyGraph = new XYGraph(new DAxesFactory());
+        ToolbarArmedXYGraph xyGraphFigure = new ToolbarArmedXYGraph(xyGraph);
         xyGraph.setTitle(model.getTitle());
         xyGraph.setTitleFont(CustomMediaFactory.getInstance().getFont(
                 model.getTitleFont().getFontData()));
@@ -76,13 +78,13 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
         xyGraphFigure.setShowToolbar(model.isShowToolbar());
         xyGraphFigure.setTransparent(model.isTransprent());
         axisList = new ArrayList<Axis>();
-        axisList.add(xyGraph.primaryXAxis);
-        axisList.add(xyGraph.primaryYAxis);
+        axisList.add(xyGraph.getPrimaryXAxis());
+        axisList.add(xyGraph.getPrimaryYAxis());
         traceList = new ArrayList<Trace>();
         //init all axes
         for(int i=0; i<DawnXYGraphModel.MAX_AXES_AMOUNT; i++){
             if(i>=2){
-                axisList.add(new Axis("", true));
+                axisList.add(new DAxis("", true));
                 axisList.get(i).setGrid(new Grid(axisList.get(i)));
                 if(i<model.getAxesAmount())
                     xyGraphFigure.getXYGraph().addAxis(axisList.get(i));
@@ -102,7 +104,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
 
         //init all traces
         for(int i=0; i<DawnXYGraphModel.MAX_TRACES_AMOUNT; i++){
-            traceList.add(new Trace("", xyGraph.primaryXAxis, xyGraph.primaryYAxis,
+            traceList.add(new Trace("", xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(),
                     new XYGraphDataProvider(false)));
 
             if(i<model.getTracesAmount())
@@ -251,7 +253,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure refreshableFigure) {
                 DawnXYGraphModel model = (DawnXYGraphModel)getModel();
-                XYGraph xyGraph = ((ToolbarArmedXYGraph)refreshableFigure).getXYGraph();
+                XYGraph xyGraph = (XYGraph) ((ToolbarArmedXYGraph)refreshableFigure).getXYGraph();
                 int currentAxisAmount = xyGraph.getAxisList().size();
                 //add axis
                 if((Integer)newValue > currentAxisAmount){
@@ -319,7 +321,9 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
                 axis.setAutoScale((Boolean)newValue);
                 break;
             case AUTO_SCALE_TIGHT:
-                axis.setAxisAutoscaleTight((Boolean)newValue);
+                if (axis instanceof DAxis){
+                    ((DAxis) axis).setAxisAutoscaleTight((Boolean) newValue);
+                }
                 break;
             case VISIBLE:
                 axis.setVisible((Boolean)newValue);
@@ -407,7 +411,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             public boolean handleChange(Object oldValue, Object newValue,
                     IFigure refreshableFigure) {
                 DawnXYGraphModel model = (DawnXYGraphModel)getModel();
-                XYGraph xyGraph = ((ToolbarArmedXYGraph)refreshableFigure).getXYGraph();
+                XYGraph xyGraph = (XYGraph) ((ToolbarArmedXYGraph)refreshableFigure).getXYGraph();
                 int currentTracesAmount = xyGraph.getPlotArea().getTraceList().size();
                 //add trace
                 if((Integer)newValue > currentTracesAmount){
@@ -592,6 +596,7 @@ public class DawnXYGraphEditPart extends AbstractPVWidgetEditPart {
             dataProvider.setXAxisDateEnabled(false);
             if(VTypeHelper.getSize(y_value) > 1){
                 dataProvider.setCurrentYDataArray(VTypeHelper.getDoubleArray(y_value));
+
             }else
                 dataProvider.setCurrentYData(VTypeHelper.getDouble(y_value));
         }

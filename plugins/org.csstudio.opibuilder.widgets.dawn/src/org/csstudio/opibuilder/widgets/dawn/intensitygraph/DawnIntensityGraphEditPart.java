@@ -54,7 +54,6 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
         graph.setMax(model.getMaximum());
         graph.setDataWidth(model.getDataWidth());
         graph.setDataHeight(model.getDataHeight());
-        graph.setUnsigned(model.isUnsigned());
         graph.setUnsignedBits(model.getUnsignedBits());
         graph.setColorMap(model.getColorMap());
         graph.setShowRamp(model.isShowRamp());
@@ -369,7 +368,10 @@ public class DawnIntensityGraphEditPart extends AbstractPVWidgetEditPart {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 updatePropSheet();
-                ((IntensityGraphFigure)getFigure()).setUnsigned((Boolean)evt.getNewValue());
+                // If not unsigned then set unsignedbits to 0 to indicate not unsigned in IntensityGraphFigure
+                if (!(boolean)evt.getNewValue()) {
+                    getWidgetModel().setPropertyValue(DawnIntensityGraphModel.PROP_UNSIGNED_BITS, 0);
+                }
             }
         });
 

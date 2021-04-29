@@ -9,12 +9,14 @@ import org.eclipse.nebula.visualization.xygraph.linearscale.Range;
 public class XYGraphDataProvider extends CircularBufferDataProvider
         implements IDataProvider {
 
+    private boolean internalxAxisDateEnabled = false;
+
     public XYGraphDataProvider(boolean chronological) {
         super(chronological);
     }
 
     private boolean plotXIndex() {
-        return chronological && !xAxisDateEnabled;
+        return chronological && !internalxAxisDateEnabled;
     }
 
     /**
@@ -42,11 +44,17 @@ public class XYGraphDataProvider extends CircularBufferDataProvider
     public synchronized Range getXDataMinMax() {
         Range xRange;
         if (plotXIndex() && getSize() > 1) {
-            xRange = new Range(0, traceData.size() - 1);
+            xRange = new Range(0, getSize() - 1);
         } else {
             xRange = super.getXDataMinMax();
         }
         return xRange;
+    }
+
+    @Override
+    public void setXAxisDateEnabled(boolean xAxisDateEnabled) {
+        super.setXAxisDateEnabled(xAxisDateEnabled);
+        this.internalxAxisDateEnabled = xAxisDateEnabled;
     }
 
 }

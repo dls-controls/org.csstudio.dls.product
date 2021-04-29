@@ -103,7 +103,7 @@
         </repository>
         <repository>
           <id>dawn</id>
-          <url>https://alfred.diamond.ac.uk/DawnDiamond/2.2/updates/release/</url>
+          <url>https://download.eclipse.org/nebula/releases/2.4.3/</url>
           <layout>p2</layout>
         </repository>
           <repository>
