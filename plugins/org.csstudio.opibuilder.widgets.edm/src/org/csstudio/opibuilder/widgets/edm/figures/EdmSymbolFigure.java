@@ -36,14 +36,17 @@ public class EdmSymbolFigure extends Figure {
     @Override
     protected void paintClientArea(Graphics graphics) {
         super.paintClientArea(graphics);
-        if(image != null) {
-            // If what were trying to draw is out of bounds, draw a rectangle
-            if((1+subImageSelection) * subImageWidth > image.getBounds().width || subImageSelection * subImageWidth < 0 ||
-                    getClientArea().x < 0 || getClientArea().y < 0 || getClientArea().width < 0 || getClientArea().height < 0) {
-                graphics.fillRectangle(getClientArea().x, getClientArea().y, getClientArea().width, getClientArea().height);
+        if (image != null) {
+            // If what were trying to draw is out of bounds, simply draw the full image to
+            // fill the area
+            if ((1 + subImageSelection) * subImageWidth > image.getBounds().width
+                    || subImageSelection * subImageWidth < 0 || getClientArea().x < 0 || getClientArea().y < 0
+                    || getClientArea().width < 0 || getClientArea().height < 0) {
+                graphics.drawImage(image, 0, 0, image.getBounds().width, image.getBounds().height, getClientArea().x,
+                        getClientArea().y, getClientArea().width, getClientArea().height);
+                model.setSubImageWidth(image.getBounds().width);
             } else {
-                graphics.drawImage(image,
-                        subImageSelection * subImageWidth, 0, subImageWidth, image.getBounds().height,
+                graphics.drawImage(image, subImageSelection * subImageWidth, 0, subImageWidth, image.getBounds().height,
                         getClientArea().x, getClientArea().y, getClientArea().width, getClientArea().height);
             }
         }
