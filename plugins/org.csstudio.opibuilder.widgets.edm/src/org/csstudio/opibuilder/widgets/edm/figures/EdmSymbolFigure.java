@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.csstudio.opibuilder.widgets.edm.Activator;
+import org.csstudio.opibuilder.widgets.edm.model.EdmSymbolModel;
 import org.csstudio.swt.widgets.util.AbstractInputStreamRunnable;
 import org.csstudio.swt.widgets.util.IJobErrorHandler;
 import org.csstudio.swt.widgets.util.ResourceUtil;
@@ -18,15 +20,17 @@ public class EdmSymbolFigure extends Figure {
     private int subImageSelection = 0;
     private Image image;
     private static Map<String, Image> imageCache;
+    private EdmSymbolModel model;
 
     public EdmSymbolFigure() {
         this(null);
     }
 
-    public EdmSymbolFigure(IPath path) {
+    public EdmSymbolFigure(EdmSymbolModel model) {
         super();
+        this.model = model;
         if(imageCache == null) imageCache = new HashMap<String, Image>();
-        setImage(path);
+        setImage(model.getFilename());
     }
 
     @Override
@@ -46,8 +50,8 @@ public class EdmSymbolFigure extends Figure {
     }
 
     public synchronized void setImage(final IPath path) {
-        if(path == null || path.isEmpty()) return;
-        image = imageCache.get(path.toString());
+        if(path != null && !path.isEmpty())
+            image = imageCache.get(path.toString());
         if(image == null) {
             AbstractInputStreamRunnable uiTask = new AbstractInputStreamRunnable() {
                 public void runWithInputStream(InputStream stream) {
@@ -60,7 +64,10 @@ public class EdmSymbolFigure extends Figure {
             ResourceUtil.pathToInputStreamInJob(path, uiTask, "Loading Image...", new IJobErrorHandler() {
                 public void handleError(Exception exception) {
                     System.out.println("Warning: " + exception);
-                    image = null; // Don't keep drawing an old image
+                    Activator activator = Activator.getDefault();
+                    image = activator.getImageDescriptor("icon/symbol.png").createImage();
+                    subImageWidth = image.getBounds().width;
+                    model.setSubImageWidth(image.getBounds().width);
                 }
             });
         }
@@ -76,5 +83,4 @@ public class EdmSymbolFigure extends Figure {
         this.subImageSelection = imageNum;
         repaint();
     }
-
 }

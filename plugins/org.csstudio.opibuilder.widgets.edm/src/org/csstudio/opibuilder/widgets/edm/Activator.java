@@ -1,5 +1,6 @@
 package org.csstudio.opibuilder.widgets.edm;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -45,6 +46,15 @@ public class Activator extends AbstractUIPlugin {
      */
     public static Activator getDefault() {
         return plugin;
+    }
+
+    /** Obtain image descriptor from file within plugin.
+     *  @param path Path within plugin to image file
+     *  @return {@link ImageDescriptor}
+     */
+    public ImageDescriptor getImageDescriptor(final String path)
+    {
+        return imageDescriptorFromPlugin(PLUGIN_ID, path);
     }
 
 }

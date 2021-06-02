@@ -49,6 +49,10 @@ public class EdmSymbolModel extends AbstractPVWidgetModel {
         return width.intValue();
     }
 
+    public void setSubImageWidth(int width) {
+        setPropertyValue(PROP_SUB_IMAGE_WIDTH, width);
+    }
+
     public int getImageIndex() {
         return (Integer) getProperty(PROP_IMAGE_INDEX).getPropertyValue();
     }
