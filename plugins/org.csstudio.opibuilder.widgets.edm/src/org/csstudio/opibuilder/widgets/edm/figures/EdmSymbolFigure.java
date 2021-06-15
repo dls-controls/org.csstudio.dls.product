@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.csstudio.opibuilder.editparts.ExecutionMode;
 import org.csstudio.opibuilder.widgets.edm.Activator;
 import org.csstudio.opibuilder.widgets.edm.model.EdmSymbolModel;
 import org.csstudio.swt.widgets.util.AbstractInputStreamRunnable;
@@ -67,10 +68,15 @@ public class EdmSymbolFigure extends Figure {
             ResourceUtil.pathToInputStreamInJob(path, uiTask, "Loading Image...", new IJobErrorHandler() {
                 public void handleError(Exception exception) {
                     System.out.println("Warning: " + exception);
-                    Activator activator = Activator.getDefault();
-                    image = activator.getImageDescriptor("icon/symbol.png").createImage();
-                    subImageWidth = image.getBounds().width;
-                    model.setSubImageWidth(image.getBounds().width);
+                    if (model.getExecutionMode() == ExecutionMode.RUN_MODE) {
+                        // Do not draw any image if in Runtime mode
+                        image = null;
+                    } else {
+                        Activator activator = Activator.getDefault();
+                        image = activator.getImageDescriptor("icon/symbol.png").createImage();
+                        subImageWidth = image.getBounds().width;
+                        model.setSubImageWidth(image.getBounds().width);
+                    }
                 }
             });
         }
