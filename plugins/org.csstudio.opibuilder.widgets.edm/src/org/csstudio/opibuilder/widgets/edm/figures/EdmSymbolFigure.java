@@ -4,6 +4,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.csstudio.opibuilder.editparts.ExecutionMode;
+import org.csstudio.opibuilder.widgets.edm.Activator;
+import org.csstudio.opibuilder.widgets.edm.model.EdmSymbolModel;
 import org.csstudio.swt.widgets.util.AbstractInputStreamRunnable;
 import org.csstudio.swt.widgets.util.IJobErrorHandler;
 import org.csstudio.swt.widgets.util.ResourceUtil;
@@ -18,36 +21,41 @@ public class EdmSymbolFigure extends Figure {
     private int subImageSelection = 0;
     private Image image;
     private static Map<String, Image> imageCache;
+    private EdmSymbolModel model;
 
     public EdmSymbolFigure() {
         this(null);
     }
 
-    public EdmSymbolFigure(IPath path) {
+    public EdmSymbolFigure(EdmSymbolModel model) {
         super();
+        this.model = model;
         if(imageCache == null) imageCache = new HashMap<String, Image>();
-        setImage(path);
+        setImage(model.getFilename());
     }
 
     @Override
     protected void paintClientArea(Graphics graphics) {
         super.paintClientArea(graphics);
-        if(image != null) {
-            // If what were trying to draw is out of bounds, draw a rectangle
-            if((1+subImageSelection) * subImageWidth > image.getBounds().width || subImageSelection * subImageWidth < 0 ||
-                    getClientArea().x < 0 || getClientArea().y < 0 || getClientArea().width < 0 || getClientArea().height < 0) {
-                graphics.fillRectangle(getClientArea().x, getClientArea().y, getClientArea().width, getClientArea().height);
+        if (image != null) {
+            // If what were trying to draw is out of bounds, simply draw the full image to
+            // fill the area
+            if ((1 + subImageSelection) * subImageWidth > image.getBounds().width
+                    || subImageSelection * subImageWidth < 0 || getClientArea().x < 0 || getClientArea().y < 0
+                    || getClientArea().width < 0 || getClientArea().height < 0) {
+                graphics.drawImage(image, 0, 0, image.getBounds().width, image.getBounds().height, getClientArea().x,
+                        getClientArea().y, getClientArea().width, getClientArea().height);
+                model.setSubImageWidth(image.getBounds().width);
             } else {
-                graphics.drawImage(image,
-                        subImageSelection * subImageWidth, 0, subImageWidth, image.getBounds().height,
+                graphics.drawImage(image, subImageSelection * subImageWidth, 0, subImageWidth, image.getBounds().height,
                         getClientArea().x, getClientArea().y, getClientArea().width, getClientArea().height);
             }
         }
     }
 
     public synchronized void setImage(final IPath path) {
-        if(path == null || path.isEmpty()) return;
-        image = imageCache.get(path.toString());
+        if(path != null && !path.isEmpty())
+            image = imageCache.get(path.toString());
         if(image == null) {
             AbstractInputStreamRunnable uiTask = new AbstractInputStreamRunnable() {
                 public void runWithInputStream(InputStream stream) {
@@ -60,7 +68,15 @@ public class EdmSymbolFigure extends Figure {
             ResourceUtil.pathToInputStreamInJob(path, uiTask, "Loading Image...", new IJobErrorHandler() {
                 public void handleError(Exception exception) {
                     System.out.println("Warning: " + exception);
-                    image = null; // Don't keep drawing an old image
+                    if (model.getExecutionMode() == ExecutionMode.RUN_MODE) {
+                        // Do not draw any image if in Runtime mode
+                        image = null;
+                    } else {
+                        Activator activator = Activator.getDefault();
+                        image = activator.getImageDescriptor("icon/symbol.png").createImage();
+                        subImageWidth = image.getBounds().width;
+                        model.setSubImageWidth(image.getBounds().width);
+                    }
                 }
             });
         }
@@ -76,5 +92,4 @@ public class EdmSymbolFigure extends Figure {
         this.subImageSelection = imageNum;
         repaint();
     }
-
 }

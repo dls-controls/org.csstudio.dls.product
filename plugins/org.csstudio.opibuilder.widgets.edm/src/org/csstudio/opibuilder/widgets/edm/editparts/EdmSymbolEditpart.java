@@ -14,7 +14,7 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
     @Override
     protected IFigure doCreateFigure() {
         EdmSymbolModel model = (EdmSymbolModel) getModel();
-        EdmSymbolFigure figure = new EdmSymbolFigure(model.getFilename());
+        EdmSymbolFigure figure = new EdmSymbolFigure(model);
         figure.setSubImageSelection(model.getImageIndex());
         figure.setSubImageWidth(model.getSubImageWidth());
         return figure;
