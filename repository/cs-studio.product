@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="CS-Studio" uid="cs-studio" id="org.csstudio.dls.product.product" application="org.csstudio.dls.product.application" version="4.7.0.snapshot" useFeatures="true" includeLaunchers="true">
+<product name="CS-Studio" uid="cs-studio" id="org.csstudio.dls.product.product" application="org.csstudio.dls.product.application" version="4.7.0.beta2" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/org.csstudio.dls.product.common/icons/cs-studio-about.png"/>
