@@ -204,4 +204,5 @@ module load controls-java/11-0-9
 
 # Echo subsequent commands for debugging.
 set -x
-$CSSTUDIO $eclipse_args $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$runfile" $vm_args
+# Use gnome-terminal to keep any new screen on the current desktop workspace
+gnome-terminal --hide-menubar --geometry=0x0 -- $CSSTUDIO $eclipse_args $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$runfile" $vm_args
