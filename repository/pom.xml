@@ -15,7 +15,7 @@
   </parent>
 
   <artifactId>repository</artifactId>
-  <version>4.7.0</version>
+  <version>4.7.1</version>
   <packaging>eclipse-repository</packaging>
 
   <build>
