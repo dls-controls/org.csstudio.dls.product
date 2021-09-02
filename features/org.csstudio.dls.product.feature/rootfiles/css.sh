@@ -202,6 +202,15 @@ eclipse_args="--launcher.appendVmargs -clearPersistedState"
 # need to do this after any use of that variable.
 module load controls-java/11-0-9
 
+COMMAND_PREFIX=""
+# If CSS is already running:
+if gdbus introspect --session --dest org.eclipse.swt.cs-studio --object-path /org/eclipse/swt &>/dev/null; then
+    # Fix error that appears if parent terminal of CSS main window is closed
+    unset GNOME_TERMINAL_SCREEN
+    # Use gnome-terminal to keep any new screen on the current desktop workspace
+    COMMAND_PREFIX="gnome-terminal --hide-menubar --geometry=0x0 --"
+fi
+
 # Echo subsequent commands for debugging.
 set -x
-$CSSTUDIO $eclipse_args $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$runfile" $vm_args
+$COMMAND_PREFIX $CSSTUDIO $eclipse_args $plugin_preferences $local_links_args $dev_args $data_args $xmi_args --launcher.openFile "$runfile" $vm_args
