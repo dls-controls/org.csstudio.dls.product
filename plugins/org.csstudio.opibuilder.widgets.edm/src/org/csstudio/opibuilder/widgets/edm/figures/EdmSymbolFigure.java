@@ -40,9 +40,14 @@ public class EdmSymbolFigure extends Figure {
         if (image != null) {
             // If what were trying to draw is out of bounds, simply draw the full image to
             // fill the area
-            if ((1 + subImageSelection) * subImageWidth > image.getBounds().width
-                    || subImageSelection * subImageWidth < 0 || getClientArea().x < 0 || getClientArea().y < 0
+            if (subImageSelection * subImageWidth < 0 || getClientArea().x < 0 || getClientArea().y < 0
                     || getClientArea().width < 0 || getClientArea().height < 0) {
+                graphics.fillRectangle(getClientArea().x, getClientArea().y, getClientArea().width,
+                        getClientArea().height);
+            }
+            // If the subImage width is greater than the image width, just show entire
+            // image.
+            else if ((1 + subImageSelection) * subImageWidth >= image.getBounds().width) {
                 graphics.drawImage(image, 0, 0, image.getBounds().width, image.getBounds().height, getClientArea().x,
                         getClientArea().y, getClientArea().width, getClientArea().height);
                 model.setSubImageWidth(image.getBounds().width);
