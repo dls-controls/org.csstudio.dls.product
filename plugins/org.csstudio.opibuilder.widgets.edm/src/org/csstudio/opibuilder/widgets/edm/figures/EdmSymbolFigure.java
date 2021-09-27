@@ -49,7 +49,7 @@ public class EdmSymbolFigure extends Figure {
             // If the area is within the client area but the subImage width is greater than
             // the image width, just show entire image and set the subImageWidth to the image
             // width
-            else if ((1 + subImageSelection) * subImageWidth >= image.getBounds().width) {
+            else if ((1 + subImageSelection) * subImageWidth > image.getBounds().width) {
                 graphics.drawImage(image, 0, 0, image.getBounds().width, image.getBounds().height, getClientArea().x,
                         getClientArea().y, getClientArea().width, getClientArea().height);
                 model.setSubImageWidth(image.getBounds().width);
