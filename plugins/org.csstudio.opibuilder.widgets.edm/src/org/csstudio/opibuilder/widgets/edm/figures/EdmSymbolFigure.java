@@ -38,15 +38,24 @@ public class EdmSymbolFigure extends Figure {
     protected void paintClientArea(Graphics graphics) {
         super.paintClientArea(graphics);
         if (image != null) {
-            // If what were trying to draw is out of bounds, simply draw the full image to
-            // fill the area
-            if ((1 + subImageSelection) * subImageWidth > image.getBounds().width
-                    || subImageSelection * subImageWidth < 0 || getClientArea().x < 0 || getClientArea().y < 0
+            // If what were trying to draw is out of bounds, simply draw a filled rectangle
+            // the size of the client area in the colour specified by Display background
+            // colour given in the widget properties.
+            if (subImageSelection * subImageWidth < 0 || getClientArea().x < 0 || getClientArea().y < 0
                     || getClientArea().width < 0 || getClientArea().height < 0) {
+                graphics.fillRectangle(getClientArea().x, getClientArea().y, getClientArea().width,
+                        getClientArea().height);
+            }
+            // If the area is within the client area but the subImage width is greater than
+            // the image width, just show entire image and set the subImageWidth to the image
+            // width
+            else if ((1 + subImageSelection) * subImageWidth > image.getBounds().width) {
                 graphics.drawImage(image, 0, 0, image.getBounds().width, image.getBounds().height, getClientArea().x,
                         getClientArea().y, getClientArea().width, getClientArea().height);
                 model.setSubImageWidth(image.getBounds().width);
-            } else {
+            }
+            // Otherwise draw the subImage described by the subImageWidth.
+            else {
                 graphics.drawImage(image, subImageSelection * subImageWidth, 0, subImageWidth, image.getBounds().height,
                         getClientArea().x, getClientArea().y, getClientArea().width, getClientArea().height);
             }
