@@ -1,12 +1,15 @@
 package org.csstudio.opibuilder.widgets.edm.editparts;
 
 import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
+import org.csstudio.opibuilder.editparts.ExecutionMode;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.util.ResourceUtil;
 import org.csstudio.opibuilder.widgets.edm.figures.EdmSymbolFigure;
 import org.csstudio.opibuilder.widgets.edm.model.EdmSymbolModel;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseListener;
 
 
 public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
@@ -17,6 +20,25 @@ public class EdmSymbolEditpart extends AbstractPVWidgetEditPart {
         EdmSymbolFigure figure = new EdmSymbolFigure(model);
         figure.setSubImageSelection(model.getImageIndex());
         figure.setSubImageWidth(model.getSubImageWidth());
+
+        if (getExecutionMode() == ExecutionMode.RUN_MODE)
+            figure.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseDoubleClicked(final MouseEvent me) {
+                }
+
+                @Override
+                public void mousePressed(final MouseEvent me) {
+                    if (me.button == 1 && !figure.containsPoint(me.getLocation())) {
+                        me.consume();
+                    }
+                }
+
+                @Override
+                public void mouseReleased(final MouseEvent me) {
+                }
+            });
+
         return figure;
     }
 
