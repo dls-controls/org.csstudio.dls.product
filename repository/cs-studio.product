@@ -22,7 +22,8 @@
 -Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Dosgi.checkConfiguration=true
 -Djavax.xml.bind.JAXBContextFactory=com.sun.xml.bind.v2.ContextFactory
--Dorg.osgi.framework.system.packages.extra=sun.misc</vmArgs>
+-Dorg.osgi.framework.system.packages.extra=sun.misc
+-Djdk.util.zip.disableZip64ExtraFieldValidation=true</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
