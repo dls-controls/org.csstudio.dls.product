@@ -23,7 +23,8 @@
 -Dosgi.checkConfiguration=true
 -Djavax.xml.bind.JAXBContextFactory=com.sun.xml.bind.v2.ContextFactory
 -Dorg.osgi.framework.system.packages.extra=sun.misc
--Djdk.util.zip.disableZip64ExtraFieldValidation=true</vmArgs>
+-Djdk.util.zip.disableZip64ExtraFieldValidation=true
+-Dcom.cosylab.epics.caj.impl.CAConnector.socket_connect_timeout=3</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
